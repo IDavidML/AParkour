@@ -1,0 +1,8 @@
+name: AParkour
+version: 3.0.3
+author: DavidML16
+main: me.davidml16.aparkour.Main
+softdepend: [HolographicDisplays, ProtocolLib]
+commands:
+    aparkour:
+        description: Use this to see all commands.

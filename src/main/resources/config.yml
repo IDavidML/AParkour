@@ -1,0 +1,63 @@
+Language: EN
+MySQL:
+    Enabled: false
+    Host: localhost
+    Port: 3306
+    User: root
+    Password: example
+    Database: aparkour
+    
+TpToParkourSpawn:
+    Enabled: false
+    
+Firework:
+    Enabled: true
+    
+ReturnOnFly:
+    Enabled: true
+    
+ReturnOnFall:
+    Enabled: true
+    BlocksDistance: 5
+        
+ActionBarTimer:
+    Enabled: true
+    
+RestartItem:
+    Enabled: true
+    ID: 166
+    Name: '&4&lRestart'
+    Lore: '&7Return to the start of the course to start again!'
+    
+Hologram:
+    Enabled: true
+    
+Tasks:
+    ReloadInterval: 120
+    
+Sounds:
+    ParkourStart:
+        Enabled: true
+        Sound: CLICK
+        Volume: 10
+        Pitch: 2
+    ParkourEnd:
+        Enabled: true
+        Sound: CLICK
+        Volume: 10
+        Pitch: 2
+    Fly:
+        Enabled: true
+        Sound: BAT_TAKEOFF
+        Volume: 10
+        Pitch: 2
+    Fall:
+        Enabled: true
+        Sound: BAT_TAKEOFF
+        Volume: 10
+        Pitch: 2
+    Return:
+        Enabled: true
+        Sound: BAT_TAKEOFF
+        Volume: 10
+        Pitch: 2
