@@ -72,11 +72,11 @@ public class parkourRanking_GUI {
 		for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 			ItemStack stats = new ItemStack(Material.ITEM_FRAME, 1);
 			ItemMeta statsM = stats.getItemMeta();
-			statsM.setDisplayName("§e");
+			statsM.setDisplayName("&e");
 
 			List<String> lore = new ArrayList<String>();
 
-			lore.add("  §eParkour: §a" + parkour.getName() + "  ");
+			lore.add("  &eParkour: &a" + parkour.getName() + "  ");
 			lore.add(" ");
 
 			HashMap<String, Integer> times = new HashMap<String, Integer>();
@@ -89,8 +89,8 @@ public class parkourRanking_GUI {
 			int it = 1;
 			for (Entry<String, Integer> entry : times.entrySet()) {
 				try {
-					lore.add("   §e" + it + ". §a"
-							+ Main.getInstance().getDatabaseHandler().getPlayerName(entry.getKey().toString()) + "§7 - §6"
+					lore.add("   &e" + it + ". &a"
+							+ Main.getInstance().getDatabaseHandler().getPlayerName(entry.getKey().toString()) + "&7 - &6"
 							+ Main.getInstance().getTimerManager().timeAsString(entry.getValue()) + "  ");
 					it++;
 				} catch (SQLException e) {
@@ -100,9 +100,9 @@ public class parkourRanking_GUI {
 
 			for (int i = it; i <= 10; i++) {
 				if (i < 10)
-					lore.add("   §e" + i + ". §cN/A  ");
+					lore.add("   &e" + i + ". &cN/A  ");
 				else
-					lore.add(" §0.§e" + i + ". §cN/A  ");
+					lore.add(" &0.&e" + i + ". &cN/A  ");
 			}
 
 			lore.add(" ");

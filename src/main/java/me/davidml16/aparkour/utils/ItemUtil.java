@@ -2,6 +2,7 @@ package me.davidml16.aparkour.utils;
 
 import java.util.ArrayList;
 
+import me.davidml16.aparkour.managers.ColorManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -18,8 +19,8 @@ public class ItemUtil {
 		restart.setAmount(1);
 		ItemMeta restartmeta = restart.getItemMeta();
 		restart.setItemMeta(restartmeta);
-		String name = Main.getInstance().getConfig().getString("RestartItem.Name").replaceAll("&", "§");
-		String loreitem = Main.getInstance().getConfig().getString("RestartItem.Lore").replaceAll("&", "§");
+		String name = ColorManager.translate(Main.getInstance().getConfig().getString("RestartItem.Name"));
+		String loreitem = ColorManager.translate(Main.getInstance().getConfig().getString("RestartItem.Lore"));
 		restartmeta.setDisplayName(name);
 		ArrayList<String> lore = new ArrayList<String>();
 		lore.add(loreitem);

@@ -87,7 +87,7 @@ public class TopHologramManager {
 
 			Hologram footer = HologramsAPI.createHologram(Main.getInstance(),
 					parkour.getTopHologram().clone().add(0.5D, 1D, 0.5D));
-			footer.appendTextLine("§aUpdate: §6" + Main.getInstance().getTimerManager().timeAsString(timeLeft));
+			footer.appendTextLine("&aUpdate: &6" + Main.getInstance().getTimerManager().timeAsString(timeLeft));
 
 			HashMap<String, Integer> times = new HashMap<String, Integer>();
 			try {
