@@ -31,12 +31,11 @@ public class event_Fall implements Listener {
 
 				p.setFlying(false);
 				p.teleport(parkour.getSpawn());
+
 				if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
 					Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
 				}
-				if (Main.getInstance().getTimerManager().isActionBarEnabled()) {
-					ActionBar.sendActionbar(p, " ");
-				}
+
 				SoundUtil.playFall(p);
 
 				p.setNoDamageTicks(40);

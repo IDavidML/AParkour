@@ -43,44 +43,37 @@ public class TimerManager {
 	
 	public void startTimer(Player p, ParkourData parkour) {
 		if(!hasPlayerTimer(p)) {
-			Main.getInstance().getTimerManager().getTimer().put(p.getUniqueId(), Integer.valueOf(0));
+			Main.getInstance().getTimerManager().getTimer().put(p.getUniqueId(), 0);
 			if (Main.getInstance().getTimerManager().isActionBarEnabled()) {
 				Main.getInstance().getTimerManager().sendTimer(p);
 			}
 			
 			Main.getInstance().getTimerManager().getTimerTask().put(p.getUniqueId(), new BukkitRunnable() {
 				public void run() {
-					Main.getInstance().getTimerManager().getTimer().put(p.getUniqueId(), Integer.valueOf(
-							((Integer) Main.getInstance().getTimerManager().getTimer().get(p.getUniqueId()))
-									.intValue() + 1));
-					if (((Integer) Main.getInstance().getTimerManager().getTimer().get(p.getUniqueId()))
-							.intValue() < 3600) {
+					Main.getInstance().getTimerManager().getTimer().put(p.getUniqueId(), Main.getInstance().getTimerManager().getTimer().get(p.getUniqueId()) + 1);
+					if (Main.getInstance().getTimerManager().getTimer().get(p.getUniqueId()) < 3600) {
 						if (Main.getInstance().getConfig().getBoolean("ActionBarTimer.Enabled")) {
 							Main.getInstance().getTimerManager().sendTimer(p);
 						}
-					} else if (((Integer) Main.getInstance().getTimerManager().getTimer()
-							.get(p.getUniqueId())).intValue() >= 3600) {
+					} else if (Main.getInstance().getTimerManager().getTimer().get(p.getUniqueId()) >= 3600) {
 						cancelTimer(p);
 	
 						p.setFlying(false);
 						p.teleport(parkour.getSpawn());
-	
-						if (isActionBarEnabled()) {
-							ActionBar.sendActionbar(p, " ");
-						}
+
 						SoundUtil.playReturn(p);
 	
 						p.setNoDamageTicks(20);
 					}
 				}
 			});
-			((BukkitRunnable) timerTask.get(p.getUniqueId())).runTaskTimerAsynchronously(Main.getInstance(), 20L, 20L);
+			timerTask.get(p.getUniqueId()).runTaskTimerAsynchronously(Main.getInstance(), 20L, 20L);
 		}
 	}
 
 	public void cancelTimer(Player p) {
 		if (hasPlayerTimer(p)) {
-			timer.put(p.getUniqueId(), Integer.valueOf(0));
+			timer.put(p.getUniqueId(), 0);
 			timer.remove(p.getUniqueId());
 			timerTask.get(p.getUniqueId()).cancel();
 			timerTask.remove(p.getUniqueId());
@@ -88,7 +81,7 @@ public class TimerManager {
 	}
 
 	public void sendTimer(Player p) {
-		int secs = ((Integer) timer.get(p.getUniqueId())).intValue();
+		int secs = timer.get(p.getUniqueId());
 		int total = Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes()
 				.get(Main.getInstance().getParkourHandler().getParkourByPlayer(p).getId());
 

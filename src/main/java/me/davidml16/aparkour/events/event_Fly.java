@@ -29,12 +29,11 @@ public class event_Fly implements Listener {
 
 				p.setFlying(false);
 				p.teleport(parkour.getSpawn());
+
 				if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
 					Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
 				}
-				if (Main.getInstance().getTimerManager().isActionBarEnabled()) {
-					ActionBar.sendActionbar(p, " ");
-				}
+
 				SoundUtil.playFly(p);
 
 				p.setNoDamageTicks(20);

@@ -43,10 +43,6 @@ public class event_Click implements Listener {
 						Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
 					}
 
-					if (Main.getInstance().getTimerManager().isActionBarEnabled()) {
-						ActionBar.sendActionbar(p, " ");
-					}
-
 					SoundUtil.playReturn(p);
 
 					p.setNoDamageTicks(20);

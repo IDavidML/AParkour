@@ -40,8 +40,7 @@ public class event_Plate_End implements Listener {
 					}
 
 					if (Main.getInstance().getTimerManager().hasPlayerTimer(p)) {
-						int total = ((Integer) Main.getInstance().getTimerManager().getTimer().get(p.getUniqueId()))
-								.intValue();
+						int total = (Main.getInstance().getTimerManager().getTimer().get(p.getUniqueId()));
 
 						if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
 							Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
@@ -64,9 +63,9 @@ public class event_Plate_End implements Listener {
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', FirstTime));
 						}
 
-						data.setLastTime(Integer.valueOf(total), parkour.getId());
+						data.setLastTime(total, parkour.getId());
 						if (data.getBestTimes().get(parkour.getId()) == 0) {
-							data.setBestTime(Integer.valueOf(total), parkour.getId());
+							data.setBestTime(total, parkour.getId());
 						}
 
 						Main.getInstance().getTimerManager().cancelTimer(p);
@@ -84,12 +83,12 @@ public class event_Plate_End implements Listener {
 
 						if (data.isBestTime(total, parkour.getId())) {
 							Player eplayer = e.getPlayer();
-							int bestTotal = data.getBestTimes().get(parkour.getId()) - Integer.valueOf(total);
+							int bestTotal = data.getBestTimes().get(parkour.getId()) - total;
 
 							String Record = Main.getInstance().getLanguageHandler().getMessage("ENDMESSAGE_RECORD",
 									false);
 
-							data.setBestTime(Integer.valueOf(total), parkour.getId());
+							data.setBestTime(total, parkour.getId());
 
 							eplayer.sendMessage(ChatColor.translateAlternateColorCodes('&', Record).replaceAll(
 									"%recordTime%", Main.getInstance().getTimerManager().timeAsString(bestTotal)));

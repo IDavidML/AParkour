@@ -12,10 +12,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.ParkourData;
@@ -73,11 +70,9 @@ public class event_Others implements Listener {
     }
 
     @EventHandler
-    public void onPickup(EntityPickupItemEvent e) {
-        if (e.getEntity() instanceof Player) {
-            if (Main.getInstance().getTimerManager().hasPlayerTimer((Player) e.getEntity())) {
-                e.setCancelled(true);
-            }
+    public void onPickup(PlayerPickupItemEvent e) {
+        if (Main.getInstance().getTimerManager().hasPlayerTimer((Player) e.getPlayer())) {
+            e.setCancelled(true);
         }
     }
 
