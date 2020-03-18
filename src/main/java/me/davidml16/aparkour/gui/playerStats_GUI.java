@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import me.davidml16.aparkour.managers.ColorManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -48,7 +49,7 @@ public class playerStats_GUI {
 
 		ItemStack book = new ItemStack(Material.BOOK, 1);
 		ItemMeta bookM = book.getItemMeta();
-		bookM.setDisplayName("&a&l" + p.getName() + "'s statistics");
+		bookM.setDisplayName(ColorManager.translate("&a&l" + p.getName() + "'s statistics"));
 		book.setItemMeta(bookM);
 
 		for (Integer i : borders) {
@@ -60,23 +61,23 @@ public class playerStats_GUI {
 		for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 			ItemStack stats = new ItemStack(Material.ITEM_FRAME, 1);
 			ItemMeta statsM = stats.getItemMeta();
-			statsM.setDisplayName("&e");
+			statsM.setDisplayName(ColorManager.translate("&e"));
 
 			List<String> lore = new ArrayList<String>();
-			lore.add("  &eParkour: &a" + parkour.getName() + "  ");
+			lore.add(ColorManager.translate("  &eParkour: &a" + parkour.getName() + "  "));
 			lore.add(" ");
-			
+
 			if(Main.getInstance().getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId()) > 0)
-				lore.add("  &eLast Time: &6" + Main.getInstance().getTimerManager().timeAsString(Main.getInstance().getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId())) + "  ");
+				lore.add(ColorManager.translate("  &eLast Time: &6" + Main.getInstance().getTimerManager().timeAsString(Main.getInstance().getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId())) + "  "));
 			else
-				lore.add("  &eLast Time: &cN/A  ");
-			
+				lore.add(ColorManager.translate("  &eLast Time: &cN/A  "));
+
 			lore.add(" ");
-			
+
 			if(Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId()) > 0)
-				lore.add("  &eBest Time: &6" + Main.getInstance().getTimerManager().timeAsString(Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId())) + "  ");
+				lore.add(ColorManager.translate("  &eBest Time: &6" + Main.getInstance().getTimerManager().timeAsString(Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId())) + "  "));
 			else
-				lore.add("  &eBest Time: &cN/A  ");
+				lore.add(ColorManager.translate("  &eBest Time: &cN/A  "));
 			
 			lore.add(" ");
 			statsM.setLore(lore);

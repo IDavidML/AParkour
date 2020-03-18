@@ -67,19 +67,21 @@ public class cmd_AParkour implements CommandExecutor {
             for (Player pl : Bukkit.getOnlinePlayers()) {
                 Main.getInstance().getTimerManager().cancelTimer(pl);
                 ParkourData parkour = Main.getInstance().getParkourHandler().getParkourByPlayer(p);
-                parkour.getPlayers().remove(p.getUniqueId());
+                if(parkour != null) {
+                    parkour.getPlayers().remove(p.getUniqueId());
 
-                p.setFlying(false);
-                p.teleport(parkour.getSpawn());
-                if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
-                    Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
-                }
-                if (Main.getInstance().getTimerManager().isActionBarEnabled()) {
-                    ActionBar.sendActionbar(p, " ");
-                }
-                SoundUtil.playFall(p);
+                    p.setFlying(false);
+                    p.teleport(parkour.getSpawn());
+                    if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
+                        Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
+                    }
+                    if (Main.getInstance().getTimerManager().isActionBarEnabled()) {
+                        ActionBar.sendActionbar(p, " ");
+                    }
+                    SoundUtil.playFall(p);
 
-                p.setNoDamageTicks(40);
+                    p.setNoDamageTicks(40);
+                }
             }
 
             Main.getInstance().getHologramTask().stop();

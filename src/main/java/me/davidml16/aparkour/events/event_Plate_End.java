@@ -70,15 +70,13 @@ public class event_Plate_End implements Listener {
 
 						Main.getInstance().getTimerManager().cancelTimer(p);
 
-						Main.getInstance().getRewardHandler().giveRewards(p);
-
 						if (Main.getInstance().getConfig().getBoolean("TpToParkourSpawn.Enabled")) {
 							p.teleport(parkour.getSpawn());
 						}
 
 						if (Main.getInstance().getConfig().getBoolean("Firework.Enabled")) {
-							if (Bukkit.getVersion().contains("1.8"))
-								RandomFirework.launchRandomFirework(p.getLocation());
+						    if(!Bukkit.getVersion().contains("1.9"))
+							    RandomFirework.launchRandomFirework(p.getLocation());
 						}
 
 						if (data.isBestTime(total, parkour.getId())) {
@@ -93,6 +91,8 @@ public class event_Plate_End implements Listener {
 							eplayer.sendMessage(ChatColor.translateAlternateColorCodes('&', Record).replaceAll(
 									"%recordTime%", Main.getInstance().getTimerManager().timeAsString(bestTotal)));
 						}
+
+						Main.getInstance().getRewardHandler().giveRewards(p);
 
 						data.save();
 

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import me.davidml16.aparkour.managers.ColorManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -72,11 +73,11 @@ public class parkourRanking_GUI {
 		for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 			ItemStack stats = new ItemStack(Material.ITEM_FRAME, 1);
 			ItemMeta statsM = stats.getItemMeta();
-			statsM.setDisplayName("&e");
+			statsM.setDisplayName(ColorManager.translate("&e"));
 
 			List<String> lore = new ArrayList<String>();
 
-			lore.add("  &eParkour: &a" + parkour.getName() + "  ");
+			lore.add(ColorManager.translate("  &eParkour: &a" + parkour.getName() + "  "));
 			lore.add(" ");
 
 			HashMap<String, Integer> times = new HashMap<String, Integer>();
@@ -89,9 +90,9 @@ public class parkourRanking_GUI {
 			int it = 1;
 			for (Entry<String, Integer> entry : times.entrySet()) {
 				try {
-					lore.add("   &e" + it + ". &a"
+					lore.add(ColorManager.translate("   &e" + it + ". &a"
 							+ Main.getInstance().getDatabaseHandler().getPlayerName(entry.getKey().toString()) + "&7 - &6"
-							+ Main.getInstance().getTimerManager().timeAsString(entry.getValue()) + "  ");
+							+ Main.getInstance().getTimerManager().timeAsString(entry.getValue()) + "  "));
 					it++;
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -100,9 +101,9 @@ public class parkourRanking_GUI {
 
 			for (int i = it; i <= 10; i++) {
 				if (i < 10)
-					lore.add("   &e" + i + ". &cN/A  ");
+					lore.add(ColorManager.translate("   &e" + i + ". &cN/A  "));
 				else
-					lore.add(" &0.&e" + i + ". &cN/A  ");
+					lore.add(ColorManager.translate(" &0.&e" + i + ". &cN/A  "));
 			}
 
 			lore.add(" ");
