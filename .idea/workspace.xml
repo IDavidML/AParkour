@@ -7,12 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4467d438-d629-4a77-aced-9b0c874b398a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/cmd_AParkour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/cmd_AParkour.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Plate_End.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Plate_End.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/parkourRanking_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/parkourRanking_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/playerStats_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/playerStats_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TopHologramManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TopHologramManager.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -38,7 +34,7 @@
         <counts>
           <entry key="gitignore" value="1" />
           <entry key="iml" value="1" />
-          <entry key="java" value="95" />
+          <entry key="java" value="97" />
           <entry key="xml" value="11" />
           <entry key="yml" value="6" />
         </counts>
@@ -46,7 +42,7 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="IDEA_MODULE" value="1" />
-          <entry key="JAVA" value="95" />
+          <entry key="JAVA" value="97" />
           <entry key="PLAIN_TEXT" value="1" />
           <entry key="XML" value="11" />
           <entry key="YAML" value="6" />
@@ -54,14 +50,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="366" />
+          <entry key="java" value="525" />
           <entry key="xml" value="4" />
           <entry key="yml" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="366" />
+          <entry key="JAVA" value="525" />
           <entry key="XML" value="4" />
           <entry key="YAML" value="1" />
         </counts>
@@ -73,8 +69,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1020">
-              <caret line="88" column="48" lean-forward="true" selection-start-line="88" selection-start-column="48" selection-end-line="88" selection-end-column="48" />
+            <state relative-caret-position="823">
+              <caret line="164" column="35" lean-forward="true" selection-start-line="164" selection-start-column="35" selection-end-line="164" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -83,6 +79,15 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TopHologramManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="121" column="30" lean-forward="true" selection-start-line="121" selection-start-column="30" selection-end-line="121" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="85">
@@ -118,7 +123,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TopHologramManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/utils/ItemUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/LanguageHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TimerManager.java" />
@@ -128,11 +132,12 @@
         <option value="$PROJECT_DIR$/.idea/compiler.xml" />
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Others.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/cmd_AParkour.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Plate_End.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/parkourRanking_GUI.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/playerStats_GUI.java" />
         <option value="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+        <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TopHologramManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/cmd_AParkour.java" />
       </list>
     </option>
   </component>
@@ -199,6 +204,41 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AParkour" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AParkour" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aparkour" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AParkour" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AParkour" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aparkour" type="462c0819:PsiDirectoryNode" />
+              <item name="commands" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AParkour" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AParkour" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aparkour" type="462c0819:PsiDirectoryNode" />
+              <item name="events" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AParkour" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AParkour" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aparkour" type="462c0819:PsiDirectoryNode" />
+              <item name="managers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AParkour" type="b2602c69:ProjectViewProjectNode" />
@@ -422,13 +462,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TopHologramManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-289">
-          <caret line="116" column="30" selection-start-line="116" selection-start-column="30" selection-end-line="116" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/StatsHologramManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1105">
@@ -614,27 +647,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="9" lean-forward="true" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/cmd_AParkour.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="74" column="50" lean-forward="true" selection-start-line="74" selection-start-column="50" selection-end-line="74" selection-end-column="50" />
+        <state relative-caret-position="536">
+          <caret line="146" column="72" lean-forward="true" selection-start-line="146" selection-start-column="72" selection-end-line="146" selection-end-column="72" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1020">
-          <caret line="88" column="48" lean-forward="true" selection-start-line="88" selection-start-column="48" selection-end-line="88" selection-end-column="48" />
+        <state relative-caret-position="823">
+          <caret line="164" column="35" lean-forward="true" selection-start-line="164" selection-start-column="35" selection-end-line="164" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TopHologramManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="9" lean-forward="true" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="9" />
+        <state relative-caret-position="204">
+          <caret line="121" column="30" lean-forward="true" selection-start-line="121" selection-start-column="30" selection-end-line="121" selection-end-column="30" />
         </state>
       </provider>
     </entry>

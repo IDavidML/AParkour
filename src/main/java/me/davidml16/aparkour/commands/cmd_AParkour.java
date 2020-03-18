@@ -151,6 +151,8 @@ public class cmd_AParkour implements CommandExecutor {
             for (Player pl : Bukkit.getOnlinePlayers())
                 Main.getInstance().getStatsHologramManager().removeStatsHologram(pl, id);
 
+            Main.getInstance().getTopHologramManager().removeHologram(id);
+
             Main.getInstance().getParkourHandler().getConfig().set("parkours." + id, null);
             Main.getInstance().getParkourHandler().getParkours().remove(id);
             Main.getInstance().getParkourHandler().saveConfig();
