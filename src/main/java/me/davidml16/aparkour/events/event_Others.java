@@ -1,7 +1,7 @@
 package me.davidml16.aparkour.events;
 
-import java.sql.SQLException;
-
+import me.davidml16.aparkour.Main;
+import me.davidml16.aparkour.data.ParkourData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,13 +9,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 
-import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.data.ParkourData;
+import java.sql.SQLException;
 
 public class event_Others implements Listener {
 
@@ -41,7 +43,7 @@ public class event_Others implements Listener {
     }
 
     @EventHandler
-    public void onDrop(final PlayerDropItemEvent e) {
+    public void onDrop(PlayerDropItemEvent e) {
         if (Main.getInstance().getTimerManager().hasPlayerTimer(e.getPlayer())) {
             e.setCancelled(true);
             Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {

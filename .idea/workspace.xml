@@ -8,12 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4467d438-d629-4a77-aced-9b0c874b398a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Click.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Click.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Fall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Fall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Fly.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Fly.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Others.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Others.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Plate_End.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Plate_End.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TimerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TimerManager.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -27,11 +22,11 @@
     <session id="961678523">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="3" />
           <entry key="project.open.time.0" value="1" />
-          <entry key="project.open.time.24" value="1" />
+          <entry key="project.open.time.24" value="2" />
           <entry key="project.open.time.28" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -54,13 +49,13 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="281" />
+          <entry key="java" value="282" />
           <entry key="xml" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="281" />
+          <entry key="JAVA" value="282" />
           <entry key="XML" value="4" />
         </counts>
       </usages-collector>
@@ -68,11 +63,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1935">
-              <caret line="24" column="52" lean-forward="true" selection-start-line="24" selection-start-column="52" selection-end-line="24" selection-end-column="52" />
+            <state relative-caret-position="41">
+              <caret line="42" selection-start-line="42" selection-end-line="42" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -81,16 +79,16 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Click.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="374">
-              <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+              <caret line="33" selection-start-line="33" selection-end-line="33" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Others.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
+            <state relative-caret-position="211">
+              <caret line="75" column="50" selection-start-line="75" selection-start-column="50" selection-end-line="75" selection-end-column="50" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -136,8 +134,8 @@
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Fly.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Plate_End.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Click.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Others.java" />
         <option value="$PROJECT_DIR$/.idea/compiler.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Others.java" />
       </list>
     </option>
   </component>
@@ -166,7 +164,7 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="10" />
     <option name="y" value="20" />
     <option name="width" value="1346" />
@@ -178,8 +176,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -220,7 +218,52 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="aparkour" type="462c0819:PsiDirectoryNode" />
+              <item name="commands" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AParkour" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AParkour" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aparkour" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AParkour" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AParkour" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aparkour" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AParkour" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AParkour" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aparkour" type="462c0819:PsiDirectoryNode" />
               <item name="events" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AParkour" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AParkour" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aparkour" type="462c0819:PsiDirectoryNode" />
+              <item name="gui" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AParkour" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AParkour" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aparkour" type="462c0819:PsiDirectoryNode" />
+              <item name="handlers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AParkour" type="b2602c69:ProjectViewProjectNode" />
@@ -231,6 +274,24 @@
               <item name="aparkour" type="462c0819:PsiDirectoryNode" />
               <item name="managers" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="AParkour" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AParkour" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aparkour" type="462c0819:PsiDirectoryNode" />
+              <item name="tasks" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AParkour" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AParkour" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aparkour" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -238,7 +299,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1584465886051" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1584492167443" />
     <property name="last_opened_file_path" value="D:/Usuarios/David/Escritorio/AParkour/plugins" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
@@ -314,10 +375,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19722815" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19936034" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -334,7 +395,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.329718" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Messages" order="10" visible="true" weight="0.329718" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.329718" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -583,9 +644,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
           <caret line="62" column="24" lean-forward="true" selection-start-line="62" selection-start-column="24" selection-end-line="62" selection-end-column="24" />
-          <folding>
-            <element signature="e#5248#5264#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -617,16 +675,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Others.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.idea/excludeFromValidation.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -641,17 +689,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Click.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+        <state relative-caret-position="41">
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Click.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1935">
-          <caret line="24" column="52" lean-forward="true" selection-start-line="24" selection-start-column="52" selection-end-line="24" selection-end-column="52" />
+        <state relative-caret-position="374">
+          <caret line="33" selection-start-line="33" selection-end-line="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/event_Others.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="75" column="50" selection-start-line="75" selection-start-column="50" selection-end-line="75" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
