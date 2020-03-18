@@ -126,14 +126,17 @@ public class TopHologramManager {
 
 	public void removeHologram(String id) {
 		if(holoHeader.containsKey(id)) {
+		    holoHeader.get(id).delete();
 			holoHeader.remove(id);
 		}
 
 		if(holoBody.containsKey(id)) {
+            holoBody.get(id).delete();
 			holoBody.remove(id);
 		}
 
 		if(holoFooter.containsKey(id)) {
+            holoFooter.get(id).getParent().delete();
 			holoFooter.remove(id);
 		}
 	}
