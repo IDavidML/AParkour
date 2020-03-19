@@ -98,12 +98,6 @@ public class Main extends JavaPlugin {
 		rankingsGUI = new parkourRanking_GUI();
 		rankingsGUI.loadGUI();
 		
-		topHologramManager.loadTopHolograms();
-		topHologramManager.restartTimeLeft();
-		
-		hologramTask = new HologramTask();
-		hologramTask.start();
-		
 		if(statsHologramManager.isHologramsEnabled()) {
 			if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")
 					|| !Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
@@ -113,6 +107,12 @@ public class Main extends JavaPlugin {
 				return;
 			}
 		}
+
+		topHologramManager.loadTopHolograms();
+		topHologramManager.restartTimeLeft();
+
+		hologramTask = new HologramTask();
+		hologramTask.start();
 
 		registerEvents();
 		registerCommands();

@@ -1,13 +1,14 @@
 package me.davidml16.aparkour.events;
 
+import me.davidml16.aparkour.api.events.ParkourReturnEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.data.ParkourData;
-import me.davidml16.aparkour.utils.ActionBar;
+import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.utils.SoundUtil;
 
 public class event_Fall implements Listener {
@@ -26,7 +27,7 @@ public class event_Fall implements Listener {
 
 				Main.getInstance().getTimerManager().cancelTimer(p);
 
-				ParkourData parkour = Main.getInstance().getParkourHandler().getParkourByPlayer(p);
+				Parkour parkour = Main.getInstance().getParkourHandler().getParkourByPlayer(p);
 				parkour.getPlayers().remove(p.getUniqueId());
 
 				p.setFlying(false);
@@ -37,6 +38,8 @@ public class event_Fall implements Listener {
 				}
 
 				SoundUtil.playFall(p);
+
+				Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
 
 				p.setNoDamageTicks(40);
 			}

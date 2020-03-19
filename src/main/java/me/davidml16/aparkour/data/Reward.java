@@ -1,11 +1,11 @@
 package me.davidml16.aparkour.data;
 
-public class RewardData {
+public class Reward {
 
 	private String permission;
 	private String command;
 
-	public RewardData(String permission, String command) {
+	public Reward(String permission, String command) {
 		this.permission = permission;
 		this.command = command;
 	}
@@ -14,16 +14,8 @@ public class RewardData {
 		return permission;
 	}
 
-	public void setPermission(String permission) {
-		this.permission = permission;
-	}
-
 	public String getCommand() {
 		return command;
-	}
-
-	public void setCommand(String command) {
-		this.command = command;
 	}
 
 }

@@ -7,23 +7,23 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.davidml16.aparkour.data.UserData;
+import me.davidml16.aparkour.data.Profile;
 
 public class PlayerDataHandler {
 
-	public HashMap<UUID, UserData> data = new HashMap<UUID, UserData>();
+	public HashMap<UUID, Profile> data = new HashMap<UUID, Profile>();
 
-	public HashMap<UUID, UserData> getPlayersData() {
+	public HashMap<UUID, Profile> getPlayersData() {
 		return data;
 	}
 
-	public UserData getData(Player p) {
+	public Profile getData(Player p) {
 		if (data.containsKey(p.getUniqueId()))
 			return data.get(p.getUniqueId());
 		return null;
 	}
 
-	public UserData getData(UUID uuid) {
+	public Profile getData(UUID uuid) {
 		if (data.containsKey(uuid))
 			return data.get(uuid);
 		return null;
@@ -34,7 +34,7 @@ public class PlayerDataHandler {
 	}
 
 	public void loadPlayerData(Player p) {
-		data.put(p.getUniqueId(), new UserData(p.getUniqueId()));
+		data.put(p.getUniqueId(), new Profile(p.getUniqueId()));
 	}
 	
 	public void saveAllPlayerData() {
@@ -50,7 +50,7 @@ public class PlayerDataHandler {
 	}
 
 	public void savePlayerInventory(Player p) {
-		UserData data = getData(p);
+		Profile data = getData(p);
 
 		ItemStack[] inventory = new ItemStack[p.getInventory().getContents().length];
 		for (int i = 0; i < data.getInventory().length; i++) {
@@ -65,7 +65,7 @@ public class PlayerDataHandler {
 	}
 	
 	public void restorePlayerInventory(Player p) {
-		UserData data = getData(p);
+		Profile data = getData(p);
 		p.getInventory().clear();
 		p.getInventory().setHelmet(data.getArmour()[3]);
 		p.getInventory().setChestplate(data.getArmour()[2]);

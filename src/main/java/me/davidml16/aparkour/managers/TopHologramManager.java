@@ -9,7 +9,7 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 
 import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.data.ParkourData;
+import me.davidml16.aparkour.data.Parkour;
 
 public class TopHologramManager {
 
@@ -65,7 +65,7 @@ public class TopHologramManager {
 
     public void loadTopHolograms() {
         if (isHologramsEnabled()) {
-            for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+            for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
                 loadTopHologram(parkour.getId());
             }
         }
@@ -73,7 +73,7 @@ public class TopHologramManager {
 
     public void loadTopHologram(String id) {
         if (isHologramsEnabled()) {
-            ParkourData parkour = Main.getInstance().getParkourHandler().getParkours().get(id);
+            Parkour parkour = Main.getInstance().getParkourHandler().getParkours().get(id);
             if (parkour.getTopHologram() != null) {
                 Hologram header = HologramsAPI.createHologram(Main.getInstance(),
                         parkour.getTopHologram().clone().add(0.5D, 4.5D, 0.5D));
@@ -148,7 +148,7 @@ public class TopHologramManager {
 
                 Main.getInstance().getRankingsGUI().reloadGUI();
 
-                for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+                for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
                     if (holoBody.containsKey(parkour.getId()) && holoFooter.containsKey(parkour.getId())) {
                         Hologram body = holoBody.get(parkour.getId());
 
@@ -189,7 +189,7 @@ public class TopHologramManager {
                 restartTimeLeft();
                 return;
             }
-            for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+            for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
                 if (holoFooter.containsKey(parkour.getId())) {
                     holoFooter.get(parkour.getId())
                             .setText(Main.getInstance().getLanguageHandler()

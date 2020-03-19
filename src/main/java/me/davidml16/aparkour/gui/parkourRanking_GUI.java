@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.managers.ColorManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -18,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.data.ParkourData;
 
 public class parkourRanking_GUI {
 
@@ -70,7 +70,7 @@ public class parkourRanking_GUI {
 	}
 
 	private void loadParkoursFrames() {
-		for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 			ItemStack stats = new ItemStack(Material.ITEM_FRAME, 1);
 			ItemMeta statsM = stats.getItemMeta();
 			statsM.setDisplayName(ColorManager.translate("&e"));

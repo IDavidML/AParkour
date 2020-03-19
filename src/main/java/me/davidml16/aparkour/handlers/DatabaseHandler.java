@@ -12,7 +12,7 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 
 import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.data.ParkourData;
+import me.davidml16.aparkour.data.Parkour;
 
 public class DatabaseHandler {
 
@@ -23,7 +23,7 @@ public class DatabaseHandler {
 	}
 
 	public void loadTables() {
-		for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 			try {
 				Statement statement = connection.createStatement();
 				statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + parkour.getId()
@@ -56,7 +56,7 @@ public class DatabaseHandler {
 	}
 
 	public void createDataAllParkours(UUID uuid) throws SQLException {
-		for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 			createData(uuid, parkour.getId());
 		}
 	}
@@ -152,7 +152,7 @@ public class DatabaseHandler {
 
 	public HashMap<String, Integer> getPlayerLastTimes(UUID uuid) {
 		HashMap<String, Integer> times = new HashMap<String, Integer>();
-		for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 			try {
 				if (Main.getInstance().getDatabaseHandler().hasData(uuid, parkour.getId())) {
 					times.put(parkour.getId(),
@@ -170,7 +170,7 @@ public class DatabaseHandler {
 
 	public HashMap<String, Integer> getPlayerBestTimes(UUID uuid) {
 		HashMap<String, Integer> times = new HashMap<String, Integer>();
-		for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 			try {
 				if (Main.getInstance().getDatabaseHandler().hasData(uuid, parkour.getId())) {
 					times.put(parkour.getId(),

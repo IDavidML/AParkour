@@ -10,17 +10,17 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.data.RewardData;
+import me.davidml16.aparkour.data.Reward;
 import me.davidml16.aparkour.managers.ColorManager;
 
 public class RewardHandler {
 
-	private List<RewardData> rewards;
+	private List<Reward> rewards;
 	private File rewardFile;
 	private FileConfiguration rewardConfig;
 
 	public RewardHandler() {
-		this.rewards = new ArrayList<RewardData>();
+		this.rewards = new ArrayList<Reward>();
 		this.rewardFile = new File(Main.getInstance().getDataFolder() + "/rewards.yml");
 
 		if (!rewardFile.exists()) {
@@ -30,7 +30,7 @@ public class RewardHandler {
 		this.rewardConfig = YamlConfiguration.loadConfiguration(rewardFile);
 	}
 
-	public List<RewardData> getRewards() {
+	public List<Reward> getRewards() {
 		return rewards;
 	}
 
@@ -61,7 +61,7 @@ public class RewardHandler {
 				String permission = rewardConfig.getString("rewards." + id + ".permission");
 				String command = rewardConfig.getString("rewards." + id + ".command");
 
-				rewards.add(new RewardData(permission, command));
+				rewards.add(new Reward(permission, command));
 			}
 		}
 		Main.log.sendMessage(ColorManager.translate("    " + (rewards.size() > 0 ? "&a" : "&c") + rewards.size() + " rewards loaded!"));
@@ -74,7 +74,7 @@ public class RewardHandler {
 	}
 
 	public void giveRewards(Player p) {
-		for (RewardData reward : rewards) {
+		for (Reward reward : rewards) {
 			if(!reward.getPermission().equalsIgnoreCase("*")) {
 				if (p.hasPermission(reward.getPermission()) || p.isOp()) {
 					Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), reward.getCommand().replaceAll("%player%", p.getName()));

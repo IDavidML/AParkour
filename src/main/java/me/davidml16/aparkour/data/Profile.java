@@ -11,7 +11,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 
 import me.davidml16.aparkour.Main;
 
-public class UserData {
+public class Profile {
 
 	private UUID uuid;
 	
@@ -22,7 +22,7 @@ public class UserData {
 	private HashMap<String, Integer> bestTimes;
 	private HashMap<String, Hologram> holograms;
 
-	public UserData(UUID uuid) {
+	public Profile(UUID uuid) {
 		this.uuid = uuid;
 		this.inventory = new ItemStack[36];
 		this.lastTimes = Main.getInstance().getDatabaseHandler().getPlayerLastTimes(uuid);
@@ -31,21 +31,13 @@ public class UserData {
 	}
 
 	public void save() {
-		for(ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		for(Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 			try {
 				Main.getInstance().getDatabaseHandler().setTimes(uuid, lastTimes.get(parkour.getId()), bestTimes.get(parkour.getId()), parkour.getId());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	public UUID getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(UUID uuid) {
-		this.uuid = uuid;
 	}
 
 	public HashMap<String, Integer> getLastTimes() {
@@ -55,11 +47,11 @@ public class UserData {
 	public HashMap<String, Integer> getBestTimes() {
 		return bestTimes;
 	}
-	
+
 	public void setLastTime(int total, String parkour) {
 		lastTimes.put(parkour, total);
 	}
-	
+
 	public void setBestTime(int total, String parkour) {
 		bestTimes.put(parkour, total);
 	}
@@ -90,7 +82,7 @@ public class UserData {
 
 	@Override
 	public String toString() {
-		return "UserData [uuid=" + uuid + ", inventory=" + Arrays.toString(inventory) + ", armour="
+		return "Profile [uuid=" + uuid + ", inventory=" + Arrays.toString(inventory) + ", armour="
 				+ Arrays.toString(armour) + ", lastTimes=" + lastTimes + ", bestTimes=" + bestTimes + ", holograms="
 				+ holograms + "]";
 	}

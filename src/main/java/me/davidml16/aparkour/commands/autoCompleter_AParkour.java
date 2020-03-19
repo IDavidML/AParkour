@@ -3,13 +3,13 @@ package me.davidml16.aparkour.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.davidml16.aparkour.data.Parkour;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.data.ParkourData;
 
 public class autoCompleter_AParkour implements TabCompleter {
 
@@ -36,7 +36,7 @@ public class autoCompleter_AParkour implements TabCompleter {
 			}
 		} else if (args[0].equalsIgnoreCase("remove")) {
 			if (Main.getInstance().getPlayerDataHandler().playerHasPermission(p)) {
-				for(ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values())
+				for(Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values())
 					list.add(parkour.getId());
 			}
 		} else if (args[0].equalsIgnoreCase("set")) {
@@ -51,7 +51,7 @@ public class autoCompleter_AParkour implements TabCompleter {
 				}
 			} else {
 				if (Main.getInstance().getPlayerDataHandler().playerHasPermission(p)) {
-					for(ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values())
+					for(Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values())
 						list.add(parkour.getId());
 				}
 			}

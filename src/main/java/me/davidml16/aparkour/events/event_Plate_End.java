@@ -1,5 +1,11 @@
 package me.davidml16.aparkour.events;
 
+import me.davidml16.aparkour.Main;
+import me.davidml16.aparkour.api.events.ParkourEndEvent;
+import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.data.Profile;
+import me.davidml16.aparkour.utils.RandomFirework;
+import me.davidml16.aparkour.utils.SoundUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -8,12 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.data.ParkourData;
-import me.davidml16.aparkour.data.UserData;
-import me.davidml16.aparkour.utils.RandomFirework;
-import me.davidml16.aparkour.utils.SoundUtil;
 
 public class event_Plate_End implements Listener {
 
@@ -29,7 +29,7 @@ public class event_Plate_End implements Listener {
 					return;
 				}
 
-				ParkourData parkour = Main.getInstance().getParkourHandler()
+				Parkour parkour = Main.getInstance().getParkourHandler()
 						.getParkourByLocation(e.getClickedBlock().getLocation());
 				if (e.getClickedBlock().getLocation().equals(parkour.getEnd())) {
 					e.setCancelled(true);
@@ -50,7 +50,7 @@ public class event_Plate_End implements Listener {
 
 						SoundUtil.playEnd(p);
 
-						UserData data = Main.getInstance().getPlayerDataHandler().getData(p);
+						Profile data = Main.getInstance().getPlayerDataHandler().getData(p);
 
 						String End = Main.getInstance().getLanguageHandler().getMessage("ENDMESSAGE_NORMAL", false);
 						p.sendMessage(ChatColor.translateAlternateColorCodes('&', End).replaceAll("%endTime%",
@@ -97,6 +97,8 @@ public class event_Plate_End implements Listener {
 						data.save();
 
 						Main.getInstance().getStatsHologramManager().reloadStatsHologram(p, parkour.getId());
+
+						Bukkit.getPluginManager().callEvent(new ParkourEndEvent(p, parkour));
 					}
 				}
 			}

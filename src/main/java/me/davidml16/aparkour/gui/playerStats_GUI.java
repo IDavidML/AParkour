@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.data.ParkourData;
+import me.davidml16.aparkour.data.Parkour;
 
 public class playerStats_GUI {
 
@@ -58,7 +58,7 @@ public class playerStats_GUI {
 
 		gui.setItem(4, book);
 
-		for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 			ItemStack stats = new ItemStack(Material.ITEM_FRAME, 1);
 			ItemMeta statsM = stats.getItemMeta();
 			statsM.setDisplayName(ColorManager.translate("&e"));

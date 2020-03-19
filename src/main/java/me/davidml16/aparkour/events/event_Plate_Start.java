@@ -1,5 +1,8 @@
 package me.davidml16.aparkour.events;
 
+import me.davidml16.aparkour.api.events.ParkourStartEvent;
+import me.davidml16.aparkour.data.Parkour;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,7 +11,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.data.ParkourData;
 import me.davidml16.aparkour.utils.ItemUtil;
 import me.davidml16.aparkour.utils.SoundUtil;
 
@@ -26,7 +28,7 @@ public class event_Plate_Start implements Listener {
 					return;
 				}
 
-				ParkourData parkour = Main.getInstance().getParkourHandler()
+				Parkour parkour = Main.getInstance().getParkourHandler()
 						.getParkourByLocation(e.getClickedBlock().getLocation());
 
 				String Started = Main.getInstance().getLanguageHandler().getMessage("MESSAGES_STARTED", false);
@@ -45,6 +47,8 @@ public class event_Plate_Start implements Listener {
 						parkour.getPlayers().add(p.getUniqueId());
 
 						Main.getInstance().getTimerManager().startTimer(p, parkour);
+
+						Bukkit.getPluginManager().callEvent(new ParkourStartEvent(p, parkour));
 					}
 				}
 			}

@@ -8,7 +8,7 @@ import org.bukkit.Location;
 
 import me.davidml16.aparkour.Main;
 
-public class ParkourData {
+public class Parkour {
 	
 	private String id;
 	private String name;
@@ -19,7 +19,7 @@ public class ParkourData {
 	private Location topHologram;
 	private List<UUID> players;
 	
-	public ParkourData(String id, String name, Location spawn, Location start, Location end, Location statsHologram, Location topHologram) {
+	public Parkour(String id, String name, Location spawn, Location start, Location end, Location statsHologram, Location topHologram) {
 		this.id = id;
 		this.name = name;
 		this.spawn = spawn;
@@ -34,56 +34,28 @@ public class ParkourData {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Location getSpawn() {
 		return spawn;
 	}
 
-	public void setSpawn(Location spawn) {
-		this.spawn = spawn;
-	}
-
 	public Location getStart() {
 		return start;
-	}
-
-	public void setStart(Location start) {
-		this.start = start;
 	}
 
 	public Location getEnd() {
 		return end;
 	}
 
-	public void setEnd(Location end) {
-		this.end = end;
-	}
-
 	public Location getStatsHologram() {
 		return statsHologram;
 	}
 
-	public void setStatsHologram(Location statsHologram) {
-		this.statsHologram = statsHologram;
-	}
-
 	public Location getTopHologram() {
 		return topHologram;
-	}
-
-	public void setTopHologram(Location topHologram) {
-		this.topHologram = topHologram;
 	}
 
 	public List<UUID> getPlayers() {
@@ -102,7 +74,7 @@ public class ParkourData {
 
 	@Override
 	public String toString() {
-		return "ParkourData [id=" + id + ", name=" + name + ", spawn=" + spawn + ", start=" + start + ", end=" + end
+		return "Parkour [id=" + id + ", name=" + name + ", spawn=" + spawn + ", start=" + start + ", end=" + end
 				+ ", statsHologram=" + statsHologram + ", topHologram=" + topHologram + ", players=" + players + "]";
 	}
 

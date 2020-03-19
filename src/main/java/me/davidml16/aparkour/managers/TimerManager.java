@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import me.davidml16.aparkour.data.Parkour;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.data.ParkourData;
 import me.davidml16.aparkour.utils.ActionBar;
 import me.davidml16.aparkour.utils.SoundUtil;
 
@@ -41,7 +41,7 @@ public class TimerManager {
 		return timer.containsKey(p.getUniqueId());
 	}
 	
-	public void startTimer(Player p, ParkourData parkour) {
+	public void startTimer(Player p, Parkour parkour) {
 		if(!hasPlayerTimer(p)) {
 			Main.getInstance().getTimerManager().getTimer().put(p.getUniqueId(), 0);
 			if (Main.getInstance().getTimerManager().isActionBarEnabled()) {
@@ -140,7 +140,7 @@ public class TimerManager {
 
 	public HashMap<String, String> getLastTimes(Player p) {
 		HashMap<String, String> times = new HashMap<String, String>();
-		for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 			int total = Main.getInstance().getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId());
 			times.put(parkour.getId(), timeAsString(total));
 		}
@@ -150,7 +150,7 @@ public class TimerManager {
 
 	public HashMap<String, String> getBestTimes(Player p) {
 		HashMap<String, String> times = new HashMap<String, String>();
-		for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 			int total = Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
 			times.put(parkour.getId(), timeAsString(total));
 		}

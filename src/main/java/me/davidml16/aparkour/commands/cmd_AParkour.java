@@ -1,10 +1,9 @@
 package me.davidml16.aparkour.commands;
 
-import me.davidml16.aparkour.managers.TimerManager;
+import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.utils.ActionBar;
 import me.davidml16.aparkour.utils.SoundUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,7 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.data.ParkourData;
 import me.davidml16.aparkour.managers.ColorManager;
 
 public class cmd_AParkour implements CommandExecutor {
@@ -66,7 +64,7 @@ public class cmd_AParkour implements CommandExecutor {
 
             for (Player pl : Bukkit.getOnlinePlayers()) {
                 Main.getInstance().getTimerManager().cancelTimer(pl);
-                ParkourData parkour = Main.getInstance().getParkourHandler().getParkourByPlayer(p);
+                Parkour parkour = Main.getInstance().getParkourHandler().getParkourByPlayer(p);
                 if(parkour != null) {
                     parkour.getPlayers().remove(p.getUniqueId());
 
@@ -236,7 +234,7 @@ public class cmd_AParkour implements CommandExecutor {
         if (Main.getInstance().getParkourHandler().getParkours().size() == 0) {
             p.sendMessage(ColorManager.translate("    &7- &c&lAny parkour created!"));
         } else {
-            for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+            for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
                 p.sendMessage(ColorManager.translate("    &7- &e&lID: &a&l" + parkour.getId() + " &7&l| &e&lName: &a&l" + parkour.getName()));
             }
         }
@@ -253,10 +251,7 @@ public class cmd_AParkour implements CommandExecutor {
 
         if (type.equalsIgnoreCase("spawn")) {
             x += 0.5;
-            if (z >= 0)
-                z -= 0.5;
-            else
-                z += 0.5;
+            z += 0.5;
         } else {
             pitch = 0;
             yaw = 0;

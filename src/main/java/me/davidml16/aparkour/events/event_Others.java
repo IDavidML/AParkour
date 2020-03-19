@@ -1,7 +1,7 @@
 package me.davidml16.aparkour.events;
 
 import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.data.ParkourData;
+import me.davidml16.aparkour.data.Parkour;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -101,7 +101,7 @@ public class event_Others implements Listener {
         if (Main.getInstance().getTimerManager().hasPlayerTimer(e.getPlayer())) {
             Main.getInstance().getTimerManager().cancelTimer(e.getPlayer());
 
-            ParkourData parkour = Main.getInstance().getParkourHandler().getParkourByPlayer(p);
+            Parkour parkour = Main.getInstance().getParkourHandler().getParkourByPlayer(p);
             parkour.getPlayers().remove(p.getUniqueId());
 
             if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
@@ -121,7 +121,7 @@ public class event_Others implements Listener {
         if (Main.getInstance().getTimerManager().hasPlayerTimer(e.getPlayer())) {
             Main.getInstance().getTimerManager().cancelTimer(e.getPlayer());
 
-            ParkourData parkour = Main.getInstance().getParkourHandler().getParkourByPlayer(p);
+            Parkour parkour = Main.getInstance().getParkourHandler().getParkourByPlayer(p);
             parkour.getPlayers().remove(p.getUniqueId());
 
             if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
