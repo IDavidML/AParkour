@@ -58,15 +58,17 @@ public class ParkourHandler {
 				Location spawn = (Location) parkourConfig.get("parkours." + id + ".spawn");
 				Location start = (Location) parkourConfig.get("parkours." + id + ".start");
 				Location end = (Location) parkourConfig.get("parkours." + id + ".end");
-				Location statsHologram; 
-				Location topHologram;
+				Location statsHologram = null;
+				Location topHologram = null;
 				
 				if (Main.getInstance().getStatsHologramManager().isHologramsEnabled()) {
-					statsHologram = (Location) parkourConfig.get("parkours." + id + ".holograms.stats");
-					topHologram = (Location) parkourConfig.get("parkours." + id + ".holograms.top");
-				} else {
-					statsHologram = null;
-					topHologram = null;
+					if((Location) parkourConfig.get("parkours." + id + ".holograms.stats") != null) {
+                        statsHologram = (Location) parkourConfig.get("parkours." + id + ".holograms.stats");
+                    }
+
+                    if((Location) parkourConfig.get("parkours." + id + ".holograms.top") != null) {
+                        topHologram = (Location) parkourConfig.get("parkours." + id + ".holograms.top");
+                    }
 				}
 
 				if (parkours.size() < 21) {
@@ -88,13 +90,6 @@ public class ParkourHandler {
 	}
 
 	public boolean validParkourData(String id) {
-		if (Main.getInstance().getStatsHologramManager().isHologramsEnabled())
-			return parkourConfig.contains("parkours." + id + ".spawn")
-					&& parkourConfig.contains("parkours." + id + ".start")
-					&& parkourConfig.contains("parkours." + id + ".end")
-					&& parkourConfig.contains("parkours." + id + ".holograms.stats")
-					&& parkourConfig.contains("parkours." + id + ".holograms.top");
-		else
 			return parkourConfig.contains("parkours." + id + ".spawn")
 					&& parkourConfig.contains("parkours." + id + ".start")
 					&& parkourConfig.contains("parkours." + id + ".end");

@@ -41,21 +41,23 @@ public class StatsHologramManager {
 	public void loadStatsHologram(Player p, String id) {
 		if (isHologramsEnabled()) {
 			ParkourData parkour = Main.getInstance().getParkourHandler().getParkours().get(id);
-			int bestTime = Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
-	
-			List<String> lines = getLines(parkour, p, bestTime);
-	
-			Hologram hologram = HologramsAPI.createHologram(Main.getInstance(),
-					parkour.getStatsHologram().clone().add(0.5D, 2.0D, 0.5D));
-			VisibilityManager visibilityManager = hologram.getVisibilityManager();
-	
-			visibilityManager.showTo(p);
-			visibilityManager.setVisibleByDefault(false);
-	
-			hologram.insertTextLine(0, lines.get(0));
-			hologram.insertTextLine(1, lines.get(1));
-	
-			Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().put(parkour.getId(), hologram);
+			if(parkour.getStatsHologram() != null) {
+				int bestTime = Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
+
+				List<String> lines = getLines(parkour, p, bestTime);
+
+				Hologram hologram = HologramsAPI.createHologram(Main.getInstance(),
+						parkour.getStatsHologram().clone().add(0.5D, 2.0D, 0.5D));
+				VisibilityManager visibilityManager = hologram.getVisibilityManager();
+
+				visibilityManager.showTo(p);
+				visibilityManager.setVisibleByDefault(false);
+
+				hologram.insertTextLine(0, lines.get(0));
+				hologram.insertTextLine(1, lines.get(1));
+
+				Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().put(parkour.getId(), hologram);
+			}
 		}
 	}
 	
@@ -70,15 +72,16 @@ public class StatsHologramManager {
 	public void reloadStatsHologram(Player p, String id) {
 		if (isHologramsEnabled()) {
 			ParkourData parkour = Main.getInstance().getParkourHandler().getParkours().get(id);
-			Hologram hologram = Main.getInstance().getPlayerDataHandler().getData(p).getHolograms()
-					.get(parkour.getId());
-	
-			int bestTime = Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
-	
-			List<String> lines = getLines(parkour, p, bestTime);
-	
-			((TextLine) hologram.getLine(0)).setText(lines.get(0));
-			((TextLine) hologram.getLine(1)).setText(lines.get(1));
+			if(Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().containsKey(parkour.getId())) {
+				Hologram hologram = Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().get(parkour.getId());
+
+				int bestTime = Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
+
+				List<String> lines = getLines(parkour, p, bestTime);
+
+				((TextLine) hologram.getLine(0)).setText(lines.get(0));
+				((TextLine) hologram.getLine(1)).setText(lines.get(1));
+			}
 		}
 	}
 	
@@ -110,7 +113,9 @@ public class StatsHologramManager {
 	public void removeStatsHolograms(Player p) {
 		if (isHologramsEnabled()) {
 			for (ParkourData parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
-				removeStatsHologram(p, parkour.getId());
+				if(parkour.getStatsHologram() != null) {
+					removeStatsHologram(p, parkour.getId());
+				}
 			}
 			Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().clear();
 		}

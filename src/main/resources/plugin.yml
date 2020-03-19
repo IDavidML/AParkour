@@ -1,5 +1,5 @@
 name: AParkour
-version: 3.0.4
+version: 3.0.5
 author: DavidML16
 main: me.davidml16.aparkour.Main
 softdepend: [HolographicDisplays, ProtocolLib]
