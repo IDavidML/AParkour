@@ -1,15 +1,14 @@
 package me.davidml16.aparkour.managers;
 
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
-
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
+
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class TopHologramManager {
 

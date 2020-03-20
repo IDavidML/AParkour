@@ -1,5 +1,6 @@
 package me.davidml16.aparkour;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.UUID;
 
@@ -38,189 +39,188 @@ import me.davidml16.aparkour.utils.RandomFirework;
 
 public class Main extends JavaPlugin {
 
-	public static Main instance;
-	public static ConsoleCommandSender log;
+    public static Main instance;
+    public static ConsoleCommandSender log;
 
-	private playerStats_GUI statsGUI;
-	private parkourRanking_GUI rankingsGUI;
-	
-	private HologramTask hologramTask;
+    private playerStats_GUI statsGUI;
+    private parkourRanking_GUI rankingsGUI;
 
-	private TimerManager timerManager;
-	private StatsHologramManager statsHologramManager;
-	private TopHologramManager topHologramManager;
+    private HologramTask hologramTask;
 
-	private ParkourHandler parkourHandler;
-	private RewardHandler rewardHandler;
-	private LanguageHandler languageHandler;
-	private PlayerDataHandler playerDataHandler;
-	private DatabaseHandler databaseHandler;
+    private TimerManager timerManager;
+    private StatsHologramManager statsHologramManager;
+    private TopHologramManager topHologramManager;
 
-	private ADatabase database;
-	
-	private MetricsLite metrics;
+    private ParkourHandler parkourHandler;
+    private RewardHandler rewardHandler;
+    private LanguageHandler languageHandler;
+    private PlayerDataHandler playerDataHandler;
+    private DatabaseHandler databaseHandler;
 
-	public void onEnable() {
-		instance = this;
-		metrics = new MetricsLite(this, 6728);
+    private ADatabase database;
 
-		saveResource("config.yml", false);
-		reloadConfig();
+    private MetricsLite metrics;
 
-		log = Bukkit.getConsoleSender();
+    public void onEnable() {
+        instance = this;
+        metrics = new MetricsLite(this, 6728);
+        log = Bukkit.getConsoleSender();
 
-		languageHandler = new LanguageHandler(getConfig().getString("Language").toLowerCase());
-		languageHandler.pushMessages();
-		
-		statsHologramManager = new StatsHologramManager(getConfig().getBoolean("Hologram.Enabled"));
-		topHologramManager = new TopHologramManager(getConfig().getBoolean("Hologram.Enabled"), getConfig().getInt("Tasks.ReloadInterval"));
+        saveDefaultConfig();
+        reloadConfig();
 
-		parkourHandler = new ParkourHandler();
-		parkourHandler.saveConfig();
-		parkourHandler.loadParkours();
+        languageHandler = new LanguageHandler(getConfig().getString("Language").toLowerCase());
+        languageHandler.pushMessages();
 
-		rewardHandler = new RewardHandler();
-		rewardHandler.saveConfig();
-		rewardHandler.loadRewards();
-		
-		database = new ADatabase();
-		database.openConnection();
-		databaseHandler = new DatabaseHandler();
-		databaseHandler.loadTables();
+        statsHologramManager = new StatsHologramManager(getConfig().getBoolean("Hologram.Enabled"));
+        topHologramManager = new TopHologramManager(getConfig().getBoolean("Hologram.Enabled"), getConfig().getInt("Tasks.ReloadInterval"));
 
-		playerDataHandler = new PlayerDataHandler();
+        parkourHandler = new ParkourHandler();
+        parkourHandler.saveConfig();
+        parkourHandler.loadParkours();
 
-		timerManager = new TimerManager();
+        rewardHandler = new RewardHandler();
+        rewardHandler.saveConfig();
+        rewardHandler.loadRewards();
 
-		statsGUI = new playerStats_GUI();
-		
-		rankingsGUI = new parkourRanking_GUI();
-		rankingsGUI.loadGUI();
-		
-		if(statsHologramManager.isHologramsEnabled()) {
-			if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")
-					|| !Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
-				getLogger().severe("*** HolographicDisplays / ProtocolLib is not installed or not enabled. ***");
-				getLogger().severe("*** This plugin will be disabled. ***");
-				setEnabled(false);
-				return;
-			}
-		}
+        database = new ADatabase();
+        database.openConnection();
+        databaseHandler = new DatabaseHandler();
+        databaseHandler.loadTables();
 
-		topHologramManager.loadTopHolograms();
-		topHologramManager.restartTimeLeft();
+        playerDataHandler = new PlayerDataHandler();
 
-		hologramTask = new HologramTask();
-		hologramTask.start();
+        timerManager = new TimerManager();
 
-		registerEvents();
-		registerCommands();
-		RandomFirework.loadFireworks();
-		
-		for(Player p : Bukkit.getOnlinePlayers()) {
-			getPlayerDataHandler().loadPlayerData(p);
-			try {
-				Main.getInstance().getDatabaseHandler().updatePlayerName(p);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			getStatsHologramManager().loadStatsHolograms(p);
-		}
+        statsGUI = new playerStats_GUI();
 
-		PluginDescriptionFile pdf = getDescription();
-		log.sendMessage("");
-		log.sendMessage(ColorManager.translate("  &eAParkour Enabled!"));
-		log.sendMessage(ColorManager.translate("    &aVersion: &b" + pdf.getVersion()));
-		log.sendMessage(ColorManager.translate("    &aAuthor: &b" + pdf.getAuthors().get(0)));
-		log.sendMessage("");
-	}
+        rankingsGUI = new parkourRanking_GUI();
+        rankingsGUI.loadGUI();
 
-	public void onDisable() {
-		PluginDescriptionFile pdf = getDescription();
-		log.sendMessage("");
-		log.sendMessage(ColorManager.translate("  &eAParkour Disabled!"));
-		log.sendMessage(ColorManager.translate("    &aVersion: &b" + pdf.getVersion()));
-		log.sendMessage(ColorManager.translate("    &aAuthor: &b" + pdf.getAuthors().get(0)));
-		log.sendMessage("");
-		for (Hologram hologram : HologramsAPI.getHolograms(this)) {
-			hologram.delete();
-		}
-		for (UUID d : playerDataHandler.getPlayersData().keySet()) {
-			getPlayerDataHandler().getData(d).save();
-		}
-		getParkourHandler().saveParkours();
-		
-		getHologramTask().stop();
-	}
+        if (statsHologramManager.isHologramsEnabled()) {
+            if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")
+                    || !Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
+                getLogger().severe("*** HolographicDisplays / ProtocolLib is not installed or not enabled. ***");
+                getLogger().severe("*** This plugin will be disabled. ***");
+                setEnabled(false);
+                return;
+            }
+        }
 
-	public static Main getInstance() {
-		return instance;
-	}
+        topHologramManager.loadTopHolograms();
+        topHologramManager.restartTimeLeft();
 
-	public playerStats_GUI getStatsGUI() {
-		return statsGUI;
-	}
+        hologramTask = new HologramTask();
+        hologramTask.start();
 
-	public parkourRanking_GUI getRankingsGUI() {
-		return rankingsGUI;
-	}
+        registerEvents();
+        registerCommands();
+        RandomFirework.loadFireworks();
 
-	public TimerManager getTimerManager() {
-		return timerManager;
-	}
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            getPlayerDataHandler().loadPlayerData(p);
+            try {
+                Main.getInstance().getDatabaseHandler().updatePlayerName(p);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            getStatsHologramManager().loadStatsHolograms(p);
+        }
 
-	public StatsHologramManager getStatsHologramManager() {
-		return statsHologramManager;
-	}
+        PluginDescriptionFile pdf = getDescription();
+        log.sendMessage("");
+        log.sendMessage(ColorManager.translate("  &eAParkour Enabled!"));
+        log.sendMessage(ColorManager.translate("    &aVersion: &b" + pdf.getVersion()));
+        log.sendMessage(ColorManager.translate("    &aAuthor: &b" + pdf.getAuthors().get(0)));
+        log.sendMessage("");
+    }
 
-	public TopHologramManager getTopHologramManager() {
-		return topHologramManager;
-	}
+    public void onDisable() {
+        PluginDescriptionFile pdf = getDescription();
+        log.sendMessage("");
+        log.sendMessage(ColorManager.translate("  &eAParkour Disabled!"));
+        log.sendMessage(ColorManager.translate("    &aVersion: &b" + pdf.getVersion()));
+        log.sendMessage(ColorManager.translate("    &aAuthor: &b" + pdf.getAuthors().get(0)));
+        log.sendMessage("");
+        for (Hologram hologram : HologramsAPI.getHolograms(this)) {
+            hologram.delete();
+        }
+        for (UUID d : playerDataHandler.getPlayersData().keySet()) {
+            getPlayerDataHandler().getData(d).save();
+        }
+        getParkourHandler().saveParkours();
 
-	public ParkourHandler getParkourHandler() {
-		return parkourHandler;
-	}
+        getHologramTask().stop();
+    }
 
-	public LanguageHandler getLanguageHandler() {
-		return languageHandler;
-	}
+    public static Main getInstance() {
+        return instance;
+    }
 
-	public PlayerDataHandler getPlayerDataHandler() {
-		return playerDataHandler;
-	}
+    public playerStats_GUI getStatsGUI() {
+        return statsGUI;
+    }
 
-	public DatabaseHandler getDatabaseHandler() {
-		return databaseHandler;
-	}
-	
-	public RewardHandler getRewardHandler() {
-		return rewardHandler;
-	}
+    public parkourRanking_GUI getRankingsGUI() {
+        return rankingsGUI;
+    }
 
-	public ADatabase getADatabase() {
-		return database;
-	}
-	
-	public MetricsLite getMetrics() {
-		return metrics;
-	}
+    public TimerManager getTimerManager() {
+        return timerManager;
+    }
 
-	public HologramTask getHologramTask() {
-		return hologramTask;
-	}
+    public StatsHologramManager getStatsHologramManager() {
+        return statsHologramManager;
+    }
 
-	private void registerCommands() {
-		getCommand("aparkour").setExecutor(new cmd_AParkour());
-		getCommand("aparkour").setTabCompleter(new autoCompleter_AParkour());
-	}
+    public TopHologramManager getTopHologramManager() {
+        return topHologramManager;
+    }
 
-	private void registerEvents() {
-		Bukkit.getPluginManager().registerEvents(new event_Click(), this);
-		Bukkit.getPluginManager().registerEvents(new event_Plate_Start(), this);
-		Bukkit.getPluginManager().registerEvents(new event_Plate_End(), this);
-		Bukkit.getPluginManager().registerEvents(new event_Fly(), this);
-		Bukkit.getPluginManager().registerEvents(new event_Fall(), this);
-		Bukkit.getPluginManager().registerEvents(new event_Others(), this);
-		Bukkit.getPluginManager().registerEvents(new event_InventoryGUI(), this);
-	}
+    public ParkourHandler getParkourHandler() {
+        return parkourHandler;
+    }
+
+    public LanguageHandler getLanguageHandler() {
+        return languageHandler;
+    }
+
+    public PlayerDataHandler getPlayerDataHandler() {
+        return playerDataHandler;
+    }
+
+    public DatabaseHandler getDatabaseHandler() {
+        return databaseHandler;
+    }
+
+    public RewardHandler getRewardHandler() {
+        return rewardHandler;
+    }
+
+    public ADatabase getADatabase() {
+        return database;
+    }
+
+    public MetricsLite getMetrics() {
+        return metrics;
+    }
+
+    public HologramTask getHologramTask() {
+        return hologramTask;
+    }
+
+    private void registerCommands() {
+        getCommand("aparkour").setExecutor(new cmd_AParkour());
+        getCommand("aparkour").setTabCompleter(new autoCompleter_AParkour());
+    }
+
+    private void registerEvents() {
+        Bukkit.getPluginManager().registerEvents(new event_Click(), this);
+        Bukkit.getPluginManager().registerEvents(new event_Plate_Start(), this);
+        Bukkit.getPluginManager().registerEvents(new event_Plate_End(), this);
+        Bukkit.getPluginManager().registerEvents(new event_Fly(), this);
+        Bukkit.getPluginManager().registerEvents(new event_Fall(), this);
+        Bukkit.getPluginManager().registerEvents(new event_Others(), this);
+        Bukkit.getPluginManager().registerEvents(new event_InventoryGUI(), this);
+    }
 }
