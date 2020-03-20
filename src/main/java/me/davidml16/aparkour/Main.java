@@ -64,8 +64,7 @@ public class Main extends JavaPlugin {
 		instance = this;
 		metrics = new MetricsLite(this, 6728);
 
-		getConfig().options().copyDefaults(true);
-		saveConfig();
+		saveResource("config.yml", false);
 		reloadConfig();
 
 		log = Bukkit.getConsoleSender();

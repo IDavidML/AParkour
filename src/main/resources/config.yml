@@ -1,4 +1,15 @@
+#-------------------------#
+#                         #
+#   NAME:     APARKOUR    #
+#   AUTHOR:   DavidML16   #
+#   VERSION:  3.0.6       #
+#                         #
+#-------------------------#
+
+
 Language: EN
+
+
 MySQL:
     Enabled: false
     Host: localhost
@@ -6,35 +17,44 @@ MySQL:
     User: root
     Password: example
     Database: aparkour
-    
+
+
 TpToParkourSpawn:
     Enabled: false
-    
+
+
 Firework:
     Enabled: true
-    
+
+
 ReturnOnFly:
     Enabled: true
-    
+
+
 ReturnOnFall:
     Enabled: true
     BlocksDistance: 5
-        
+
+
 ActionBarTimer:
     Enabled: true
-    
+
+
 RestartItem:
     Enabled: true
     ID: 166
     Name: '&4&lRestart'
     Lore: '&7Return to the start of the course to start again!'
-    
+
+
 Hologram:
     Enabled: true
-    
+
+
 Tasks:
     ReloadInterval: 120
-    
+
+
 Sounds:
     ParkourStart:
         Enabled: true
