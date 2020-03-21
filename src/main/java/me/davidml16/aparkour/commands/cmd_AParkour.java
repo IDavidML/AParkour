@@ -85,12 +85,12 @@ public class cmd_AParkour implements CommandExecutor {
             Main.getInstance().getHologramTask().stop();
             Main.getInstance().getLanguageHandler().setLanguage(Main.getInstance().getConfig().getString("Language").toLowerCase());
             Main.getInstance().getLanguageHandler().pushMessages();
-            Main.getInstance().getPlayerDataHandler().saveAllPlayerData();
             Main.getInstance().getParkourHandler().loadParkours();
             Main.getInstance().getDatabaseHandler().loadTables();
+            Main.getInstance().getPlayerDataHandler().loadAllPlayerData();
+            Main.getInstance().getPlayerDataHandler().saveAllPlayerData();
             Main.getInstance().getRewardHandler().saveConfig();
             Main.getInstance().getRewardHandler().loadRewards();
-            Main.getInstance().getPlayerDataHandler().loadAllPlayerData();
             Main.getInstance().getStatsHologramManager().reloadStatsHolograms();
             Main.getInstance().getTopHologramManager().setReloadInterval(Main.getInstance().getConfig().getInt("Tasks.ReloadInterval"));
             Main.getInstance().getTopHologramManager().restartTimeLeft();

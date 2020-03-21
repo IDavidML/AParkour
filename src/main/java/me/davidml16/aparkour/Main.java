@@ -61,6 +61,8 @@ public class Main extends JavaPlugin {
 
     private MetricsLite metrics;
 
+    private boolean hologramsEnabled;
+
     public void onEnable() {
         instance = this;
         metrics = new MetricsLite(this, 6728);
@@ -69,11 +71,22 @@ public class Main extends JavaPlugin {
         saveDefaultConfig();
         reloadConfig();
 
+        hologramsEnabled = getConfig().getBoolean("Hologram.Enabled");
+        if (isHologramsEnabled()) {
+            if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")
+                    || !Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
+                getLogger().severe("*** HolographicDisplays / ProtocolLib is not installed or not enabled. ***");
+                getLogger().severe("*** This plugin will be disabled. ***");
+                setEnabled(false);
+                return;
+            }
+        }
+
         languageHandler = new LanguageHandler(getConfig().getString("Language").toLowerCase());
         languageHandler.pushMessages();
 
-        statsHologramManager = new StatsHologramManager(getConfig().getBoolean("Hologram.Enabled"));
-        topHologramManager = new TopHologramManager(getConfig().getBoolean("Hologram.Enabled"), getConfig().getInt("Tasks.ReloadInterval"));
+        statsHologramManager = new StatsHologramManager();
+        topHologramManager = new TopHologramManager(getConfig().getInt("Tasks.ReloadInterval"));
 
         parkourHandler = new ParkourHandler();
         parkourHandler.saveConfig();
@@ -96,16 +109,6 @@ public class Main extends JavaPlugin {
 
         rankingsGUI = new parkourRanking_GUI();
         rankingsGUI.loadGUI();
-
-        if (statsHologramManager.isHologramsEnabled()) {
-            if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")
-                    || !Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
-                getLogger().severe("*** HolographicDisplays / ProtocolLib is not installed or not enabled. ***");
-                getLogger().severe("*** This plugin will be disabled. ***");
-                setEnabled(false);
-                return;
-            }
-        }
 
         topHologramManager.loadTopHolograms();
         topHologramManager.restartTimeLeft();
@@ -142,9 +145,13 @@ public class Main extends JavaPlugin {
         log.sendMessage(ColorManager.translate("    &aVersion: &b" + pdf.getVersion()));
         log.sendMessage(ColorManager.translate("    &aAuthor: &b" + pdf.getAuthors().get(0)));
         log.sendMessage("");
-        for (Hologram hologram : HologramsAPI.getHolograms(this)) {
-            hologram.delete();
+
+        if(isHologramsEnabled()) {
+            for (Hologram hologram : HologramsAPI.getHolograms(this)) {
+                hologram.delete();
+            }
         }
+
         for (UUID d : playerDataHandler.getPlayersData().keySet()) {
             getPlayerDataHandler().getData(d).save();
         }
@@ -201,12 +208,12 @@ public class Main extends JavaPlugin {
         return database;
     }
 
-    public MetricsLite getMetrics() {
-        return metrics;
-    }
-
     public HologramTask getHologramTask() {
         return hologramTask;
+    }
+
+    public boolean isHologramsEnabled() {
+        return hologramsEnabled;
     }
 
     private void registerCommands() {

@@ -61,7 +61,7 @@ public class ParkourHandler {
 				Location statsHologram = null;
 				Location topHologram = null;
 				
-				if (Main.getInstance().getStatsHologramManager().isHologramsEnabled()) {
+				if (Main.getInstance().isHologramsEnabled()) {
 					if((Location) parkourConfig.get("parkours." + id + ".holograms.stats") != null) {
                         statsHologram = (Location) parkourConfig.get("parkours." + id + ".holograms.stats");
                     }

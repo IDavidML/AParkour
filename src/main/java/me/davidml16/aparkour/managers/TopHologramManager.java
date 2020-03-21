@@ -16,13 +16,10 @@ public class TopHologramManager {
     private HashMap<String, Hologram> holoBody;
     private HashMap<String, TextLine> holoFooter;
 
-    private boolean hologramsEnabled;
-
     private int timeLeft;
     private int reloadInterval;
 
-    public TopHologramManager(boolean status, int reloadInterval) {
-        this.hologramsEnabled = status;
+    public TopHologramManager(int reloadInterval) {
         this.reloadInterval = reloadInterval;
         this.holoHeader = new HashMap<String, Hologram>();
         this.holoBody = new HashMap<String, Hologram>();
@@ -41,18 +38,9 @@ public class TopHologramManager {
         return holoFooter;
     }
 
-    public boolean isHologramsEnabled() {
-        return hologramsEnabled;
-    }
-
-    public void setHologramsEnabled(boolean hologramsEnabled) {
-        this.hologramsEnabled = hologramsEnabled;
-    }
-
     public int getTimeLeft() {
         return timeLeft;
     }
-
 
     public void setReloadInterval(int reloadInterval) {
         this.reloadInterval = reloadInterval;
@@ -63,7 +51,7 @@ public class TopHologramManager {
     }
 
     public void loadTopHolograms() {
-        if (isHologramsEnabled()) {
+        if (Main.getInstance().isHologramsEnabled()) {
             for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
                 loadTopHologram(parkour.getId());
             }
@@ -71,7 +59,7 @@ public class TopHologramManager {
     }
 
     public void loadTopHologram(String id) {
-        if (isHologramsEnabled()) {
+        if (Main.getInstance().isHologramsEnabled()) {
             Parkour parkour = Main.getInstance().getParkourHandler().getParkours().get(id);
             if (parkour.getTopHologram() != null) {
                 Hologram header = HologramsAPI.createHologram(Main.getInstance(),
@@ -142,7 +130,7 @@ public class TopHologramManager {
     }
 
     public void reloadTopHolograms() {
-        if (isHologramsEnabled()) {
+        if (Main.getInstance().isHologramsEnabled()) {
             if (timeLeft <= 0) {
 
                 Main.getInstance().getRankingsGUI().reloadGUI();

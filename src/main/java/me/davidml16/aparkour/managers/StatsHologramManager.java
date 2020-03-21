@@ -15,23 +15,9 @@ import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import me.davidml16.aparkour.Main;
 
 public class StatsHologramManager {
-	
-	private boolean hologramsEnabled;
-	
-	public StatsHologramManager(boolean status) {
-		this.hologramsEnabled = status;
-	}
-	
-	public boolean isHologramsEnabled() {
-		return hologramsEnabled;
-	}
-	
-	public void setHologramsEnabled(boolean hologramsEnabled) {
-		this.hologramsEnabled = hologramsEnabled;
-	}
 
 	public void loadStatsHolograms(Player p) {
-		if (isHologramsEnabled()) {
+		if (Main.getInstance().isHologramsEnabled()) {
 			for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 				loadStatsHologram(p, parkour.getId());
 			}
@@ -39,7 +25,7 @@ public class StatsHologramManager {
 	}
 	
 	public void loadStatsHologram(Player p, String id) {
-		if (isHologramsEnabled()) {
+		if (Main.getInstance().isHologramsEnabled()) {
 			Parkour parkour = Main.getInstance().getParkourHandler().getParkours().get(id);
 			if(parkour.getStatsHologram() != null) {
 				int bestTime = Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
@@ -62,7 +48,7 @@ public class StatsHologramManager {
 	}
 	
 	public void reloadStatsHolograms(Player p) {
-		if (isHologramsEnabled()) {
+		if (Main.getInstance().isHologramsEnabled()) {
 			for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 				reloadStatsHologram(p, parkour.getId());
 			}
@@ -70,7 +56,7 @@ public class StatsHologramManager {
 	}
 
 	public void reloadStatsHologram(Player p, String id) {
-		if (isHologramsEnabled()) {
+		if (Main.getInstance().isHologramsEnabled()) {
 			Parkour parkour = Main.getInstance().getParkourHandler().getParkours().get(id);
 			if(Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().containsKey(parkour.getId())) {
 				Hologram hologram = Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().get(parkour.getId());
@@ -111,7 +97,7 @@ public class StatsHologramManager {
 	}
 	
 	public void removeStatsHolograms(Player p) {
-		if (isHologramsEnabled()) {
+		if (Main.getInstance().isHologramsEnabled()) {
 			for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 				if(parkour.getStatsHologram() != null) {
 					removeStatsHologram(p, parkour.getId());
@@ -122,7 +108,7 @@ public class StatsHologramManager {
 	}
 	
 	public void removeStatsHologram(Player p, String id) {
-		if (isHologramsEnabled()) {
+		if (Main.getInstance().isHologramsEnabled()) {
 			if(Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().containsKey(id)) {
 				Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().get(id).delete();
 				Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().remove(id);
@@ -131,7 +117,7 @@ public class StatsHologramManager {
 	}
 
 	public void reloadStatsHolograms() {
-		if (isHologramsEnabled()) {
+		if (Main.getInstance().isHologramsEnabled()) {
 			for (Hologram hologram : HologramsAPI.getHolograms(Main.getInstance())) {
 				hologram.delete();
 			}
