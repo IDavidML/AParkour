@@ -216,6 +216,10 @@ public class Main extends JavaPlugin {
         return hologramsEnabled;
     }
 
+    public void setHologramsEnabled(boolean hologramsEnabled) {
+        this.hologramsEnabled = hologramsEnabled;
+    }
+
     private void registerCommands() {
         getCommand("aparkour").setExecutor(new cmd_AParkour());
         getCommand("aparkour").setTabCompleter(new autoCompleter_AParkour());

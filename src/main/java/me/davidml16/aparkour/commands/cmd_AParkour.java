@@ -1,5 +1,7 @@
 package me.davidml16.aparkour.commands;
 
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.utils.ActionBar;
 import me.davidml16.aparkour.utils.SoundUtil;
@@ -82,6 +84,13 @@ public class cmd_AParkour implements CommandExecutor {
                 }
             }
 
+            if(Main.getInstance().isHologramsEnabled()) {
+                for (Hologram hologram : HologramsAPI.getHolograms(Main.getInstance())) {
+                    hologram.delete();
+                }
+            }
+
+            Main.getInstance().setHologramsEnabled(Main.getInstance().getConfig().getBoolean("Hologram.Enabled"));
             Main.getInstance().getHologramTask().stop();
             Main.getInstance().getLanguageHandler().setLanguage(Main.getInstance().getConfig().getString("Language").toLowerCase());
             Main.getInstance().getLanguageHandler().pushMessages();
