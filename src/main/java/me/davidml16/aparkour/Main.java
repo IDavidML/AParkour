@@ -4,8 +4,8 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 import me.davidml16.aparkour.events.*;
-import me.davidml16.aparkour.gui.parkourConfig_GUI;
-import me.davidml16.aparkour.gui.walkableBlocks_GUI;
+import me.davidml16.aparkour.gui.ParkourConfig_GUI;
+import me.davidml16.aparkour.gui.WalkableBlocks_GUI;
 import me.davidml16.aparkour.tasks.ReturnTask;
 import me.davidml16.aparkour.utils.RestartItemUtil;
 import org.bukkit.Bukkit;
@@ -17,11 +17,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 
-import me.davidml16.aparkour.commands.autoCompleter_AParkour;
-import me.davidml16.aparkour.commands.cmd_AParkour;
+import me.davidml16.aparkour.commands.TabCompleter_AParkour;
+import me.davidml16.aparkour.commands.Command_AParkour;
 import me.davidml16.aparkour.database.ADatabase;
-import me.davidml16.aparkour.gui.parkourRanking_GUI;
-import me.davidml16.aparkour.gui.playerStats_GUI;
+import me.davidml16.aparkour.gui.ParkourRanking_GUI;
+import me.davidml16.aparkour.gui.PlayerStats_GUI;
 import me.davidml16.aparkour.handlers.DatabaseHandler;
 import me.davidml16.aparkour.handlers.LanguageHandler;
 import me.davidml16.aparkour.handlers.ParkourHandler;
@@ -39,10 +39,10 @@ public class Main extends JavaPlugin {
     public static Main instance;
     public static ConsoleCommandSender log;
 
-    private playerStats_GUI statsGUI;
-    private parkourRanking_GUI rankingsGUI;
-    private parkourConfig_GUI configGUI;
-    private walkableBlocks_GUI walkableBlocksGUI;
+    private PlayerStats_GUI statsGUI;
+    private ParkourRanking_GUI rankingsGUI;
+    private ParkourConfig_GUI configGUI;
+    private WalkableBlocks_GUI walkableBlocksGUI;
 
     private HologramTask hologramTask;
     private ReturnTask returnTask;
@@ -109,15 +109,15 @@ public class Main extends JavaPlugin {
 
         timerManager = new TimerManager();
 
-        statsGUI = new playerStats_GUI();
+        statsGUI = new PlayerStats_GUI();
 
-        rankingsGUI = new parkourRanking_GUI();
+        rankingsGUI = new ParkourRanking_GUI();
         rankingsGUI.loadGUI();
 
-        configGUI = new parkourConfig_GUI();
+        configGUI = new ParkourConfig_GUI();
         configGUI.loadGUI();
 
-        walkableBlocksGUI = new walkableBlocks_GUI();
+        walkableBlocksGUI = new WalkableBlocks_GUI();
         walkableBlocksGUI.loadGUI();
 
         topHologramManager.loadTopHolograms();
@@ -177,19 +177,19 @@ public class Main extends JavaPlugin {
         return instance;
     }
 
-    public playerStats_GUI getStatsGUI() {
+    public PlayerStats_GUI getStatsGUI() {
         return statsGUI;
     }
 
-    public parkourRanking_GUI getRankingsGUI() {
+    public ParkourRanking_GUI getRankingsGUI() {
         return rankingsGUI;
     }
 
-    public parkourConfig_GUI getConfigGUI() {
+    public ParkourConfig_GUI getConfigGUI() {
         return configGUI;
     }
 
-    public walkableBlocks_GUI getWalkableBlocksGUI() {
+    public WalkableBlocks_GUI getWalkableBlocksGUI() {
         return walkableBlocksGUI;
     }
 
@@ -246,17 +246,17 @@ public class Main extends JavaPlugin {
     }
 
     private void registerCommands() {
-        getCommand("aparkour").setExecutor(new cmd_AParkour());
-        getCommand("aparkour").setTabCompleter(new autoCompleter_AParkour());
+        getCommand("aparkour").setExecutor(new Command_AParkour());
+        getCommand("aparkour").setTabCompleter(new TabCompleter_AParkour());
     }
 
     private void registerEvents() {
-        Bukkit.getPluginManager().registerEvents(new event_Click(), this);
-        Bukkit.getPluginManager().registerEvents(new event_Plate_Start(), this);
-        Bukkit.getPluginManager().registerEvents(new event_Plate_End(), this);
-        Bukkit.getPluginManager().registerEvents(new event_Fly(), this);
-        Bukkit.getPluginManager().registerEvents(new event_Fall(), this);
-        Bukkit.getPluginManager().registerEvents(new event_Others(), this);
-        Bukkit.getPluginManager().registerEvents(new event_InventoryGUI(), this);
+        Bukkit.getPluginManager().registerEvents(new Event_Click(), this);
+        Bukkit.getPluginManager().registerEvents(new Event_PlateStart(), this);
+        Bukkit.getPluginManager().registerEvents(new Event_PlateEnd(), this);
+        Bukkit.getPluginManager().registerEvents(new Event_Fly(), this);
+        Bukkit.getPluginManager().registerEvents(new Event_Fall(), this);
+        Bukkit.getPluginManager().registerEvents(new Event_Others(), this);
+        Bukkit.getPluginManager().registerEvents(new Event_InventoryGUI(), this);
     }
 }

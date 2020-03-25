@@ -19,7 +19,7 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 
 import java.sql.SQLException;
 
-public class event_Others implements Listener {
+public class Event_Others implements Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent e) {
@@ -98,10 +98,18 @@ public class event_Others implements Listener {
         if (Main.getInstance().getStatsGUI().getGuis().containsKey(p.getUniqueId()))
             Main.getInstance().getStatsGUI().getGuis().remove(p.getUniqueId());
 
+        if (Main.getInstance().getRankingsGUI().getOpened().contains(p.getUniqueId()))
+            Main.getInstance().getRankingsGUI().getOpened().remove(p.getUniqueId());
+
+        if (Main.getInstance().getConfigGUI().getOpened().containsKey(p.getUniqueId()))
+            Main.getInstance().getConfigGUI().getOpened().remove(p.getUniqueId());
+
+        if (Main.getInstance().getWalkableBlocksGUI().getOpened().containsKey(p.getUniqueId()))
+            Main.getInstance().getWalkableBlocksGUI().getOpened().remove(p.getUniqueId());
+
         if (Main.getInstance().getTimerManager().hasPlayerTimer(e.getPlayer())) {
             Main.getInstance().getTimerManager().cancelTimer(e.getPlayer());
 
-            Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
             Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
 
             if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {

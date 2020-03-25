@@ -14,7 +14,7 @@ import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.utils.RestartItemUtil;
 import me.davidml16.aparkour.utils.SoundUtil;
 
-public class event_Plate_Start implements Listener {
+public class Event_PlateStart implements Listener {
 
 	@EventHandler
 	public void Plate(PlayerInteractEvent e) {

@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import me.davidml16.aparkour.Main;
 
-public class autoCompleter_AParkour implements TabCompleter {
+public class TabCompleter_AParkour implements TabCompleter {
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {

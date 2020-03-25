@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
-public class cmd_AParkour implements CommandExecutor {
+public class Command_AParkour implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         String noperms = Main.getInstance().getLanguageHandler().getMessage("COMMANDS_NOPERMS", true);
@@ -90,12 +90,6 @@ public class cmd_AParkour implements CommandExecutor {
                     SoundUtil.playFall(p);
 
                     p.setNoDamageTicks(40);
-                }
-            }
-
-            if(Main.getInstance().isHologramsEnabled()) {
-                for (Hologram hologram : HologramsAPI.getHolograms(Main.getInstance())) {
-                    hologram.delete();
                 }
             }
 

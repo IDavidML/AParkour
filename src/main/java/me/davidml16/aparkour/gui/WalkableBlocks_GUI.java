@@ -18,13 +18,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class walkableBlocks_GUI {
+public class WalkableBlocks_GUI {
 
     private HashMap<UUID, String> opened;
     private HashMap<String, Inventory> guis;
     private List<Integer> borders;
 
-    public walkableBlocks_GUI() {
+    public WalkableBlocks_GUI() {
         this.opened = new HashMap<UUID, String>();
         this.guis = new HashMap<String, Inventory>();
         this.borders = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 41, 42, 43, 44);

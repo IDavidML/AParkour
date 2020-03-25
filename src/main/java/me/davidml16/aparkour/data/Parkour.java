@@ -68,13 +68,6 @@ public class Parkour {
 	}
 
 	public void saveParkour() {
-		Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".name", name);
-		Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".spawn", spawn);
-		Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".start", start);
-		Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".end", end);
-		Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".holograms.stats", statsHologram);
-		Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".holograms.top", topHologram);
-
 		Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".walkableBlocks", Main.getInstance().getParkourHandler().getWalkableBlocksString(walkableBlocks));
 		Main.getInstance().getParkourHandler().saveConfig();
 	}

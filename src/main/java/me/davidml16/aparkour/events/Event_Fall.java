@@ -11,7 +11,7 @@ import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.utils.SoundUtil;
 
-public class event_Fall implements Listener {
+public class Event_Fall implements Listener {
 
 	@EventHandler
 	public void Fall(PlayerMoveEvent e) {

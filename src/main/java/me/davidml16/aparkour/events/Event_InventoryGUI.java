@@ -1,12 +1,10 @@
 package me.davidml16.aparkour.events;
 
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.managers.PluginManager;
 import me.davidml16.aparkour.utils.LocationUtil;
 import me.davidml16.aparkour.utils.Sounds;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,12 +12,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
-import me.davidml16.aparkour.Main;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class event_InventoryGUI implements Listener {
+public class Event_InventoryGUI implements Listener {
 
     @EventHandler
     public void onInventoryClickEvent(InventoryClickEvent e) {
@@ -29,10 +24,8 @@ public class event_InventoryGUI implements Listener {
 
         if (Main.getInstance().getStatsGUI().getOpened().contains(p.getUniqueId())) {
             e.setCancelled(true);
-            return;
         } else if (Main.getInstance().getRankingsGUI().getOpened().contains(p.getUniqueId())) {
             e.setCancelled(true);
-            return;
         } else if (Main.getInstance().getWalkableBlocksGUI().getOpened().containsKey(p.getUniqueId())) {
             e.setCancelled(true);
             int slot = e.getRawSlot();
@@ -46,9 +39,7 @@ public class event_InventoryGUI implements Listener {
 
                     if (e.getCurrentItem().getType() == Material.AIR) return;
 
-                    if(!e.getCurrentItem().getType().isSolid() || e.getCurrentItem().getType().name().contains("PLATE")) {
-                        p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
-                                + "&cThe walkable block has to be a solid block!"));
+                    if (e.getCurrentItem().getType().name().contains("PLATE")) {
                         Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
                     } else {
                         if (!walkable.contains(e.getCurrentItem().getType())) {
@@ -78,7 +69,6 @@ public class event_InventoryGUI implements Listener {
                 Main.getInstance().getWalkableBlocksGUI().reloadGUI(id);
                 Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
             }
-            return;
         } else if (Main.getInstance().getConfigGUI().getOpened().containsKey(p.getUniqueId())) {
             e.setCancelled(true);
             int slot = e.getRawSlot();
@@ -96,7 +86,6 @@ public class event_InventoryGUI implements Listener {
                     p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("COMMANDS_RELOAD", true));
                 }
             }
-            return;
         }
     }
 
@@ -105,20 +94,16 @@ public class event_InventoryGUI implements Listener {
         Player p = (Player) e.getPlayer();
         if (Main.getInstance().getStatsGUI().getOpened().contains(p.getUniqueId())) {
             Main.getInstance().getStatsGUI().getOpened().remove(p.getUniqueId());
-            return;
         } else if (Main.getInstance().getRankingsGUI().getOpened().contains(p.getUniqueId())) {
             Main.getInstance().getRankingsGUI().getOpened().remove(p.getUniqueId());
-            return;
         } else if (Main.getInstance().getConfigGUI().getOpened().containsKey(p.getUniqueId())) {
             Main.getInstance().getConfigGUI().getOpened().remove(p.getUniqueId());
-            return;
         } else if (Main.getInstance().getWalkableBlocksGUI().getOpened().containsKey(p.getUniqueId())) {
             Main.getInstance().getWalkableBlocksGUI().getOpened().remove(p.getUniqueId());
-            return;
         }
     }
 
-    public void changeParkourConfig(Player p, int slot) {
+    private void changeParkourConfig(Player p, int slot) {
         String id = Main.getInstance().getConfigGUI().getOpened().get(p.getUniqueId());
 
         switch (slot) {

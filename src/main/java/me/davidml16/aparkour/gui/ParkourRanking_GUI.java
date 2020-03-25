@@ -22,13 +22,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import me.davidml16.aparkour.Main;
 
-public class parkourRanking_GUI {
+public class ParkourRanking_GUI {
 
 	private List<UUID> opened;
 	private Inventory gui;
 	private List<Integer> borders;
 
-	public parkourRanking_GUI() {
+	public ParkourRanking_GUI() {
 		this.opened = new ArrayList<UUID>();
 		this.borders = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44);
 	}

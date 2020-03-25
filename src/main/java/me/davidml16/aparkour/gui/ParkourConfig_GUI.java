@@ -17,13 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class parkourConfig_GUI {
+public class ParkourConfig_GUI {
 
     private HashMap<UUID, String> opened;
     private HashMap<String, Inventory> guis;
     private List<Integer> borders;
 
-    public parkourConfig_GUI() {
+    public ParkourConfig_GUI() {
         this.opened = new HashMap<UUID, String>();
         this.guis = new HashMap<String, Inventory>();
         this.borders = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 17, 18, 24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 41, 42, 43, 44);

@@ -14,7 +14,7 @@ import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.utils.RestartItemUtil;
 import me.davidml16.aparkour.utils.SoundUtil;
 
-public class event_Click implements Listener {
+public class Event_Click implements Listener {
 
 	@EventHandler
 	public void onClicker(PlayerInteractEvent e) {

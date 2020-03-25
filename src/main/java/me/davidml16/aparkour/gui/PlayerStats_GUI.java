@@ -19,13 +19,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
 
-public class playerStats_GUI {
+public class PlayerStats_GUI {
 
 	private List<UUID> opened;
 	private HashMap<UUID, Inventory> guis;
 	private List<Integer> borders;
 
-	public playerStats_GUI() {
+	public PlayerStats_GUI() {
 		this.opened = new ArrayList<UUID>();
 		this.guis = new HashMap<UUID, Inventory>();
 		this.borders = Arrays.asList(0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44);

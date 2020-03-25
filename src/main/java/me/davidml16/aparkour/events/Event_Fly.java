@@ -11,7 +11,7 @@ import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.utils.SoundUtil;
 
-public class event_Fly implements Listener {
+public class Event_Fly implements Listener {
 
 	@EventHandler
 	public void Fly(PlayerToggleFlightEvent e) {
