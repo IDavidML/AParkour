@@ -34,8 +34,7 @@ public class event_Plate_End implements Listener {
 				if (e.getClickedBlock().getLocation().equals(parkour.getEnd())) {
 					e.setCancelled(true);
 
-					if (Main.getInstance().getParkourHandler().getParkourByLocation(e.getClickedBlock()
-							.getLocation()) != Main.getInstance().getParkourHandler().getParkourByPlayer(p)) {
+					if (parkour != Main.getInstance().getPlayerDataHandler().getData(p).getParkour()) {
 						return;
 					}
 
@@ -46,7 +45,7 @@ public class event_Plate_End implements Listener {
 							Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
 						}
 
-						parkour.getPlayers().remove(p.getUniqueId());
+						Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
 
 						SoundUtil.playEnd(p);
 

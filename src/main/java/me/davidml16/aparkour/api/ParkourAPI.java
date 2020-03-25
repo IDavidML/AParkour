@@ -67,11 +67,7 @@ public class ParkourAPI {
     }
 
     public Parkour getParkourByPlayer(Player p) {
-        for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
-            if (parkour.getPlayers().contains(p.getUniqueId()))
-                return Main.getInstance().getParkourHandler().getParkours().get(parkour.getId());
-        }
-        return null;
+        return Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
     }
 
 }

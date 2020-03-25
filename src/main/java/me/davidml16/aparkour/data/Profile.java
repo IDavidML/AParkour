@@ -14,7 +14,8 @@ import me.davidml16.aparkour.Main;
 public class Profile {
 
 	private UUID uuid;
-	
+	private Parkour parkour;
+
 	private ItemStack[] inventory;
 	private ItemStack[] armour;
 
@@ -24,6 +25,7 @@ public class Profile {
 
 	public Profile(UUID uuid) {
 		this.uuid = uuid;
+		this.parkour = null;
 		this.inventory = new ItemStack[36];
 		this.lastTimes = Main.getInstance().getDatabaseHandler().getPlayerLastTimes(uuid);
 		this.bestTimes = Main.getInstance().getDatabaseHandler().getPlayerBestTimes(uuid);
@@ -80,11 +82,12 @@ public class Profile {
 		return holograms;
 	}
 
-	@Override
-	public String toString() {
-		return "Profile [uuid=" + uuid + ", inventory=" + Arrays.toString(inventory) + ", armour="
-				+ Arrays.toString(armour) + ", lastTimes=" + lastTimes + ", bestTimes=" + bestTimes + ", holograms="
-				+ holograms + "]";
+	public Parkour getParkour() {
+		return parkour;
+	}
+
+	public void setParkour(Parkour parkour) {
+		this.parkour = parkour;
 	}
 
 }

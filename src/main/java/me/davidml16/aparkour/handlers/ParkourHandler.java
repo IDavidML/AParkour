@@ -2,10 +2,13 @@ package me.davidml16.aparkour.handlers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import me.davidml16.aparkour.data.Parkour;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -72,7 +75,16 @@ public class ParkourHandler {
 				}
 
 				if (parkours.size() < 21) {
-					parkours.put(id, new Parkour(id, name, spawn, start, end, statsHologram, topHologram));
+					Parkour parkour = new Parkour(id, name, spawn, start, end, statsHologram, topHologram);
+					parkours.put(id, parkour);
+
+					if(parkourConfig.contains("parkours." + id + ".walkableBlocks")) {
+						List<Material> walkable = getWalkableBlocks(id);
+						parkour.setWalkableBlocks(walkable);
+						saveWalkableBlocksString(id, walkable);
+						saveConfig();
+					}
+
 					Main.log.sendMessage(ColorManager.translate("    &a'" + name + "' loaded!"));
 				} else {
 					Main.log.sendMessage(ColorManager
@@ -95,6 +107,14 @@ public class ParkourHandler {
 					&& parkourConfig.contains("parkours." + id + ".end");
 	}
 
+	public Parkour getParkourById(String id) {
+		for (Parkour parkour : parkours.values()) {
+			if (parkour.getId().equalsIgnoreCase(id))
+				return parkour;
+		}
+		return null;
+	}
+
 	public Parkour getParkourByLocation(Location loc) {
 		for (Parkour parkour : parkours.values()) {
 			if (loc.equals(parkour.getStart()) || loc.equals(parkour.getEnd()))
@@ -103,12 +123,38 @@ public class ParkourHandler {
 		return null;
 	}
 
-	public Parkour getParkourByPlayer(Player p) {
-		for (Parkour parkour : parkours.values()) {
-			if (parkour.getPlayers().contains(p.getUniqueId()))
-				return parkours.get(parkour.getId());
+	public List<Material> getWalkableBlocks(String id) {
+		List<Material> walkable = new ArrayList<Material>();
+		if(parkourConfig.contains("parkours." + id + ".walkableBlocks")) {
+			for (String mat : parkourConfig.getStringList("parkours." + id + ".walkableBlocks")) {
+				Material material = null;
+				material = Material.matchMaterial(mat);
+				if (material != null && !walkable.contains(material)) {
+					if (walkable.size() < 21) {
+						walkable.add(material);
+					}
+				}
+			}
 		}
-		return null;
+		return walkable;
+	}
+
+	public List<String> getWalkableBlocksString(List<Material> walkable) {
+		List<String> list = new ArrayList<String>();
+		for(Material material : walkable) {
+			list.add(material.name());
+		}
+		return list;
+	}
+
+	public void saveWalkableBlocksString(String id, List<Material> walkable) {
+		List<String> list = new ArrayList<String>();
+		for(Material material : walkable) {
+			list.add(material.name());
+		}
+
+		getConfig().set("parkours." + id + ".walkableBlocks", list);
+		saveConfig();
 	}
 
 }

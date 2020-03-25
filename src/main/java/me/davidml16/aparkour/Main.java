@@ -1,9 +1,13 @@
 package me.davidml16.aparkour;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import me.davidml16.aparkour.events.*;
+import me.davidml16.aparkour.gui.parkourConfig_GUI;
+import me.davidml16.aparkour.gui.walkableBlocks_GUI;
+import me.davidml16.aparkour.tasks.ReturnTask;
+import me.davidml16.aparkour.utils.RestartItemUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -16,13 +20,6 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.davidml16.aparkour.commands.autoCompleter_AParkour;
 import me.davidml16.aparkour.commands.cmd_AParkour;
 import me.davidml16.aparkour.database.ADatabase;
-import me.davidml16.aparkour.events.event_Click;
-import me.davidml16.aparkour.events.event_Fall;
-import me.davidml16.aparkour.events.event_Fly;
-import me.davidml16.aparkour.events.event_InventoryGUI;
-import me.davidml16.aparkour.events.event_Others;
-import me.davidml16.aparkour.events.event_Plate_End;
-import me.davidml16.aparkour.events.event_Plate_Start;
 import me.davidml16.aparkour.gui.parkourRanking_GUI;
 import me.davidml16.aparkour.gui.playerStats_GUI;
 import me.davidml16.aparkour.handlers.DatabaseHandler;
@@ -44,8 +41,11 @@ public class Main extends JavaPlugin {
 
     private playerStats_GUI statsGUI;
     private parkourRanking_GUI rankingsGUI;
+    private parkourConfig_GUI configGUI;
+    private walkableBlocks_GUI walkableBlocksGUI;
 
     private HologramTask hologramTask;
+    private ReturnTask returnTask;
 
     private TimerManager timerManager;
     private StatsHologramManager statsHologramManager;
@@ -82,6 +82,10 @@ public class Main extends JavaPlugin {
             }
         }
 
+        if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
+            RestartItemUtil.loadReturnItem();
+        }
+
         languageHandler = new LanguageHandler(getConfig().getString("Language").toLowerCase());
         languageHandler.pushMessages();
 
@@ -110,11 +114,20 @@ public class Main extends JavaPlugin {
         rankingsGUI = new parkourRanking_GUI();
         rankingsGUI.loadGUI();
 
+        configGUI = new parkourConfig_GUI();
+        configGUI.loadGUI();
+
+        walkableBlocksGUI = new walkableBlocks_GUI();
+        walkableBlocksGUI.loadGUI();
+
         topHologramManager.loadTopHolograms();
         topHologramManager.restartTimeLeft();
 
         hologramTask = new HologramTask();
         hologramTask.start();
+
+        returnTask = new ReturnTask();
+        returnTask.start();
 
         registerEvents();
         registerCommands();
@@ -172,6 +185,14 @@ public class Main extends JavaPlugin {
         return rankingsGUI;
     }
 
+    public parkourConfig_GUI getConfigGUI() {
+        return configGUI;
+    }
+
+    public walkableBlocks_GUI getWalkableBlocksGUI() {
+        return walkableBlocksGUI;
+    }
+
     public TimerManager getTimerManager() {
         return timerManager;
     }
@@ -210,6 +231,10 @@ public class Main extends JavaPlugin {
 
     public HologramTask getHologramTask() {
         return hologramTask;
+    }
+
+    public ReturnTask getReturnTask() {
+        return returnTask;
     }
 
     public boolean isHologramsEnabled() {

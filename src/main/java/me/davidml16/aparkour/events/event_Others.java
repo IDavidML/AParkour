@@ -101,8 +101,8 @@ public class event_Others implements Listener {
         if (Main.getInstance().getTimerManager().hasPlayerTimer(e.getPlayer())) {
             Main.getInstance().getTimerManager().cancelTimer(e.getPlayer());
 
-            Parkour parkour = Main.getInstance().getParkourHandler().getParkourByPlayer(p);
-            parkour.getPlayers().remove(p.getUniqueId());
+            Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
+            Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
 
             if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
                 Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
@@ -121,8 +121,8 @@ public class event_Others implements Listener {
         if (Main.getInstance().getTimerManager().hasPlayerTimer(e.getPlayer())) {
             Main.getInstance().getTimerManager().cancelTimer(e.getPlayer());
 
-            Parkour parkour = Main.getInstance().getParkourHandler().getParkourByPlayer(p);
-            parkour.getPlayers().remove(p.getUniqueId());
+            Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
+            Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
 
             if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
                 Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);

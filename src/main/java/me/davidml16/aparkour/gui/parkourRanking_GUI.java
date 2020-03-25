@@ -10,7 +10,9 @@ import java.util.UUID;
 
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.managers.ColorManager;
+import me.davidml16.aparkour.utils.ItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -42,10 +44,7 @@ public class parkourRanking_GUI {
 	public void loadGUI() {
 		gui = Bukkit.createInventory(null, 45, Main.getInstance().getLanguageHandler().getMessage("GUI_TOP_TITLE", false));
 
-		ItemStack edge = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 7);
-		ItemMeta edgeM = edge.getItemMeta();
-		edgeM.setDisplayName(" ");
-		edge.setItemMeta(edgeM);
+		ItemStack edge = new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 7).setName("").toItemStack();
 
 		for (Integer i : borders) {
 			gui.setItem(i, edge);
@@ -71,12 +70,7 @@ public class parkourRanking_GUI {
 
 	private void loadParkoursFrames() {
 		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
-			ItemStack stats = new ItemStack(Material.ITEM_FRAME, 1);
-			ItemMeta statsM = stats.getItemMeta();
-			statsM.setDisplayName(ColorManager.translate("&e"));
-
 			List<String> lore = new ArrayList<String>();
-
 			lore.add(ColorManager.translate("  &eParkour: &a" + parkour.getName() + "  "));
 			lore.add(" ");
 
@@ -105,12 +99,9 @@ public class parkourRanking_GUI {
 				else
 					lore.add(ColorManager.translate(" &0.&e" + i + ". &cN/A  "));
 			}
-
 			lore.add(" ");
-			statsM.setLore(lore);
-			stats.setItemMeta(statsM);
 
-			gui.addItem(stats);
+			gui.addItem(new ItemBuilder(Material.ITEM_FRAME, 1).setName(ColorManager.translate("&e")).setLore(lore).toItemStack());
 		}
 	}
 

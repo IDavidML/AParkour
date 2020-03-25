@@ -11,7 +11,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.utils.ItemUtil;
+import me.davidml16.aparkour.utils.RestartItemUtil;
 import me.davidml16.aparkour.utils.SoundUtil;
 
 public class event_Plate_Start implements Listener {
@@ -41,10 +41,10 @@ public class event_Plate_Start implements Listener {
 
 						if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
 							Main.getInstance().getPlayerDataHandler().savePlayerInventory(p);
-							ItemUtil.giveRestartItem(p);
+							RestartItemUtil.giveRestartItem(p);
 						}
 
-						parkour.getPlayers().add(p.getUniqueId());
+						Main.getInstance().getPlayerDataHandler().getData(p).setParkour(parkour);
 
 						Main.getInstance().getTimerManager().startTimer(p, parkour);
 

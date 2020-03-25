@@ -25,8 +25,8 @@ public class event_Fly implements Listener {
 
 				Main.getInstance().getTimerManager().cancelTimer(p);
 
-				Parkour parkour = Main.getInstance().getParkourHandler().getParkourByPlayer(p);
-				parkour.getPlayers().remove(p.getUniqueId());
+				Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
+				Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
 
 				p.setFlying(false);
 				p.teleport(parkour.getSpawn());

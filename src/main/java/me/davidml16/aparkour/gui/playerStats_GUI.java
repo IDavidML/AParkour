@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 import me.davidml16.aparkour.managers.ColorManager;
+import me.davidml16.aparkour.utils.ItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -42,15 +44,8 @@ public class playerStats_GUI {
 
 		Inventory gui = Bukkit.createInventory(null, 45, Main.getInstance().getLanguageHandler().getMessage("GUI_STATS_TITLE", false));
 
-		ItemStack edge = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 7);
-		ItemMeta edgeM = edge.getItemMeta();
-		edgeM.setDisplayName(" ");
-		edge.setItemMeta(edgeM);
-
-		ItemStack book = new ItemStack(Material.BOOK, 1);
-		ItemMeta bookM = book.getItemMeta();
-		bookM.setDisplayName(ColorManager.translate("&a&l" + p.getName() + "'s statistics"));
-		book.setItemMeta(bookM);
+		ItemStack edge = new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 7).setName("").toItemStack();
+		ItemStack book = new ItemBuilder(Material.BOOK, 1).setName(ColorManager.translate("&a&l" + p.getName() + "'s statistics")).toItemStack();
 
 		for (Integer i : borders) {
 			gui.setItem(i, edge);
@@ -59,10 +54,6 @@ public class playerStats_GUI {
 		gui.setItem(4, book);
 
 		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
-			ItemStack stats = new ItemStack(Material.ITEM_FRAME, 1);
-			ItemMeta statsM = stats.getItemMeta();
-			statsM.setDisplayName(ColorManager.translate("&e"));
-
 			List<String> lore = new ArrayList<String>();
 			lore.add(ColorManager.translate("  &eParkour: &a" + parkour.getName() + "  "));
 			lore.add(" ");
@@ -78,12 +69,10 @@ public class playerStats_GUI {
 				lore.add(ColorManager.translate("  &eBest Time: &6" + Main.getInstance().getTimerManager().timeAsString(Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId())) + "  "));
 			else
 				lore.add(ColorManager.translate("  &eBest Time: &cN/A  "));
-			
-			lore.add(" ");
-			statsM.setLore(lore);
-			stats.setItemMeta(statsM);
 
-			gui.addItem(stats);
+			lore.add(" ");
+
+			gui.addItem(new ItemBuilder(Material.ITEM_FRAME, 1).setName(ColorManager.translate("&e")).setLore(lore).toItemStack());
 		}
 
 		guis.put(p.getUniqueId(), gui);

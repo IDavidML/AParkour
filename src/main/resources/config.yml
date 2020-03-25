@@ -2,7 +2,7 @@
 #                         #
 #   NAME:     APARKOUR    #
 #   AUTHOR:   DavidML16   #
-#   VERSION:  3.0.9       #
+#   VERSION:  3.1.0       #
 #                         #
 #-------------------------#
 
@@ -32,7 +32,7 @@ ReturnOnFly:
 
 
 ReturnOnFall:
-    Enabled: true
+    Enabled: false
     BlocksDistance: 5
 
 

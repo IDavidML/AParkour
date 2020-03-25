@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.bukkit.Location;
 
 import me.davidml16.aparkour.Main;
+import org.bukkit.Material;
 
 public class Parkour {
 	
@@ -17,7 +18,7 @@ public class Parkour {
 	private Location end;
 	private Location statsHologram;
 	private Location topHologram;
-	private List<UUID> players;
+	private List<Material> walkableBlocks;
 	
 	public Parkour(String id, String name, Location spawn, Location start, Location end, Location statsHologram, Location topHologram) {
 		this.id = id;
@@ -27,7 +28,7 @@ public class Parkour {
 		this.end = end;
 		this.statsHologram = statsHologram;
 		this.topHologram = topHologram;
-		this.players = new ArrayList<UUID>();
+		this.walkableBlocks = new ArrayList<Material>();
 	}
 	
 	public String getId() {
@@ -58,8 +59,12 @@ public class Parkour {
 		return topHologram;
 	}
 
-	public List<UUID> getPlayers() {
-		return players;
+	public List<Material> getWalkableBlocks() {
+		return walkableBlocks;
+	}
+
+	public void setWalkableBlocks(List<Material> walkableBlocks) {
+		this.walkableBlocks = walkableBlocks;
 	}
 
 	public void saveParkour() {
@@ -69,13 +74,9 @@ public class Parkour {
 		Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".end", end);
 		Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".holograms.stats", statsHologram);
 		Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".holograms.top", topHologram);
-		Main.getInstance().getParkourHandler().saveConfig();
-	}
 
-	@Override
-	public String toString() {
-		return "Parkour [id=" + id + ", name=" + name + ", spawn=" + spawn + ", start=" + start + ", end=" + end
-				+ ", statsHologram=" + statsHologram + ", topHologram=" + topHologram + ", players=" + players + "]";
+		Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".walkableBlocks", Main.getInstance().getParkourHandler().getWalkableBlocksString(walkableBlocks));
+		Main.getInstance().getParkourHandler().saveConfig();
 	}
 
 }

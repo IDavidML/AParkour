@@ -26,18 +26,22 @@ public class autoCompleter_AParkour implements TabCompleter {
 
 		if (args.length == 1) {
 			list.add("stats");
-			list.add("list");
 			list.add("top");
+			list.add("list");
 			if (Main.getInstance().getPlayerDataHandler().playerHasPermission(p)) {
 				list.add("create");
 				list.add("remove");
 				list.add("set");
+				list.add("config");
 				list.add("reload");
 			}
 		} else if (args[0].equalsIgnoreCase("remove")) {
 			if (Main.getInstance().getPlayerDataHandler().playerHasPermission(p)) {
-				for(Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values())
-					list.add(parkour.getId());
+				list.addAll(Main.getInstance().getParkourHandler().getConfig().getConfigurationSection("parkours").getKeys(false));
+			}
+		} else if (args[0].equalsIgnoreCase("config")) {
+			if (Main.getInstance().getPlayerDataHandler().playerHasPermission(p)) {
+				list.addAll(Main.getInstance().getParkourHandler().getConfig().getConfigurationSection("parkours").getKeys(false));
 			}
 		} else if (args[0].equalsIgnoreCase("set")) {
 			if (args.length == 3) {
@@ -51,8 +55,7 @@ public class autoCompleter_AParkour implements TabCompleter {
 				}
 			} else {
 				if (Main.getInstance().getPlayerDataHandler().playerHasPermission(p)) {
-					for(Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values())
-						list.add(parkour.getId());
+					list.addAll(Main.getInstance().getParkourHandler().getConfig().getConfigurationSection("parkours").getKeys(false));
 				}
 			}
 		}

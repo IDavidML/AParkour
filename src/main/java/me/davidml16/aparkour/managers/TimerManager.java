@@ -81,18 +81,20 @@ public class TimerManager {
 	}
 
 	public void sendTimer(Player p) {
-		int secs = timer.get(p.getUniqueId());
-		int total = Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes()
-				.get(Main.getInstance().getParkourHandler().getParkourByPlayer(p).getId());
+		if (hasPlayerTimer(p)) {
+			int secs = timer.get(p.getUniqueId());
+			int total = Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes()
+					.get(Main.getInstance().getPlayerDataHandler().getData(p).getParkour().getId());
 
-		String Message = Main.getInstance().getLanguageHandler().getMessage("TIMER_ACTIONBAR", false);
-		String NoBestTime = Main.getInstance().getLanguageHandler().getMessage("TIMES_NOBESTTIME", false);
-		if (total != 0) {
-			ActionBar.sendActionbar(p, Message.replaceAll("%currentTime%", timeAsString(secs)).replaceAll("%bestTime%",
-					timeAsString(total)));
-		} else {
-			ActionBar.sendActionbar(p,
-					Message.replaceAll("%currentTime%", timeAsString(secs)).replaceAll("%bestTime%", NoBestTime));
+			String Message = Main.getInstance().getLanguageHandler().getMessage("TIMER_ACTIONBAR", false);
+			String NoBestTime = Main.getInstance().getLanguageHandler().getMessage("TIMES_NOBESTTIME", false);
+			if (total != 0) {
+				ActionBar.sendActionbar(p, Message.replaceAll("%currentTime%", timeAsString(secs)).replaceAll("%bestTime%",
+						timeAsString(total)));
+			} else {
+				ActionBar.sendActionbar(p,
+						Message.replaceAll("%currentTime%", timeAsString(secs)).replaceAll("%bestTime%", NoBestTime));
+			}
 		}
 	}
 

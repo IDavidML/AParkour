@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.utils.ItemUtil;
+import me.davidml16.aparkour.utils.RestartItemUtil;
 import me.davidml16.aparkour.utils.SoundUtil;
 
 public class event_Click implements Listener {
@@ -26,12 +26,12 @@ public class event_Click implements Listener {
 
 			String Return = Main.getInstance().getLanguageHandler().getMessage("MESSAGES_RETURN", false);
 
-			if (item != null && item.equals(ItemUtil.getRestartItem())) {
+			if (item != null && item.equals(RestartItemUtil.getRestartItem())) {
 				if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 					e.setCancelled(true);
 
-					Parkour parkour = Main.getInstance().getParkourHandler().getParkourByPlayer(p);
-					parkour.getPlayers().remove(p.getUniqueId());
+					Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
+					Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
 
 					Main.getInstance().getTimerManager().cancelTimer(p);
 
