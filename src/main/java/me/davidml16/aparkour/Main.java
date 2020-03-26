@@ -6,6 +6,7 @@ import java.util.UUID;
 import me.davidml16.aparkour.events.*;
 import me.davidml16.aparkour.gui.ParkourConfig_GUI;
 import me.davidml16.aparkour.gui.WalkableBlocks_GUI;
+import me.davidml16.aparkour.managers.*;
 import me.davidml16.aparkour.tasks.ReturnTask;
 import me.davidml16.aparkour.utils.RestartItemUtil;
 import org.bukkit.Bukkit;
@@ -27,10 +28,6 @@ import me.davidml16.aparkour.handlers.LanguageHandler;
 import me.davidml16.aparkour.handlers.ParkourHandler;
 import me.davidml16.aparkour.handlers.PlayerDataHandler;
 import me.davidml16.aparkour.handlers.RewardHandler;
-import me.davidml16.aparkour.managers.ColorManager;
-import me.davidml16.aparkour.managers.StatsHologramManager;
-import me.davidml16.aparkour.managers.TimerManager;
-import me.davidml16.aparkour.managers.TopHologramManager;
 import me.davidml16.aparkour.tasks.HologramTask;
 import me.davidml16.aparkour.utils.RandomFirework;
 
@@ -159,6 +156,8 @@ public class Main extends JavaPlugin {
         log.sendMessage(ColorManager.translate("    &aAuthor: &b" + pdf.getAuthors().get(0)));
         log.sendMessage("");
 
+        PluginManager.removePlayersFromParkour();
+
         if(isHologramsEnabled()) {
             for (Hologram hologram : HologramsAPI.getHolograms(this)) {
                 hologram.delete();
@@ -168,8 +167,8 @@ public class Main extends JavaPlugin {
         for (UUID d : playerDataHandler.getPlayersData().keySet()) {
             getPlayerDataHandler().getData(d).save();
         }
-        getParkourHandler().saveParkours();
 
+        getParkourHandler().saveParkours();
         getHologramTask().stop();
     }
 

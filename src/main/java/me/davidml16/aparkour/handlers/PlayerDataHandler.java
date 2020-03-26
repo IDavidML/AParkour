@@ -57,29 +57,31 @@ public class PlayerDataHandler {
 			inventory[i] = p.getInventory().getItem(i);
 		}
 		data.setInventory(inventory);
-		data.setArmour(p.getInventory().getArmorContents());
-		
+		data.setArmor(p.getInventory().getArmorContents());
+
 		p.getInventory().clear();
 		p.getInventory().setArmorContents(null);
 		p.updateInventory();
 	}
-	
+
 	public void restorePlayerInventory(Player p) {
 		Profile data = getData(p);
+
 		p.getInventory().clear();
-		p.getInventory().setHelmet(data.getArmour()[3]);
-		p.getInventory().setChestplate(data.getArmour()[2]);
-		p.getInventory().setLeggings(data.getArmour()[1]);
-		p.getInventory().setBoots(data.getArmour()[0]);
-		
+
 		ItemStack[] inventory = data.getInventory();
 		for (int i = 0; i < inventory.length; i++) {
 			p.getInventory().setItem(i, inventory[i]);;
 		}
-		
+
+		p.getInventory().setHelmet(data.getArmor()[3]);
+		p.getInventory().setChestplate(data.getArmor()[2]);
+		p.getInventory().setLeggings(data.getArmor()[1]);
+		p.getInventory().setBoots(data.getArmor()[0]);
+
 		p.updateInventory();
 
-		data.setArmour(null);
+		data.setArmor(new ItemStack[4]);
 		data.setInventory(new ItemStack[p.getInventory().getContents().length]);
 	}
 	

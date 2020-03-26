@@ -1,10 +1,12 @@
 package me.davidml16.aparkour.events;
 
 import me.davidml16.aparkour.Main;
+import me.davidml16.aparkour.data.WalkableBlock;
 import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.managers.PluginManager;
 import me.davidml16.aparkour.utils.LocationUtil;
 import me.davidml16.aparkour.utils.Sounds;
+import me.davidml16.aparkour.utils.WalkableBlocksUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +18,7 @@ import java.util.List;
 
 public class Event_InventoryGUI implements Listener {
 
+    @SuppressWarnings("deprecation")
     @EventHandler
     public void onInventoryClickEvent(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
@@ -34,18 +37,22 @@ public class Event_InventoryGUI implements Listener {
                 p.closeInventory();
                 Main.getInstance().getConfigGUI().open(p, id);
             } else if (slot >= 45 && slot <= 80) {
-                List<Material> walkable = Main.getInstance().getParkourHandler().getParkourById(id).getWalkableBlocks();
+                List<WalkableBlock> walkable = Main.getInstance().getParkourHandler().getParkourById(id).getWalkableBlocks();
                 if (walkable.size() < 21) {
 
                     if (e.getCurrentItem().getType() == Material.AIR) return;
 
+                    int itemId = e.getCurrentItem().getTypeId();
+                    byte data = e.getCurrentItem().getData().getData();
+
                     if (e.getCurrentItem().getType().name().contains("PLATE")) {
                         Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
                     } else {
-                        if (!walkable.contains(e.getCurrentItem().getType())) {
+                        if (WalkableBlocksUtil.noContainsWalkable(walkable, itemId, data)) {
                             p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
                                     + "&aYou add &e" + e.getCurrentItem().getType().name() + " &ato walkable blocks of parkour &e" + id));
-                            walkable.add(e.getCurrentItem().getType());
+                            WalkableBlock walkableBlock = new WalkableBlock(itemId, data);
+                            walkable.add(walkableBlock);
                             Main.getInstance().getParkourHandler().getParkourById(id).setWalkableBlocks(walkable);
                             Main.getInstance().getWalkableBlocksGUI().reloadGUI(id);
                             Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
@@ -61,10 +68,14 @@ public class Event_InventoryGUI implements Listener {
 
                 if (Main.getInstance().getParkourHandler().getParkourById(id).getWalkableBlocks().size() == 0) return;
 
+                int itemId = e.getCurrentItem().getTypeId();
+                byte data = e.getCurrentItem().getData().getData();
+
                 p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
                         + "&aYou remove &e" + e.getCurrentItem().getType().name() + " &afrom walkable blocks of parkour &e" + id));
-                List<Material> walkable = Main.getInstance().getParkourHandler().getParkourById(id).getWalkableBlocks();
-                walkable.remove(e.getCurrentItem().getType());
+                List<WalkableBlock> walkable = Main.getInstance().getParkourHandler().getParkourById(id).getWalkableBlocks();
+                WalkableBlock walkableBlock = WalkableBlocksUtil.getWalkableBlock(walkable, itemId, data);
+                walkable.remove(walkableBlock);
                 Main.getInstance().getParkourHandler().getParkourById(id).setWalkableBlocks(walkable);
                 Main.getInstance().getWalkableBlocksGUI().reloadGUI(id);
                 Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
@@ -132,5 +143,7 @@ public class Event_InventoryGUI implements Listener {
 
         Main.getInstance().getConfigGUI().reloadGUI(id);
     }
+
+
 
 }

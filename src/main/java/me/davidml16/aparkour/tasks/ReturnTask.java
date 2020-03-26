@@ -3,20 +3,20 @@ package me.davidml16.aparkour.tasks;
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.api.events.ParkourReturnEvent;
 import me.davidml16.aparkour.data.Parkour;
-import me.davidml16.aparkour.utils.LocationUtil;
 import me.davidml16.aparkour.utils.SoundUtil;
+import me.davidml16.aparkour.utils.WalkableBlocksUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class ReturnTask {
 	
 	private int id;
 
 	class Task implements Runnable {
+		@SuppressWarnings("deprecation")
 		@Override
 		public void run() {
 			for(Player p : Bukkit.getOnlinePlayers()) {
@@ -27,7 +27,7 @@ public class ReturnTask {
 
 					Block block = p.getLocation().getBlock().getRelative(BlockFace.DOWN);
 
-					if (!parkour.getWalkableBlocks().contains(block.getType()) && block.getType() != Material.IRON_PLATE && block.getType() != Material.GOLD_PLATE && block.getType() != Material.AIR) {
+					if (WalkableBlocksUtil.noContainsWalkable(parkour.getWalkableBlocks(), block.getType().getId(), block.getData()) && block.getType() != Material.IRON_PLATE && block.getType() != Material.GOLD_PLATE && block.getType() != Material.AIR) {
 					    Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
                             String Return = Main.getInstance().getLanguageHandler().getMessage("MESSAGES_RETURN", false);
 							Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);

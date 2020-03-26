@@ -1,7 +1,6 @@
 package me.davidml16.aparkour.data;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -17,7 +16,7 @@ public class Profile {
 	private Parkour parkour;
 
 	private ItemStack[] inventory;
-	private ItemStack[] armour;
+	private ItemStack[] armor;
 
 	private HashMap<String, Integer> lastTimes;
 	private HashMap<String, Integer> bestTimes;
@@ -27,6 +26,7 @@ public class Profile {
 		this.uuid = uuid;
 		this.parkour = null;
 		this.inventory = new ItemStack[36];
+		this.armor = new ItemStack[4];
 		this.lastTimes = Main.getInstance().getDatabaseHandler().getPlayerLastTimes(uuid);
 		this.bestTimes = Main.getInstance().getDatabaseHandler().getPlayerBestTimes(uuid);
 		this.holograms = new HashMap<String, Hologram>();
@@ -70,12 +70,12 @@ public class Profile {
 		this.inventory = inventory;
 	}
 
-	public ItemStack[] getArmour() {
-		return armour;
+	public ItemStack[] getArmor() {
+		return armor;
 	}
 
-	public void setArmour(ItemStack[] armour) {
-		this.armour = armour;
+	public void setArmor(ItemStack[] armor) {
+		this.armor = armor;
 	}
 
 	public HashMap<String, Hologram> getHolograms() {

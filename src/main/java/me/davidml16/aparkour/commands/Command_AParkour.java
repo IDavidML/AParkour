@@ -73,26 +73,6 @@ public class Command_AParkour implements CommandExecutor {
 
             Main.getInstance().reloadConfig();
 
-            for (Player pl : Bukkit.getOnlinePlayers()) {
-                Main.getInstance().getTimerManager().cancelTimer(pl);
-                Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
-                if(parkour != null) {
-                    Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
-
-                    p.setFlying(false);
-                    p.teleport(parkour.getSpawn());
-                    if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
-                        Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
-                    }
-                    if (Main.getInstance().getTimerManager().isActionBarEnabled()) {
-                        ActionBar.sendActionbar(p, " ");
-                    }
-                    SoundUtil.playFall(p);
-
-                    p.setNoDamageTicks(40);
-                }
-            }
-
             PluginManager.reloadAll();
             p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("COMMANDS_RELOAD", true));
 

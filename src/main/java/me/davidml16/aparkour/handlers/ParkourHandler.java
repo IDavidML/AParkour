@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.data.WalkableBlock;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -79,7 +80,7 @@ public class ParkourHandler {
 					parkours.put(id, parkour);
 
 					if(parkourConfig.contains("parkours." + id + ".walkableBlocks")) {
-						List<Material> walkable = getWalkableBlocks(id);
+						List<WalkableBlock> walkable = getWalkableBlocks(id);
 						parkour.setWalkableBlocks(walkable);
 						saveWalkableBlocksString(id, walkable);
 						saveConfig();
@@ -123,15 +124,18 @@ public class ParkourHandler {
 		return null;
 	}
 
-	public List<Material> getWalkableBlocks(String id) {
-		List<Material> walkable = new ArrayList<Material>();
+	public List<WalkableBlock> getWalkableBlocks(String id) {
+		List<WalkableBlock> walkable = new ArrayList<WalkableBlock>();
 		if(parkourConfig.contains("parkours." + id + ".walkableBlocks")) {
-			for (String mat : parkourConfig.getStringList("parkours." + id + ".walkableBlocks")) {
+			for (String block : parkourConfig.getStringList("parkours." + id + ".walkableBlocks")) {
+				String[] parts = block.split(":");
 				Material material = null;
-				material = Material.matchMaterial(mat);
-				if (material != null && !walkable.contains(material)) {
+				material = Material.getMaterial(Integer.parseInt(parts[0]));
+				byte data = parts.length == 2 ? Byte.parseByte(parts[1]) : 0;
+				WalkableBlock walkableBlockk = new WalkableBlock(Integer.parseInt(parts[0]), data);
+				if (material != null && !walkable.contains(walkableBlockk)) {
 					if (walkable.size() < 21) {
-						walkable.add(material);
+						walkable.add(walkableBlockk);
 					}
 				}
 			}
@@ -139,18 +143,18 @@ public class ParkourHandler {
 		return walkable;
 	}
 
-	public List<String> getWalkableBlocksString(List<Material> walkable) {
+	public List<String> getWalkableBlocksString(List<WalkableBlock> walkable) {
 		List<String> list = new ArrayList<String>();
-		for(Material material : walkable) {
-			list.add(material.name());
+		for(WalkableBlock block : walkable) {
+			list.add(Material.getMaterial(block.getId()).getId() + ":" + block.getData());
 		}
 		return list;
 	}
 
-	public void saveWalkableBlocksString(String id, List<Material> walkable) {
+	public void saveWalkableBlocksString(String id, List<WalkableBlock> walkable) {
 		List<String> list = new ArrayList<String>();
-		for(Material material : walkable) {
-			list.add(material.name());
+		for(WalkableBlock block : walkable) {
+			list.add(Material.getMaterial(block.getId()).getId() + ":" + block.getData());
 		}
 
 		getConfig().set("parkours." + id + ".walkableBlocks", list);

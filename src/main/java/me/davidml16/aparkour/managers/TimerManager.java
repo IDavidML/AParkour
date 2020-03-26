@@ -73,7 +73,7 @@ public class TimerManager {
 
 	public void cancelTimer(Player p) {
 		if (hasPlayerTimer(p)) {
-			timer.put(p.getUniqueId(), 0);
+			timer.remove(p.getUniqueId());
 			timer.remove(p.getUniqueId());
 			timerTask.get(p.getUniqueId()).cancel();
 			timerTask.remove(p.getUniqueId());

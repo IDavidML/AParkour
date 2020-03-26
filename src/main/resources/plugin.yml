@@ -6,3 +6,4 @@ softdepend: [HolographicDisplays, ProtocolLib]
 commands:
     aparkour:
         description: Use this to see all commands.
+        aliases: [apk]

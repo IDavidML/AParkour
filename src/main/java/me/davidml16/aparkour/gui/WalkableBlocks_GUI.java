@@ -1,6 +1,7 @@
 package me.davidml16.aparkour.gui;
 
 import me.davidml16.aparkour.Main;
+import me.davidml16.aparkour.data.WalkableBlock;
 import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.utils.ItemBuilder;
 import org.bukkit.Bukkit;
@@ -56,16 +57,17 @@ public class WalkableBlocks_GUI {
             gui.setItem(i, edge);
         }
 
-        List<Material> walkable;
+        List<WalkableBlock> walkable;
         if (Main.getInstance().getParkourHandler().getParkours().containsKey(id))
             walkable = Main.getInstance().getParkourHandler().getParkourById(id).getWalkableBlocks();
         else
             walkable = Main.getInstance().getParkourHandler().getWalkableBlocks(id);
 
         if(walkable.size() > 0) {
-            for (Material material : walkable) {
-                String name = material.name().replaceAll("_", " ");
-                gui.addItem(new ItemBuilder(material, 1).setName(ColorManager.translate("&a" + name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase())).setLore("", ColorManager.translate("&eClick to remove!")).toItemStack());
+            for (WalkableBlock block : walkable) {
+                String name = Material.getMaterial(block.getId()).name().replaceAll("_", " ");
+                byte data = block.getData();
+                gui.addItem(new ItemBuilder(Material.getMaterial(block.getId()), 1, data).setName(ColorManager.translate("&a" + name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase())).setLore("", ColorManager.translate("&eClick to remove!")).toItemStack());
             }
         } else {
             gui.setItem(22, new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 14).setName(ColorManager.translate("&cAny walkable block selected")).setLore(
@@ -100,11 +102,12 @@ public class WalkableBlocks_GUI {
         for (int i = 28; i <= 34; i++)
             gui.setItem(i, null);
 
-        List<Material> walkable = Main.getInstance().getParkourHandler().getParkourById(id).getWalkableBlocks();
+        List<WalkableBlock> walkable = Main.getInstance().getParkourHandler().getParkourById(id).getWalkableBlocks();
         if(walkable.size() > 0) {
-            for (Material material : walkable) {
-                String name = material.name().replaceAll("_", " ");
-                gui.addItem(new ItemBuilder(material, 1).setName(ColorManager.translate("&a" + name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase())).setLore("", ColorManager.translate("&eClick to remove!")).toItemStack());
+            for (WalkableBlock block : walkable) {
+                String name = Material.getMaterial(block.getId()).name().replaceAll("_", " ");
+                byte data = block.getData();
+                gui.addItem(new ItemBuilder(Material.getMaterial(block.getId()), 1, data).setName(ColorManager.translate("&a" + name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase())).setLore("", ColorManager.translate("&eClick to remove!")).toItemStack());
             }
         } else {
             gui.setItem(22, new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 14).setName(ColorManager.translate("&cAny walkable block selected")).setLore(

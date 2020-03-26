@@ -18,7 +18,7 @@ public class Parkour {
 	private Location end;
 	private Location statsHologram;
 	private Location topHologram;
-	private List<Material> walkableBlocks;
+	private List<WalkableBlock> walkableBlocks;
 	
 	public Parkour(String id, String name, Location spawn, Location start, Location end, Location statsHologram, Location topHologram) {
 		this.id = id;
@@ -28,7 +28,7 @@ public class Parkour {
 		this.end = end;
 		this.statsHologram = statsHologram;
 		this.topHologram = topHologram;
-		this.walkableBlocks = new ArrayList<Material>();
+		this.walkableBlocks = new ArrayList<WalkableBlock>();
 	}
 	
 	public String getId() {
@@ -59,11 +59,11 @@ public class Parkour {
 		return topHologram;
 	}
 
-	public List<Material> getWalkableBlocks() {
+	public List<WalkableBlock> getWalkableBlocks() {
 		return walkableBlocks;
 	}
 
-	public void setWalkableBlocks(List<Material> walkableBlocks) {
+	public void setWalkableBlocks(List<WalkableBlock> walkableBlocks) {
 		this.walkableBlocks = walkableBlocks;
 	}
 

@@ -2,9 +2,37 @@ package me.davidml16.aparkour.managers;
 
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.utils.ActionBar;
 import me.davidml16.aparkour.utils.RestartItemUtil;
+import me.davidml16.aparkour.utils.SoundUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 public class PluginManager {
+
+    public static void removePlayersFromParkour() {
+        for (Player pl : Bukkit.getOnlinePlayers()) {
+            if(Main.getInstance().getTimerManager().hasPlayerTimer(pl)) {
+                Main.getInstance().getTimerManager().cancelTimer(pl);
+                Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(pl).getParkour();
+                if (parkour != null) {
+                    Main.getInstance().getPlayerDataHandler().getData(pl).setParkour(null);
+
+                    pl.setFlying(false);
+                    pl.teleport(parkour.getSpawn());
+                    if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
+                        Main.getInstance().getPlayerDataHandler().restorePlayerInventory(pl);
+                    }
+                    if (Main.getInstance().getTimerManager().isActionBarEnabled()) {
+                        ActionBar.sendActionbar(pl, " ");
+                    }
+                    SoundUtil.playFall(pl);
+
+                    pl.setNoDamageTicks(40);
+                }
+            }
+        }
+    }
 
     public static void reloadAll() {
         if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
@@ -14,6 +42,8 @@ public class PluginManager {
         for(Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
             parkour.saveParkour();
         }
+
+        removePlayersFromParkour();
 
         Main.getInstance().setHologramsEnabled(Main.getInstance().getConfig().getBoolean("Hologram.Enabled"));
         Main.getInstance().getHologramTask().stop();
