@@ -253,7 +253,6 @@ public class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new Event_Click(), this);
         Bukkit.getPluginManager().registerEvents(new Event_PlateStart(), this);
         Bukkit.getPluginManager().registerEvents(new Event_PlateEnd(), this);
-        Bukkit.getPluginManager().registerEvents(new Event_Fly(), this);
         Bukkit.getPluginManager().registerEvents(new Event_Fall(), this);
         Bukkit.getPluginManager().registerEvents(new Event_Others(), this);
         Bukkit.getPluginManager().registerEvents(new Event_InventoryGUI(), this);

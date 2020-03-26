@@ -3,11 +3,13 @@ package me.davidml16.aparkour.handlers;
 import java.util.HashMap;
 import java.util.UUID;
 
+import me.davidml16.aparkour.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.davidml16.aparkour.data.Profile;
+import org.bukkit.potion.PotionEffect;
 
 public class PlayerDataHandler {
 
@@ -58,7 +60,14 @@ public class PlayerDataHandler {
 		}
 		data.setInventory(inventory);
 		data.setArmor(p.getInventory().getArmorContents());
+		data.setPotionEffects(p.getActivePotionEffects());
+		data.setLastGamemode(p.getGameMode());
 
+		for(PotionEffect effect : p.getActivePotionEffects()) {
+			p.removePotionEffect(effect.getType());
+		}
+
+		p.setGameMode(Main.getInstance().getParkourHandler().getParkourGamemode());
 		p.getInventory().clear();
 		p.getInventory().setArmorContents(null);
 		p.updateInventory();
@@ -79,10 +88,15 @@ public class PlayerDataHandler {
 		p.getInventory().setLeggings(data.getArmor()[1]);
 		p.getInventory().setBoots(data.getArmor()[0]);
 
+		p.addPotionEffects(data.getPotionEffects());
+		p.setGameMode(data.getLastGamemode());
+
 		p.updateInventory();
 
+		data.setLastGamemode(null);
 		data.setArmor(new ItemStack[4]);
 		data.setInventory(new ItemStack[p.getInventory().getContents().length]);
+		data.setPotionEffects(null);
 	}
 	
 	public boolean playerHasPermission(Player p) {

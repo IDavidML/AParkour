@@ -27,7 +27,7 @@ public class DatabaseHandler {
 			try {
 				Statement statement = connection.createStatement();
 				statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + parkour.getId()
-						+ " (`UUID` varchar(40) NOT NULL, `lastTime` int(11) NOT NULL, `bestTime` int(11) NOT NULL, PRIMARY KEY (`UUID`));");
+						+ " (`UUID` varchar(40) NOT NULL, `lastTime` integer NOT NULL, `bestTime` integer NOT NULL, PRIMARY KEY (`UUID`));");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

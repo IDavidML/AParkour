@@ -6,6 +6,7 @@ import me.davidml16.aparkour.utils.ActionBar;
 import me.davidml16.aparkour.utils.RestartItemUtil;
 import me.davidml16.aparkour.utils.SoundUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 public class PluginManager {
@@ -50,6 +51,8 @@ public class PluginManager {
         Main.getInstance().getLanguageHandler().setLanguage(Main.getInstance().getConfig().getString("Language").toLowerCase());
         Main.getInstance().getLanguageHandler().pushMessages();
         Main.getInstance().getParkourHandler().loadParkours();
+        Main.getInstance().getParkourHandler().setKickFromParkourOnFail(Main.getInstance().getConfig().getBoolean("KickFromParkourOnFail.Enabled"));
+        Main.getInstance().getParkourHandler().setParkourGamemode(GameMode.valueOf(Main.getInstance().getConfig().getString("ParkourGamemode")));
         Main.getInstance().getDatabaseHandler().loadTables();
         Main.getInstance().getPlayerDataHandler().loadAllPlayerData();
         Main.getInstance().getPlayerDataHandler().saveAllPlayerData();

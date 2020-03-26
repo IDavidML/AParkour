@@ -19,22 +19,22 @@ public class Event_Fall implements Listener {
 
 		if (Main.getInstance().getConfig().getBoolean("ReturnOnFall.Enabled")) {
 
-			String Return = Main.getInstance().getLanguageHandler().getMessage("MESSAGES_RETURN", false);
 			if ((Main.getInstance().getTimerManager().hasPlayerTimer(p))
 					&& (p.getFallDistance() >= Main.getInstance().getConfig().getInt("ReturnOnFall.BlocksDistance"))
 					&& (!p.isFlying())) {
-				p.sendMessage(Return);
-
-				Main.getInstance().getTimerManager().cancelTimer(p);
 
 				Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
-				Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
 
 				p.setFlying(false);
 				p.teleport(parkour.getSpawn());
 
-				if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
-					Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
+				if(Main.getInstance().getParkourHandler().isKickFromParkourOnFail()) {
+					Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
+					p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_RETURN", false));
+					Main.getInstance().getTimerManager().cancelTimer(p);
+					if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
+						Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
+					}
 				}
 
 				SoundUtil.playFall(p);

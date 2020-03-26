@@ -8,6 +8,7 @@ import java.util.List;
 
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.data.WalkableBlock;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -23,14 +24,35 @@ public class ParkourHandler {
 	private File parkourFile;
 	private FileConfiguration parkourConfig;
 
+	private boolean kickFromParkourOnFail;
+	private GameMode parkourGamemode;
+
 	public ParkourHandler() {
 		this.parkours = new HashMap<String, Parkour>();
 		this.parkourFile = new File(Main.getInstance().getDataFolder() + "/parkours.yml");
 		this.parkourConfig = YamlConfiguration.loadConfiguration(parkourFile);
+		this.kickFromParkourOnFail = Main.getInstance().getConfig().getBoolean("KickFromParkourOnFail.Enabled");
+		this.parkourGamemode = GameMode.valueOf(Main.getInstance().getConfig().getString("ParkourGamemode"));
 	}
 
 	public HashMap<String, Parkour> getParkours() {
 		return parkours;
+	}
+
+	public boolean isKickFromParkourOnFail() {
+		return kickFromParkourOnFail;
+	}
+
+	public void setKickFromParkourOnFail(boolean kickFromParkourOnFail) {
+		this.kickFromParkourOnFail = kickFromParkourOnFail;
+	}
+
+	public GameMode getParkourGamemode() {
+		return parkourGamemode;
+	}
+
+	public void setParkourGamemode(GameMode parkourGamemode) {
+		this.parkourGamemode = parkourGamemode;
 	}
 
 	public void saveConfig() {

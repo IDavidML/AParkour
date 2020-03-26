@@ -12,33 +12,35 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 public class ReturnTask {
-	
-	private int id;
 
-	class Task implements Runnable {
-		@SuppressWarnings("deprecation")
-		@Override
-		public void run() {
-			for(Player p : Bukkit.getOnlinePlayers()) {
-				if (Main.getInstance().getTimerManager().hasPlayerTimer(p)) {
-					Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
+    private int id;
 
-					if (parkour.getWalkableBlocks().size() == 0) continue;
+    class Task implements Runnable {
+        @SuppressWarnings("deprecation")
+        @Override
+        public void run() {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (Main.getInstance().getTimerManager().hasPlayerTimer(p)) {
+                    Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
 
-					Block block = p.getLocation().getBlock().getRelative(BlockFace.DOWN);
+                    if (parkour.getWalkableBlocks().size() == 0) continue;
 
-					if (WalkableBlocksUtil.noContainsWalkable(parkour.getWalkableBlocks(), block.getType().getId(), block.getData()) && block.getType() != Material.IRON_PLATE && block.getType() != Material.GOLD_PLATE && block.getType() != Material.AIR) {
-					    Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
-                            String Return = Main.getInstance().getLanguageHandler().getMessage("MESSAGES_RETURN", false);
-							Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
+                    Block block = p.getLocation().getBlock().getRelative(BlockFace.DOWN);
 
-                            Main.getInstance().getTimerManager().cancelTimer(p);
+                    if ((WalkableBlocksUtil.noContainsWalkable(parkour.getWalkableBlocks(), block.getType().getId(), block.getData()) && block.getType() != Material.IRON_PLATE && block.getType() != Material.GOLD_PLATE && block.getType() != Material.AIR)) {
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
 
-                            p.sendMessage(Return);
+                            p.setFlying(false);
                             p.teleport(parkour.getSpawn());
 
-                            if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
-                                Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
+                            p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_RETURN", false));
+
+                            if (Main.getInstance().getParkourHandler().isKickFromParkourOnFail()) {
+                                Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
+                                Main.getInstance().getTimerManager().cancelTimer(p);
+                                if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
+                                    Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
+                                }
                             }
 
                             SoundUtil.playReturn(p);
@@ -47,23 +49,46 @@ public class ReturnTask {
 
                             p.setNoDamageTicks(20);
                         });
-					}
-				}
-			}
-		}
-	}
-	
-	public int getId() {
-		return id;
-	}
+                    } else if (p.isFlying()) {
+                        if (Main.getInstance().getConfig().getBoolean("ReturnOnFly.Enabled")) {
+                            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+                                p.setFlying(false);
+                                p.teleport(parkour.getSpawn());
 
-	@SuppressWarnings("deprecation")
-	public void start() {
-		id = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(Main.getInstance(), new Task(), 0L, 5);
-	}
-	
-	public void stop() {
-		Bukkit.getServer().getScheduler().cancelTask(id);
-	}
-	
+                                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_FLY", false));
+
+                                if (Main.getInstance().getParkourHandler().isKickFromParkourOnFail()) {
+                                    Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
+                                    Main.getInstance().getTimerManager().cancelTimer(p);
+                                    if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
+                                        Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
+                                    }
+                                }
+
+                                SoundUtil.playFly(p);
+
+                                Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
+
+                                p.setNoDamageTicks(20);
+                            });
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @SuppressWarnings("deprecation")
+    public void start() {
+        id = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(Main.getInstance(), new Task(), 0L, 5);
+    }
+
+    public void stop() {
+        Bukkit.getServer().getScheduler().cancelTask(id);
+    }
+
 }

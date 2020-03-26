@@ -24,22 +24,19 @@ public class Event_Click implements Listener {
 
 			ItemStack item = p.getItemInHand();
 
-			String Return = Main.getInstance().getLanguageHandler().getMessage("MESSAGES_RETURN", false);
-
 			if (item != null && item.equals(RestartItemUtil.getRestartItem())) {
 				if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 					e.setCancelled(true);
 
 					Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
-					Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
-
-					Main.getInstance().getTimerManager().cancelTimer(p);
-
-					p.sendMessage(Return);
 
 					p.setFlying(false);
 					p.teleport(parkour.getSpawn());
 
+					p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_RETURN", false));
+
+					Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
+					Main.getInstance().getTimerManager().cancelTimer(p);
 					if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
 						Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
 					}

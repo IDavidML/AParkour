@@ -1,14 +1,17 @@
 package me.davidml16.aparkour.data;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.GameMode;
 import org.bukkit.inventory.ItemStack;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 
 import me.davidml16.aparkour.Main;
+import org.bukkit.potion.PotionEffect;
 
 public class Profile {
 
@@ -17,6 +20,10 @@ public class Profile {
 
 	private ItemStack[] inventory;
 	private ItemStack[] armor;
+
+	private GameMode lastGamemode;
+
+	private Collection<PotionEffect> potionEffects;
 
 	private HashMap<String, Integer> lastTimes;
 	private HashMap<String, Integer> bestTimes;
@@ -27,6 +34,8 @@ public class Profile {
 		this.parkour = null;
 		this.inventory = new ItemStack[36];
 		this.armor = new ItemStack[4];
+		this.potionEffects = null;
+		this.lastGamemode = null;
 		this.lastTimes = Main.getInstance().getDatabaseHandler().getPlayerLastTimes(uuid);
 		this.bestTimes = Main.getInstance().getDatabaseHandler().getPlayerBestTimes(uuid);
 		this.holograms = new HashMap<String, Hologram>();
@@ -76,6 +85,22 @@ public class Profile {
 
 	public void setArmor(ItemStack[] armor) {
 		this.armor = armor;
+	}
+
+	public Collection<PotionEffect> getPotionEffects() {
+		return potionEffects;
+	}
+
+	public void setPotionEffects(Collection<PotionEffect> potionEffects) {
+		this.potionEffects = potionEffects;
+	}
+
+	public GameMode getLastGamemode() {
+		return lastGamemode;
+	}
+
+	public void setLastGamemode(GameMode lastGamemode) {
+		this.lastGamemode = lastGamemode;
 	}
 
 	public HashMap<String, Hologram> getHolograms() {
