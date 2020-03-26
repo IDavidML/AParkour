@@ -80,41 +80,45 @@ public class ParkourHandler {
 		Main.log.sendMessage(ColorManager.translate("  &eLoading parkours:"));
 		for (String id : parkourConfig.getConfigurationSection("parkours").getKeys(false)) {
 			String name = parkourConfig.getString("parkours." + id + ".name");
-			if (validParkourData(id)) {
-				Location spawn = (Location) parkourConfig.get("parkours." + id + ".spawn");
-				Location start = (Location) parkourConfig.get("parkours." + id + ".start");
-				Location end = (Location) parkourConfig.get("parkours." + id + ".end");
-				Location statsHologram = null;
-				Location topHologram = null;
-				
-				if (Main.getInstance().isHologramsEnabled()) {
-					if((Location) parkourConfig.get("parkours." + id + ".holograms.stats") != null) {
-                        statsHologram = (Location) parkourConfig.get("parkours." + id + ".holograms.stats");
-                    }
+			if(!Character.isDigit(id.charAt(0))) {
+				if (validParkourData(id)) {
+					Location spawn = (Location) parkourConfig.get("parkours." + id + ".spawn");
+					Location start = (Location) parkourConfig.get("parkours." + id + ".start");
+					Location end = (Location) parkourConfig.get("parkours." + id + ".end");
+					Location statsHologram = null;
+					Location topHologram = null;
 
-                    if((Location) parkourConfig.get("parkours." + id + ".holograms.top") != null) {
-                        topHologram = (Location) parkourConfig.get("parkours." + id + ".holograms.top");
-                    }
-				}
+					if (Main.getInstance().isHologramsEnabled()) {
+						if ((Location) parkourConfig.get("parkours." + id + ".holograms.stats") != null) {
+							statsHologram = (Location) parkourConfig.get("parkours." + id + ".holograms.stats");
+						}
 
-				if (parkours.size() < 21) {
-					Parkour parkour = new Parkour(id, name, spawn, start, end, statsHologram, topHologram);
-					parkours.put(id, parkour);
-
-					if(parkourConfig.contains("parkours." + id + ".walkableBlocks")) {
-						List<WalkableBlock> walkable = getWalkableBlocks(id);
-						parkour.setWalkableBlocks(walkable);
-						saveWalkableBlocksString(id, walkable);
-						saveConfig();
+						if ((Location) parkourConfig.get("parkours." + id + ".holograms.top") != null) {
+							topHologram = (Location) parkourConfig.get("parkours." + id + ".holograms.top");
+						}
 					}
 
-					Main.log.sendMessage(ColorManager.translate("    &a'" + name + "' loaded!"));
+					if (parkours.size() < 21) {
+						Parkour parkour = new Parkour(id, name, spawn, start, end, statsHologram, topHologram);
+						parkours.put(id, parkour);
+
+						if (parkourConfig.contains("parkours." + id + ".walkableBlocks")) {
+							List<WalkableBlock> walkable = getWalkableBlocks(id);
+							parkour.setWalkableBlocks(walkable);
+							saveWalkableBlocksString(id, walkable);
+							saveConfig();
+						}
+
+						Main.log.sendMessage(ColorManager.translate("    &a'" + name + "' loaded!"));
+					} else {
+						Main.log.sendMessage(ColorManager
+								.translate("    &c'" + name + "' not loaded because maximum parkours limit reached!"));
+					}
 				} else {
-					Main.log.sendMessage(ColorManager
-							.translate("    &c'" + name + "' not loaded because maximum parkours limit reached!"));
+					Main.log.sendMessage(ColorManager.translate("    &c'" + name + "' not loaded because parkour data is not correct!"));
 				}
 			} else {
-				Main.log.sendMessage(ColorManager.translate("    &c'" + name + "' not loaded because parkour data is not correct!"));
+				Main.log.sendMessage(ColorManager.translate("    &c'" + name + "' not loaded because parkour id starts with a number!"));
 			}
 		}
 		

@@ -88,24 +88,29 @@ public class Command_AParkour implements CommandExecutor {
             if (args.length == 1 || args.length == 2) {
                 p.sendMessage(ColorManager.translate(
                         Main.getInstance().getLanguageHandler().getPrefix() + "&cUsage: /aparkour create [id] [name]"));
-                return true;
+                return false;
             }
 
             String id = args[1];
-            if (Main.getInstance().getParkourHandler().getConfig().contains("parkours." + id)) {
-                p.sendMessage(ColorManager.translate(
-                        Main.getInstance().getLanguageHandler().getPrefix() + "&cThis parkour already exists!"));
+            if(!Character.isDigit(id.charAt(0))) {
+                if (Main.getInstance().getParkourHandler().getConfig().contains("parkours." + id)) {
+                    p.sendMessage(ColorManager.translate(
+                            Main.getInstance().getLanguageHandler().getPrefix() + "&cThis parkour already exists!"));
+                    return true;
+                }
+                Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".name", args[2]);
+                Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".walkableBlocks", new ArrayList<>());
+                Main.getInstance().getParkourHandler().saveConfig();
+                Main.getInstance().getConfigGUI().loadGUI(id);
+                Main.getInstance().getWalkableBlocksGUI().loadGUI(id);
+                p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                        + "&aSuccesfully created parkour &e" + id + " &awith the name &e" + args[2]));
                 return true;
+            } else {
+                p.sendMessage(ColorManager.translate(
+                        Main.getInstance().getLanguageHandler().getPrefix() + "&cThe parkour id cannot start with a number, use for example 'p1'."));
+                return false;
             }
-            Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".name", args[2]);
-            Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".walkableBlocks", new ArrayList<>());
-            Main.getInstance().getParkourHandler().saveConfig();
-            Main.getInstance().getConfigGUI().loadGUI(id);
-            Main.getInstance().getWalkableBlocksGUI().loadGUI(id);
-
-            p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
-                    + "&aSuccesfully created parkour &e" + id + " &awith the name &e" + args[2]));
-            return true;
         }
 
         if (args[0].equalsIgnoreCase("config")) {
