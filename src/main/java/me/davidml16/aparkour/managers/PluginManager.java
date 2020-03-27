@@ -56,8 +56,8 @@ public class PluginManager {
         Main.getInstance().getDatabaseHandler().loadTables();
         Main.getInstance().getPlayerDataHandler().loadAllPlayerData();
         Main.getInstance().getPlayerDataHandler().saveAllPlayerData();
-        Main.getInstance().getRewardHandler().saveConfig();
         Main.getInstance().getRewardHandler().loadRewards();
+        Main.getInstance().getRewardHandler().saveConfig();
         Main.getInstance().getStatsHologramManager().reloadStatsHolograms();
         Main.getInstance().getTopHologramManager().setReloadInterval(Main.getInstance().getConfig().getInt("Tasks.ReloadInterval"));
         Main.getInstance().getTopHologramManager().restartTimeLeft();

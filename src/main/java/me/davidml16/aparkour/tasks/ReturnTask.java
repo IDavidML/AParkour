@@ -25,7 +25,7 @@ public class ReturnTask {
 
                     if (parkour.getWalkableBlocks().size() == 0) continue;
 
-                    Block block = p.getLocation().getBlock().getRelative(BlockFace.DOWN);
+                    Block block = p.getLocation().getY() % 1 == 0 ? p.getLocation().getBlock().getRelative(BlockFace.DOWN) : p.getLocation().getBlock();
 
                     if ((WalkableBlocksUtil.noContainsWalkable(parkour.getWalkableBlocks(), block.getType().getId(), block.getData()) && block.getType() != Material.IRON_PLATE && block.getType() != Material.GOLD_PLATE && block.getType() != Material.AIR)) {
                         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
@@ -84,7 +84,7 @@ public class ReturnTask {
 
     @SuppressWarnings("deprecation")
     public void start() {
-        id = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(Main.getInstance(), new Task(), 0L, 5);
+        id = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(Main.getInstance(), new Task(), 0L, 1);
     }
 
     public void stop() {

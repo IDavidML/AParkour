@@ -63,8 +63,8 @@ public class RandomFirework {
 		FireworkMeta fireworkMeta = firework.getFireworkMeta();
 		fireworkMeta.setPower(1);
 
-		fireworkMeta.addEffects(new FireworkEffect[] { FireworkEffect.builder().flicker(true).with(getRandomType())
-				.withColor(new Color[] { getRandomColor(), getRandomColor() }).withFade(getRandomColor()).build() });
+		fireworkMeta.addEffects(FireworkEffect.builder().flicker(true).with(getRandomType())
+				.withColor(getRandomColor(), getRandomColor()).withFade(getRandomColor()).build());
 
 		firework.setFireworkMeta(fireworkMeta);
 	}

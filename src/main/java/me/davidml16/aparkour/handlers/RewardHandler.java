@@ -61,7 +61,11 @@ public class RewardHandler {
 				String permission = rewardConfig.getString("rewards." + id + ".permission");
 				String command = rewardConfig.getString("rewards." + id + ".command");
 
-				rewards.add(new Reward(permission, command));
+				if(!rewardConfig.contains("rewards." + id + ".parkourID")) {
+					rewards.add(new Reward(permission, command));
+				} else {
+					rewards.add(new Reward(permission, command, rewardConfig.getString("rewards." + id + ".parkourID")));
+				}
 			}
 		}
 		Main.log.sendMessage(ColorManager.translate("    " + (rewards.size() > 0 ? "&a" : "&c") + rewards.size() + " rewards loaded!"));
@@ -73,14 +77,32 @@ public class RewardHandler {
 				&& rewardConfig.contains("rewards." + id + ".command");
 	}
 
-	public void giveRewards(Player p) {
+	public void giveGlobalRewards(Player p) {
 		for (Reward reward : rewards) {
-			if(!reward.getPermission().equalsIgnoreCase("*")) {
-				if (p.hasPermission(reward.getPermission()) || p.isOp()) {
+			if(reward.isGlobalReward()) {
+				if (!reward.getPermission().equalsIgnoreCase("*")) {
+					if (p.hasPermission(reward.getPermission()) || p.isOp()) {
+						Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), reward.getCommand().replaceAll("%player%", p.getName()));
+					}
+				} else {
 					Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), reward.getCommand().replaceAll("%player%", p.getName()));
 				}
-			} else {
-				Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), reward.getCommand().replaceAll("%player%", p.getName()));
+			}
+		}
+	}
+
+	public void giveParkourRewards(Player p, String id) {
+		for (Reward reward : rewards) {
+			if(!reward.isGlobalReward()) {
+				if(reward.getParkour().equals(id)) {
+					if (!reward.getPermission().equalsIgnoreCase("*")) {
+						if (p.hasPermission(reward.getPermission()) || p.isOp()) {
+							Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), reward.getCommand().replaceAll("%player%", p.getName()));
+						}
+					} else {
+						Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), reward.getCommand().replaceAll("%player%", p.getName()));
+					}
+				}
 			}
 		}
 	}

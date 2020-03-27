@@ -74,8 +74,7 @@ public class Event_PlateEnd implements Listener {
 						}
 
 						if (Main.getInstance().getConfig().getBoolean("Firework.Enabled")) {
-						    if(!Bukkit.getVersion().contains("1.9"))
-							    RandomFirework.launchRandomFirework(p.getLocation());
+							RandomFirework.launchRandomFirework(p.getLocation());
 						}
 
 						if (data.isBestTime(total, parkour.getId())) {
@@ -91,7 +90,8 @@ public class Event_PlateEnd implements Listener {
 									"%recordTime%", Main.getInstance().getTimerManager().timeAsString(bestTotal)));
 						}
 
-						Main.getInstance().getRewardHandler().giveRewards(p);
+						Main.getInstance().getRewardHandler().giveGlobalRewards(p);
+						Main.getInstance().getRewardHandler().giveParkourRewards(p, parkour.getId());
 
 						data.save();
 

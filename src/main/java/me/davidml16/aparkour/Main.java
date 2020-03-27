@@ -9,9 +9,11 @@ import me.davidml16.aparkour.gui.WalkableBlocks_GUI;
 import me.davidml16.aparkour.managers.*;
 import me.davidml16.aparkour.tasks.ReturnTask;
 import me.davidml16.aparkour.utils.RestartItemUtil;
+import me.davidml16.aparkour.utils.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -138,6 +140,19 @@ public class Main extends JavaPlugin {
                 e.printStackTrace();
             }
             getStatsHologramManager().loadStatsHolograms(p);
+        }
+
+        try {
+            Main.log.sendMessage(ColorManager.translate(""));
+            Main.log.sendMessage(ColorManager.translate("  &eChecking updates:"));
+            UpdateChecker updater = new UpdateChecker(this, 30923);
+            if(updater.checkForUpdates()) {
+                Main.log.sendMessage(ColorManager.translate("    &aNew update found! [" + updater.getNewVersion() + "]"));
+            }else{
+                Main.log.sendMessage(ColorManager.translate("    &cNo update found!"));
+            }
+        }catch(Exception e) {
+            Main.log.sendMessage(ColorManager.translate("    &cCould not proceed update-checking"));
         }
 
         PluginDescriptionFile pdf = getDescription();
