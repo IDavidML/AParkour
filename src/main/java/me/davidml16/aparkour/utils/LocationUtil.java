@@ -33,8 +33,8 @@ public class LocationUtil {
 
         Location location = new Location(p.getWorld(), x, y, z, yaw, pitch);
 
-        Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + "." + type, location);
-        Main.getInstance().getParkourHandler().saveConfig();
+        Main.getInstance().getParkourHandler().getConfig(id).set("parkour." + type, location);
+        Main.getInstance().getParkourHandler().saveConfig(id);
 
         p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
                 + "&aSuccesfully set the " + type + " location of parkour &e" + id));
@@ -49,8 +49,8 @@ public class LocationUtil {
 
         Location location = new Location(p.getWorld(), x, y, z, yaw, pitch);
 
-        Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".holograms." + type, location);
-        Main.getInstance().getParkourHandler().saveConfig();
+        Main.getInstance().getParkourHandler().getConfig(id).set("parkour.holograms." + type, location);
+        Main.getInstance().getParkourHandler().saveConfig(id);
 
         p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
                 + "&aSuccesfully set the " + type + " location of parkour &e" + id));

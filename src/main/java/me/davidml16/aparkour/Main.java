@@ -92,7 +92,6 @@ public class Main extends JavaPlugin {
         topHologramManager = new TopHologramManager(getConfig().getInt("Tasks.ReloadInterval"));
 
         parkourHandler = new ParkourHandler();
-        parkourHandler.saveConfig();
         parkourHandler.loadParkours();
 
         rewardHandler = new RewardHandler();
@@ -142,25 +141,34 @@ public class Main extends JavaPlugin {
             getStatsHologramManager().loadStatsHolograms(p);
         }
 
-        try {
-            Main.log.sendMessage(ColorManager.translate(""));
-            Main.log.sendMessage(ColorManager.translate("  &eChecking updates:"));
-            UpdateChecker updater = new UpdateChecker(this, 30923);
-            if(updater.checkForUpdates()) {
-                Main.log.sendMessage(ColorManager.translate("    &aNew update found! [" + updater.getNewVersion() + "]"));
-            }else{
-                Main.log.sendMessage(ColorManager.translate("    &cNo update found!"));
-            }
-        }catch(Exception e) {
-            Main.log.sendMessage(ColorManager.translate("    &cCould not proceed update-checking"));
-        }
-
         PluginDescriptionFile pdf = getDescription();
         log.sendMessage("");
         log.sendMessage(ColorManager.translate("  &eAParkour Enabled!"));
         log.sendMessage(ColorManager.translate("    &aVersion: &b" + pdf.getVersion()));
         log.sendMessage(ColorManager.translate("    &aAuthor: &b" + pdf.getAuthors().get(0)));
         log.sendMessage("");
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Main.log.sendMessage(ColorManager.translate(""));
+                    Main.log.sendMessage(ColorManager.translate("  &eAParkour checking updates:"));
+                    new UpdateChecker(instance, 30923).getVersion(version -> {
+                        if (instance.getDescription().getVersion().equalsIgnoreCase(version)) {
+                            Main.log.sendMessage(ColorManager.translate("    &cNo update found!"));
+                            Main.log.sendMessage(ColorManager.translate(""));
+                        } else {
+                            Main.log.sendMessage(ColorManager.translate("    &aNew update found! [" + version + "]"));
+                            Main.log.sendMessage(ColorManager.translate(""));
+                        }
+                    });
+                }catch(Exception e) {
+                    Main.log.sendMessage(ColorManager.translate("    &cCould not proceed update-checking"));
+                    Main.log.sendMessage(ColorManager.translate(""));
+                }
+            }
+        }, 20);
     }
 
     public void onDisable() {

@@ -62,6 +62,7 @@ public class PluginManager {
         Main.getInstance().getTopHologramManager().setReloadInterval(Main.getInstance().getConfig().getInt("Tasks.ReloadInterval"));
         Main.getInstance().getTopHologramManager().restartTimeLeft();
         Main.getInstance().getTopHologramManager().loadTopHolograms();
+        Main.getInstance().getRankingsGUI().reloadGUI();
         Main.getInstance().getHologramTask().start();
         Main.getInstance().getConfigGUI().reloadAllGUI();
         Main.getInstance().getWalkableBlocksGUI().reloadAllGUI();

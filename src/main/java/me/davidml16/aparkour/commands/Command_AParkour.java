@@ -93,18 +93,21 @@ public class Command_AParkour implements CommandExecutor {
 
             String id = args[1];
             if(!Character.isDigit(id.charAt(0))) {
-                if (Main.getInstance().getParkourHandler().getConfig().contains("parkours." + id)) {
+                if (Main.getInstance().getParkourHandler().parkourExists(id)) {
                     p.sendMessage(ColorManager.translate(
                             Main.getInstance().getLanguageHandler().getPrefix() + "&cThis parkour already exists!"));
                     return true;
                 }
-                Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".name", args[2]);
-                Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".walkableBlocks", new ArrayList<>());
-                Main.getInstance().getParkourHandler().saveConfig();
-                Main.getInstance().getConfigGUI().loadGUI(id);
-                Main.getInstance().getWalkableBlocksGUI().loadGUI(id);
-                p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
-                        + "&aSuccesfully created parkour &e" + id + " &awith the name &e" + args[2]));
+
+                if(Main.getInstance().getParkourHandler().createParkour(id)) {
+                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.name", args[2]);
+                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.walkableBlocks", new ArrayList<>());
+                    Main.getInstance().getParkourHandler().saveConfig(id);
+                    Main.getInstance().getConfigGUI().loadGUI(id);
+                    Main.getInstance().getWalkableBlocksGUI().loadGUI(id);
+                    p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                            + "&aSuccesfully created parkour &e" + id + " &awith the name &e" + args[2]));
+                }
                 return true;
             } else {
                 p.sendMessage(ColorManager.translate(
@@ -126,7 +129,7 @@ public class Command_AParkour implements CommandExecutor {
             }
 
             String id = args[1];
-            if (!Main.getInstance().getParkourHandler().getConfig().contains("parkours." + id)) {
+            if (!Main.getInstance().getParkourHandler().getParkourConfigs().containsKey(id)) {
                 p.sendMessage(ColorManager.translate(
                         Main.getInstance().getLanguageHandler().getPrefix() + "&cThis parkour doesn't exists!"));
                 return true;
@@ -148,7 +151,7 @@ public class Command_AParkour implements CommandExecutor {
                 return true;
             }
             String id = args[1];
-            if (!Main.getInstance().getParkourHandler().getConfig().contains("parkours." + id)) {
+            if (!Main.getInstance().getParkourHandler().getParkourConfigs().containsKey(id)) {
                 p.sendMessage(ColorManager.translate(
                         Main.getInstance().getLanguageHandler().getPrefix() + "&cThis parkour doesn't exists!"));
                 return true;
@@ -159,30 +162,30 @@ public class Command_AParkour implements CommandExecutor {
 
             Main.getInstance().getTopHologramManager().removeHologram(id);
 
-            Main.getInstance().getParkourHandler().getConfig().set("parkours." + id, null);
-            Main.getInstance().getParkourHandler().getParkours().remove(id);
-            Main.getInstance().getParkourHandler().saveConfig();
+            if(Main.getInstance().getParkourHandler().removeParkour(id)) {
+                Main.getInstance().getParkourHandler().getParkours().remove(id);
 
-            if(Main.getInstance().getConfigGUI().getGuis().containsKey(id)) {
-                for(UUID uuid : Main.getInstance().getConfigGUI().getOpened().keySet()) {
-                    if(Main.getInstance().getConfigGUI().getOpened().get(uuid).equals(id)) {
-                        Bukkit.getPlayer(uuid).closeInventory();
+                if (Main.getInstance().getConfigGUI().getGuis().containsKey(id)) {
+                    for (UUID uuid : Main.getInstance().getConfigGUI().getOpened().keySet()) {
+                        if (Main.getInstance().getConfigGUI().getOpened().get(uuid).equals(id)) {
+                            Bukkit.getPlayer(uuid).closeInventory();
+                        }
                     }
+                    Main.getInstance().getConfigGUI().getGuis().remove(id);
                 }
-                Main.getInstance().getConfigGUI().getGuis().remove(id);
-            }
 
-            if(Main.getInstance().getWalkableBlocksGUI().getGuis().containsKey(id)) {
-                for(UUID uuid : Main.getInstance().getWalkableBlocksGUI().getOpened().keySet()) {
-                    if(Main.getInstance().getWalkableBlocksGUI().getOpened().get(uuid).equals(id)) {
-                        Bukkit.getPlayer(uuid).closeInventory();
+                if (Main.getInstance().getWalkableBlocksGUI().getGuis().containsKey(id)) {
+                    for (UUID uuid : Main.getInstance().getWalkableBlocksGUI().getOpened().keySet()) {
+                        if (Main.getInstance().getWalkableBlocksGUI().getOpened().get(uuid).equals(id)) {
+                            Bukkit.getPlayer(uuid).closeInventory();
+                        }
                     }
+                    Main.getInstance().getWalkableBlocksGUI().getGuis().remove(id);
                 }
-                Main.getInstance().getWalkableBlocksGUI().getGuis().remove(id);
-            }
 
-            p.sendMessage(ColorManager.translate(
-                    Main.getInstance().getLanguageHandler().getPrefix() + "&aSuccesfully deleted parkour &e" + id));
+                p.sendMessage(ColorManager.translate(
+                        Main.getInstance().getLanguageHandler().getPrefix() + "&aSuccesfully deleted parkour &e" + id));
+            }
             return true;
         }
 
@@ -199,7 +202,7 @@ public class Command_AParkour implements CommandExecutor {
             }
 
             String id = args[1];
-            if (!Main.getInstance().getParkourHandler().getConfig().contains("parkours." + id)) {
+            if (!Main.getInstance().getParkourHandler().getParkourConfigs().containsKey(id)) {
                 p.sendMessage(ColorManager.translate(
                         Main.getInstance().getLanguageHandler().getPrefix() + "&cThis parkour doesn't exists!"));
                 return true;
@@ -213,8 +216,8 @@ public class Command_AParkour implements CommandExecutor {
                 }
 
                 String name = args[3];
-                Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".name", name);
-                Main.getInstance().getParkourHandler().saveConfig();
+                Main.getInstance().getParkourHandler().getConfig(id).set("parkours." + id + ".name", name);
+                Main.getInstance().getParkourHandler().saveConfig(id);
                 p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
                         + "&aSuccesfully renamed parkour &e" + id + " &awith the new name &e" + name));
                 return true;

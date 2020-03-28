@@ -68,8 +68,8 @@ public class Parkour {
 	}
 
 	public void saveParkour() {
-		Main.getInstance().getParkourHandler().getConfig().set("parkours." + id + ".walkableBlocks", Main.getInstance().getParkourHandler().getWalkableBlocksString(walkableBlocks));
-		Main.getInstance().getParkourHandler().saveConfig();
+		Main.getInstance().getParkourHandler().getConfig(id).set("parkour.walkableBlocks", Main.getInstance().getParkourHandler().getWalkableBlocksString(walkableBlocks));
+		Main.getInstance().getParkourHandler().saveConfig(id);
 	}
 
 }

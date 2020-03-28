@@ -21,22 +21,30 @@ import me.davidml16.aparkour.managers.ColorManager;
 public class ParkourHandler {
 
 	private HashMap<String, Parkour> parkours;
-	private File parkourFile;
-	private FileConfiguration parkourConfig;
+	private HashMap<String, File> parkourFiles;
+	private HashMap<String, YamlConfiguration> parkourConfigs;
 
 	private boolean kickFromParkourOnFail;
 	private GameMode parkourGamemode;
 
 	public ParkourHandler() {
 		this.parkours = new HashMap<String, Parkour>();
-		this.parkourFile = new File(Main.getInstance().getDataFolder() + "/parkours.yml");
-		this.parkourConfig = YamlConfiguration.loadConfiguration(parkourFile);
+		this.parkourFiles = new HashMap<String, File>();
+		this.parkourConfigs = new HashMap<String, YamlConfiguration>();
 		this.kickFromParkourOnFail = Main.getInstance().getConfig().getBoolean("KickFromParkourOnFail.Enabled");
 		this.parkourGamemode = GameMode.valueOf(Main.getInstance().getConfig().getString("ParkourGamemode"));
 	}
 
 	public HashMap<String, Parkour> getParkours() {
 		return parkours;
+	}
+
+	public HashMap<String, File> getParkourFiles() {
+		return parkourFiles;
+	}
+
+	public HashMap<String, YamlConfiguration> getParkourConfigs() {
+		return parkourConfigs;
 	}
 
 	public boolean isKickFromParkourOnFail() {
@@ -55,58 +63,97 @@ public class ParkourHandler {
 		this.parkourGamemode = parkourGamemode;
 	}
 
-	public void saveConfig() {
-		try {
-			if (!parkourConfig.contains("parkours"))
-				parkourConfig.createSection("parkours");
+	public boolean createParkour(String id) {
+		File file = new File(Main.getInstance().getDataFolder(), "parkours/" + id + ".yml");
+		if(!file.exists()) {
+			try {
+				file.createNewFile();
+				parkourFiles.put(id, file);
+				parkourConfigs.put(id, YamlConfiguration.loadConfiguration(file));
+				return true;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
 
-			parkourConfig.save(parkourFile);
+	public boolean removeParkour(String id) {
+		if(parkourFiles.containsKey(id) && parkourConfigs.containsKey(id)) {
+			File file = parkourFiles.get(id);
+			file.delete();
+			parkourFiles.remove(id);
+			parkourConfigs.remove(id);
+			return true;
+		}
+		return false;
+	}
+
+	public void saveConfig(String id) {
+		try {
+			File file = parkourFiles.get(id);
+			if(file.exists()) {
+				parkourConfigs.get(id).save(file);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public FileConfiguration getConfig() {
-		return parkourConfig;
+	public FileConfiguration getConfig(String id) {
+		return parkourConfigs.get(id);
 	}
 
 	public void saveParkours() {
-		for (Parkour parkour : parkours.values())
+		for (Parkour parkour : parkours.values()) {
 			parkour.saveParkour();
+		}
 	}
 
 	public void loadParkours() {
+		File directory = new File(Main.getInstance().getDataFolder(), "parkours");
+		if(!directory.exists()) {
+			directory.mkdir();
+		}
+
 		Main.log.sendMessage(ColorManager.translate(""));
 		Main.log.sendMessage(ColorManager.translate("  &eLoading parkours:"));
-		for (String id : parkourConfig.getConfigurationSection("parkours").getKeys(false)) {
-			String name = parkourConfig.getString("parkours." + id + ".name");
+		File[] allFiles = new File(Main.getInstance().getDataFolder(), "parkours").listFiles();
+		for (File file : allFiles) {
+			String id = file.getName().toLowerCase().replace(".yml", "");
+
+			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+			String name = config.getString("parkour.name");
+
 			if(!Character.isDigit(id.charAt(0))) {
-				if (validParkourData(id)) {
-					Location spawn = (Location) parkourConfig.get("parkours." + id + ".spawn");
-					Location start = (Location) parkourConfig.get("parkours." + id + ".start");
-					Location end = (Location) parkourConfig.get("parkours." + id + ".end");
+				if (validParkourData(config)) {
+					Location spawn = (Location) config.get("parkour.spawn");
+					Location start = (Location) config.get("parkour.start");
+					Location end = (Location) config.get("parkour.end");
 					Location statsHologram = null;
 					Location topHologram = null;
 
 					if (Main.getInstance().isHologramsEnabled()) {
-						if ((Location) parkourConfig.get("parkours." + id + ".holograms.stats") != null) {
-							statsHologram = (Location) parkourConfig.get("parkours." + id + ".holograms.stats");
+						if ((Location) config.get("parkour.holograms.stats") != null) {
+							statsHologram = (Location) config.get("parkour.holograms.stats");
 						}
 
-						if ((Location) parkourConfig.get("parkours." + id + ".holograms.top") != null) {
-							topHologram = (Location) parkourConfig.get("parkours." + id + ".holograms.top");
+						if ((Location) config.get("parkour.holograms.top") != null) {
+							topHologram = (Location) config.get("parkour.holograms.top");
 						}
 					}
 
 					if (parkours.size() < 21) {
 						Parkour parkour = new Parkour(id, name, spawn, start, end, statsHologram, topHologram);
 						parkours.put(id, parkour);
+						parkourFiles.put(id, file);
+						parkourConfigs.put(id, config);
 
-						if (parkourConfig.contains("parkours." + id + ".walkableBlocks")) {
+						if (config.contains("parkour.walkableBlocks")) {
 							List<WalkableBlock> walkable = getWalkableBlocks(id);
 							parkour.setWalkableBlocks(walkable);
 							saveWalkableBlocksString(id, walkable);
-							saveConfig();
+							saveConfig(id);
 						}
 
 						Main.log.sendMessage(ColorManager.translate("    &a'" + name + "' loaded!"));
@@ -128,10 +175,14 @@ public class ParkourHandler {
 		Main.log.sendMessage(ColorManager.translate(""));
 	}
 
-	public boolean validParkourData(String id) {
-			return parkourConfig.contains("parkours." + id + ".spawn")
-					&& parkourConfig.contains("parkours." + id + ".start")
-					&& parkourConfig.contains("parkours." + id + ".end");
+	public boolean parkourExists(String id) {
+		return parkourFiles.containsKey(id);
+	}
+
+	public boolean validParkourData(YamlConfiguration config) {
+			return config.contains("parkour.spawn")
+					&& config.contains("parkour.start")
+					&& config.contains("parkour.end");
 	}
 
 	public Parkour getParkourById(String id) {
@@ -152,8 +203,8 @@ public class ParkourHandler {
 
 	public List<WalkableBlock> getWalkableBlocks(String id) {
 		List<WalkableBlock> walkable = new ArrayList<WalkableBlock>();
-		if(parkourConfig.contains("parkours." + id + ".walkableBlocks")) {
-			for (String block : parkourConfig.getStringList("parkours." + id + ".walkableBlocks")) {
+		if(parkourConfigs.get(id).contains("parkour.walkableBlocks")) {
+			for (String block : parkourConfigs.get(id).getStringList("parkour.walkableBlocks")) {
 				String[] parts = block.split(":");
 				Material material = null;
 				material = Material.getMaterial(Integer.parseInt(parts[0]));
@@ -183,8 +234,8 @@ public class ParkourHandler {
 			list.add(Material.getMaterial(block.getId()).getId() + ":" + block.getData());
 		}
 
-		getConfig().set("parkours." + id + ".walkableBlocks", list);
-		saveConfig();
+		parkourConfigs.get(id).set("parkour.walkableBlocks", list);
+		saveConfig(id);
 	}
 
 }

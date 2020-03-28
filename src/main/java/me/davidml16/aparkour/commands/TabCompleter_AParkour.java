@@ -1,7 +1,9 @@
 package me.davidml16.aparkour.commands;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import me.davidml16.aparkour.data.Parkour;
 import org.bukkit.command.Command;
@@ -37,11 +39,15 @@ public class TabCompleter_AParkour implements TabCompleter {
 			}
 		} else if (args[0].equalsIgnoreCase("remove")) {
 			if (Main.getInstance().getPlayerDataHandler().playerHasPermission(p)) {
-				list.addAll(Main.getInstance().getParkourHandler().getConfig().getConfigurationSection("parkours").getKeys(false));
+				for (File file : Objects.requireNonNull(new File(Main.getInstance().getDataFolder(), "parkours").listFiles())) {
+					list.add(file.getName().toLowerCase().replace(".yml", ""));
+				}
 			}
 		} else if (args[0].equalsIgnoreCase("config")) {
 			if (Main.getInstance().getPlayerDataHandler().playerHasPermission(p)) {
-				list.addAll(Main.getInstance().getParkourHandler().getConfig().getConfigurationSection("parkours").getKeys(false));
+				for (File file : Objects.requireNonNull(new File(Main.getInstance().getDataFolder(), "parkours").listFiles())) {
+					list.add(file.getName().toLowerCase().replace(".yml", ""));
+				}
 			}
 		} else if (args[0].equalsIgnoreCase("set")) {
 			if (args.length == 3) {
@@ -55,7 +61,9 @@ public class TabCompleter_AParkour implements TabCompleter {
 				}
 			} else {
 				if (Main.getInstance().getPlayerDataHandler().playerHasPermission(p)) {
-					list.addAll(Main.getInstance().getParkourHandler().getConfig().getConfigurationSection("parkours").getKeys(false));
+					for (File file : Objects.requireNonNull(new File(Main.getInstance().getDataFolder(), "parkours").listFiles())) {
+						list.add(file.getName().toLowerCase().replace(".yml", ""));
+					}
 				}
 			}
 		}

@@ -12,10 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.io.File;
+import java.util.*;
 
 public class ParkourConfig_GUI {
 
@@ -38,8 +36,8 @@ public class ParkourConfig_GUI {
     }
 
     public void loadGUI() {
-        for (String id : Main.getInstance().getParkourHandler().getConfig().getConfigurationSection("parkours").getKeys(false)) {
-            loadGUI(id);
+        for (File file : Objects.requireNonNull(new File(Main.getInstance().getDataFolder(), "parkours").listFiles())) {
+            loadGUI(file.getName().toLowerCase().replace(".yml", ""));
         }
     }
 
@@ -53,7 +51,7 @@ public class ParkourConfig_GUI {
             gui.setItem(i, edge);
         }
 
-        if(Main.getInstance().getParkourHandler().getConfig().contains("parkours." +id + ".spawn")) {
+        if(Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.spawn")) {
             gui.setItem(10, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
             gui.setItem(19, new ItemBuilder(Material.BED, 1).setName(ColorManager.translate("&aSpawn location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
         } else {
@@ -61,7 +59,7 @@ public class ParkourConfig_GUI {
             gui.setItem(19, new ItemBuilder(Material.BED, 1).setName(ColorManager.translate("&cSpawn location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
         }
 
-        if(Main.getInstance().getParkourHandler().getConfig().contains("parkours." +id + ".start")) {
+        if(Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.start")) {
             gui.setItem(11, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
             gui.setItem(20, new ItemBuilder(Material.IRON_PLATE, 1).setName(ColorManager.translate("&aStart plate location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
         } else {
@@ -69,7 +67,7 @@ public class ParkourConfig_GUI {
             gui.setItem(20, new ItemBuilder(Material.IRON_PLATE, 1).setName(ColorManager.translate("&cStart plate location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
         }
 
-        if(Main.getInstance().getParkourHandler().getConfig().contains("parkours." +id + ".end")) {
+        if(Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.end")) {
             gui.setItem(12, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
             gui.setItem(21, new ItemBuilder(Material.GOLD_PLATE, 1).setName(ColorManager.translate("&aGold plate location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
         } else {
@@ -77,7 +75,7 @@ public class ParkourConfig_GUI {
             gui.setItem(21, new ItemBuilder(Material.GOLD_PLATE, 1).setName(ColorManager.translate("&cGold plate location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
         }
 
-        if(Main.getInstance().getParkourHandler().getConfig().contains("parkours." +id + ".holograms.stats")) {
+        if(Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.holograms.stats")) {
             gui.setItem(13, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
             gui.setItem(22, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aStats hologram location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
         } else {
@@ -85,7 +83,7 @@ public class ParkourConfig_GUI {
             gui.setItem(22, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&cStats hologram location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
         }
 
-        if(Main.getInstance().getParkourHandler().getConfig().contains("parkours." +id + ".holograms.top")) {
+        if(Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.holograms.top")) {
             gui.setItem(14, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
             gui.setItem(23, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aTop hologram location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
         } else {
@@ -136,7 +134,7 @@ public class ParkourConfig_GUI {
     public void reloadGUI(String id) {
         Inventory gui = guis.get(id);
 
-        if(Main.getInstance().getParkourHandler().getConfig().contains("parkours." +id + ".spawn")) {
+        if(Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.spawn")) {
             gui.setItem(10, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
             gui.setItem(19, new ItemBuilder(Material.BED, 1).setName(ColorManager.translate("&aSpawn location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
         } else {
@@ -144,7 +142,7 @@ public class ParkourConfig_GUI {
             gui.setItem(19, new ItemBuilder(Material.BED, 1).setName(ColorManager.translate("&cSpawn location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
         }
 
-        if(Main.getInstance().getParkourHandler().getConfig().contains("parkours." +id + ".start")) {
+        if(Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.start")) {
             gui.setItem(11, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
             gui.setItem(20, new ItemBuilder(Material.IRON_PLATE, 1).setName(ColorManager.translate("&aStart plate location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
         } else {
@@ -152,7 +150,7 @@ public class ParkourConfig_GUI {
             gui.setItem(20, new ItemBuilder(Material.IRON_PLATE, 1).setName(ColorManager.translate("&cStart plate location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
         }
 
-        if(Main.getInstance().getParkourHandler().getConfig().contains("parkours." +id + ".end")) {
+        if(Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.end")) {
             gui.setItem(12, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
             gui.setItem(21, new ItemBuilder(Material.GOLD_PLATE, 1).setName(ColorManager.translate("&aGold plate location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
         } else {
@@ -160,7 +158,7 @@ public class ParkourConfig_GUI {
             gui.setItem(21, new ItemBuilder(Material.GOLD_PLATE, 1).setName(ColorManager.translate("&cGold plate location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
         }
 
-        if(Main.getInstance().getParkourHandler().getConfig().contains("parkours." +id + ".holograms.stats")) {
+        if(Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.holograms.stats")) {
             gui.setItem(13, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
             gui.setItem(22, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aStats hologram location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
         } else {
@@ -168,7 +166,7 @@ public class ParkourConfig_GUI {
             gui.setItem(22, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&cStats hologram location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
         }
 
-        if(Main.getInstance().getParkourHandler().getConfig().contains("parkours." +id + ".holograms.top")) {
+        if(Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.holograms.top")) {
             gui.setItem(14, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
             gui.setItem(23, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aTop hologram location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
         } else {

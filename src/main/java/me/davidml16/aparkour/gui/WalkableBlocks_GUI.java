@@ -14,10 +14,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.io.File;
+import java.util.*;
 
 public class WalkableBlocks_GUI {
 
@@ -40,8 +38,8 @@ public class WalkableBlocks_GUI {
     }
 
     public void loadGUI() {
-        for (String id : Main.getInstance().getParkourHandler().getConfig().getConfigurationSection("parkours").getKeys(false)) {
-            loadGUI(id);
+        for (File file : Objects.requireNonNull(new File(Main.getInstance().getDataFolder(), "parkours").listFiles())) {
+            loadGUI(file.getName().toLowerCase().replace(".yml", ""));
         }
     }
 
