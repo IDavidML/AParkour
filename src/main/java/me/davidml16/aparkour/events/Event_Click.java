@@ -33,7 +33,7 @@ public class Event_Click implements Listener {
 					p.setFlying(false);
 					p.teleport(parkour.getSpawn());
 
-					p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_RETURN", false));
+					Main.getInstance().getLanguageHandler().sendMessage(p, "MESSAGES_RETURN", false);
 
 					Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
 					Main.getInstance().getTimerManager().cancelTimer(p);

@@ -40,7 +40,7 @@ public class ADatabase {
 			openConnectionSQLite();
 	}
 	
-	public void openConnectionMySQL() {
+	private void openConnectionMySQL() {
 		
 		if (connection != null)  return;
 		
@@ -51,17 +51,14 @@ public class ADatabase {
 				Class.forName("com.mysql.jdbc.Driver");
 				connection = DriverManager.getConnection(URL, user, password);
 				Main.log.sendMessage(ColorManager.translate("    &aMySQL has been enabled!"));
-			} catch (SQLException e) {
-				Main.log.sendMessage(ColorManager.translate("    &cMySQL has an error on the conection! Now trying with SQLite..."));
-				openConnectionSQLite();
-			} catch (ClassNotFoundException e) {
+			} catch (SQLException | ClassNotFoundException e) {
 				Main.log.sendMessage(ColorManager.translate("    &cMySQL has an error on the conection! Now trying with SQLite..."));
 				openConnectionSQLite();
 			}
 		}
 	}
 	
-	public void openConnectionSQLite() {
+	private void openConnectionSQLite() {
 		
 		if (connection != null)  return;
 		
@@ -73,10 +70,7 @@ public class ADatabase {
 				Class.forName("org.sqlite.JDBC");
 				connection = DriverManager.getConnection(URL);
 				Main.log.sendMessage(ColorManager.translate("    &aSQLite has been enabled!"));
-			} catch (SQLException e) {
-				Main.log.sendMessage(ColorManager.translate("    &cSQLite has an error on the conection! Plugin disabled : Database needed"));
-				Bukkit.getPluginManager().disablePlugin(Bukkit.getPluginManager().getPlugin("AParkour"));
-			} catch (ClassNotFoundException e) {
+			} catch (SQLException | ClassNotFoundException e) {
 				Main.log.sendMessage(ColorManager.translate("    &cSQLite has an error on the conection! Plugin disabled : Database needed"));
 				Bukkit.getPluginManager().disablePlugin(Bukkit.getPluginManager().getPlugin("AParkour"));
 			}

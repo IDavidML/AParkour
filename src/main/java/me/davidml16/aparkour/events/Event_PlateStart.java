@@ -2,6 +2,8 @@ package me.davidml16.aparkour.events;
 
 import me.davidml16.aparkour.api.events.ParkourStartEvent;
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.managers.ColorManager;
+import me.davidml16.aparkour.utils.Sounds;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -14,7 +16,12 @@ import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.utils.RestartItemUtil;
 import me.davidml16.aparkour.utils.SoundUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Event_PlateStart implements Listener {
+
+	private List<Player> cooldown = new ArrayList<Player>();
 
 	@EventHandler
 	public void Plate(PlayerInteractEvent e) {
@@ -31,12 +38,28 @@ public class Event_PlateStart implements Listener {
 				Parkour parkour = Main.getInstance().getParkourHandler()
 						.getParkourByLocation(e.getClickedBlock().getLocation());
 
-				String Started = Main.getInstance().getLanguageHandler().getMessage("MESSAGES_STARTED", false);
 				if (e.getClickedBlock().getLocation().equals(parkour.getStart())) {
 					e.setCancelled(true);
+
+					if(!p.hasPermission(parkour.getPermission()) || !p.isOp()) {
+						if(!cooldown.contains(p)) {
+							cooldown.add(p);
+							p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix() + parkour.getPermissionMessage()));
+							Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
+							Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), new Runnable() {
+								@Override
+								public void run() {
+									cooldown.remove(p);
+								}
+							}, 40);
+							return;
+						}
+						return;
+					}
+
 					if (!Main.getInstance().getTimerManager().hasPlayerTimer(p)) {
-						e.getPlayer().sendMessage(Started);
-						e.getPlayer().setFlying(false);
+						Main.getInstance().getLanguageHandler().sendMessage(p, "MESSAGES_STARTED", false);
+						p.setFlying(false);
 						SoundUtil.playStart(p);
 
 						if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {

@@ -59,9 +59,7 @@ public class Event_PlateEnd implements Listener {
 
 						if (data.getBestTimes().get(parkour.getId()) == 0
 								&& data.getLastTimes().get(parkour.getId()) == 0) {
-							String FirstTime = Main.getInstance().getLanguageHandler()
-									.getMessage("ENDMESSAGE_FIRSTTIME", false);
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', FirstTime));
+							Main.getInstance().getLanguageHandler().sendMessage(p, "ENDMESSAGE_FIRSTTIME", false);
 							Main.getInstance().getRewardHandler().giveParkourRewards(p, parkour.getId(), true);
 						}
 

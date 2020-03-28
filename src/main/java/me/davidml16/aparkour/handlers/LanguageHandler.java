@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import me.davidml16.aparkour.Main;
+import org.bukkit.entity.Player;
 
 public class LanguageHandler {
 
@@ -38,6 +39,12 @@ public class LanguageHandler {
 
 	public String getMessage(String message, boolean prefix) {
 		return ChatColor.translateAlternateColorCodes('&', (prefix ? this.prefix : "") + messages.get(message));
+	}
+
+	public void sendMessage(Player p, String message, boolean prefix) {
+		if(!messages.get(message).equals("")) {
+			p.sendMessage(ChatColor.translateAlternateColorCodes('&', (prefix ? this.prefix : "") + messages.get(message)));
+		}
 	}
 
 	public String checkLanguage(String lang) {
@@ -185,5 +192,4 @@ public class LanguageHandler {
 			}
 		}
 	}
-
 }

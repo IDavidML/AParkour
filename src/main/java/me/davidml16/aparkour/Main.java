@@ -72,8 +72,7 @@ public class Main extends JavaPlugin {
 
         hologramsEnabled = getConfig().getBoolean("Hologram.Enabled");
         if (isHologramsEnabled()) {
-            if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")
-                    || !Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
+            if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays") || !Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
                 getLogger().severe("*** HolographicDisplays / ProtocolLib is not installed or not enabled. ***");
                 getLogger().severe("*** This plugin will be disabled. ***");
                 setEnabled(false);
@@ -153,7 +152,7 @@ public class Main extends JavaPlugin {
                 try {
                     Main.log.sendMessage(ColorManager.translate(""));
                     Main.log.sendMessage(ColorManager.translate("  &eAParkour checking updates:"));
-                    new UpdateChecker(instance, 30923).getVersion(version -> {
+                    new UpdateChecker(instance).getVersion(version -> {
                         if (instance.getDescription().getVersion().equalsIgnoreCase(version)) {
                             Main.log.sendMessage(ColorManager.translate("    &cNo update found!"));
                             Main.log.sendMessage(ColorManager.translate(""));

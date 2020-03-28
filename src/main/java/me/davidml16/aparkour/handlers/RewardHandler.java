@@ -22,12 +22,14 @@ public class RewardHandler {
 		for(Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 			List<Reward> rewards = new ArrayList<Reward>();
 			if (Main.getInstance().getParkourHandler().getConfig(parkour.getId()).contains("parkour.rewards")) {
-				for (String id : Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getConfigurationSection("parkour.rewards").getKeys(false)) {
-					if (validRewardData(parkour.getId(), id)) {
-						String permission = Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getString("parkour.rewards." + id + ".permission");
-						String command = Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getString("parkour.rewards." + id + ".command");
-						boolean firstTime = Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getBoolean("parkour.rewards." + id + ".firstTime");
-						rewards.add(new Reward(permission, command, firstTime));
+				if (Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getConfigurationSection("parkour.rewards") != null) {
+					for (String id : Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getConfigurationSection("parkour.rewards").getKeys(false)) {
+						if (validRewardData(parkour.getId(), id)) {
+							String permission = Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getString("parkour.rewards." + id + ".permission");
+							String command = Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getString("parkour.rewards." + id + ".command");
+							boolean firstTime = Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getBoolean("parkour.rewards." + id + ".firstTime");
+							rewards.add(new Reward(permission, command, firstTime));
+						}
 					}
 				}
 				parkour.setRewards(rewards);

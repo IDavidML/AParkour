@@ -94,7 +94,7 @@ public class Event_InventoryGUI implements Listener {
             } else if (slot == 40) {
                 if (e.getCurrentItem().getType() == Material.BARRIER) {
                     PluginManager.reloadAll();
-                    p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("COMMANDS_RELOAD", true));
+                    Main.getInstance().getLanguageHandler().sendMessage(p, "COMMANDS_RELOAD", false);
                 }
             }
         }

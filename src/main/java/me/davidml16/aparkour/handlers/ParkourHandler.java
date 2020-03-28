@@ -156,6 +156,24 @@ public class ParkourHandler {
 							saveConfig(id);
 						}
 
+						if (!config.contains("parkour.rewards")) {
+							config.set("parkour.rewards", new ArrayList<>());
+							saveConfig(id);
+						}
+
+						if (!config.contains("parkour.permissionRequired")) {
+							config.set("parkour.permissionRequired.enabled", false);
+							config.set("parkour.permissionRequired.permission", "aparkour.permission." + id);
+							config.set("parkour.permissionRequired.message", "&cYou dont have permission to start this parkour!");
+							saveConfig(id);
+						}
+
+						if (config.contains("parkour.permissionRequired")) {
+							parkour.setPermissionRequired(config.getBoolean("parkour.permissionRequired.enabled"));
+							parkour.setPermission(config.getString("parkour.permissionRequired.permission"));
+							parkour.setPermissionMessage(config.getString("parkour.permissionRequired.message"));
+						}
+
 						Main.log.sendMessage(ColorManager.translate("    &a'" + name + "' loaded!"));
 					} else {
 						Main.log.sendMessage(ColorManager

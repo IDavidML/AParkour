@@ -33,7 +33,7 @@ public class ReturnTask {
                                 p.setFlying(false);
                                 p.teleport(parkour.getSpawn());
 
-                                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_RETURN", false));
+                                Main.getInstance().getLanguageHandler().sendMessage(p, "MESSAGES_RETURN", false);
 
                                 if (Main.getInstance().getParkourHandler().isKickFromParkourOnFail()) {
                                     Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
@@ -57,7 +57,7 @@ public class ReturnTask {
                                     p.setFlying(false);
                                     p.teleport(parkour.getSpawn());
 
-                                    p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_FLY", false));
+                                    Main.getInstance().getLanguageHandler().sendMessage(p, "MESSAGES_FLY", false);
 
                                     if (Main.getInstance().getParkourHandler().isKickFromParkourOnFail()) {
                                         Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
@@ -87,7 +87,7 @@ public class ReturnTask {
 
     @SuppressWarnings("deprecation")
     public void start() {
-        id = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(Main.getInstance(), new Task(), 0L, 1);
+        id = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(Main.getInstance(), new Task(), 0L, 2);
     }
 
     public void stop() {

@@ -27,8 +27,6 @@ import java.util.UUID;
 public class Command_AParkour implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        String noperms = Main.getInstance().getLanguageHandler().getMessage("COMMANDS_NOPERMS", true);
-
         if (!(sender instanceof Player)) {
             sender.sendMessage(ColorManager.translate("ccThe commands only can be use by players!"));
             return true;
@@ -45,7 +43,7 @@ public class Command_AParkour implements CommandExecutor {
             if (Main.getInstance().getParkourHandler().getParkours().size() > 0) {
                 Main.getInstance().getStatsGUI().open(p);
             } else {
-                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("COMMANDS_NOSTATS", true));
+                Main.getInstance().getLanguageHandler().sendMessage(p, "COMMANDS_NOSTATS", true);
             }
             return true;
         }
@@ -64,7 +62,7 @@ public class Command_AParkour implements CommandExecutor {
             if (Main.getInstance().getParkourHandler().getParkours().size() > 0) {
                 Main.getInstance().getRankingsGUI().open(p);
             } else {
-                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("COMMANDS_NOPARKOURS", true));
+                Main.getInstance().getLanguageHandler().sendMessage(p, "COMMANDS_NOPARKOURS", true);
             }
             return true;
         }
@@ -74,14 +72,14 @@ public class Command_AParkour implements CommandExecutor {
             Main.getInstance().reloadConfig();
 
             PluginManager.reloadAll();
-            p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("COMMANDS_RELOAD", true));
+            Main.getInstance().getLanguageHandler().sendMessage(p, "COMMANDS_RELOAD", true);
 
             return true;
         }
 
         if (args[0].equalsIgnoreCase("create")) {
             if (!Main.getInstance().getPlayerDataHandler().playerHasPermission(p)) {
-                p.sendMessage(noperms);
+                Main.getInstance().getLanguageHandler().sendMessage(p, "COMMANDS_NOPERMS", true);
                 return false;
             }
 
@@ -101,6 +99,9 @@ public class Command_AParkour implements CommandExecutor {
 
                 if(Main.getInstance().getParkourHandler().createParkour(id)) {
                     Main.getInstance().getParkourHandler().getConfig(id).set("parkour.name", args[2]);
+                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.permissionRequired.enabled", false);
+                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.permissionRequired.permission", "aparkour.permission." + id);
+                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.permissionRequired.message", "&cYou dont have permission to start this parkour!");
                     Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards.example.firstTime", true);
                     Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards.example.permission", "*");
                     Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards.example.command", "give %player% diamond 1");
@@ -122,7 +123,7 @@ public class Command_AParkour implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("config")) {
             if (!Main.getInstance().getPlayerDataHandler().playerHasPermission(p)) {
-                p.sendMessage(noperms);
+                Main.getInstance().getLanguageHandler().sendMessage(p, "COMMANDS_NOPERMS", true);
                 return false;
             }
 
@@ -145,7 +146,7 @@ public class Command_AParkour implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("remove")) {
             if (!Main.getInstance().getPlayerDataHandler().playerHasPermission(p)) {
-                p.sendMessage(noperms);
+                Main.getInstance().getLanguageHandler().sendMessage(p, "COMMANDS_NOPERMS", true);
                 return false;
             }
 
@@ -195,7 +196,7 @@ public class Command_AParkour implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("set")) {
             if (!Main.getInstance().getPlayerDataHandler().playerHasPermission(p)) {
-                p.sendMessage(noperms);
+                Main.getInstance().getLanguageHandler().sendMessage(p, "COMMANDS_NOPERMS", true);
                 return false;
             }
 
