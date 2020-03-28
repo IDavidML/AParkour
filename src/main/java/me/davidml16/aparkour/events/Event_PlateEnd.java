@@ -45,6 +45,8 @@ public class Event_PlateEnd implements Listener {
 							Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
 						}
 
+						Main.getInstance().getRewardHandler().giveParkourRewards(p, parkour.getId(), false);
+
 						Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
 
 						SoundUtil.playEnd(p);
@@ -60,6 +62,7 @@ public class Event_PlateEnd implements Listener {
 							String FirstTime = Main.getInstance().getLanguageHandler()
 									.getMessage("ENDMESSAGE_FIRSTTIME", false);
 							p.sendMessage(ChatColor.translateAlternateColorCodes('&', FirstTime));
+							Main.getInstance().getRewardHandler().giveParkourRewards(p, parkour.getId(), true);
 						}
 
 						data.setLastTime(total, parkour.getId());
@@ -89,9 +92,6 @@ public class Event_PlateEnd implements Listener {
 							eplayer.sendMessage(ChatColor.translateAlternateColorCodes('&', Record).replaceAll(
 									"%recordTime%", Main.getInstance().getTimerManager().timeAsString(bestTotal)));
 						}
-
-						Main.getInstance().getRewardHandler().giveGlobalRewards(p);
-						Main.getInstance().getRewardHandler().giveParkourRewards(p, parkour.getId());
 
 						data.save();
 

@@ -29,33 +29,11 @@ public class ReturnTask {
 
                     if ((WalkableBlocksUtil.noContainsWalkable(parkour.getWalkableBlocks(), block.getType().getId(), block.getData()) && block.getType() != Material.IRON_PLATE && block.getType() != Material.GOLD_PLATE && block.getType() != Material.AIR)) {
                         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
-
-                            p.setFlying(false);
-                            p.teleport(parkour.getSpawn());
-
-                            p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_RETURN", false));
-
-                            if (Main.getInstance().getParkourHandler().isKickFromParkourOnFail()) {
-                                Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
-                                Main.getInstance().getTimerManager().cancelTimer(p);
-                                if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
-                                    Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
-                                }
-                            }
-
-                            SoundUtil.playReturn(p);
-
-                            Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
-
-                            p.setNoDamageTicks(20);
-                        });
-                    } else if (p.isFlying()) {
-                        if (Main.getInstance().getConfig().getBoolean("ReturnOnFly.Enabled")) {
-                            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+                            if (Main.getInstance().getTimerManager().hasPlayerTimer(p)) {
                                 p.setFlying(false);
                                 p.teleport(parkour.getSpawn());
 
-                                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_FLY", false));
+                                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_RETURN", false));
 
                                 if (Main.getInstance().getParkourHandler().isKickFromParkourOnFail()) {
                                     Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
@@ -65,11 +43,36 @@ public class ReturnTask {
                                     }
                                 }
 
-                                SoundUtil.playFly(p);
+                                SoundUtil.playReturn(p);
 
                                 Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
 
                                 p.setNoDamageTicks(20);
+                            }
+                        });
+                    } else if (p.isFlying()) {
+                        if (Main.getInstance().getConfig().getBoolean("ReturnOnFly.Enabled")) {
+                            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+                                if (Main.getInstance().getTimerManager().hasPlayerTimer(p)) {
+                                    p.setFlying(false);
+                                    p.teleport(parkour.getSpawn());
+
+                                    p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_FLY", false));
+
+                                    if (Main.getInstance().getParkourHandler().isKickFromParkourOnFail()) {
+                                        Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
+                                        Main.getInstance().getTimerManager().cancelTimer(p);
+                                        if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
+                                            Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
+                                        }
+                                    }
+
+                                    SoundUtil.playFly(p);
+
+                                    Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
+
+                                    p.setNoDamageTicks(20);
+                                }
                             });
                         }
                     }

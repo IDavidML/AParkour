@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.davidml16.aparkour.data.Parkour;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -15,96 +17,53 @@ import me.davidml16.aparkour.managers.ColorManager;
 
 public class RewardHandler {
 
-	private List<Reward> rewards;
-	private File rewardFile;
-	private FileConfiguration rewardConfig;
-
-	public RewardHandler() {
-		this.rewards = new ArrayList<Reward>();
-		this.rewardFile = new File(Main.getInstance().getDataFolder() + "/rewards.yml");
-
-		if (!rewardFile.exists()) {
-			Main.getInstance().saveResource("rewards.yml", false);
-		}
-
-		this.rewardConfig = YamlConfiguration.loadConfiguration(rewardFile);
-	}
-
-	public List<Reward> getRewards() {
-		return rewards;
-	}
-
-	public File getRewardFile() {
-		return rewardFile;
-	}
-
-	public FileConfiguration getRewardConfig() {
-		return rewardConfig;
-	}
-
-	public void saveConfig() {
-		try {
-			if (!rewardConfig.contains("rewards"))
-				rewardConfig.createSection("rewards");
-
-			rewardConfig.save(rewardFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void loadRewards() {
-		rewards.clear();
 		Main.log.sendMessage(ColorManager.translate("  &eLoading rewards:"));
-		for (String id : rewardConfig.getConfigurationSection("rewards").getKeys(false)) {
-			if (validRewardData(id)) {
-				String permission = rewardConfig.getString("rewards." + id + ".permission");
-				String command = rewardConfig.getString("rewards." + id + ".command");
-
-				if(!rewardConfig.contains("rewards." + id + ".parkourID")) {
-					rewards.add(new Reward(permission, command));
-				} else {
-					rewards.add(new Reward(permission, command, rewardConfig.getString("rewards." + id + ".parkourID")));
+		for(Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+			List<Reward> rewards = new ArrayList<Reward>();
+			if (Main.getInstance().getParkourHandler().getConfig(parkour.getId()).contains("parkour.rewards")) {
+				for (String id : Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getConfigurationSection("parkour.rewards").getKeys(false)) {
+					if (validRewardData(parkour.getId(), id)) {
+						String permission = Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getString("parkour.rewards." + id + ".permission");
+						String command = Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getString("parkour.rewards." + id + ".command");
+						boolean firstTime = Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getBoolean("parkour.rewards." + id + ".firstTime");
+						rewards.add(new Reward(permission, command, firstTime));
+					}
 				}
+				parkour.setRewards(rewards);
 			}
+			Main.log.sendMessage(ColorManager.translate("    &a'" + parkour.getName() + "' &7- " + (rewards.size() > 0 ? "&a" : "&c") + rewards.size() + " rewards"));
 		}
-		Main.log.sendMessage(ColorManager.translate("    " + (rewards.size() > 0 ? "&a" : "&c") + rewards.size() + " rewards loaded!"));
+
+		if(Main.getInstance().getParkourHandler().getParkours().size() == 0)
+			Main.log.sendMessage(ColorManager.translate("    &cNo rewards has been loaded!"));
+
 		Main.log.sendMessage(ColorManager.translate(""));
 	}
 
-	public boolean validRewardData(String id) {
-		return rewardConfig.contains("rewards." + id + ".permission")
-				&& rewardConfig.contains("rewards." + id + ".command");
+	public boolean validRewardData(String parkourID, String rewardID) {
+		return Main.getInstance().getParkourHandler().getConfig(parkourID).contains("parkour.rewards." + rewardID + ".permission")
+				&& Main.getInstance().getParkourHandler().getConfig(parkourID).contains("parkour.rewards." + rewardID + ".command")
+				&& Main.getInstance().getParkourHandler().getConfig(parkourID).contains("parkour.rewards." + rewardID + ".firstTime");
 	}
 
-	public void giveGlobalRewards(Player p) {
-		for (Reward reward : rewards) {
-			if(reward.isGlobalReward()) {
-				if (!reward.getPermission().equalsIgnoreCase("*")) {
-					if (p.hasPermission(reward.getPermission()) || p.isOp()) {
-						Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), reward.getCommand().replaceAll("%player%", p.getName()));
-					}
-				} else {
-					Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), reward.getCommand().replaceAll("%player%", p.getName()));
-				}
-			}
-		}
-	}
-
-	public void giveParkourRewards(Player p, String id) {
-		for (Reward reward : rewards) {
-			if(!reward.isGlobalReward()) {
-				if(reward.getParkour().equals(id)) {
-					if (!reward.getPermission().equalsIgnoreCase("*")) {
-						if (p.hasPermission(reward.getPermission()) || p.isOp()) {
+	public void giveParkourRewards(Player p, String id, boolean firstTime) {
+		Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+			@Override
+			public void run() {
+				for (Reward reward : Main.getInstance().getParkourHandler().getParkours().get(id).getRewards()) {
+					if(reward.isFirstTime() == firstTime) {
+						if (!reward.getPermission().equalsIgnoreCase("*")) {
+							if (p.hasPermission(reward.getPermission()) || p.isOp()) {
+								Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), reward.getCommand().replaceAll("%player%", p.getName()));
+							}
+						} else {
 							Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), reward.getCommand().replaceAll("%player%", p.getName()));
 						}
-					} else {
-						Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), reward.getCommand().replaceAll("%player%", p.getName()));
 					}
 				}
 			}
-		}
+		}, 1L);
 	}
 
 }

@@ -95,7 +95,6 @@ public class Main extends JavaPlugin {
         parkourHandler.loadParkours();
 
         rewardHandler = new RewardHandler();
-        rewardHandler.saveConfig();
         rewardHandler.loadRewards();
 
         database = new ADatabase();

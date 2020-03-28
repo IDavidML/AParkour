@@ -18,7 +18,9 @@ public class Parkour {
 	private Location end;
 	private Location statsHologram;
 	private Location topHologram;
+
 	private List<WalkableBlock> walkableBlocks;
+	private List<Reward> rewards;
 	
 	public Parkour(String id, String name, Location spawn, Location start, Location end, Location statsHologram, Location topHologram) {
 		this.id = id;
@@ -29,6 +31,7 @@ public class Parkour {
 		this.statsHologram = statsHologram;
 		this.topHologram = topHologram;
 		this.walkableBlocks = new ArrayList<WalkableBlock>();
+		this.rewards = new ArrayList<Reward>();
 	}
 	
 	public String getId() {
@@ -67,8 +70,21 @@ public class Parkour {
 		this.walkableBlocks = walkableBlocks;
 	}
 
+	public List<Reward> getRewards() {
+		return rewards;
+	}
+
+	public void setRewards(List<Reward> rewards) {
+		this.rewards = rewards;
+	}
+
 	public void saveParkour() {
 		Main.getInstance().getParkourHandler().getConfig(id).set("parkour.walkableBlocks", Main.getInstance().getParkourHandler().getWalkableBlocksString(walkableBlocks));
+
+		if (!Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.rewards")) {
+			Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards", new ArrayList<>());
+		}
+
 		Main.getInstance().getParkourHandler().saveConfig(id);
 	}
 

@@ -101,6 +101,10 @@ public class Command_AParkour implements CommandExecutor {
 
                 if(Main.getInstance().getParkourHandler().createParkour(id)) {
                     Main.getInstance().getParkourHandler().getConfig(id).set("parkour.name", args[2]);
+                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards.example.firstTime", true);
+                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards.example.permission", "*");
+                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards.example.command", "give %player% diamond 1");
+                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.name", args[2]);
                     Main.getInstance().getParkourHandler().getConfig(id).set("parkour.walkableBlocks", new ArrayList<>());
                     Main.getInstance().getParkourHandler().saveConfig(id);
                     Main.getInstance().getConfigGUI().loadGUI(id);

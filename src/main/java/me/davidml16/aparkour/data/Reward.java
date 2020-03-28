@@ -4,19 +4,12 @@ public class Reward {
 
 	private String permission;
 	private String command;
-	private String parkour;
+	private boolean firstTime;
 
-	private boolean isGlobalReward;
-
-	public Reward(String permission, String command) {
-		this(permission, command, null);
-	}
-
-	public Reward(String permission, String command, String parkour) {
+	public Reward(String permission, String command, boolean firstTime) {
 		this.permission = permission;
 		this.command = command;
-		this.parkour = parkour;
-		this.isGlobalReward = parkour == null;
+		this.firstTime = firstTime;
 	}
 
 	public String getPermission() {
@@ -27,11 +20,7 @@ public class Reward {
 		return command;
 	}
 
-	public String getParkour() {
-		return parkour;
-	}
-
-	public boolean isGlobalReward() {
-		return isGlobalReward;
+	public boolean isFirstTime() {
+		return firstTime;
 	}
 }
