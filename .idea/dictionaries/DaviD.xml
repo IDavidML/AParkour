@@ -2,8 +2,16 @@
   <dictionary name="DaviD">
     <words>
       <w>conection</w>
+      <w>endmessage</w>
+      <w>firsttime</w>
       <w>jdbc</w>
+      <w>nobesttime</w>
+      <w>noparkours</w>
+      <w>noperms</w>
+      <w>nostats</w>
+      <w>notime</w>
       <w>parkour</w>
+      <w>parkours</w>
       <w>sqlite</w>
     </words>
   </dictionary>

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import me.davidml16.aparkour.managers.ColorManager;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -12,7 +13,6 @@ import org.bukkit.entity.Player;
 
 public class LanguageHandler {
 
-	private String prefix = "&9&lAParkour &l&o&f>> &r";
 	private String language = null;
 
 	private HashMap<String, String> messages;
@@ -29,22 +29,16 @@ public class LanguageHandler {
 		return language;
 	}
 
-	public String getPrefix() {
-		return prefix;
-	}
-
 	public void setLanguage(String language) {
 		this.language = language;
 	}
 
-	public String getMessage(String message, boolean prefix) {
-		return ChatColor.translateAlternateColorCodes('&', (prefix ? this.prefix : "") + messages.get(message));
+	public String getPrefix() {
+		return ColorManager.translate(messages.get("PREFIX"));
 	}
 
-	public void sendMessage(Player p, String message, boolean prefix) {
-		if(!messages.get(message).equals("")) {
-			p.sendMessage(ChatColor.translateAlternateColorCodes('&', (prefix ? this.prefix : "") + messages.get(message)));
-		}
+	public String getMessage(String message) {
+		return ColorManager.translate(messages.get(message).replaceAll("%prefix%", messages.get("PREFIX")));
 	}
 
 	public String checkLanguage(String lang) {
@@ -59,6 +53,7 @@ public class LanguageHandler {
 		YamlConfiguration c = YamlConfiguration.loadConfiguration(f);
 
 		messages.clear();
+		messages.put("PREFIX", c.getString("Prefix"));
 		messages.put("COMMANDS_NOPERMS", c.getString("Commands.NoPerms"));
 		messages.put("COMMANDS_NOSTATS", c.getString("Commands.NoStats"));
 		messages.put("COMMANDS_NOPARKOURS", c.getString("Commands.NoParkours"));
@@ -98,10 +93,11 @@ public class LanguageHandler {
 				file.createNewFile();
 				YamlConfiguration cfg = YamlConfiguration.loadConfiguration(file);
 
-				cfg.set("Commands.NoPerms", "&cYou dont have permissions to use this command!");
-				cfg.set("Commands.NoStats", "&cYou dont have statistics at this moment!");
-				cfg.set("Commands.NoParkours", "&cAny parkour created at this moment!");
-				cfg.set("Commands.Reload", "&aPlugin reloaded with no errors!");
+				cfg.set("Prefix", "&9&lAParkour &l&o&f>>&r");
+				cfg.set("Commands.NoPerms", "%prefix% &cYou dont have permissions to use this command!");
+				cfg.set("Commands.NoStats", "%prefix% &cYou dont haves statistics at this moment!");
+				cfg.set("Commands.NoParkours", "%prefix% &cAny parkour created at this moment!");
+				cfg.set("Commands.Reload", "%prefix% &aPlugin reloaded with no errors!");
 
 				cfg.set("GUIs.Stats.title", "Parkour Statistics");
 				cfg.set("GUIs.Top.title", "Parkour Top Players");
@@ -149,10 +145,11 @@ public class LanguageHandler {
 				file.createNewFile();
 				YamlConfiguration cfg = YamlConfiguration.loadConfiguration(file);
 
-				cfg.set("Commands.NoPerms", "&cNo tienes permisos para usar este comando!");
-				cfg.set("Commands.NoStats", "&cNo tienes estad&sticas en este momento!");
-				cfg.set("Commands.NoParkours", "&cNo hay ningún parkour creado de momento!");
-				cfg.set("Commands.Reload", "&aPlugin recargado sin errores!");
+				cfg.set("Prefix", "&9&lAParkour &l&o&f>>&r");
+				cfg.set("Commands.NoPerms", "%prefix% &cNo tienes permisos para usar este comando!");
+				cfg.set("Commands.NoStats", "%prefix% &cNo tienes estadísticas en este momento!");
+				cfg.set("Commands.NoParkours", "%prefix% &cNo hay ningún parkour creado de momento!");
+				cfg.set("Commands.Reload", "%prefix% &aPlugin recargado sin errores!");
 
 				cfg.set("GUIs.Stats.title", "Estadísticas del Parkour");
 				cfg.set("GUIs.Top.title", "Top jugadores del Parkour");
@@ -175,8 +172,8 @@ public class LanguageHandler {
 				cfg.set("Holograms.Top.Header.Line2", "&7- %parkour% -");
 				cfg.set("Holograms.Top.Body.Line", "&e%position%. &a%player% &7- &6%time%");
 				cfg.set("Holograms.Top.Body.NoTime", "&e%position%. &cN/A");
-				cfg.set("Holograms.Top.Footer.Line", "&aActualizaciín: &6%time%");
-				cfg.set("Holograms.Top.Footer.Updating", "&aActualizaciín: &cCargando...");
+				cfg.set("Holograms.Top.Footer.Line", "&aActualización: &6%time%");
+				cfg.set("Holograms.Top.Footer.Updating", "&aActualización: &cCargando...");
 
 				cfg.set("Messages.Started", "&aParkour iniciado! Llega al final lo más rapido que puedeas.");
 				cfg.set("Messages.Fly", "&cNo puedes volar cuando estas en el parkour.");

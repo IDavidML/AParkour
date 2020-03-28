@@ -42,7 +42,7 @@ public class ParkourRanking_GUI {
 	}
 	
 	public void loadGUI() {
-		gui = Bukkit.createInventory(null, 45, Main.getInstance().getLanguageHandler().getMessage("GUI_TOP_TITLE", false));
+		gui = Bukkit.createInventory(null, 45, Main.getInstance().getLanguageHandler().getMessage("GUI_TOP_TITLE"));
 
 		ItemStack edge = new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 7).setName("").toItemStack();
 

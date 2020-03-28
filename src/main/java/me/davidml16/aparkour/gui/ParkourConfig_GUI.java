@@ -44,7 +44,7 @@ public class ParkourConfig_GUI {
     public void loadGUI(String id) {
         if(guis.containsKey(id)) return;
 
-        Inventory gui = Bukkit.createInventory(null, 45, Main.getInstance().getLanguageHandler().getMessage("GUI_CONFIG_TITLE", false).replaceAll("%parkour%", id));
+        Inventory gui = Bukkit.createInventory(null, 45, Main.getInstance().getLanguageHandler().getMessage("GUI_CONFIG_TITLE").replaceAll("%parkour%", id));
         ItemStack edge = new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 7).setName("").toItemStack();
 
         for (Integer i : borders) {

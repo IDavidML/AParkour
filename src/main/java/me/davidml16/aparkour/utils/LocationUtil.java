@@ -37,7 +37,7 @@ public class LocationUtil {
         Main.getInstance().getParkourHandler().saveConfig(id);
 
         p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
-                + "&aSuccesfully set the " + type + " location of parkour &e" + id));
+                + " &aSuccesfully set the " + type + " location of parkour &e" + id));
     }
 
     public static void setHologram(Player p, String id, String type) {
@@ -53,7 +53,7 @@ public class LocationUtil {
         Main.getInstance().getParkourHandler().saveConfig(id);
 
         p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
-                + "&aSuccesfully set the " + type + " location of parkour &e" + id));
+                + " &aSuccesfully set the " + type + " location of parkour &e" + id));
     }
 
 }

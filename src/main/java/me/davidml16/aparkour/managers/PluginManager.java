@@ -40,10 +40,6 @@ public class PluginManager {
             RestartItemUtil.loadReturnItem();
         }
 
-        for(Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
-            parkour.saveParkour();
-        }
-
         removePlayersFromParkour();
 
         Main.getInstance().setHologramsEnabled(Main.getInstance().getConfig().getBoolean("Hologram.Enabled"));

@@ -46,7 +46,7 @@ public class WalkableBlocks_GUI {
     public void loadGUI(String id) {
         if (guis.containsKey(id)) return;
 
-        Inventory gui = Bukkit.createInventory(null, 45, Main.getInstance().getLanguageHandler().getMessage("GUI_WB_TITLE", false).replaceAll("%parkour%", id));
+        Inventory gui = Bukkit.createInventory(null, 45, Main.getInstance().getLanguageHandler().getMessage("GUI_WB_TITLE").replaceAll("%parkour%", id));
 
         ItemStack edge = new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 7).setName("").toItemStack();
         ItemStack back = new ItemBuilder(Material.ARROW, 1).setName(ColorManager.translate("&aBack to config")).toItemStack();

@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.managers.ColorManager;
+import org.bukkit.permissions.Permission;
 
 public class ParkourHandler {
 
@@ -104,12 +105,6 @@ public class ParkourHandler {
 		return parkourConfigs.get(id);
 	}
 
-	public void saveParkours() {
-		for (Parkour parkour : parkours.values()) {
-			parkour.saveParkour();
-		}
-	}
-
 	public void loadParkours() {
 		File directory = new File(Main.getInstance().getDataFolder(), "parkours");
 		if(!directory.exists()) {
@@ -172,6 +167,10 @@ public class ParkourHandler {
 							parkour.setPermissionRequired(config.getBoolean("parkour.permissionRequired.enabled"));
 							parkour.setPermission(config.getString("parkour.permissionRequired.permission"));
 							parkour.setPermissionMessage(config.getString("parkour.permissionRequired.message"));
+
+							if (Main.getInstance().getServer().getPluginManager().getPermission(parkour.getPermission()) == null) {
+								Main.getInstance().getServer().getPluginManager().addPermission(new Permission(parkour.getPermission()));
+							}
 						}
 
 						Main.log.sendMessage(ColorManager.translate("    &a'" + name + "' loaded!"));

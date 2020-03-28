@@ -50,7 +50,7 @@ public class Event_InventoryGUI implements Listener {
                     } else {
                         if (WalkableBlocksUtil.noContainsWalkable(walkable, itemId, data)) {
                             p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
-                                    + "&aYou add &e" + e.getCurrentItem().getType().name() + " &ato walkable blocks of parkour &e" + id));
+                                    + " &aYou add &e" + e.getCurrentItem().getType().name() + " &ato walkable blocks of parkour &e" + id));
                             WalkableBlock walkableBlock = new WalkableBlock(itemId, data);
                             walkable.add(walkableBlock);
                             Main.getInstance().getParkourHandler().getParkourById(id).setWalkableBlocks(walkable);
@@ -58,7 +58,7 @@ public class Event_InventoryGUI implements Listener {
                             Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
                         } else {
                             p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
-                                    + "&cThe block &e" + e.getCurrentItem().getType().name() + " &calready exists in walkable blocks of parkour &e" + id));
+                                    + " &cThe block &e" + e.getCurrentItem().getType().name() + " &calready exists in walkable blocks of parkour &e" + id));
                             Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
                         }
                     }
@@ -72,7 +72,7 @@ public class Event_InventoryGUI implements Listener {
                 byte data = e.getCurrentItem().getData().getData();
 
                 p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
-                        + "&aYou remove &e" + e.getCurrentItem().getType().name() + " &afrom walkable blocks of parkour &e" + id));
+                        + " &aYou remove &e" + e.getCurrentItem().getType().name() + " &afrom walkable blocks of parkour &e" + id));
                 List<WalkableBlock> walkable = Main.getInstance().getParkourHandler().getParkourById(id).getWalkableBlocks();
                 WalkableBlock walkableBlock = WalkableBlocksUtil.getWalkableBlock(walkable, itemId, data);
                 walkable.remove(walkableBlock);
@@ -94,7 +94,7 @@ public class Event_InventoryGUI implements Listener {
             } else if (slot == 40) {
                 if (e.getCurrentItem().getType() == Material.BARRIER) {
                     PluginManager.reloadAll();
-                    Main.getInstance().getLanguageHandler().sendMessage(p, "COMMANDS_RELOAD", false);
+                    p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("COMMANDS_RELOAD"));
                 }
             }
         }
@@ -110,6 +110,7 @@ public class Event_InventoryGUI implements Listener {
         } else if (Main.getInstance().getConfigGUI().getOpened().containsKey(p.getUniqueId())) {
             Main.getInstance().getConfigGUI().getOpened().remove(p.getUniqueId());
         } else if (Main.getInstance().getWalkableBlocksGUI().getOpened().containsKey(p.getUniqueId())) {
+            Main.getInstance().getParkourHandler().getParkours().get(Main.getInstance().getWalkableBlocksGUI().getOpened().get(p.getUniqueId())).saveParkour();
             Main.getInstance().getWalkableBlocksGUI().getOpened().remove(p.getUniqueId());
         }
     }

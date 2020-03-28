@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Reward;
 import me.davidml16.aparkour.managers.ColorManager;
+import org.bukkit.permissions.Permission;
 
 public class RewardHandler {
 
@@ -29,6 +30,10 @@ public class RewardHandler {
 							String command = Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getString("parkour.rewards." + id + ".command");
 							boolean firstTime = Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getBoolean("parkour.rewards." + id + ".firstTime");
 							rewards.add(new Reward(permission, command, firstTime));
+
+							if (Main.getInstance().getServer().getPluginManager().getPermission(permission) == null) {
+								Main.getInstance().getServer().getPluginManager().addPermission(new Permission(permission));
+							}
 						}
 					}
 				}
@@ -56,7 +61,7 @@ public class RewardHandler {
 				for (Reward reward : Main.getInstance().getParkourHandler().getParkours().get(id).getRewards()) {
 					if(reward.isFirstTime() == firstTime) {
 						if (!reward.getPermission().equalsIgnoreCase("*")) {
-							if (p.hasPermission(reward.getPermission()) || p.isOp()) {
+							if (Main.getInstance().getPlayerDataHandler().playerHasPermission(p, reward.getPermission())) {
 								Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), reward.getCommand().replaceAll("%player%", p.getName()));
 							}
 						} else {

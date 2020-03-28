@@ -189,7 +189,6 @@ public class Main extends JavaPlugin {
             getPlayerDataHandler().getData(d).save();
         }
 
-        getParkourHandler().saveParkours();
         getHologramTask().stop();
     }
 

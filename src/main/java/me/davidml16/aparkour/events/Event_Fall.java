@@ -30,7 +30,8 @@ public class Event_Fall implements Listener {
 
 				if(Main.getInstance().getParkourHandler().isKickFromParkourOnFail()) {
 					Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
-					Main.getInstance().getLanguageHandler().sendMessage(p, "MESSAGES_RETURN", false);
+					p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_RETURN"));
+
 					Main.getInstance().getTimerManager().cancelTimer(p);
 					if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
 						Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);

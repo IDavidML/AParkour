@@ -99,8 +99,8 @@ public class PlayerDataHandler {
 		data.setPotionEffects(null);
 	}
 	
-	public boolean playerHasPermission(Player p) {
-		return p.hasPermission("aparkour.admin") || p.isOp();
+	public boolean playerHasPermission(Player p, String permission) {
+		return p.hasPermission(permission) || p.isOp();
 	}
 
 }

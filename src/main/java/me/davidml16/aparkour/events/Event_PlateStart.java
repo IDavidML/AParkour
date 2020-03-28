@@ -41,24 +41,26 @@ public class Event_PlateStart implements Listener {
 				if (e.getClickedBlock().getLocation().equals(parkour.getStart())) {
 					e.setCancelled(true);
 
-					if(!p.hasPermission(parkour.getPermission()) || !p.isOp()) {
-						if(!cooldown.contains(p)) {
-							cooldown.add(p);
-							p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix() + parkour.getPermissionMessage()));
-							Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
-							Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), new Runnable() {
-								@Override
-								public void run() {
-									cooldown.remove(p);
-								}
-							}, 40);
+					if(parkour.isPermissionRequired()) {
+						if (!Main.getInstance().getPlayerDataHandler().playerHasPermission(p, parkour.getPermission())) {
+							if (!cooldown.contains(p)) {
+								cooldown.add(p);
+								p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix() + " " + parkour.getPermissionMessage()));
+								Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
+								Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), new Runnable() {
+									@Override
+									public void run() {
+										cooldown.remove(p);
+									}
+								}, 40);
+								return;
+							}
 							return;
 						}
-						return;
 					}
 
 					if (!Main.getInstance().getTimerManager().hasPlayerTimer(p)) {
-						Main.getInstance().getLanguageHandler().sendMessage(p, "MESSAGES_STARTED", false);
+						p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_STARTED"));
 						p.setFlying(false);
 						SoundUtil.playStart(p);
 

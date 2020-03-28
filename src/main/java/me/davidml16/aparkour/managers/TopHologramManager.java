@@ -67,9 +67,9 @@ public class TopHologramManager {
                 Hologram header = HologramsAPI.createHologram(Main.getInstance(),
                         parkour.getTopHologram().clone().add(0.5D, 4.5D, 0.5D));
                 header.appendTextLine(Main.getInstance().getLanguageHandler()
-                        .getMessage("HOLOGRAMS_TOP_HEADER_LINE1", false).replaceAll("%parkour%", parkour.getName()));
+                        .getMessage("HOLOGRAMS_TOP_HEADER_LINE1").replaceAll("%parkour%", parkour.getName()));
                 header.appendTextLine(Main.getInstance().getLanguageHandler()
-                        .getMessage("HOLOGRAMS_TOP_HEADER_LINE2", false).replaceAll("%parkour%", parkour.getName()));
+                        .getMessage("HOLOGRAMS_TOP_HEADER_LINE2").replaceAll("%parkour%", parkour.getName()));
 
                 Hologram body = HologramsAPI.createHologram(Main.getInstance(),
                         parkour.getTopHologram().clone().add(0.5D, 3.75D, 0.5D));
@@ -90,7 +90,7 @@ public class TopHologramManager {
                     try {
 
                         body.appendTextLine(Main.getInstance().getLanguageHandler()
-                                .getMessage("HOLOGRAMS_TOP_BODY_LINE", false).replaceAll("%position%", "" + Integer.toString(it + 1))
+                                .getMessage("HOLOGRAMS_TOP_BODY_LINE").replaceAll("%position%", "" + Integer.toString(it + 1))
                                 .replaceAll("%player%",
                                         Main.getInstance().getDatabaseHandler().getPlayerName(entry.getKey().toString()))
                                 .replaceAll("%time%", Main.getInstance().getTimerManager().timeAsString(entry.getValue())));
@@ -103,7 +103,7 @@ public class TopHologramManager {
 
                 for (int i = it; i < 10; i++) {
                     body.appendTextLine(Main.getInstance().getLanguageHandler()
-                            .getMessage("HOLOGRAMS_TOP_BODY_NOTIME", false).replaceAll("%position%", "" + Integer.toString(i + 1)));
+                            .getMessage("HOLOGRAMS_TOP_BODY_NOTIME").replaceAll("%position%", "" + Integer.toString(i + 1)));
                 }
 
                 holoHeader.put(id, header);
@@ -152,7 +152,7 @@ public class TopHologramManager {
                         for (Entry<String, Integer> entry : times.entrySet()) {
                             try {
                                 ((TextLine) body.getLine(it)).setText(Main.getInstance().getLanguageHandler()
-                                        .getMessage("HOLOGRAMS_TOP_BODY_LINE", false).replaceAll("%position%", Integer.toString(it + 1))
+                                        .getMessage("HOLOGRAMS_TOP_BODY_LINE").replaceAll("%position%", Integer.toString(it + 1))
                                         .replaceAll("%player%",
                                                 Main.getInstance().getDatabaseHandler()
                                                         .getPlayerName(entry.getKey().toString()))
@@ -167,11 +167,11 @@ public class TopHologramManager {
 
                         for (int i = it; i < 10; i++) {
                             ((TextLine) body.getLine(i)).setText(Main.getInstance().getLanguageHandler()
-                                    .getMessage("HOLOGRAMS_TOP_BODY_NOTIME", false).replaceAll("%position%", Integer.toString(i + 1)));
+                                    .getMessage("HOLOGRAMS_TOP_BODY_NOTIME").replaceAll("%position%", Integer.toString(i + 1)));
                         }
 
                         holoFooter.get(parkour.getId()).setText(
-                                Main.getInstance().getLanguageHandler().getMessage("HOLOGRAMS_TOP_FOOTER_UPDATING", false));
+                                Main.getInstance().getLanguageHandler().getMessage("HOLOGRAMS_TOP_FOOTER_UPDATING"));
                     }
                 }
 
@@ -182,7 +182,7 @@ public class TopHologramManager {
                 if (holoFooter.containsKey(parkour.getId())) {
                     holoFooter.get(parkour.getId())
                             .setText(Main.getInstance().getLanguageHandler()
-                                    .getMessage("HOLOGRAMS_TOP_FOOTER_LINE", false)
+                                    .getMessage("HOLOGRAMS_TOP_FOOTER_LINE")
                                     .replaceAll("%time%", Main.getInstance().getTimerManager().timeAsString(timeLeft)));
                 }
             }
