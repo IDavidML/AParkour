@@ -3,6 +3,8 @@ package me.davidml16.aparkour.handlers;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import me.davidml16.aparkour.managers.ColorManager;
 import org.bukkit.ChatColor;
@@ -49,6 +51,9 @@ public class LanguageHandler {
 	}
 
 	public void pushMessages() {
+		Main.log.sendMessage(ColorManager.translate(""));
+		Main.log.sendMessage(ColorManager.translate("  &eLoading language:"));
+
 		File f = new File("plugins/AParkour/language/messages_" + language + ".yml");
 		YamlConfiguration c = YamlConfiguration.loadConfiguration(f);
 
@@ -85,6 +90,8 @@ public class LanguageHandler {
 		messages.put("ENDMESSAGE_FIRSTTIME", c.getString("EndMessage.FirstTime"));
 		messages.put("ENDMESSAGE_NORMAL", c.getString("EndMessage.Normal"));
 		messages.put("ENDMESSAGE_RECORD", c.getString("EndMessage.Record"));
+
+		Main.log.sendMessage(ColorManager.translate("    &a'" + language + "' loaded!"));
 	}
 
 	public void loadEnglish() {
@@ -92,51 +99,64 @@ public class LanguageHandler {
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
-				YamlConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-
-				cfg.set("Prefix", "&9&lAParkour &l&o&f>>&r");
-				cfg.set("Commands.NoPerms", "%prefix% &cYou dont have permissions to use this command!");
-				cfg.set("Commands.NoStats", "%prefix% &cYou dont haves statistics at this moment!");
-				cfg.set("Commands.NoParkours", "%prefix% &cAny parkour created at this moment!");
-				cfg.set("Commands.Reload", "%prefix% &aPlugin reloaded with no errors!");
-
-				cfg.set("GUIs.Stats.title", "Parkour Statistics");
-				cfg.set("GUIs.Top.title", "Parkour Top Players");
-				cfg.set("GUIs.Config.title", "%parkour% | Configuration");
-				cfg.set("GUIs.WalkableBlocks.title", "%parkour% | Blocks");
-				cfg.set("GUIs.Rewards.title", "%parkour% | Rewards");
-
-				cfg.set("Times.Hours", "hours");
-				cfg.set("Times.Hour", "hour");
-				cfg.set("Times.Minutes", "minutes");
-				cfg.set("Times.Minute", "minute");
-				cfg.set("Times.Seconds", "seconds");
-				cfg.set("Times.Second", "second");
-				cfg.set("Times.NoBestTime", "N/A");
-
-				cfg.set("Timer.ActionBar", "&e&lCurrent Time: &6%currentTime% &7- &e&lBest Time: &6%bestTime%");
-
-				cfg.set("Holograms.Stats.Line1", "&a%player%'s %parkour% parkour stats");
-				cfg.set("Holograms.Stats.Line2", "&aBest time&7: &6%time%");
-				cfg.set("Holograms.Top.Header.Line1", "&a&lTOP PARKOUR TIMES");
-				cfg.set("Holograms.Top.Header.Line2", "&7- %parkour% -");
-				cfg.set("Holograms.Top.Body.Line", "&e%position%. &a%player% &7- &6%time%");
-				cfg.set("Holograms.Top.Body.NoTime", "&e%position%. &cN/A");
-				cfg.set("Holograms.Top.Footer.Line", "&aUpdating: &6%time%");
-				cfg.set("Holograms.Top.Footer.Updating", "&aUpdating: &cLoading...");
-
-				cfg.set("Messages.Started", "&aStarted parkour! Get to the end as quick as possible.");
-				cfg.set("Messages.Fly", "&cYou can not fly when you are in parkour.");
-				cfg.set("Messages.Return", "&6Returning to beginning of parkour...");
-
-				cfg.set("EndMessage.FirstTime", "&6You completed this parkour for the first time!");
-				cfg.set("EndMessage.Normal", "&6You completed the parkour in &d%endTime%");
-				cfg.set("EndMessage.Record", "&6You beat your previous best time by &d%recordTime%");
-
-				cfg.save(file);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+		YamlConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+
+		cfg.options().header("\n\nThis is the messsages file.\nYou can change any messages that are in this file\n\nIf you want to reset a message back to the default,\ndelete the entire line the message is on and restart the server.\n\t\n\t");
+
+		Map<String, String> msgDefaults = new LinkedHashMap<String, String>();
+		msgDefaults.put("Prefix", "&9&lAParkour &l&o&f>>&r");
+		msgDefaults.put("Commands.NoPerms", "%prefix% &cYou dont have permissions to use this command!");
+		msgDefaults.put("Commands.NoStats", "%prefix% &cYou dont haves statistics at this moment!");
+		msgDefaults.put("Commands.NoParkours", "%prefix% &cAny parkour created at this moment!");
+		msgDefaults.put("Commands.Reload", "%prefix% &aPlugin reloaded with no errors!");
+
+		msgDefaults.put("GUIs.Stats.title", "Parkour Statistics");
+		msgDefaults.put("GUIs.Top.title", "Parkour Top Players");
+		msgDefaults.put("GUIs.Config.title", "%parkour% | Configuration");
+		msgDefaults.put("GUIs.WalkableBlocks.title", "%parkour% | Blocks");
+		msgDefaults.put("GUIs.Rewards.title", "%parkour% | Rewards");
+
+		msgDefaults.put("Times.Hours", "hours");
+		msgDefaults.put("Times.Hour", "hour");
+		msgDefaults.put("Times.Minutes", "minutes");
+		msgDefaults.put("Times.Minute", "minute");
+		msgDefaults.put("Times.Seconds", "seconds");
+		msgDefaults.put("Times.Second", "second");
+		msgDefaults.put("Times.NoBestTime", "N/A");
+
+		msgDefaults.put("Timer.ActionBar", "&e&lCurrent Time: &6%currentTime% &7- &e&lBest Time: &6%bestTime%");
+
+		msgDefaults.put("Holograms.Stats.Line1", "&a%player%'s %parkour% parkour stats");
+		msgDefaults.put("Holograms.Stats.Line2", "&aBest time&7: &6%time%");
+		msgDefaults.put("Holograms.Top.Header.Line1", "&a&lTOP PARKOUR TIMES");
+		msgDefaults.put("Holograms.Top.Header.Line2", "&7- %parkour% -");
+		msgDefaults.put("Holograms.Top.Body.Line", "&e%position%. &a%player% &7- &6%time%");
+		msgDefaults.put("Holograms.Top.Body.NoTime", "&e%position%. &cN/A");
+		msgDefaults.put("Holograms.Top.Footer.Line", "&aUpdating: &6%time%");
+		msgDefaults.put("Holograms.Top.Footer.Updating", "&aUpdating: &cLoading...");
+
+		msgDefaults.put("Messages.Started", "&aStarted parkour! Get to the end as quick as possible.");
+		msgDefaults.put("Messages.Fly", "&cYou can not fly when you are in parkour.");
+		msgDefaults.put("Messages.Return", "&6Returning to beginning of parkour...");
+
+		msgDefaults.put("EndMessage.FirstTime", "&6You completed this parkour for the first time!");
+		msgDefaults.put("EndMessage.Normal", "&6You completed the parkour in &d%endTime%");
+		msgDefaults.put("EndMessage.Record", "&6You beat your previous best time by &d%recordTime%");
+
+		for (String key : msgDefaults.keySet()) {
+			if (!cfg.isSet(key)) {
+				cfg.set(key, msgDefaults.get(key));
+			}
+		}
+
+		try {
+			cfg.save(file);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -145,51 +165,64 @@ public class LanguageHandler {
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
-				YamlConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-
-				cfg.set("Prefix", "&9&lAParkour &l&o&f>>&r");
-				cfg.set("Commands.NoPerms", "%prefix% &cNo tienes permisos para usar este comando!");
-				cfg.set("Commands.NoStats", "%prefix% &cNo tienes estadísticas en este momento!");
-				cfg.set("Commands.NoParkours", "%prefix% &cNo hay ningún parkour creado de momento!");
-				cfg.set("Commands.Reload", "%prefix% &aPlugin recargado sin errores!");
-
-				cfg.set("GUIs.Stats.title", "Estadísticas del Parkour");
-				cfg.set("GUIs.Top.title", "Top jugadores del Parkour");
-				cfg.set("GUIs.Config.title", "%parkour% | Configuración");
-				cfg.set("GUIs.WalkableBlocks.title", "%parkour% | Bloques");
-				cfg.set("GUIs.Rewards.title", "%parkour% | Recompensas");
-
-				cfg.set("Times.Hours", "horas");
-				cfg.set("Times.Hour", "hora");
-				cfg.set("Times.Minutes", "minutos");
-				cfg.set("Times.Minute", "minuto");
-				cfg.set("Times.Seconds", "segundos");
-				cfg.set("Times.Second", "segundo");
-				cfg.set("Times.NoBestTime", "N/A");
-
-				cfg.set("Timer.ActionBar", "&e&lTiempo actual: &6%currentTime% &7- &e&lMejor tiempo: &6%bestTime%");
-
-				cfg.set("Holograms.Stats.Line1", "&aEstadísticas de %player% en %parkour%");
-				cfg.set("Holograms.Stats.Line2", "&aMejor tiempo&7: &6%time%");
-				cfg.set("Holograms.Top.Header.Line1", "&a&lTOP MEJORES TIEMPOS");
-				cfg.set("Holograms.Top.Header.Line2", "&7- %parkour% -");
-				cfg.set("Holograms.Top.Body.Line", "&e%position%. &a%player% &7- &6%time%");
-				cfg.set("Holograms.Top.Body.NoTime", "&e%position%. &cN/A");
-				cfg.set("Holograms.Top.Footer.Line", "&aActualización: &6%time%");
-				cfg.set("Holograms.Top.Footer.Updating", "&aActualización: &cCargando...");
-
-				cfg.set("Messages.Started", "&aParkour iniciado! Llega al final lo más rapido que puedeas.");
-				cfg.set("Messages.Fly", "&cNo puedes volar cuando estas en el parkour.");
-				cfg.set("Messages.Return", "&6Volviendo al inicio del parkour...");
-
-				cfg.set("EndMessage.FirstTime", "&6Has completado este parkour por primera vez!");
-				cfg.set("EndMessage.Normal", "&6Has completado el parkour en &d%endTime%");
-				cfg.set("EndMessage.Record", "&6Has mejorado tu anterior tiempo por &d%recordTime%");
-
-				cfg.save(file);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+		YamlConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+
+		cfg.options().header("\n\nThis is the messsages file.\nYou can change any messages that are in this file\n\nIf you want to reset a message back to the default,\ndelete the entire line the message is on and restart the server.\n\t\n\t");
+
+		Map<String, String> msgDefaults = new LinkedHashMap<String, String>();
+		msgDefaults.put("Prefix", "&9&lAParkour &l&o&f>>&r");
+		msgDefaults.put("Commands.NoPerms", "%prefix% &cNo tienes permisos para usar este comando!");
+		msgDefaults.put("Commands.NoStats", "%prefix% &cNo tienes estadísticas en este momento!");
+		msgDefaults.put("Commands.NoParkours", "%prefix% &cNo hay ningún parkour creado de momento!");
+		msgDefaults.put("Commands.Reload", "%prefix% &aPlugin recargado sin errores!");
+
+		msgDefaults.put("GUIs.Stats.title", "Estadísticas del Parkour");
+		msgDefaults.put("GUIs.Top.title", "Top jugadores del Parkour");
+		msgDefaults.put("GUIs.Config.title", "%parkour% | Configuración");
+		msgDefaults.put("GUIs.WalkableBlocks.title", "%parkour% | Bloques");
+		msgDefaults.put("GUIs.Rewards.title", "%parkour% | Recompensas");
+
+		msgDefaults.put("Times.Hours", "horas");
+		msgDefaults.put("Times.Hour", "hora");
+		msgDefaults.put("Times.Minutes", "minutos");
+		msgDefaults.put("Times.Minute", "minuto");
+		msgDefaults.put("Times.Seconds", "segundos");
+		msgDefaults.put("Times.Second", "segundo");
+		msgDefaults.put("Times.NoBestTime", "N/A");
+
+		msgDefaults.put("Timer.ActionBar", "&e&lTiempo actual: &6%currentTime% &7- &e&lMejor tiempo: &6%bestTime%");
+
+		msgDefaults.put("Holograms.Stats.Line1", "&aEstadísticas de %player% en %parkour%");
+		msgDefaults.put("Holograms.Stats.Line2", "&aMejor tiempo&7: &6%time%");
+		msgDefaults.put("Holograms.Top.Header.Line1", "&a&lTOP MEJORES TIEMPOS");
+		msgDefaults.put("Holograms.Top.Header.Line2", "&7- %parkour% -");
+		msgDefaults.put("Holograms.Top.Body.Line", "&e%position%. &a%player% &7- &6%time%");
+		msgDefaults.put("Holograms.Top.Body.NoTime", "&e%position%. &cN/A");
+		msgDefaults.put("Holograms.Top.Footer.Line", "&aActualización: &6%time%");
+		msgDefaults.put("Holograms.Top.Footer.Updating", "&aActualización: &cCargando...");
+
+		msgDefaults.put("Messages.Started", "&aParkour iniciado! Llega al final lo más rapido que puedeas.");
+		msgDefaults.put("Messages.Fly", "&cNo puedes volar cuando estas en el parkour.");
+		msgDefaults.put("Messages.Return", "&6Volviendo al inicio del parkour...");
+
+		msgDefaults.put("EndMessage.FirstTime", "&6Has completado este parkour por primera vez!");
+		msgDefaults.put("EndMessage.Normal", "&6Has completado el parkour en &d%endTime%");
+		msgDefaults.put("EndMessage.Record", "&6Has mejorado tu anterior tiempo por &d%recordTime%");
+
+		for (String key : msgDefaults.keySet()) {
+			if (!cfg.isSet(key)) {
+				cfg.set(key, msgDefaults.get(key));
+			}
+		}
+
+		try {
+			cfg.save(file);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

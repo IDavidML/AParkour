@@ -8,11 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4467d438-d629-4a77-aced-9b0c874b398a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/conversation/CommonPrompts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/conversation/CommonPrompts.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/ParkourConfig_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/ParkourConfig_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/ParkourHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/ParkourHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/version.txt" beforeDir="false" afterPath="$PROJECT_DIR$/version.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/LanguageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/LanguageHandler.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -61,7 +57,7 @@
           <entry key="class" value="2" />
           <entry key="gitignore" value="2" />
           <entry key="iml" value="1" />
-          <entry key="java" value="728" />
+          <entry key="java" value="733" />
           <entry key="txt" value="6" />
           <entry key="xml" value="36" />
           <entry key="yml" value="39" />
@@ -71,7 +67,7 @@
         <counts>
           <entry key="CLASS" value="2" />
           <entry key="IDEA_MODULE" value="1" />
-          <entry key="JAVA" value="728" />
+          <entry key="JAVA" value="733" />
           <entry key="PLAIN_TEXT" value="8" />
           <entry key="XML" value="36" />
           <entry key="YAML" value="39" />
@@ -80,7 +76,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="72" />
-          <entry key="java" value="23341" />
+          <entry key="java" value="23440" />
           <entry key="txt" value="7" />
           <entry key="xml" value="51" />
           <entry key="yml" value="788" />
@@ -88,7 +84,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="23341" />
+          <entry key="JAVA" value="23440" />
           <entry key="PLAIN_TEXT" value="79" />
           <entry key="XML" value="51" />
           <entry key="YAML" value="788" />
@@ -118,10 +114,41 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/LanguageHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="8" column="28" lean-forward="true" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
+            <state relative-caret-position="322">
+              <caret line="94" column="5" lean-forward="true" selection-start-line="94" selection-start-column="5" selection-end-line="94" selection-end-column="5" />
+              <folding>
+                <element signature="e#4130#4146#0" expanded="true" />
+                <element signature="e#7523#7539#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/ParkourHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="309">
+              <caret line="177" column="101" lean-forward="true" selection-start-line="177" selection-start-column="24" selection-end-line="177" selection-end-column="101" />
+              <folding>
+                <element signature="e#2870#2871#0" expanded="true" />
+                <element signature="e#2906#2907#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="84" column="38" lean-forward="true" selection-start-line="84" selection-start-column="38" selection-end-line="84" selection-end-column="38" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#7613#7614#0" expanded="true" />
+                <element signature="e#7646#7647#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -165,6 +192,8 @@
       <find>Main.getInstance().getParkourHandler().getConfig(parkourID)</find>
       <find>Main.getInstance().getWalkableBlocksGUI().getOpened()</find>
       <find>Main.getInstance().getParkourHandler().getConfig(id)</find>
+      <find>cfg</find>
+      <find>cfg.set</find>
     </findStrings>
     <replaceStrings>
       <replace>&amp;</replace>
@@ -188,6 +217,8 @@
       <replace>parkourConfigs.get(parkourID)</replace>
       <replace>opened</replace>
       <replace>config</replace>
+      <replace>msgDefaults</replace>
+      <replace>msgDefaults.put</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -242,7 +273,6 @@
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/PlayerStats_GUI.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/ParkourRanking_GUI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/LanguageHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/Command_AParkour.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/PluginManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/data/Parkour.java" />
@@ -255,6 +285,7 @@
         <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/conversation/CommonPrompts.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/version.txt" />
+        <option value="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/LanguageHandler.java" />
       </list>
     </option>
   </component>
@@ -339,6 +370,24 @@
               <item name="AParkour" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aparkour" type="462c0819:PsiDirectoryNode" />
+              <item name="handlers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AParkour" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AParkour" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="aparkour" type="462c0819:PsiDirectoryNode" />
+              <item name="managers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AParkour" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AParkour" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -349,7 +398,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1585676343970" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1585693405750" />
     <property name="last_opened_file_path" value="D:/Program Files/Git/cmd/git.exe" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
@@ -773,13 +822,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/PluginManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="644">
-          <caret line="53" column="38" lean-forward="true" selection-start-line="53" selection-start-column="38" selection-end-line="53" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/WalkableBlocks_GUI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="446">
@@ -791,6 +833,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="700">
           <caret line="120" column="42" lean-forward="true" selection-start-line="120" selection-start-column="42" selection-end-line="120" selection-end-column="42" />
+          <folding>
+            <element signature="e#1594#1595#0" expanded="true" />
+            <element signature="e#1637#1638#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -801,40 +847,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/LanguageHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="155" column="47" lean-forward="true" selection-start-line="155" selection-start-column="47" selection-end-line="155" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/GuiConstants.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1412">
-          <caret line="252" column="21" lean-forward="true" selection-start-line="252" selection-start-column="21" selection-end-line="252" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#7613#7614#0" expanded="true" />
-            <element signature="e#7646#7647#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/spigotmc/spigot-api/1.12.2-R0.1-SNAPSHOT/spigot-api-1.12.2-R0.1-20180712.012057-156-sources.jar!/org/bukkit/configuration/MemorySection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="105" column="19" selection-start-line="105" selection-start-column="19" selection-end-line="105" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/ParkourHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="127" column="38" selection-start-line="127" selection-start-column="38" selection-end-line="127" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/conversation/CommonPrompts.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -853,6 +866,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="230">
           <caret line="248" column="36" lean-forward="true" selection-start-line="248" selection-start-column="36" selection-end-line="248" selection-end-column="36" />
+          <folding>
+            <element signature="e#15519#15551#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -867,6 +883,54 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
           <caret line="8" column="28" lean-forward="true" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/spigotmc/spigot-api/1.12.2-R0.1-SNAPSHOT/spigot-api-1.12.2-R0.1-20180712.012057-156-sources.jar!/org/bukkit/configuration/MemorySection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="113" column="19" selection-start-line="113" selection-start-column="19" selection-end-line="113" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="84" column="38" lean-forward="true" selection-start-line="84" selection-start-column="38" selection-end-line="84" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7613#7614#0" expanded="true" />
+            <element signature="e#7646#7647#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/ParkourHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="177" column="101" lean-forward="true" selection-start-line="177" selection-start-column="24" selection-end-line="177" selection-end-column="101" />
+          <folding>
+            <element signature="e#2870#2871#0" expanded="true" />
+            <element signature="e#2906#2907#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/PluginManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="644">
+          <caret line="53" column="38" lean-forward="true" selection-start-line="53" selection-start-column="38" selection-end-line="53" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/LanguageHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="94" column="5" lean-forward="true" selection-start-line="94" selection-start-column="5" selection-end-line="94" selection-end-column="5" />
+          <folding>
+            <element signature="e#4130#4146#0" expanded="true" />
+            <element signature="e#7523#7539#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
