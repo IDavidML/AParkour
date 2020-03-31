@@ -121,6 +121,9 @@ public class ParkourHandler {
 			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 			String name = config.getString("parkour.name");
 
+			parkourFiles.put(id, file);
+			parkourConfigs.put(id, config);
+
 			if(!Character.isDigit(id.charAt(0))) {
 				if (validParkourData(config)) {
 					Location spawn = (Location) config.get("parkour.spawn");
@@ -142,8 +145,6 @@ public class ParkourHandler {
 					if (parkours.size() < 21) {
 						Parkour parkour = new Parkour(id, name, spawn, start, end, statsHologram, topHologram);
 						parkours.put(id, parkour);
-						parkourFiles.put(id, file);
-						parkourConfigs.put(id, config);
 
 						if (config.contains("parkour.walkableBlocks")) {
 							List<WalkableBlock> walkable = getWalkableBlocks(id);

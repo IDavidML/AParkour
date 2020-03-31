@@ -45,7 +45,8 @@ public interface CommonPrompts  {
             }
 
             param1ConversationContext.setSessionData(this.storeValue, param1String);
-            Sounds.playSound((Player) param1ConversationContext.getSessionData("player"), ((Player) param1ConversationContext.getSessionData("player")).getLocation(), Sounds.MySound.CLICK, 10, 2);
+            Sounds.playSound((Player) param1ConversationContext.getSessionData("player"),
+                    ((Player) param1ConversationContext.getSessionData("player")).getLocation(), Sounds.MySound.CLICK, 10, 2);
             return this.parentPrompt;
         }
     }
@@ -70,13 +71,17 @@ public interface CommonPrompts  {
                 return this.parentPrompt;
             }
 
-            if (param1String.equalsIgnoreCase("true")) {
-                param1ConversationContext.setSessionData(this.storeValue, "true");
-                return parentPrompt;
+            if (param1String.contains(" ")) {
+                param1ConversationContext.getForWhom().sendRawMessage(ChatColor.RED + "  Spaces are not allowed!\n ");
+                Sounds.playSound((Player) param1ConversationContext.getSessionData("player"),
+                        ((Player) param1ConversationContext.getSessionData("player")).getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
+                return this;
             }
 
-            if (param1String.equalsIgnoreCase("false")) {
-                param1ConversationContext.setSessionData(this.storeValue, "false");
+            if (param1String.equalsIgnoreCase("true") || param1String.equalsIgnoreCase("false")) {
+                param1ConversationContext.setSessionData(this.storeValue, param1String.toLowerCase());
+                Sounds.playSound((Player) param1ConversationContext.getSessionData("player"),
+                        ((Player) param1ConversationContext.getSessionData("player")).getLocation(), Sounds.MySound.CLICK, 10, 2);
                 return parentPrompt;
             }
 
