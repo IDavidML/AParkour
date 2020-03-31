@@ -29,7 +29,7 @@ public class RewardHandler {
 							String permission = Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getString("parkour.rewards." + id + ".permission");
 							String command = Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getString("parkour.rewards." + id + ".command");
 							boolean firstTime = Main.getInstance().getParkourHandler().getConfig(parkour.getId()).getBoolean("parkour.rewards." + id + ".firstTime");
-							rewards.add(new Reward(permission, command, firstTime));
+							rewards.add(new Reward(id, permission, command, firstTime));
 
 							if (Main.getInstance().getServer().getPluginManager().getPermission(permission) == null) {
 								Main.getInstance().getServer().getPluginManager().addPermission(new Permission(permission));
@@ -48,7 +48,7 @@ public class RewardHandler {
 		Main.log.sendMessage(ColorManager.translate(""));
 	}
 
-	public boolean validRewardData(String parkourID, String rewardID) {
+	private boolean validRewardData(String parkourID, String rewardID) {
 		return Main.getInstance().getParkourHandler().getConfig(parkourID).contains("parkour.rewards." + rewardID + ".permission")
 				&& Main.getInstance().getParkourHandler().getConfig(parkourID).contains("parkour.rewards." + rewardID + ".command")
 				&& Main.getInstance().getParkourHandler().getConfig(parkourID).contains("parkour.rewards." + rewardID + ".firstTime");

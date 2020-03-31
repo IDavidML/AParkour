@@ -4,6 +4,7 @@
       <w>conection</w>
       <w>endmessage</w>
       <w>firsttime</w>
+      <w>identificator</w>
       <w>jdbc</w>
       <w>nobesttime</w>
       <w>noparkours</w>
@@ -12,6 +13,7 @@
       <w>notime</w>
       <w>parkour</w>
       <w>parkours</w>
+      <w>rewardid</w>
       <w>sqlite</w>
     </words>
   </dictionary>

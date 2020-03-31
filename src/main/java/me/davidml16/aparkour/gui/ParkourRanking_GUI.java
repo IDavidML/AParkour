@@ -9,20 +9,28 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.data.WalkableBlock;
 import me.davidml16.aparkour.managers.ColorManager;
+import me.davidml16.aparkour.managers.PluginManager;
 import me.davidml16.aparkour.utils.ItemBuilder;
+import me.davidml16.aparkour.utils.Sounds;
+import me.davidml16.aparkour.utils.WalkableBlocksUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.davidml16.aparkour.Main;
 
-public class ParkourRanking_GUI {
+public class ParkourRanking_GUI implements Listener {
 
 	private List<UUID> opened;
 	private Inventory gui;
@@ -31,6 +39,7 @@ public class ParkourRanking_GUI {
 	public ParkourRanking_GUI() {
 		this.opened = new ArrayList<UUID>();
 		this.borders = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44);
+		Main.getInstance().getServer().getPluginManager().registerEvents(this, Main.getInstance());
 	}
 
 	public List<UUID> getOpened() {
@@ -110,6 +119,24 @@ public class ParkourRanking_GUI {
 
 		p.openInventory(this.gui);
 		opened.add(p.getUniqueId());
+	}
+
+	@SuppressWarnings("deprecation")
+	@EventHandler
+	public void onInventoryClickEvent(InventoryClickEvent e) {
+		Player p = (Player) e.getWhoClicked();
+
+		if (e.getCurrentItem() == null) return;
+
+		if (opened.contains(p.getUniqueId())) {
+			e.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void InventoryCloseEvent(InventoryCloseEvent e) {
+		Player p = (Player) e.getPlayer();
+		opened.remove(p.getUniqueId());
 	}
 
 }

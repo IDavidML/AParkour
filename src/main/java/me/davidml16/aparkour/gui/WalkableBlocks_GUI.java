@@ -1,15 +1,23 @@
 package me.davidml16.aparkour.gui;
 
 import me.davidml16.aparkour.Main;
+import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.data.WalkableBlock;
 import me.davidml16.aparkour.managers.ColorManager;
+import me.davidml16.aparkour.managers.PluginManager;
 import me.davidml16.aparkour.utils.ItemBuilder;
+import me.davidml16.aparkour.utils.Sounds;
+import me.davidml16.aparkour.utils.WalkableBlocksUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,7 +25,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.io.File;
 import java.util.*;
 
-public class WalkableBlocks_GUI {
+public class WalkableBlocks_GUI implements Listener {
 
     private HashMap<UUID, String> opened;
     private HashMap<String, Inventory> guis;
@@ -27,6 +35,7 @@ public class WalkableBlocks_GUI {
         this.opened = new HashMap<UUID, String>();
         this.guis = new HashMap<String, Inventory>();
         this.borders = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 41, 42, 43, 44);
+        Main.getInstance().getServer().getPluginManager().registerEvents(this, Main.getInstance());
     }
 
     public HashMap<UUID, String> getOpened() {
@@ -126,9 +135,84 @@ public class WalkableBlocks_GUI {
 
     public void open(Player p, String id) {
         p.updateInventory();
-
-        opened.put(p.getUniqueId(), id);
         p.openInventory(guis.get(id));
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+            public void run() {
+                opened.put(p.getUniqueId(), id);
+            }
+        }, 1L);
+    }
+
+    @SuppressWarnings("deprecation")
+    @EventHandler
+    public void onInventoryClickEvent(InventoryClickEvent e) {
+        Player p = (Player) e.getWhoClicked();
+
+        if (e.getCurrentItem() == null) return;
+
+        if (opened.containsKey(p.getUniqueId())) {
+            e.setCancelled(true);
+            int slot = e.getRawSlot();
+            String id = opened.get(p.getUniqueId());
+            Parkour parkour = Main.getInstance().getParkourHandler().getParkourById(id);
+            if (slot == 40) {
+                p.closeInventory();
+                Main.getInstance().getConfigGUI().open(p, id);
+            } else if (slot >= 45 && slot <= 80) {
+                List<WalkableBlock> walkable = parkour.getWalkableBlocks();
+                if (walkable.size() < 21) {
+
+                    if (e.getCurrentItem().getType() == Material.AIR) return;
+
+                    int itemId = e.getCurrentItem().getTypeId();
+                    byte data = e.getCurrentItem().getData().getData();
+
+                    if (e.getCurrentItem().getType().name().contains("PLATE")) {
+                        Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
+                    } else {
+                        if (WalkableBlocksUtil.noContainsWalkable(walkable, itemId, data)) {
+                            p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                                    + " &aYou added &e" + e.getCurrentItem().getType().name() + " &ato walkable blocks of parkour &e" + id));
+                            WalkableBlock walkableBlock = new WalkableBlock(itemId, data);
+                            walkable.add(walkableBlock);
+                            parkour.setWalkableBlocks(walkable);
+                            reloadGUI(id);
+                            Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
+                        } else {
+                            p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                                    + " &cThe block &e" + e.getCurrentItem().getType().name() + " &calready exists in walkable blocks of parkour &e" + id));
+                            Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
+                        }
+                    }
+                }
+            } else if ((slot >= 10 && slot <= 16) || (slot >= 19 && slot <= 25) || (slot >= 28 && slot <= 34)) {
+                if (e.getCurrentItem().getType() == Material.AIR) return;
+
+                if (parkour.getWalkableBlocks().size() == 0) return;
+
+                int itemId = e.getCurrentItem().getTypeId();
+                byte data = e.getCurrentItem().getData().getData();
+
+                p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                        + " &aYou removed &e" + e.getCurrentItem().getType().name() + " &afrom walkable blocks of parkour &e" + id));
+                List<WalkableBlock> walkable = parkour.getWalkableBlocks();
+                WalkableBlock walkableBlock = WalkableBlocksUtil.getWalkableBlock(walkable, itemId, data);
+                walkable.remove(walkableBlock);
+                parkour.setWalkableBlocks(walkable);
+                reloadGUI(id);
+                Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
+            }
+        }
+    }
+
+    @EventHandler
+    public void InventoryCloseEvent(InventoryCloseEvent e) {
+        Player p = (Player) e.getPlayer();
+        if (opened.containsKey(p.getUniqueId())) {
+            Main.getInstance().getParkourHandler().getParkours().get(opened.get(p.getUniqueId())).saveParkour();
+            opened.remove(p.getUniqueId());
+        }
     }
 
 }

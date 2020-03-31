@@ -62,6 +62,7 @@ public class LanguageHandler {
 		messages.put("GUI_TOP_TITLE", c.getString("GUIs.Top.title"));
 		messages.put("GUI_CONFIG_TITLE", c.getString("GUIs.Config.title"));
 		messages.put("GUI_WB_TITLE", c.getString("GUIs.WalkableBlocks.title"));
+		messages.put("GUI_REWARDS_TITLE", c.getString("GUIs.Rewards.title"));
 		messages.put("TIMES_HOURS", c.getString("Times.Hours"));
 		messages.put("TIMES_HOUR", c.getString("Times.Hour"));
 		messages.put("TIMES_MINUTES", c.getString("Times.Minutes"));
@@ -103,6 +104,7 @@ public class LanguageHandler {
 				cfg.set("GUIs.Top.title", "Parkour Top Players");
 				cfg.set("GUIs.Config.title", "%parkour% | Configuration");
 				cfg.set("GUIs.WalkableBlocks.title", "%parkour% | Blocks");
+				cfg.set("GUIs.Rewards.title", "%parkour% | Rewards");
 
 				cfg.set("Times.Hours", "hours");
 				cfg.set("Times.Hour", "hour");
@@ -155,6 +157,7 @@ public class LanguageHandler {
 				cfg.set("GUIs.Top.title", "Top jugadores del Parkour");
 				cfg.set("GUIs.Config.title", "%parkour% | Configuración");
 				cfg.set("GUIs.WalkableBlocks.title", "%parkour% | Bloques");
+				cfg.set("GUIs.Rewards.title", "%parkour% | Recompensas");
 
 				cfg.set("Times.Hours", "horas");
 				cfg.set("Times.Hour", "hora");

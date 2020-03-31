@@ -2,6 +2,7 @@ package me.davidml16.aparkour.commands;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import me.davidml16.aparkour.conversation.RewardMenu;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.managers.PluginManager;
 import me.davidml16.aparkour.utils.ActionBar;

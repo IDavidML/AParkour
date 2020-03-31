@@ -2,20 +2,27 @@ package me.davidml16.aparkour.gui;
 
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.managers.ColorManager;
+import me.davidml16.aparkour.managers.PluginManager;
 import me.davidml16.aparkour.utils.ItemBuilder;
+import me.davidml16.aparkour.utils.LocationUtil;
+import me.davidml16.aparkour.utils.Sounds;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.util.*;
 
-public class ParkourConfig_GUI {
+public class ParkourConfig_GUI implements Listener {
 
     private HashMap<UUID, String> opened;
     private HashMap<String, Inventory> guis;
@@ -24,7 +31,8 @@ public class ParkourConfig_GUI {
     public ParkourConfig_GUI() {
         this.opened = new HashMap<UUID, String>();
         this.guis = new HashMap<String, Inventory>();
-        this.borders = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 17, 18, 24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 41, 42, 43, 44);
+        this.borders = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 17, 18, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44);
+        Main.getInstance().getServer().getPluginManager().registerEvents(this, Main.getInstance());
     }
 
     public HashMap<UUID, String> getOpened() {
@@ -92,34 +100,52 @@ public class ParkourConfig_GUI {
         }
 
         if(Main.getInstance().getParkourHandler().getParkours().containsKey(id)) {
-            gui.setItem(16, new ItemBuilder(Material.BOOK, 1)
-                    .setName(ColorManager.translate("&aWalkable blocks tutorial"))
-                    .setLore("", ColorManager.translate(" &7Open walkable blocks gui ")
-                            , ColorManager.translate(" &7and click on a block "),
+            gui.setItem(16, new ItemBuilder(Material.PISTON_BASE, 1)
+                    .setName(ColorManager.translate("&aWalkable blocks"))
+                    .setLore(
+                            "",
+                            ColorManager.translate(" &7Open walkable blocks gui "),
+                            ColorManager.translate(" &7and click on a block "),
                             ColorManager.translate(" &7in your inventory to add it. "),
-                            "", ColorManager.translate(" &7Click the added block in "),
-                            ColorManager.translate(" &7the GUI to remove it. "), "").toItemStack());
-            gui.setItem(25, new ItemBuilder(Material.PISTON_BASE, 1).setName(ColorManager.translate("&aWalkable blocks")).setLore("", ColorManager.translate("&eClick to config blocks!")).toItemStack());
+                            "",
+                            ColorManager.translate(" &7Click the added block in "),
+                            ColorManager.translate(" &7the GUI to remove it. "),
+                            "",
+                            ColorManager.translate("&eClick to config blocks! ")
+                    ).toItemStack());
+            gui.setItem(34, new ItemBuilder(Material.GOLD_NUGGET, 1)
+                    .setName(ColorManager.translate("&aRewards"))
+                    .setLore(
+                            "",
+                            ColorManager.translate(" &7Open rewards gui and "),
+                            ColorManager.translate(" &7click on new reward "),
+                            ColorManager.translate(" &7to begin reward setup. "),
+                            "",
+                            ColorManager.translate(" &7Click the rewards item "),
+                            ColorManager.translate(" &7in the GUI to remove it. "),
+                            "",
+                            ColorManager.translate("&eClick to config rewards! ")
+                    ).toItemStack());
         } else {
             ItemStack noSetup = new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 14).setName(ColorManager.translate("&cParkour setup not valid")).toItemStack();
             gui.setItem(16, noSetup);
-            gui.setItem(25, noSetup);
+            gui.setItem(34, noSetup);
         }
 
-        gui.setItem(40, new ItemBuilder(Material.BARRIER, 1)
+        gui.setItem(39, new ItemBuilder(Material.BARRIER, 1)
                 .setName(ColorManager.translate("&cParkour setup tutorial"))
                 .setLore(
                         "",
-                        ColorManager.translate(" &7Requirements:"),
-                        ColorManager.translate("  &7- Spawn location"),
-                        ColorManager.translate("  &7- Start plate location"),
-                        ColorManager.translate("  &7- End plate location"),
+                        ColorManager.translate(" &7Requirements: "),
+                        ColorManager.translate("  &7- Spawn location "),
+                        ColorManager.translate("  &7- Start plate location "),
+                        ColorManager.translate("  &7- End plate location "),
                         "",
-                        ColorManager.translate(" &7Optional:"),
-                        ColorManager.translate("  &7- Stats hologram location"),
-                        ColorManager.translate("  &7- Top hologram location"),
+                        ColorManager.translate(" &7Optional: "),
+                        ColorManager.translate("  &7- Stats hologram location "),
+                        ColorManager.translate("  &7- Top hologram location "),
                         "",
-                        ColorManager.translate("&eClick reload parkours!"))
+                        ColorManager.translate("&eClick reload parkours! "))
                 .toItemStack());
 
         guis.put(id, gui);
@@ -175,14 +201,32 @@ public class ParkourConfig_GUI {
         }
 
         if(Main.getInstance().getParkourHandler().getParkours().containsKey(id)) {
-            gui.setItem(16, new ItemBuilder(Material.BOOK, 1)
-                    .setName(ColorManager.translate("&aWalkable blocks tutorial"))
-                    .setLore("", ColorManager.translate(" &7Open walkable blocks gui ")
-                            , ColorManager.translate(" &7and click on a block "),
+            gui.setItem(16, new ItemBuilder(Material.PISTON_BASE, 1)
+                    .setName(ColorManager.translate("&aWalkable blocks "))
+                    .setLore(
+                            "",
+                            ColorManager.translate(" &7Open walkable blocks gui "),
+                            ColorManager.translate(" &7and click on a block "),
                             ColorManager.translate(" &7in your inventory to add it. "),
-                            "", ColorManager.translate(" &7Click the added block in "),
-                            ColorManager.translate(" &7the GUI to remove it. "), "").toItemStack());
-            gui.setItem(25, new ItemBuilder(Material.PISTON_BASE, 1).setName(ColorManager.translate("&aWalkable blocks")).setLore("", ColorManager.translate("&eClick to config blocks!")).toItemStack());
+                            "",
+                            ColorManager.translate(" &7Click the added block in "),
+                            ColorManager.translate(" &7the GUI to remove it. "),
+                            "",
+                            ColorManager.translate("&eClick to config blocks! ")
+                    ).toItemStack());
+            gui.setItem(34, new ItemBuilder(Material.GOLD_NUGGET, 1)
+                    .setName(ColorManager.translate("&aRewards "))
+                    .setLore(
+                            "",
+                            ColorManager.translate(" &7Open rewards gui and "),
+                            ColorManager.translate(" &7click on new reward "),
+                            ColorManager.translate(" &7to begin reward setup. "),
+                            "",
+                            ColorManager.translate(" &7Click the rewards item "),
+                            ColorManager.translate(" &7in the GUI to remove it. "),
+                            "",
+                            ColorManager.translate("&eClick to config rewards! ")
+                    ).toItemStack());
         }
 
         for(HumanEntity pl : gui.getViewers()) {
@@ -195,6 +239,76 @@ public class ParkourConfig_GUI {
 
         opened.put(p.getUniqueId(), id);
         p.openInventory(guis.get(id));
+    }
+
+    @SuppressWarnings("deprecation")
+    @EventHandler
+    public void onInventoryClickEvent(InventoryClickEvent e) {
+        Player p = (Player) e.getWhoClicked();
+
+        if (e.getCurrentItem() == null) return;
+
+        if (opened.containsKey(p.getUniqueId())) {
+            e.setCancelled(true);
+            int slot = e.getRawSlot();
+            if ((slot >= 19 && slot <= 23)) {
+                changeParkourConfig(p, slot);
+            } else if (slot == 16) {
+                if (e.getCurrentItem().getType() == Material.PISTON_BASE) {
+                    String id = opened.get(p.getUniqueId());
+                    p.closeInventory();
+                    Main.getInstance().getWalkableBlocksGUI().open(p, id);
+                }
+            } else if (slot == 34) {
+                if (e.getCurrentItem().getType() == Material.GOLD_NUGGET) {
+                    String id = opened.get(p.getUniqueId());
+                    p.closeInventory();
+                    Main.getInstance().getRewardsGUI().open(p, id);
+                }
+            } else if (slot == 39) {
+                if (e.getCurrentItem().getType() == Material.BARRIER) {
+                    PluginManager.reloadAll();
+                    Sounds.playSound(p, p.getLocation(), Sounds.MySound.ANVIL_USE, 100, 3);
+                    p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("COMMANDS_RELOAD"));
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void InventoryCloseEvent(InventoryCloseEvent e) {
+        Player p = (Player) e.getPlayer();
+        opened.remove(p.getUniqueId());
+    }
+
+    private void changeParkourConfig(Player p, int slot) {
+        String id = opened.get(p.getUniqueId());
+
+        switch (slot) {
+            case 19:
+                LocationUtil.setPosition(p, id, "spawn");
+                break;
+            case 20:
+                LocationUtil.setPosition(p, id, "start");
+                break;
+            case 21:
+                LocationUtil.setPosition(p, id, "end");
+                break;
+            case 22:
+                LocationUtil.setHologram(p, id, "stats");
+                break;
+            case 23:
+                LocationUtil.setHologram(p, id, "top");
+                break;
+            default:
+                break;
+        }
+
+        if (slot != 25) {
+            Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 100, 3);
+        }
+
+        reloadGUI(id);
     }
 
 }

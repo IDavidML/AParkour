@@ -114,6 +114,13 @@ public class Parkour {
 
 		if (!Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.rewards")) {
 			Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards", new ArrayList<>());
+		} else {
+			Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards", new ArrayList<>());
+			for(Reward reward : rewards) {
+				Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".firstTime", reward.isFirstTime());
+				Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".permission", reward.getPermission());
+				Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".command", reward.getCommand());
+			}
 		}
 
 		if (!Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.permissionRequired")) {

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.data.Reward;
 import me.davidml16.aparkour.data.WalkableBlock;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -253,6 +254,33 @@ public class ParkourHandler {
 
 		parkourConfigs.get(id).set("parkour.walkableBlocks", list);
 		saveConfig(id);
+	}
+
+	public List<Reward> getRewards(String id) {
+		List<Reward> rewards = new ArrayList<Reward>();
+		if (parkourConfigs.get(id).contains("parkour.rewards")) {
+			if (parkourConfigs.get(id).getConfigurationSection("parkour.rewards") != null) {
+				for (String rewardid : parkourConfigs.get(id).getConfigurationSection("parkour.rewards").getKeys(false)) {
+					if (validRewardData(id, rewardid)) {
+						String permission = parkourConfigs.get(id).getString("parkour.rewards." + rewardid + ".permission");
+						String command = parkourConfigs.get(id).getString("parkour.rewards." + rewardid + ".command");
+						boolean firstTime = parkourConfigs.get(id).getBoolean("parkour.rewards." + rewardid + ".firstTime");
+						rewards.add(new Reward(id, permission, command, firstTime));
+
+						if (Main.getInstance().getServer().getPluginManager().getPermission(permission) == null) {
+							Main.getInstance().getServer().getPluginManager().addPermission(new Permission(permission));
+						}
+					}
+				}
+			}
+		}
+		return rewards;
+	}
+
+	private boolean validRewardData(String parkourID, String rewardID) {
+		return parkourConfigs.get(parkourID).contains("parkour.rewards." + rewardID + ".permission")
+				&& parkourConfigs.get(parkourID).contains("parkour.rewards." + rewardID + ".command")
+				&& parkourConfigs.get(parkourID).contains("parkour.rewards." + rewardID + ".firstTime");
 	}
 
 }

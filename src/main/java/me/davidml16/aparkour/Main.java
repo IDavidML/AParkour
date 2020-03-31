@@ -4,8 +4,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 import me.davidml16.aparkour.events.*;
-import me.davidml16.aparkour.gui.ParkourConfig_GUI;
-import me.davidml16.aparkour.gui.WalkableBlocks_GUI;
+import me.davidml16.aparkour.gui.*;
 import me.davidml16.aparkour.managers.*;
 import me.davidml16.aparkour.tasks.ReturnTask;
 import me.davidml16.aparkour.utils.RestartItemUtil;
@@ -23,8 +22,6 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.davidml16.aparkour.commands.TabCompleter_AParkour;
 import me.davidml16.aparkour.commands.Command_AParkour;
 import me.davidml16.aparkour.database.ADatabase;
-import me.davidml16.aparkour.gui.ParkourRanking_GUI;
-import me.davidml16.aparkour.gui.PlayerStats_GUI;
 import me.davidml16.aparkour.handlers.DatabaseHandler;
 import me.davidml16.aparkour.handlers.LanguageHandler;
 import me.davidml16.aparkour.handlers.ParkourHandler;
@@ -42,6 +39,7 @@ public class Main extends JavaPlugin {
     private ParkourRanking_GUI rankingsGUI;
     private ParkourConfig_GUI configGUI;
     private WalkableBlocks_GUI walkableBlocksGUI;
+    private Rewards_GUI rewardsGUI;
 
     private HologramTask hologramTask;
     private ReturnTask returnTask;
@@ -115,6 +113,9 @@ public class Main extends JavaPlugin {
 
         walkableBlocksGUI = new WalkableBlocks_GUI();
         walkableBlocksGUI.loadGUI();
+
+        rewardsGUI = new Rewards_GUI();
+        rewardsGUI.loadGUI();
 
         topHologramManager.loadTopHolograms();
         topHologramManager.restartTimeLeft();
@@ -212,6 +213,10 @@ public class Main extends JavaPlugin {
         return walkableBlocksGUI;
     }
 
+    public Rewards_GUI getRewardsGUI() {
+        return rewardsGUI;
+    }
+
     public TimerManager getTimerManager() {
         return timerManager;
     }
@@ -275,6 +280,5 @@ public class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new Event_PlateEnd(), this);
         Bukkit.getPluginManager().registerEvents(new Event_Fall(), this);
         Bukkit.getPluginManager().registerEvents(new Event_Others(), this);
-        Bukkit.getPluginManager().registerEvents(new Event_InventoryGUI(), this);
     }
 }

@@ -61,6 +61,7 @@ public class PluginManager {
         Main.getInstance().getHologramTask().start();
         Main.getInstance().getConfigGUI().reloadAllGUI();
         Main.getInstance().getWalkableBlocksGUI().reloadAllGUI();
+        Main.getInstance().getRewardsGUI().reloadAllGUI();
     }
 
 }
