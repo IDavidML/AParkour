@@ -10,126 +10,128 @@ import me.davidml16.aparkour.Main;
 import org.bukkit.Material;
 
 public class Parkour {
-	
-	private String id;
-	private String name;
-	private Location spawn;
-	private Location start;
-	private Location end;
-	private Location statsHologram;
-	private Location topHologram;
 
-	private List<WalkableBlock> walkableBlocks;
-	private List<Reward> rewards;
+    private String id;
+    private String name;
+    private Location spawn;
 
-	private boolean permissionRequired;
-	private String permission;
-	private String permissionMessage;
-	
-	public Parkour(String id, String name, Location spawn, Location start, Location end, Location statsHologram, Location topHologram) {
-		this.id = id;
-		this.name = name;
-		this.spawn = spawn;
-		this.start = start;
-		this.end = end;
-		this.statsHologram = statsHologram;
-		this.topHologram = topHologram;
-		this.walkableBlocks = new ArrayList<WalkableBlock>();
-		this.rewards = new ArrayList<Reward>();
-		this.permissionRequired = false;
-		this.permission = "";
-		this.permissionMessage = "";
-	}
-	
-	public String getId() {
-		return id;
-	}
+    private Plate start;
+    private Plate end;
 
-	public String getName() {
-		return name;
-	}
+    private Location statsHologram;
+    private Location topHologram;
 
-	public Location getSpawn() {
-		return spawn;
-	}
+    private List<WalkableBlock> walkableBlocks;
+    private List<Reward> rewards;
 
-	public Location getStart() {
-		return start;
-	}
+    private boolean permissionRequired;
+    private String permission;
+    private String permissionMessage;
 
-	public Location getEnd() {
-		return end;
-	}
+    public Parkour(String id, String name, Location spawn, Location start, Location end, Location statsHologram, Location topHologram) {
+        this.id = id;
+        this.name = name;
+        this.spawn = spawn;
+        this.start = new Plate(start);
+        this.end = new Plate(end);
+        this.statsHologram = statsHologram;
+        this.topHologram = topHologram;
+        this.walkableBlocks = new ArrayList<WalkableBlock>();
+        this.rewards = new ArrayList<Reward>();
+        this.permissionRequired = false;
+        this.permission = "";
+        this.permissionMessage = "";
+    }
 
-	public Location getStatsHologram() {
-		return statsHologram;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public Location getTopHologram() {
-		return topHologram;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public List<WalkableBlock> getWalkableBlocks() {
-		return walkableBlocks;
-	}
+    public Location getSpawn() {
+        return spawn;
+    }
 
-	public void setWalkableBlocks(List<WalkableBlock> walkableBlocks) {
-		this.walkableBlocks = walkableBlocks;
-	}
+    public Plate getStart() {
+        return start;
+    }
 
-	public List<Reward> getRewards() {
-		return rewards;
-	}
+    public Plate getEnd() {
+        return end;
+    }
 
-	public void setRewards(List<Reward> rewards) {
-		this.rewards = rewards;
-	}
+    public Location getStatsHologram() {
+        return statsHologram;
+    }
 
-	public boolean isPermissionRequired() {
-		return permissionRequired;
-	}
+    public Location getTopHologram() {
+        return topHologram;
+    }
 
-	public void setPermissionRequired(boolean permissionRequired) {
-		this.permissionRequired = permissionRequired;
-	}
+    public List<WalkableBlock> getWalkableBlocks() {
+        return walkableBlocks;
+    }
 
-	public String getPermission() {
-		return permission;
-	}
+    public void setWalkableBlocks(List<WalkableBlock> walkableBlocks) {
+        this.walkableBlocks = walkableBlocks;
+    }
 
-	public void setPermission(String permission) {
-		this.permission = permission;
-	}
+    public List<Reward> getRewards() {
+        return rewards;
+    }
 
-	public String getPermissionMessage() {
-		return permissionMessage;
-	}
+    public void setRewards(List<Reward> rewards) {
+        this.rewards = rewards;
+    }
 
-	public void setPermissionMessage(String permissionMessage) {
-		this.permissionMessage = permissionMessage;
-	}
+    public boolean isPermissionRequired() {
+        return permissionRequired;
+    }
 
-	public void saveParkour() {
-		Main.getInstance().getParkourHandler().getConfig(id).set("parkour.walkableBlocks", Main.getInstance().getParkourHandler().getWalkableBlocksString(walkableBlocks));
+    public void setPermissionRequired(boolean permissionRequired) {
+        this.permissionRequired = permissionRequired;
+    }
 
-		if (!Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.rewards")) {
-			Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards", new ArrayList<>());
-		} else {
-			Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards", new ArrayList<>());
-			for(Reward reward : rewards) {
-				Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".firstTime", reward.isFirstTime());
-				Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".permission", reward.getPermission());
-				Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".command", reward.getCommand());
-			}
-		}
+    public String getPermission() {
+        return permission;
+    }
 
-		if (!Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.permissionRequired")) {
-			Main.getInstance().getParkourHandler().getConfig(id).set("parkour.permissionRequired.enabled", false);
-			Main.getInstance().getParkourHandler().getConfig(id).set("parkour.permissionRequired.permission", "aparkour.permission." + id);
-			Main.getInstance().getParkourHandler().getConfig(id).set("parkour.permissionRequired.enabled", "&cYou dont have permission to start this parkour!");
-		}
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
 
-		Main.getInstance().getParkourHandler().saveConfig(id);
-	}
+    public String getPermissionMessage() {
+        return permissionMessage;
+    }
+
+    public void setPermissionMessage(String permissionMessage) {
+        this.permissionMessage = permissionMessage;
+    }
+
+    public void saveParkour() {
+        Main.getInstance().getParkourHandler().getConfig(id).set("parkour.walkableBlocks", Main.getInstance().getParkourHandler().getWalkableBlocksString(walkableBlocks));
+
+        if (!Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.rewards")) {
+            Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards", new ArrayList<>());
+        } else {
+            Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards", new ArrayList<>());
+            for (Reward reward : rewards) {
+                Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".firstTime", reward.isFirstTime());
+                Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".permission", reward.getPermission());
+                Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".command", reward.getCommand());
+            }
+        }
+
+        if (!Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.permissionRequired")) {
+            Main.getInstance().getParkourHandler().getConfig(id).set("parkour.permissionRequired.enabled", false);
+            Main.getInstance().getParkourHandler().getConfig(id).set("parkour.permissionRequired.permission", "aparkour.permission." + id);
+            Main.getInstance().getParkourHandler().getConfig(id).set("parkour.permissionRequired.enabled", "&cYou dont have permission to start this parkour!");
+        }
+
+        Main.getInstance().getParkourHandler().saveConfig(id);
+    }
 
 }

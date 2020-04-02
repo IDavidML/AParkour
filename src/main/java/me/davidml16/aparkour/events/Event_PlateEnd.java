@@ -31,7 +31,7 @@ public class Event_PlateEnd implements Listener {
 
 				Parkour parkour = Main.getInstance().getParkourHandler()
 						.getParkourByLocation(e.getClickedBlock().getLocation());
-				if (e.getClickedBlock().getLocation().equals(parkour.getEnd())) {
+				if (e.getClickedBlock().getLocation().equals(parkour.getEnd().getLocation())) {
 					e.setCancelled(true);
 
 					if (parkour != Main.getInstance().getPlayerDataHandler().getData(p).getParkour()) {

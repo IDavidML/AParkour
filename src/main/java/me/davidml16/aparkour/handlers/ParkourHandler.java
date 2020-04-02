@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.data.Reward;
 import me.davidml16.aparkour.data.WalkableBlock;
@@ -175,6 +177,21 @@ public class ParkourHandler {
 							}
 						}
 
+						if (!config.contains("parkour.plateHolograms")) {
+							config.set("parkour.plateHolograms.start.enabled", false);
+							config.set("parkour.plateHolograms.start.distanceBelowPlate", 2.0D);
+							config.set("parkour.plateHolograms.end.enabled", false);
+							config.set("parkour.plateHolograms.end.distanceBelowPlate", 2.0D);
+							saveConfig(id);
+						}
+
+						if (config.contains("parkour.plateHolograms")) {
+							parkour.getStart().setHologramEnabled(config.getBoolean("parkour.plateHolograms.start.enabled"));
+							parkour.getStart().setHologramDistance(config.getDouble("parkour.plateHolograms.start.distanceBelowPlate"));
+							parkour.getEnd().setHologramEnabled(config.getBoolean("parkour.plateHolograms.end.enabled"));
+							parkour.getEnd().setHologramDistance(config.getDouble("parkour.plateHolograms.end.distanceBelowPlate"));
+						}
+
 						Main.log.sendMessage(ColorManager.translate("    &a'" + name + "' loaded!"));
 					} else {
 						Main.log.sendMessage(ColorManager
@@ -192,6 +209,23 @@ public class ParkourHandler {
 			Main.log.sendMessage(ColorManager.translate("    &cNo parkour has been loaded!"));
 		
 		Main.log.sendMessage(ColorManager.translate(""));
+	}
+
+	public void loadHolograms() {
+		for (Parkour parkour : parkours.values()) {
+			if(parkour.getStart().isHologramEnabled()) {
+				Hologram hologram = HologramsAPI.createHologram(Main.getInstance(), parkour.getStart().getLocation().clone().add(0.5D, parkour.getStart().getHologramDistance(), 0.5D));
+				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("HOLOGRAMS_PLATES_START_LINE1"));
+				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("HOLOGRAMS_PLATES_START_LINE2"));
+				parkour.getStart().setHologram(hologram);
+			}
+			if(parkour.getEnd().isHologramEnabled()) {
+				Hologram hologram = HologramsAPI.createHologram(Main.getInstance(), parkour.getEnd().getLocation().clone().add(0.5D, parkour.getEnd().getHologramDistance(), 0.5D));
+				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("HOLOGRAMS_PLATES_END_LINE1"));
+				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("HOLOGRAMS_PLATES_END_LINE2"));
+				parkour.getEnd().setHologram(hologram);
+			}
+		}
 	}
 
 	public boolean parkourExists(String id) {
@@ -214,7 +248,7 @@ public class ParkourHandler {
 
 	public Parkour getParkourByLocation(Location loc) {
 		for (Parkour parkour : parkours.values()) {
-			if (loc.equals(parkour.getStart()) || loc.equals(parkour.getEnd()))
+			if (loc.equals(parkour.getStart().getLocation()) || loc.equals(parkour.getEnd().getLocation()))
 				return parkours.get(parkour.getId());
 		}
 		return null;

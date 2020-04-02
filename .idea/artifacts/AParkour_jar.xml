@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="AParkour:jar">
-    <output-path>D:/Usuarios/David/Escritorio/AParkour/plugins</output-path>
+    <output-path>$PROJECT_DIR$/server/plugins</output-path>
     <root id="archive" name="AParkour.jar">
       <element id="module-output" name="AParkour" />
     </root>

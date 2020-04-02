@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
@@ -98,15 +99,19 @@ public class Command_AParkour implements CommandExecutor {
                 }
 
                 if(Main.getInstance().getParkourHandler().createParkour(id)) {
-                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.name", args[2]);
-                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.permissionRequired.enabled", false);
-                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.permissionRequired.permission", "aparkour.permission." + id);
-                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.permissionRequired.message", "&cYou dont have permission to start this parkour!");
-                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards.example.firstTime", true);
-                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards.example.permission", "*");
-                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards.example.command", "give %player% diamond 1");
-                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.name", args[2]);
-                    Main.getInstance().getParkourHandler().getConfig(id).set("parkour.walkableBlocks", new ArrayList<>());
+                    FileConfiguration config = Main.getInstance().getParkourHandler().getConfig(id);
+                    config.set("parkour.name", args[2]);
+                    config.set("parkour.plateHolograms.start.enabled", false);
+                    config.set("parkour.plateHolograms.start.distanceBelowPlate", 2.5D);
+                    config.set("parkour.plateHolograms.end.enabled", false);
+                    config.set("parkour.plateHolograms.end.distanceBelowPlate", 2.5D);
+                    config.set("parkour.permissionRequired.enabled", false);
+                    config.set("parkour.permissionRequired.permission", "aparkour.permission." + id);
+                    config.set("parkour.permissionRequired.message", "&cYou dont have permission to start this parkour!");
+                    config.set("parkour.rewards.example.firstTime", true);
+                    config.set("parkour.rewards.example.permission", "*");
+                    config.set("parkour.rewards.example.command", "give %player% diamond 1");
+                    config.set("parkour.walkableBlocks", new ArrayList<>());
                     Main.getInstance().getParkourHandler().saveConfig(id);
                     Main.getInstance().getConfigGUI().loadGUI(id);
                     Main.getInstance().getWalkableBlocksGUI().loadGUI(id);

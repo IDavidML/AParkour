@@ -38,7 +38,7 @@ public class Event_PlateStart implements Listener {
 				Parkour parkour = Main.getInstance().getParkourHandler()
 						.getParkourByLocation(e.getClickedBlock().getLocation());
 
-				if (e.getClickedBlock().getLocation().equals(parkour.getStart())) {
+				if (e.getClickedBlock().getLocation().equals(parkour.getStart().getLocation())) {
 					e.setCancelled(true);
 
 					if(parkour.isPermissionRequired()) {

@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -68,6 +69,13 @@ public class Event_Others implements Listener {
             if (Main.getInstance().getTimerManager().hasPlayerTimer((Player) e.getEntity())) {
                 e.setCancelled(true);
             }
+        }
+    }
+
+    @EventHandler
+    public void onInteract(EntityInteractEvent e) {
+        if (Main.getInstance().getParkourHandler().getParkourByLocation(e.getBlock().getLocation()) != null) {
+            e.setCancelled(true);
         }
     }
 

@@ -90,6 +90,7 @@ public class Main extends JavaPlugin {
 
         parkourHandler = new ParkourHandler();
         parkourHandler.loadParkours();
+        parkourHandler.loadHolograms();
 
         rewardHandler = new RewardHandler();
         rewardHandler.loadRewards();

@@ -84,6 +84,10 @@ public class LanguageHandler {
 		messages.put("HOLOGRAMS_TOP_BODY_NOTIME", c.getString("Holograms.Top.Body.NoTime"));
 		messages.put("HOLOGRAMS_TOP_FOOTER_LINE", c.getString("Holograms.Top.Footer.Line"));
 		messages.put("HOLOGRAMS_TOP_FOOTER_UPDATING", c.getString("Holograms.Top.Footer.Updating"));
+		messages.put("HOLOGRAMS_PLATES_START_LINE1", c.getString("Holograms.Plates.Start.Line1"));
+		messages.put("HOLOGRAMS_PLATES_START_LINE2", c.getString("Holograms.Plates.Start.Line2"));
+		messages.put("HOLOGRAMS_PLATES_END_LINE1", c.getString("Holograms.Plates.End.Line1"));
+		messages.put("HOLOGRAMS_PLATES_END_LINE2", c.getString("Holograms.Plates.End.Line2"));
 		messages.put("MESSAGES_STARTED", c.getString("Messages.Started"));
 		messages.put("MESSAGES_FLY", c.getString("Messages.Fly"));
 		messages.put("MESSAGES_RETURN", c.getString("Messages.Return"));
@@ -138,6 +142,10 @@ public class LanguageHandler {
 		msgDefaults.put("Holograms.Top.Body.NoTime", "&e%position%. &cN/A");
 		msgDefaults.put("Holograms.Top.Footer.Line", "&aUpdating: &6%time%");
 		msgDefaults.put("Holograms.Top.Footer.Updating", "&aUpdating: &cLoading...");
+		msgDefaults.put("Holograms.Plates.Start.Line1", "&e&lParkour Challenge");
+		msgDefaults.put("Holograms.Plates.Start.Line2", "&fStart here!");
+		msgDefaults.put("Holograms.Plates.End.Line1", "&e&lParkour Challenge");
+		msgDefaults.put("Holograms.Plates.End.Line2", "&fFinish here!");
 
 		msgDefaults.put("Messages.Started", "&aStarted parkour! Get to the end as quick as possible.");
 		msgDefaults.put("Messages.Fly", "&cYou can not fly when you are in parkour.");
@@ -204,6 +212,10 @@ public class LanguageHandler {
 		msgDefaults.put("Holograms.Top.Body.NoTime", "&e%position%. &cN/A");
 		msgDefaults.put("Holograms.Top.Footer.Line", "&aActualización: &6%time%");
 		msgDefaults.put("Holograms.Top.Footer.Updating", "&aActualización: &cCargando...");
+		msgDefaults.put("Holograms.Plates.Start.Line1", "&e&lReto parkour");
+		msgDefaults.put("Holograms.Plates.Start.Line2", "&fEmpieza aquí!");
+		msgDefaults.put("Holograms.Plates.End.Line1", "&e&lReto parkour");
+		msgDefaults.put("Holograms.Plates.End.Line2", "&fTermina aquí!");
 
 		msgDefaults.put("Messages.Started", "&aParkour iniciado! Llega al final lo más rapido que puedeas.");
 		msgDefaults.put("Messages.Fly", "&cNo puedes volar cuando estas en el parkour.");
