@@ -179,9 +179,9 @@ public class ParkourHandler {
 
 						if (!config.contains("parkour.plateHolograms")) {
 							config.set("parkour.plateHolograms.start.enabled", false);
-							config.set("parkour.plateHolograms.start.distanceBelowPlate", 2.0D);
+							config.set("parkour.plateHolograms.start.distanceBelowPlate", 2.5D);
 							config.set("parkour.plateHolograms.end.enabled", false);
-							config.set("parkour.plateHolograms.end.distanceBelowPlate", 2.0D);
+							config.set("parkour.plateHolograms.end.distanceBelowPlate", 2.5D);
 							saveConfig(id);
 						}
 
@@ -215,16 +215,26 @@ public class ParkourHandler {
 		for (Parkour parkour : parkours.values()) {
 			if(parkour.getStart().isHologramEnabled()) {
 				Hologram hologram = HologramsAPI.createHologram(Main.getInstance(), parkour.getStart().getLocation().clone().add(0.5D, parkour.getStart().getHologramDistance(), 0.5D));
-				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("HOLOGRAMS_PLATES_START_LINE1"));
-				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("HOLOGRAMS_PLATES_START_LINE2"));
+				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Start.Line1"));
+				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Start.Line2"));
 				parkour.getStart().setHologram(hologram);
 			}
 			if(parkour.getEnd().isHologramEnabled()) {
 				Hologram hologram = HologramsAPI.createHologram(Main.getInstance(), parkour.getEnd().getLocation().clone().add(0.5D, parkour.getEnd().getHologramDistance(), 0.5D));
-				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("HOLOGRAMS_PLATES_END_LINE1"));
-				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("HOLOGRAMS_PLATES_END_LINE2"));
+				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.End.Line1"));
+				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.End.Line2"));
 				parkour.getEnd().setHologram(hologram);
 			}
+		}
+	}
+
+	public void removeHologram(String id) {
+		Parkour parkour = parkours.get(id);
+		if(parkour.getStart().isHologramEnabled()) {
+			parkour.getStart().getHologram().delete();
+		}
+		if(parkour.getEnd().isHologramEnabled()) {
+			parkour.getEnd().getHologram().delete();
 		}
 	}
 

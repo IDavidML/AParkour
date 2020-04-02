@@ -59,8 +59,11 @@ public class PluginManager {
         Main.getInstance().getTopHologramManager().loadTopHolograms();
         Main.getInstance().getRankingsGUI().reloadGUI();
         Main.getInstance().getHologramTask().start();
+        Main.getInstance().getConfigGUI().loadGUI();
         Main.getInstance().getConfigGUI().reloadAllGUI();
+        Main.getInstance().getWalkableBlocksGUI().loadGUI();
         Main.getInstance().getWalkableBlocksGUI().reloadAllGUI();
+        Main.getInstance().getRewardsGUI().loadGUI();
         Main.getInstance().getRewardsGUI().reloadAllGUI();
         Main.getInstance().getParkourHandler().loadHolograms();
     }

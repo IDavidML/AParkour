@@ -86,8 +86,8 @@ public class TimerManager {
 			int total = Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes()
 					.get(Main.getInstance().getPlayerDataHandler().getData(p).getParkour().getId());
 
-			String Message = Main.getInstance().getLanguageHandler().getMessage("TIMER_ACTIONBAR");
-			String NoBestTime = Main.getInstance().getLanguageHandler().getMessage("TIMES_NOBESTTIME");
+			String Message = Main.getInstance().getLanguageHandler().getMessage("Timer.ActionBar");
+			String NoBestTime = Main.getInstance().getLanguageHandler().getMessage("Times.NoBestTime");
 			if (total != 0) {
 				ActionBar.sendActionbar(p, Message.replaceAll("%currentTime%", timeAsString(secs)).replaceAll("%bestTime%",
 						timeAsString(total)));
@@ -99,12 +99,12 @@ public class TimerManager {
 	}
 
 	public String timeAsString(int total) {
-		String Hours = Main.getInstance().getLanguageHandler().getMessage("TIMES_HOURS");
-		String Hour = Main.getInstance().getLanguageHandler().getMessage("TIMES_HOUR");
-		String Minutes = Main.getInstance().getLanguageHandler().getMessage("TIMES_MINUTES");
-		String Minute = Main.getInstance().getLanguageHandler().getMessage("TIMES_MINUTE");
-		String Seconds = Main.getInstance().getLanguageHandler().getMessage("TIMES_SECONDS");
-		String Second = Main.getInstance().getLanguageHandler().getMessage("TIMES_SECOND");
+		String Hours = Main.getInstance().getLanguageHandler().getMessage("Times.Hours");
+		String Hour = Main.getInstance().getLanguageHandler().getMessage("Times.Hour");
+		String Minutes = Main.getInstance().getLanguageHandler().getMessage("Times.Minutes");
+		String Minute = Main.getInstance().getLanguageHandler().getMessage("Times.Minute");
+		String Seconds = Main.getInstance().getLanguageHandler().getMessage("Times.Seconds");
+		String Second = Main.getInstance().getLanguageHandler().getMessage("Times.Second");
 
 		long millis = total * 1000;
 		String output = "";

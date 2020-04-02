@@ -33,7 +33,7 @@ public class ReturnTask {
                                 p.setFlying(false);
                                 p.teleport(parkour.getSpawn());
 
-                                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_RETURN"));
+                                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.Return"));
 
                                 if (Main.getInstance().getParkourHandler().isKickFromParkourOnFail()) {
                                     Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
@@ -57,7 +57,7 @@ public class ReturnTask {
                                     p.setFlying(false);
                                     p.teleport(parkour.getSpawn());
 
-                                    p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_FLY"));
+                                    p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.Fly"));
 
                                     if (Main.getInstance().getParkourHandler().isKickFromParkourOnFail()) {
                                         Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);

@@ -51,7 +51,7 @@ public class ParkourRanking_GUI implements Listener {
 	}
 	
 	public void loadGUI() {
-		gui = Bukkit.createInventory(null, 45, Main.getInstance().getLanguageHandler().getMessage("GUI_TOP_TITLE"));
+		gui = Bukkit.createInventory(null, 45, Main.getInstance().getLanguageHandler().getMessage("GUIs.Top.title"));
 
 		ItemStack edge = new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 7).setName("").toItemStack();
 
@@ -104,9 +104,9 @@ public class ParkourRanking_GUI implements Listener {
 
 			for (int i = it; i <= 10; i++) {
 				if (i < 10)
-					lore.add(ColorManager.translate("   &e" + i + ". &cN/A  "));
+					lore.add(ColorManager.translate("   &e" + i + ". &c" + Main.getInstance().getLanguageHandler().getMessage("Times.NoBestTime") + "  "));
 				else
-					lore.add(ColorManager.translate(" &0.&e" + i + ". &cN/A  "));
+					lore.add(ColorManager.translate(" &0.&e" + i + ". &c" + Main.getInstance().getLanguageHandler().getMessage("Times.NoBestTime") + "  "));
 			}
 			lore.add(" ");
 

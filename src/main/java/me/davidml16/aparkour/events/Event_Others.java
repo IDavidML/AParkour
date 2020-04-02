@@ -47,11 +47,7 @@ public class Event_Others implements Listener {
     public void onDrop(PlayerDropItemEvent e) {
         if (Main.getInstance().getTimerManager().hasPlayerTimer(e.getPlayer())) {
             e.setCancelled(true);
-            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-                public void run() {
-                    e.getPlayer().updateInventory();
-                }
-            }, 1L);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> e.getPlayer().updateInventory(), 1L);
         }
     }
 
@@ -81,7 +77,7 @@ public class Event_Others implements Listener {
 
     @EventHandler
     public void onPickup(PlayerPickupItemEvent e) {
-        if (Main.getInstance().getTimerManager().hasPlayerTimer((Player) e.getPlayer())) {
+        if (Main.getInstance().getTimerManager().hasPlayerTimer(e.getPlayer())) {
             e.setCancelled(true);
         }
     }
@@ -99,21 +95,12 @@ public class Event_Others implements Listener {
         Player p = e.getPlayer();
 
         Main.getInstance().getStatsHologramManager().removeStatsHolograms(p);
-
-        if (Main.getInstance().getStatsGUI().getOpened().contains(p.getUniqueId()))
-            Main.getInstance().getStatsGUI().getOpened().remove(p.getUniqueId());
-
-        if (Main.getInstance().getStatsGUI().getGuis().containsKey(p.getUniqueId()))
-            Main.getInstance().getStatsGUI().getGuis().remove(p.getUniqueId());
-
-        if (Main.getInstance().getRankingsGUI().getOpened().contains(p.getUniqueId()))
-            Main.getInstance().getRankingsGUI().getOpened().remove(p.getUniqueId());
-
-        if (Main.getInstance().getConfigGUI().getOpened().containsKey(p.getUniqueId()))
-            Main.getInstance().getConfigGUI().getOpened().remove(p.getUniqueId());
-
-        if (Main.getInstance().getWalkableBlocksGUI().getOpened().containsKey(p.getUniqueId()))
-            Main.getInstance().getWalkableBlocksGUI().getOpened().remove(p.getUniqueId());
+        Main.getInstance().getStatsGUI().getOpened().remove(p.getUniqueId());
+        Main.getInstance().getStatsGUI().getGuis().remove(p.getUniqueId());
+        Main.getInstance().getRankingsGUI().getOpened().remove(p.getUniqueId());
+        Main.getInstance().getConfigGUI().getOpened().remove(p.getUniqueId());
+        Main.getInstance().getWalkableBlocksGUI().getOpened().remove(p.getUniqueId());
+        Main.getInstance().getRewardsGUI().getOpened().remove(p.getUniqueId());
 
         if (Main.getInstance().getTimerManager().hasPlayerTimer(e.getPlayer())) {
             Main.getInstance().getTimerManager().cancelTimer(e.getPlayer());

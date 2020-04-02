@@ -30,13 +30,11 @@ public class Event_PlateStart implements Listener {
 
 		if (action == Action.PHYSICAL) {
 			if (e.getClickedBlock().getType() == Material.IRON_PLATE) {
-				if (Main.getInstance().getParkourHandler()
-						.getParkourByLocation(e.getClickedBlock().getLocation()) == null) {
+				if (Main.getInstance().getParkourHandler().getParkourByLocation(e.getClickedBlock().getLocation()) == null) {
 					return;
 				}
 
-				Parkour parkour = Main.getInstance().getParkourHandler()
-						.getParkourByLocation(e.getClickedBlock().getLocation());
+				Parkour parkour = Main.getInstance().getParkourHandler().getParkourByLocation(e.getClickedBlock().getLocation());
 
 				if (e.getClickedBlock().getLocation().equals(parkour.getStart().getLocation())) {
 					e.setCancelled(true);
@@ -47,12 +45,7 @@ public class Event_PlateStart implements Listener {
 								cooldown.add(p);
 								p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix() + " " + parkour.getPermissionMessage()));
 								Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
-								Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), new Runnable() {
-									@Override
-									public void run() {
-										cooldown.remove(p);
-									}
-								}, 40);
+								Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> cooldown.remove(p), 40);
 								return;
 							}
 							return;
@@ -60,7 +53,7 @@ public class Event_PlateStart implements Listener {
 					}
 
 					if (!Main.getInstance().getTimerManager().hasPlayerTimer(p)) {
-						p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_STARTED"));
+						p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.Started"));
 						p.setFlying(false);
 						SoundUtil.playStart(p);
 

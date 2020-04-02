@@ -53,13 +53,13 @@ public class Event_PlateEnd implements Listener {
 
 						Profile data = Main.getInstance().getPlayerDataHandler().getData(p);
 
-						String End = Main.getInstance().getLanguageHandler().getMessage("ENDMESSAGE_NORMAL");
+						String End = Main.getInstance().getLanguageHandler().getMessage("EndMessage.Normal");
 						p.sendMessage(ChatColor.translateAlternateColorCodes('&', End).replaceAll("%endTime%",
 								Main.getInstance().getTimerManager().timeAsString(total)));
 
 						if (data.getBestTimes().get(parkour.getId()) == 0
 								&& data.getLastTimes().get(parkour.getId()) == 0) {
-							p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("ENDMESSAGE_FIRSTTIME"));
+							p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("EndMessage.FirstTime"));
 							Main.getInstance().getRewardHandler().giveParkourRewards(p, parkour.getId(), true);
 						}
 
@@ -82,7 +82,7 @@ public class Event_PlateEnd implements Listener {
 							Player eplayer = e.getPlayer();
 							int bestTotal = data.getBestTimes().get(parkour.getId()) - total;
 
-							String Record = Main.getInstance().getLanguageHandler().getMessage("ENDMESSAGE_RECORD");
+							String Record = Main.getInstance().getLanguageHandler().getMessage("EndMessage.Record");
 
 							data.setBestTime(total, parkour.getId());
 

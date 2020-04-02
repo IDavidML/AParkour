@@ -33,7 +33,7 @@ public class Event_Click implements Listener {
 					p.setFlying(false);
 					p.teleport(parkour.getSpawn());
 
-					p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("MESSAGES_RETURN"));
+					p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.Return"));
 
 					Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
 					Main.getInstance().getTimerManager().cancelTimer(p);
@@ -45,12 +45,9 @@ public class Event_Click implements Listener {
 
                     Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
 
-					p.setNoDamageTicks(20);
-					return;
+					p.setNoDamageTicks(40);
 				}
-				return;
 			}
-			return;
 		}
 	}
 }

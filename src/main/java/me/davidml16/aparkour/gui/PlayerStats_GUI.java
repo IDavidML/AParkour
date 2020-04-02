@@ -51,7 +51,7 @@ public class PlayerStats_GUI implements Listener {
 	public void open(Player p) {
 		p.updateInventory();
 
-		Inventory gui = Bukkit.createInventory(null, 45, Main.getInstance().getLanguageHandler().getMessage("GUI_STATS_TITLE"));
+		Inventory gui = Bukkit.createInventory(null, 45, Main.getInstance().getLanguageHandler().getMessage("GUIs.Stats.title"));
 
 		ItemStack edge = new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 7).setName("").toItemStack();
 		ItemStack book = new ItemBuilder(Material.BOOK, 1).setName(ColorManager.translate("&a&l" + p.getName() + "'s statistics")).toItemStack();
@@ -70,14 +70,14 @@ public class PlayerStats_GUI implements Listener {
 			if(Main.getInstance().getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId()) > 0)
 				lore.add(ColorManager.translate("  &eLast Time: &6" + Main.getInstance().getTimerManager().timeAsString(Main.getInstance().getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId())) + "  "));
 			else
-				lore.add(ColorManager.translate("  &eLast Time: &cN/A  "));
+				lore.add(ColorManager.translate("  &eLast Time: &c" + Main.getInstance().getLanguageHandler().getMessage("Times.NoBestTime") + "  "));
 
 			lore.add(" ");
 
 			if(Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId()) > 0)
 				lore.add(ColorManager.translate("  &eBest Time: &6" + Main.getInstance().getTimerManager().timeAsString(Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId())) + "  "));
 			else
-				lore.add(ColorManager.translate("  &eBest Time: &cN/A  "));
+				lore.add(ColorManager.translate("  &eBest Time: &c" + Main.getInstance().getLanguageHandler().getMessage("Times.NoBestTime") + "  "));
 
 			lore.add(" ");
 

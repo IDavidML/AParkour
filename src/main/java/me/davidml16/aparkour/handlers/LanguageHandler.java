@@ -8,6 +8,7 @@ import java.util.Map;
 
 import me.davidml16.aparkour.managers.ColorManager;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import me.davidml16.aparkour.Main;
@@ -36,11 +37,11 @@ public class LanguageHandler {
 	}
 
 	public String getPrefix() {
-		return ColorManager.translate(messages.get("PREFIX"));
+		return ColorManager.translate(messages.get("Prefix"));
 	}
 
 	public String getMessage(String message) {
-		return ColorManager.translate(messages.get(message).replaceAll("%prefix%", messages.get("PREFIX")));
+		return ColorManager.translate(messages.get(message).replaceAll("%prefix%", messages.get("Prefix")));
 	}
 
 	public String checkLanguage(String lang) {
@@ -57,43 +58,11 @@ public class LanguageHandler {
 		File f = new File("plugins/AParkour/language/messages_" + language + ".yml");
 		YamlConfiguration c = YamlConfiguration.loadConfiguration(f);
 
-		messages.clear();
-		messages.put("PREFIX", c.getString("Prefix"));
-		messages.put("COMMANDS_NOPERMS", c.getString("Commands.NoPerms"));
-		messages.put("COMMANDS_NOSTATS", c.getString("Commands.NoStats"));
-		messages.put("COMMANDS_NOPARKOURS", c.getString("Commands.NoParkours"));
-		messages.put("COMMANDS_RELOAD", c.getString("Commands.Reload"));
-		messages.put("GUI_STATS_TITLE", c.getString("GUIs.Stats.title"));
-		messages.put("GUI_TOP_TITLE", c.getString("GUIs.Top.title"));
-		messages.put("GUI_CONFIG_TITLE", c.getString("GUIs.Config.title"));
-		messages.put("GUI_WB_TITLE", c.getString("GUIs.WalkableBlocks.title"));
-		messages.put("GUI_REWARDS_TITLE", c.getString("GUIs.Rewards.title"));
-		messages.put("TIMES_HOURS", c.getString("Times.Hours"));
-		messages.put("TIMES_HOUR", c.getString("Times.Hour"));
-		messages.put("TIMES_MINUTES", c.getString("Times.Minutes"));
-		messages.put("TIMES_MINUTE", c.getString("Times.Minute"));
-		messages.put("TIMES_SECONDS", c.getString("Times.Seconds"));
-		messages.put("TIMES_SECOND", c.getString("Times.Second"));
-		messages.put("TIMES_NOBESTTIME", c.getString("Times.NoBestTime"));
-		messages.put("TIMER_ACTIONBAR", c.getString("Timer.ActionBar"));
-		messages.put("HOLOGRAMS_STATS_LINE1", c.getString("Holograms.Stats.Line1"));
-		messages.put("HOLOGRAMS_STATS_LINE2", c.getString("Holograms.Stats.Line2"));
-		messages.put("HOLOGRAMS_TOP_HEADER_LINE1", c.getString("Holograms.Top.Header.Line1"));
-		messages.put("HOLOGRAMS_TOP_HEADER_LINE2", c.getString("Holograms.Top.Header.Line2"));
-		messages.put("HOLOGRAMS_TOP_BODY_LINE", c.getString("Holograms.Top.Body.Line"));
-		messages.put("HOLOGRAMS_TOP_BODY_NOTIME", c.getString("Holograms.Top.Body.NoTime"));
-		messages.put("HOLOGRAMS_TOP_FOOTER_LINE", c.getString("Holograms.Top.Footer.Line"));
-		messages.put("HOLOGRAMS_TOP_FOOTER_UPDATING", c.getString("Holograms.Top.Footer.Updating"));
-		messages.put("HOLOGRAMS_PLATES_START_LINE1", c.getString("Holograms.Plates.Start.Line1"));
-		messages.put("HOLOGRAMS_PLATES_START_LINE2", c.getString("Holograms.Plates.Start.Line2"));
-		messages.put("HOLOGRAMS_PLATES_END_LINE1", c.getString("Holograms.Plates.End.Line1"));
-		messages.put("HOLOGRAMS_PLATES_END_LINE2", c.getString("Holograms.Plates.End.Line2"));
-		messages.put("MESSAGES_STARTED", c.getString("Messages.Started"));
-		messages.put("MESSAGES_FLY", c.getString("Messages.Fly"));
-		messages.put("MESSAGES_RETURN", c.getString("Messages.Return"));
-		messages.put("ENDMESSAGE_FIRSTTIME", c.getString("EndMessage.FirstTime"));
-		messages.put("ENDMESSAGE_NORMAL", c.getString("EndMessage.Normal"));
-		messages.put("ENDMESSAGE_RECORD", c.getString("EndMessage.Record"));
+		for(String key : c.getKeys(true)) {
+			if(!(c.get(key) instanceof MemorySection)) {
+				messages.put(key, c.getString(key));
+			}
+		}
 
 		Main.log.sendMessage(ColorManager.translate("    &a'" + language + "' loaded!"));
 	}

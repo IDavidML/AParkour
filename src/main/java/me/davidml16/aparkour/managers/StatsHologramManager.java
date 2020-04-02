@@ -73,9 +73,9 @@ public class StatsHologramManager {
 	
 	public List<String> getLines(Parkour parkour, Player p, int bestTime) {
 		List<String> lines = new ArrayList<String>();
-		String NoBestTime = Main.getInstance().getLanguageHandler().getMessage("TIMES_NOBESTTIME");
-		String Line1 = Main.getInstance().getLanguageHandler().getMessage("HOLOGRAMS_STATS_LINE1");
-		String Line2 = Main.getInstance().getLanguageHandler().getMessage("HOLOGRAMS_STATS_LINE2");
+		String NoBestTime = Main.getInstance().getLanguageHandler().getMessage("Times.NoBestTime");
+		String Line1 = Main.getInstance().getLanguageHandler().getMessage("Holograms.Stats.Line1");
+		String Line2 = Main.getInstance().getLanguageHandler().getMessage("Holograms.Stats.Line2");
 		
 		if (bestTime != 0) {
 			Line1 = Line1.replaceAll("%player%", p.getName())
