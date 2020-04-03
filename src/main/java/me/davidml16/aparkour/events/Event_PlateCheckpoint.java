@@ -1,23 +1,16 @@
 package me.davidml16.aparkour.events;
 
 import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.api.events.ParkourStartEvent;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.data.Profile;
-import me.davidml16.aparkour.managers.ColorManager;
-import me.davidml16.aparkour.utils.RestartItemUtil;
-import me.davidml16.aparkour.utils.SoundUtil;
 import me.davidml16.aparkour.utils.Sounds;
-import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Event_PlateCheckpoint implements Listener {
 
@@ -41,11 +34,20 @@ public class Event_PlateCheckpoint implements Listener {
 						if (data.getLastCheckpoint() < data.getParkour().getCheckpoints().size() - 1) {
 							if (e.getClickedBlock().getLocation().equals(data.getParkour().getCheckpoints().get(data.getLastCheckpoint() + 1).getLocation())) {
 								data.setLastCheckpoint(data.getLastCheckpoint() + 1);
+
+								Location loc = parkour.getCheckpointLocations().get(data.getLastCheckpoint()).clone();
+								loc.add(0.5D, 0D, 0.5D);
+								loc.setPitch(p.getLocation().getPitch());
+								loc.setYaw(p.getLocation().getYaw());
+								data.setLastCheckpointLocation(loc);
+
 								int time = (Main.getInstance().getTimerManager().getTimer().get(p.getUniqueId()));
+
 								p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.Checkpoint")
 										.replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1))
 										.replaceAll("%time%", Main.getInstance().getTimerManager().timeAsString(time))
 								);
+
 								Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
 							}
 						}

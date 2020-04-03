@@ -9,6 +9,8 @@ import me.davidml16.aparkour.managers.PluginManager;
 import me.davidml16.aparkour.utils.Sounds;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.conversations.*;
 import org.bukkit.entity.Player;
 
@@ -34,14 +36,26 @@ public class CheckpointMenu implements ConversationAbandonedListener, CommonProm
                 case "1":
                     Location loc = player.getLocation().getBlock().getLocation();
                     if(!checkpointExist(parkour, loc)) {
-                        Plate checkpoint = new Plate(loc);
-                        parkour.getCheckpoints().add(checkpoint);
-                        parkour.getCheckpointLocations().add(loc);
-                        Main.getInstance().getParkourHandler().loadCheckpointHologram(parkour, checkpoint);
-                        param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
-                                + " &aAdded checkpoint &e#" + parkour.getCheckpoints().size()+ " &ato parkour &e" + parkour.getId()));
-                        Main.getInstance().getCheckpointsGUI().reloadGUI(parkour.getId());
-                        Sounds.playSound(player, player.getLocation(), Sounds.MySound.CLICK, 10, 2);
+                        if(parkour.getCheckpoints().size() < 21) {
+                            Plate checkpoint = new Plate(loc);
+                            parkour.getCheckpoints().add(checkpoint);
+                            parkour.getCheckpointLocations().add(loc);
+
+                            Block block = loc.getWorld().getBlockAt(loc);
+                            if(block.getType() != Material.IRON_PLATE) {
+                                block.setType(Material.IRON_PLATE);
+                            }
+
+                            Main.getInstance().getParkourHandler().loadCheckpointHologram(parkour, checkpoint);
+                            param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                                    + " &aAdded checkpoint &e#" + parkour.getCheckpoints().size() + " &ato parkour &e" + parkour.getId()));
+                            Main.getInstance().getCheckpointsGUI().reloadGUI(parkour.getId());
+                            Sounds.playSound(player, player.getLocation(), Sounds.MySound.CLICK, 10, 2);
+                        } else {
+                            param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                                    + " &cReached checkpoint limit (21) for parkour &e" + parkour.getId()));
+                            Sounds.playSound(player, player.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
+                        }
                     } else {
                         param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
                                 + " &cThis checkpoint location already exist in parkour &e" + parkour.getId()));
@@ -50,8 +64,16 @@ public class CheckpointMenu implements ConversationAbandonedListener, CommonProm
                     return this;
                 case "2":
                     if(parkour.getCheckpoints().size() > 0) {
-                        parkour.getCheckpoints().get(parkour.getCheckpoints().size() - 1).getHologram().delete();
+                        if(parkour.getCheckpoints().get(parkour.getCheckpoints().size() - 1).getHologram() != null)
+                            parkour.getCheckpoints().get(parkour.getCheckpoints().size() - 1).getHologram().delete();
                         parkour.getCheckpoints().remove(parkour.getCheckpoints().size() - 1);
+
+                        Location loc2 = parkour.getCheckpointLocations().get(parkour.getCheckpointLocations().size() - 1);
+                        Block block = loc2.getWorld().getBlockAt(loc2);
+                        if(block.getType() == Material.IRON_PLATE) {
+                            block.setType(Material.AIR);
+                        }
+
                         parkour.getCheckpointLocations().remove(parkour.getCheckpointLocations().size() - 1);
                         param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
                                 + " &aRemoved checkpoint &e#" + (parkour.getCheckpoints().size() + 1) + " &afrom parkour &e" + parkour.getId()));

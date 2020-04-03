@@ -30,14 +30,12 @@ public class ParkourHandler {
 	private HashMap<String, File> parkourFiles;
 	private HashMap<String, YamlConfiguration> parkourConfigs;
 
-	private boolean kickFromParkourOnFail;
 	private GameMode parkourGamemode;
 
 	public ParkourHandler() {
 		this.parkours = new HashMap<String, Parkour>();
 		this.parkourFiles = new HashMap<String, File>();
 		this.parkourConfigs = new HashMap<String, YamlConfiguration>();
-		this.kickFromParkourOnFail = Main.getInstance().getConfig().getBoolean("KickFromParkourOnFail.Enabled");
 		this.parkourGamemode = GameMode.valueOf(Main.getInstance().getConfig().getString("ParkourGamemode"));
 	}
 
@@ -51,14 +49,6 @@ public class ParkourHandler {
 
 	public HashMap<String, YamlConfiguration> getParkourConfigs() {
 		return parkourConfigs;
-	}
-
-	public boolean isKickFromParkourOnFail() {
-		return kickFromParkourOnFail;
-	}
-
-	public void setKickFromParkourOnFail(boolean kickFromParkourOnFail) {
-		this.kickFromParkourOnFail = kickFromParkourOnFail;
 	}
 
 	public GameMode getParkourGamemode() {
@@ -220,7 +210,9 @@ public class ParkourHandler {
 							}
 						}
 
-						Main.log.sendMessage(ColorManager.translate("    &a'" + name + "' loaded!"));
+						Main.getInstance().getPlateManager().loadPlates(parkour);
+
+						Main.log.sendMessage(ColorManager.translate("    &a'" + name + "' - " + parkour.getCheckpoints().size() + " checkpoints!"));
 					} else {
 						Main.log.sendMessage(ColorManager
 								.translate("    &c'" + name + "' not loaded because maximum parkours limit reached!"));
@@ -279,12 +271,14 @@ public class ParkourHandler {
 		double distance = config.getDouble("parkour.plateHolograms.checkpoints.distanceBelowPlate");
 		checkpoint.setHologramEnabled(enabled);
 		checkpoint.setHologramDistance(distance);
-		Hologram hologram = HologramsAPI.createHologram(Main.getInstance(), checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
-		hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
-				.replaceAll("%checkpoint%", Integer.toString(parkour.getCheckpoints().size())));
-		hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
-				.replaceAll("%checkpoint%", Integer.toString(parkour.getCheckpoints().size())));
-		checkpoint.setHologram(hologram);
+		if(enabled) {
+			Hologram hologram = HologramsAPI.createHologram(Main.getInstance(), checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
+			hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
+					.replaceAll("%checkpoint%", Integer.toString(parkour.getCheckpoints().size())));
+			hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
+					.replaceAll("%checkpoint%", Integer.toString(parkour.getCheckpoints().size())));
+			checkpoint.setHologram(hologram);
+		}
 	}
 
 	public void removeCheckpointHolograms(Parkour parkour) {
@@ -320,7 +314,8 @@ public class ParkourHandler {
 			parkour.getEnd().getHologram().delete();
 		}
 		for (Plate checkpoint : parkour.getCheckpoints()) {
-			checkpoint.getHologram().delete();
+			if(checkpoint.getHologram() != null)
+				checkpoint.getHologram().delete();
 		}
 	}
 

@@ -119,10 +119,12 @@ public class LanguageHandler {
 		msgDefaults.put("Holograms.Plates.Checkpoint.Line1", "&e&lParkour Challenge");
 		msgDefaults.put("Holograms.Plates.Checkpoint.Line2", "&fCheckpoint Nº%checkpoint%");
 
+		msgDefaults.put("Messages.NotInParkour", "&cYour are not in any parkour..");
 		msgDefaults.put("Messages.Started", "&aStarted parkour! Get to the end as quick as possible.");
 		msgDefaults.put("Messages.Fly", "&cYou can not fly when you are in parkour.");
 		msgDefaults.put("Messages.Return", "&6Returning to beginning of parkour...");
 		msgDefaults.put("Messages.Checkpoint", "&aYou reached checkpoint &e#%checkpoint% &ain &e%time%.");
+		msgDefaults.put("Messages.ReturnCheckpoint", "&6Returning to checkpoint &e#%checkpoint%");
 		msgDefaults.put("Messages.NeedCheckpoint", "&cYou first need to reach previous checkpoints to end parkour.");
 
 		msgDefaults.put("EndMessage.FirstTime", "&6You completed this parkour for the first time!");
@@ -194,10 +196,12 @@ public class LanguageHandler {
 		msgDefaults.put("Holograms.Plates.Checkpoint.Line1", "&e&lReto parkour");
 		msgDefaults.put("Holograms.Plates.Checkpoint.Line2", "&fCheckpoint Nº%checkpoint%");
 
+		msgDefaults.put("Messages.NotInParkour", "&cNo estás dentro de ningún parkour..");
 		msgDefaults.put("Messages.Started", "&aParkour iniciado! Llega al final lo más rapido que puedeas.");
 		msgDefaults.put("Messages.Fly", "&cNo puedes volar cuando estas en el parkour.");
 		msgDefaults.put("Messages.Return", "&6Volviendo al inicio del parkour...");
 		msgDefaults.put("Messages.Checkpoint", "&aHas llegado al checkpoint &e#%checkpoint% &aen &e%time%");
+		msgDefaults.put("Messages.ReturnCheckpoint", "&6Volviendo al checkpoint &e#%checkpoint%");
 		msgDefaults.put("Messages.NeedCheckpoint", "&cPrimero necesitas llegar a los checkpoints para acabar el parkour.");
 
 		msgDefaults.put("EndMessage.FirstTime", "&6Has completado este parkour por primera vez!");

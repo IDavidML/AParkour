@@ -3,7 +3,6 @@ package me.davidml16.aparkour.managers;
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.utils.ActionBar;
-import me.davidml16.aparkour.utils.RestartItemUtil;
 import me.davidml16.aparkour.utils.SoundUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -36,8 +35,10 @@ public class PluginManager {
     }
 
     public static void reloadAll() {
-        if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
-            RestartItemUtil.loadReturnItem();
+        Main.getInstance().setParkourItemsEnabled(Main.getInstance().getConfig().getBoolean("Items.Enabled"));
+        if (Main.getInstance().isParkourItemsEnabled()) {
+            Main.getInstance().getParkourItems().loadReturnItem();
+            Main.getInstance().getParkourItems().loadCheckpointItem();
         }
 
         removePlayersFromParkour();
@@ -47,7 +48,6 @@ public class PluginManager {
         Main.getInstance().getLanguageHandler().setLanguage(Main.getInstance().getConfig().getString("Language").toLowerCase());
         Main.getInstance().getLanguageHandler().pushMessages();
         Main.getInstance().getParkourHandler().loadParkours();
-        Main.getInstance().getParkourHandler().setKickFromParkourOnFail(Main.getInstance().getConfig().getBoolean("KickFromParkourOnFail.Enabled"));
         Main.getInstance().getParkourHandler().setParkourGamemode(GameMode.valueOf(Main.getInstance().getConfig().getString("ParkourGamemode")));
         Main.getInstance().getDatabaseHandler().loadTables();
         Main.getInstance().getPlayerDataHandler().loadAllPlayerData();

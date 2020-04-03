@@ -15,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -153,11 +154,7 @@ public class Checkpoints_GUI implements Listener {
         p.updateInventory();
         p.openInventory(guis.get(id));
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-            public void run() {
-                opened.put(p.getUniqueId(), id);
-            }
-        }, 1L);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> opened.put(p.getUniqueId(), id), 1L);
     }
 
     @SuppressWarnings("deprecation")
@@ -187,8 +184,16 @@ public class Checkpoints_GUI implements Listener {
 
                 Integer checkpointID = Integer.parseInt(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).replaceAll("Checkpoint #", ""));
                 Main.getInstance().getParkourHandler().removeCheckpointHolograms(parkour);
-                parkour.getCheckpoints().get(checkpointID - 1).getHologram().delete();
+                if(parkour.getCheckpoints().get(checkpointID - 1).getHologram() != null)
+                    parkour.getCheckpoints().get(checkpointID - 1).getHologram().delete();
                 parkour.getCheckpoints().remove(checkpointID - 1);
+
+                Location loc = parkour.getCheckpointLocations().get(checkpointID - 1);
+                Block block = loc.getWorld().getBlockAt(loc);
+                if(block.getType() == Material.IRON_PLATE) {
+                    block.setType(Material.AIR);
+                }
+
                 parkour.getCheckpointLocations().remove(checkpointID - 1);
                 Main.getInstance().getParkourHandler().loadCheckpointHolograms(parkour);
                 p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()

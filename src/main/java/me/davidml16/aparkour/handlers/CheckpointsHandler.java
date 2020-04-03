@@ -18,14 +18,15 @@ public class CheckpointsHandler {
         if (config.contains("parkour.checkpoints")) {
             if (config.getConfigurationSection("parkour.checkpoints") != null) {
                 for (String id : config.getConfigurationSection("parkour.checkpoints").getKeys(false)) {
-                    Location loc = (Location) config.get("parkour.checkpoints." + Integer.parseInt(id));
-                    checkpoints.add(new Plate(loc));
-                    checkpointLocations.add(loc);
+                    if(checkpoints.size() < 21) {
+                        Location loc = (Location) config.get("parkour.checkpoints." + Integer.parseInt(id));
+                        checkpoints.add(new Plate(loc));
+                        checkpointLocations.add(loc);
+                    }
                 }
                 parkour.setCheckpoints(checkpoints);
                 parkour.setCheckpointLocations(checkpointLocations);
             }
-            System.out.println("Loaded for parkour " + parkour.getId() + " - " + checkpoints.size() + " checkpoints.");
         }
     }
 

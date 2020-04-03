@@ -25,10 +25,6 @@ TpToParkourSpawn:
     Enabled: false
 
 
-KickFromParkourOnFail:
-    Enabled: true
-
-
 Firework:
     Enabled: true
 
@@ -46,11 +42,16 @@ ActionBarTimer:
     Enabled: true
 
 
-RestartItem:
+Items:
     Enabled: true
-    ID: 166
-    Name: '&4&lRestart'
-    Lore: '&7Return to the start of the course to start again!'
+    Restart:
+        ID: 166
+        Name: '&4&lRestart'
+        Lore: '&7Return to the start of the course to start again!'
+    Checkpoint:
+        ID: 148
+        Name: '&a&lCheckpoint'
+        Lore: '&7Return to your last checkpoint of the course!'
 
 
 Hologram:

@@ -268,9 +268,9 @@ public class ParkourConfig_GUI implements Listener {
 
     public void open(Player p, String id) {
         p.updateInventory();
-
-        opened.put(p.getUniqueId(), id);
         p.openInventory(guis.get(id));
+
+        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> opened.put(p.getUniqueId(), id), 1L);
     }
 
     @SuppressWarnings("deprecation")

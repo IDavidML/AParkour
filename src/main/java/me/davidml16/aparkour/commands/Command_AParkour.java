@@ -1,31 +1,23 @@
 package me.davidml16.aparkour.commands;
 
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import me.davidml16.aparkour.conversation.CheckpointMenu;
-import me.davidml16.aparkour.conversation.RewardMenu;
+import me.davidml16.aparkour.Main;
+import me.davidml16.aparkour.api.events.ParkourCheckpointEvent;
+import me.davidml16.aparkour.api.events.ParkourReturnEvent;
 import me.davidml16.aparkour.data.Parkour;
-import me.davidml16.aparkour.data.Plate;
+import me.davidml16.aparkour.data.Profile;
+import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.managers.PluginManager;
 import me.davidml16.aparkour.utils.ActionBar;
 import me.davidml16.aparkour.utils.LocationUtil;
-import me.davidml16.aparkour.utils.RestartItemUtil;
 import me.davidml16.aparkour.utils.SoundUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
-import me.davidml16.aparkour.Main;
-import me.davidml16.aparkour.managers.ColorManager;
-import org.bukkit.inventory.Inventory;
-
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.UUID;
 
 public class Command_AParkour implements CommandExecutor {
@@ -132,7 +124,7 @@ public class Command_AParkour implements CommandExecutor {
             }
         }
 
-        if (args[0].equalsIgnoreCase("config")) {
+        if (args[0].equalsIgnoreCase("setup")) {
             if (!Main.getInstance().getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
                 p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Commands.NoPerms"));
                 return false;
@@ -153,6 +145,68 @@ public class Command_AParkour implements CommandExecutor {
 
             Main.getInstance().getConfigGUI().open(p, id);
             return true;
+        }
+
+        if (args[0].equalsIgnoreCase("cancel")) {
+            Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
+            if (Main.getInstance().getTimerManager().hasPlayerTimer(p)) {
+                p.setFlying(false);
+                p.teleport(parkour.getSpawn());
+
+                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.Return"));
+
+                Profile data = Main.getInstance().getPlayerDataHandler().getData(p);
+                data.setParkour(null);
+                data.setLastCheckpoint(-1);
+
+                Main.getInstance().getTimerManager().cancelTimer(p);
+                if (Main.getInstance().isParkourItemsEnabled()) {
+                    Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
+                }
+
+                SoundUtil.playReturn(p);
+
+                Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
+
+                p.setNoDamageTicks(40);
+            } else {
+                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.NotInParkour"));
+                return false;
+            }
+        }
+
+        if (args[0].equalsIgnoreCase("checkpoint")) {
+            if (Main.getInstance().getTimerManager().hasPlayerTimer(p)) {
+                Profile data = Main.getInstance().getPlayerDataHandler().getData(p);
+                Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
+
+                if (data.getLastCheckpoint() < 0) {
+                    p.teleport(parkour.getSpawn());
+                    p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.Return"));
+
+                    data.setParkour(null);
+                    data.setLastCheckpoint(-1);
+
+                    Main.getInstance().getTimerManager().cancelTimer(p);
+                    if (Main.getInstance().isParkourItemsEnabled()) {
+                        Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
+                    }
+                    Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
+                } else if (data.getLastCheckpoint() >= 0) {
+                    p.teleport(data.getLastCheckpointLocation());
+                    p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.ReturnCheckpoint")
+                            .replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1)));
+                    Bukkit.getPluginManager().callEvent(new ParkourCheckpointEvent(p, parkour));
+                }
+
+                SoundUtil.playReturn(p);
+
+                p.setNoDamageTicks(40);
+                return true;
+            } else {
+                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.NotInParkour"));
+                return false;
+            }
         }
 
         if (args[0].equalsIgnoreCase("remove")) {
@@ -306,7 +360,7 @@ public class Command_AParkour implements CommandExecutor {
             }
 
             p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
-                    + " &cUsage: /aparkour set [id] [name,spawn,start,end,stats,top]"));
+                    + " &cUsage: /aparkour set [id] [name, spawn, start, end, stats, top]"));
             return true;
         }
         return false;
@@ -330,15 +384,16 @@ public class Command_AParkour implements CommandExecutor {
 
     public void sendCommandHelp(Player p) {
         p.sendMessage("");
-        p.sendMessage(ColorManager.translate("&7 - &a/aparkour stats"));
-        p.sendMessage(ColorManager.translate("&7 - &a/aparkour top"));
-        p.sendMessage(ColorManager.translate("&7 - &a/aparkour list"));
+        p.sendMessage(ColorManager.translate("&7 - &a/aparkour [stats, top, list]"));
+        p.sendMessage("");
+        p.sendMessage(ColorManager.translate("&7 - &a/aparkour cancel"));
+        p.sendMessage(ColorManager.translate("&7 - &a/aparkour checkpoint"));
         p.sendMessage("");
         if (Main.getInstance().getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
             p.sendMessage(ColorManager.translate("&7 - &a/aparkour create [id] [name]"));
             p.sendMessage(ColorManager.translate("&7 - &a/aparkour remove [id]"));
-            p.sendMessage(ColorManager.translate("&7 - &a/aparkour set [id] [name,spawn,start,end,stats,top]"));
-            p.sendMessage(ColorManager.translate("&7 - &a/aparkour config [id]"));
+            p.sendMessage(ColorManager.translate("&7 - &a/aparkour set [id] [name, spawn, start, end, stats, top]"));
+            p.sendMessage(ColorManager.translate("&7 - &a/aparkour setup [id]"));
             p.sendMessage(ColorManager.translate("&7 - &a/aparkour reload"));
             p.sendMessage("");
         }

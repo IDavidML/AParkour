@@ -145,11 +145,7 @@ public class Rewards_GUI implements Listener {
         p.updateInventory();
         p.openInventory(guis.get(id));
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-            public void run() {
-                opened.put(p.getUniqueId(), id);
-            }
-        }, 1L);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> opened.put(p.getUniqueId(), id), 1L);
     }
 
     @SuppressWarnings("deprecation")

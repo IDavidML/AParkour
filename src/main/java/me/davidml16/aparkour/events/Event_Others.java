@@ -2,6 +2,7 @@ package me.davidml16.aparkour.events;
 
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.utils.ParkourItems;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -47,7 +48,7 @@ public class Event_Others implements Listener {
     public void onDrop(PlayerDropItemEvent e) {
         if (Main.getInstance().getTimerManager().hasPlayerTimer(e.getPlayer())) {
             e.setCancelled(true);
-            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> e.getPlayer().updateInventory(), 1L);
+            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> e.getPlayer().updateInventory(), 1L);
         }
     }
 
@@ -108,7 +109,7 @@ public class Event_Others implements Listener {
 
             Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
 
-            if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
+            if (Main.getInstance().isParkourItemsEnabled()) {
                 Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
             }
         }
@@ -128,7 +129,7 @@ public class Event_Others implements Listener {
             Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
             Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
 
-            if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
+            if (Main.getInstance().isParkourItemsEnabled()) {
                 Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
             }
         }

@@ -8,12 +8,11 @@ import me.davidml16.aparkour.gui.*;
 import me.davidml16.aparkour.handlers.*;
 import me.davidml16.aparkour.managers.*;
 import me.davidml16.aparkour.tasks.ReturnTask;
-import me.davidml16.aparkour.utils.RestartItemUtil;
+import me.davidml16.aparkour.utils.ParkourItems;
 import me.davidml16.aparkour.utils.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -44,6 +43,7 @@ public class Main extends JavaPlugin {
     private TimerManager timerManager;
     private StatsHologramManager statsHologramManager;
     private TopHologramManager topHologramManager;
+    private PlateManager plateManager;
 
     private ParkourHandler parkourHandler;
     private RewardHandler rewardHandler;
@@ -54,9 +54,12 @@ public class Main extends JavaPlugin {
 
     private ADatabase database;
 
+    private ParkourItems parkourItems;
+
     private MetricsLite metrics;
 
     private boolean hologramsEnabled;
+    private boolean parkourItemsEnabled;
 
     public void onEnable() {
         instance = this;
@@ -76,8 +79,11 @@ public class Main extends JavaPlugin {
             }
         }
 
-        if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
-            RestartItemUtil.loadReturnItem();
+        parkourItems = new ParkourItems();
+        parkourItemsEnabled = getConfig().getBoolean("Items.Enabled");
+        if (parkourItemsEnabled) {
+            parkourItems.loadReturnItem();
+            parkourItems.loadCheckpointItem();
         }
 
         languageHandler = new LanguageHandler(getConfig().getString("Language").toLowerCase());
@@ -87,6 +93,8 @@ public class Main extends JavaPlugin {
         topHologramManager = new TopHologramManager(getConfig().getInt("Tasks.ReloadInterval"));
 
         checkpointsHandler = new CheckpointsHandler();
+
+        plateManager = new PlateManager();
 
         parkourHandler = new ParkourHandler();
         parkourHandler.loadParkours();
@@ -237,6 +245,10 @@ public class Main extends JavaPlugin {
         return topHologramManager;
     }
 
+    public PlateManager getPlateManager() {
+        return plateManager;
+    }
+
     public ParkourHandler getParkourHandler() {
         return parkourHandler;
     }
@@ -279,6 +291,18 @@ public class Main extends JavaPlugin {
 
     public void setHologramsEnabled(boolean hologramsEnabled) {
         this.hologramsEnabled = hologramsEnabled;
+    }
+
+    public boolean isParkourItemsEnabled() {
+        return parkourItemsEnabled;
+    }
+
+    public void setParkourItemsEnabled(boolean parkourItemsEnabled) {
+        this.parkourItemsEnabled = parkourItemsEnabled;
+    }
+
+    public ParkourItems getParkourItems() {
+        return parkourItems;
     }
 
     private void registerCommands() {

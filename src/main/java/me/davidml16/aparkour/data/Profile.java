@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -22,6 +23,7 @@ public class Profile {
 	private ItemStack[] armor;
 
 	private Integer lastCheckpoint;
+	private Location lastCheckpointLocation;
 
 	private GameMode lastGamemode;
 
@@ -39,6 +41,7 @@ public class Profile {
 		this.potionEffects = null;
 		this.lastGamemode = null;
 		this.lastCheckpoint = -1;
+		this.lastCheckpointLocation = null;
 		this.lastTimes = Main.getInstance().getDatabaseHandler().getPlayerLastTimes(uuid);
 		this.bestTimes = Main.getInstance().getDatabaseHandler().getPlayerBestTimes(uuid);
 		this.holograms = new HashMap<String, Hologram>();
@@ -132,5 +135,13 @@ public class Profile {
 
 	public void setLastCheckpoint(Integer lastCheckpoint) {
 		this.lastCheckpoint = lastCheckpoint;
+	}
+
+	public Location getLastCheckpointLocation() {
+		return lastCheckpointLocation;
+	}
+
+	public void setLastCheckpointLocation(Location lastCheckpointLocation) {
+		this.lastCheckpointLocation = lastCheckpointLocation;
 	}
 }

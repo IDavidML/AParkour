@@ -5,6 +5,7 @@ import me.davidml16.aparkour.api.events.ParkourEndEvent;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.data.Profile;
 import me.davidml16.aparkour.managers.ColorManager;
+import me.davidml16.aparkour.utils.ParkourItems;
 import me.davidml16.aparkour.utils.RandomFirework;
 import me.davidml16.aparkour.utils.SoundUtil;
 import me.davidml16.aparkour.utils.Sounds;
@@ -51,7 +52,7 @@ public class Event_PlateEnd implements Listener {
 
 							int total = (Main.getInstance().getTimerManager().getTimer().get(p.getUniqueId()));
 
-							if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
+							if (Main.getInstance().isParkourItemsEnabled()) {
 								Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
 							}
 
