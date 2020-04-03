@@ -1,8 +1,6 @@
 package me.davidml16.aparkour.data;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import org.bukkit.Location;
 
@@ -23,6 +21,8 @@ public class Parkour {
 
     private List<WalkableBlock> walkableBlocks;
     private List<Reward> rewards;
+    private List<Plate> checkpoints;
+    private List<Location> checkpointLocations;
 
     private boolean permissionRequired;
     private String permission;
@@ -38,6 +38,8 @@ public class Parkour {
         this.topHologram = topHologram;
         this.walkableBlocks = new ArrayList<WalkableBlock>();
         this.rewards = new ArrayList<Reward>();
+        this.checkpoints = new ArrayList<Plate>();
+        this.checkpointLocations = new ArrayList<Location>();
         this.permissionRequired = false;
         this.permission = "";
         this.permissionMessage = "";
@@ -87,6 +89,22 @@ public class Parkour {
         this.rewards = rewards;
     }
 
+    public List<Plate> getCheckpoints() {
+        return checkpoints;
+    }
+
+    public void setCheckpoints(List<Plate> checkpoints) {
+        this.checkpoints = checkpoints;
+    }
+
+    public List<Location> getCheckpointLocations() {
+        return checkpointLocations;
+    }
+
+    public void setCheckpointLocations(List<Location> checkpointLocations) {
+        this.checkpointLocations = checkpointLocations;
+    }
+
     public boolean isPermissionRequired() {
         return permissionRequired;
     }
@@ -114,14 +132,21 @@ public class Parkour {
     public void saveParkour() {
         Main.getInstance().getParkourHandler().getConfig(id).set("parkour.walkableBlocks", Main.getInstance().getParkourHandler().getWalkableBlocksString(walkableBlocks));
 
-        if (!Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.rewards")) {
-            Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards", new ArrayList<>());
-        } else {
-            Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards", new ArrayList<>());
+        Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards", new ArrayList<>());
+        if (Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.rewards")) {
             for (Reward reward : rewards) {
                 Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".firstTime", reward.isFirstTime());
                 Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".permission", reward.getPermission());
                 Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".command", reward.getCommand());
+            }
+        }
+
+        Main.getInstance().getParkourHandler().getConfig(id).set("parkour.checkpoints", new ArrayList<>());
+        if (Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.checkpoints")) {
+            int iterator = 0;
+            for (Plate checkpoint : checkpoints) {
+                Main.getInstance().getParkourHandler().getConfig(id).set("parkour.checkpoints." + iterator, checkpoint.getLocation());
+                iterator++;
             }
         }
 

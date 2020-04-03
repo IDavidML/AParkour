@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import me.davidml16.aparkour.events.*;
 import me.davidml16.aparkour.gui.*;
+import me.davidml16.aparkour.handlers.*;
 import me.davidml16.aparkour.managers.*;
 import me.davidml16.aparkour.tasks.ReturnTask;
 import me.davidml16.aparkour.utils.RestartItemUtil;
@@ -22,11 +23,6 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.davidml16.aparkour.commands.TabCompleter_AParkour;
 import me.davidml16.aparkour.commands.Command_AParkour;
 import me.davidml16.aparkour.database.ADatabase;
-import me.davidml16.aparkour.handlers.DatabaseHandler;
-import me.davidml16.aparkour.handlers.LanguageHandler;
-import me.davidml16.aparkour.handlers.ParkourHandler;
-import me.davidml16.aparkour.handlers.PlayerDataHandler;
-import me.davidml16.aparkour.handlers.RewardHandler;
 import me.davidml16.aparkour.tasks.HologramTask;
 import me.davidml16.aparkour.utils.RandomFirework;
 
@@ -40,6 +36,7 @@ public class Main extends JavaPlugin {
     private ParkourConfig_GUI configGUI;
     private WalkableBlocks_GUI walkableBlocksGUI;
     private Rewards_GUI rewardsGUI;
+    private Checkpoints_GUI checkpointsGUI;
 
     private HologramTask hologramTask;
     private ReturnTask returnTask;
@@ -50,6 +47,7 @@ public class Main extends JavaPlugin {
 
     private ParkourHandler parkourHandler;
     private RewardHandler rewardHandler;
+    private CheckpointsHandler checkpointsHandler;
     private LanguageHandler languageHandler;
     private PlayerDataHandler playerDataHandler;
     private DatabaseHandler databaseHandler;
@@ -88,6 +86,8 @@ public class Main extends JavaPlugin {
         statsHologramManager = new StatsHologramManager();
         topHologramManager = new TopHologramManager(getConfig().getInt("Tasks.ReloadInterval"));
 
+        checkpointsHandler = new CheckpointsHandler();
+
         parkourHandler = new ParkourHandler();
         parkourHandler.loadParkours();
         parkourHandler.loadHolograms();
@@ -117,6 +117,9 @@ public class Main extends JavaPlugin {
 
         rewardsGUI = new Rewards_GUI();
         rewardsGUI.loadGUI();
+
+        checkpointsGUI = new Checkpoints_GUI();
+        checkpointsGUI.loadGUI();
 
         topHologramManager.loadTopHolograms();
         topHologramManager.restartTimeLeft();
@@ -218,6 +221,10 @@ public class Main extends JavaPlugin {
         return rewardsGUI;
     }
 
+    public Checkpoints_GUI getCheckpointsGUI() {
+        return checkpointsGUI;
+    }
+
     public TimerManager getTimerManager() {
         return timerManager;
     }
@@ -250,6 +257,10 @@ public class Main extends JavaPlugin {
         return rewardHandler;
     }
 
+    public CheckpointsHandler getCheckpointsHandler() {
+        return checkpointsHandler;
+    }
+
     public ADatabase getADatabase() {
         return database;
     }
@@ -279,6 +290,7 @@ public class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new Event_Click(), this);
         Bukkit.getPluginManager().registerEvents(new Event_PlateStart(), this);
         Bukkit.getPluginManager().registerEvents(new Event_PlateEnd(), this);
+        Bukkit.getPluginManager().registerEvents(new Event_PlateCheckpoint(), this);
         Bukkit.getPluginManager().registerEvents(new Event_Fall(), this);
         Bukkit.getPluginManager().registerEvents(new Event_Others(), this);
     }

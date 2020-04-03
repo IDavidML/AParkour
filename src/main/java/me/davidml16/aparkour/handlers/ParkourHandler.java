@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.data.Plate;
 import me.davidml16.aparkour.data.Reward;
 import me.davidml16.aparkour.data.WalkableBlock;
 import org.bukkit.GameMode;
@@ -160,6 +162,11 @@ public class ParkourHandler {
 							saveConfig(id);
 						}
 
+						if (!config.contains("parkour.checkpoints")) {
+							config.set("parkour.checkpoints", new ArrayList<>());
+							saveConfig(id);
+						}
+
 						if (!config.contains("parkour.permissionRequired")) {
 							config.set("parkour.permissionRequired.enabled", false);
 							config.set("parkour.permissionRequired.permission", "aparkour.permission." + id);
@@ -177,19 +184,40 @@ public class ParkourHandler {
 							}
 						}
 
-						if (!config.contains("parkour.plateHolograms")) {
+						if (!config.contains("parkour.plateHolograms.start")) {
 							config.set("parkour.plateHolograms.start.enabled", false);
 							config.set("parkour.plateHolograms.start.distanceBelowPlate", 2.5D);
+							saveConfig(id);
+						}
+
+						if (!config.contains("parkour.plateHolograms.end")) {
 							config.set("parkour.plateHolograms.end.enabled", false);
 							config.set("parkour.plateHolograms.end.distanceBelowPlate", 2.5D);
 							saveConfig(id);
 						}
+
+						if (!config.contains("parkour.plateHolograms.checkpoints")) {
+							config.set("parkour.plateHolograms.checkpoints.enabled", false);
+							config.set("parkour.plateHolograms.checkpoints.distanceBelowPlate", 2.5D);
+							saveConfig(id);
+						}
+
+						Main.getInstance().getCheckpointsHandler().loadCheckpoints(parkour, config);
 
 						if (config.contains("parkour.plateHolograms")) {
 							parkour.getStart().setHologramEnabled(config.getBoolean("parkour.plateHolograms.start.enabled"));
 							parkour.getStart().setHologramDistance(config.getDouble("parkour.plateHolograms.start.distanceBelowPlate"));
 							parkour.getEnd().setHologramEnabled(config.getBoolean("parkour.plateHolograms.end.enabled"));
 							parkour.getEnd().setHologramDistance(config.getDouble("parkour.plateHolograms.end.distanceBelowPlate"));
+
+							if(!parkour.getCheckpoints().isEmpty()) {
+								boolean enabled = config.getBoolean("parkour.plateHolograms.checkpoints.enabled");
+								double distance = config.getDouble("parkour.plateHolograms.checkpoints.distanceBelowPlate");
+								for(Plate checkpoint : parkour.getCheckpoints()) {
+									checkpoint.setHologramEnabled(enabled);
+									checkpoint.setHologramDistance(distance);
+								}
+							}
 						}
 
 						Main.log.sendMessage(ColorManager.translate("    &a'" + name + "' loaded!"));
@@ -214,16 +242,71 @@ public class ParkourHandler {
 	public void loadHolograms() {
 		for (Parkour parkour : parkours.values()) {
 			if(parkour.getStart().isHologramEnabled()) {
-				Hologram hologram = HologramsAPI.createHologram(Main.getInstance(), parkour.getStart().getLocation().clone().add(0.5D, parkour.getStart().getHologramDistance(), 0.5D));
+				Hologram hologram = HologramsAPI.createHologram(Main.getInstance(),
+						parkour.getStart().getLocation().clone().add(0.5D, parkour.getStart().getHologramDistance(), 0.5D));
 				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Start.Line1"));
 				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Start.Line2"));
 				parkour.getStart().setHologram(hologram);
 			}
 			if(parkour.getEnd().isHologramEnabled()) {
-				Hologram hologram = HologramsAPI.createHologram(Main.getInstance(), parkour.getEnd().getLocation().clone().add(0.5D, parkour.getEnd().getHologramDistance(), 0.5D));
+				Hologram hologram = HologramsAPI.createHologram(Main.getInstance(),
+						parkour.getEnd().getLocation().clone().add(0.5D, parkour.getEnd().getHologramDistance(), 0.5D));
 				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.End.Line1"));
 				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.End.Line2"));
 				parkour.getEnd().setHologram(hologram);
+			}
+			if(!parkour.getCheckpoints().isEmpty()) {
+				int iterator = 1;
+				for (Plate checkpoint : parkour.getCheckpoints()) {
+					if(checkpoint.isHologramEnabled()) {
+						Hologram hologram = HologramsAPI.createHologram(Main.getInstance(),
+								checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
+						hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
+								.replaceAll("%checkpoint%", Integer.toString(iterator)));
+						hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
+								.replaceAll("%checkpoint%", Integer.toString(iterator)));
+						checkpoint.setHologram(hologram);
+						iterator++;
+					}
+				}
+			}
+		}
+	}
+
+	public void loadCheckpointHologram(Parkour parkour, Plate checkpoint) {
+		FileConfiguration config = getConfig(parkour.getId());
+		boolean enabled = config.getBoolean("parkour.plateHolograms.checkpoints.enabled");
+		double distance = config.getDouble("parkour.plateHolograms.checkpoints.distanceBelowPlate");
+		checkpoint.setHologramEnabled(enabled);
+		checkpoint.setHologramDistance(distance);
+		Hologram hologram = HologramsAPI.createHologram(Main.getInstance(), checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
+		hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
+				.replaceAll("%checkpoint%", Integer.toString(parkour.getCheckpoints().size())));
+		hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
+				.replaceAll("%checkpoint%", Integer.toString(parkour.getCheckpoints().size())));
+		checkpoint.setHologram(hologram);
+	}
+
+	public void removeCheckpointHolograms(Parkour parkour) {
+		for (Plate checkpoint : parkour.getCheckpoints()) {
+			if(checkpoint.isHologramEnabled()) {
+				checkpoint.getHologram().delete();
+			}
+		}
+	}
+
+	public void loadCheckpointHolograms(Parkour parkour) {
+		int iterator = 1;
+		for (Plate checkpoint : parkour.getCheckpoints()) {
+			if(checkpoint.isHologramEnabled()) {
+				Hologram hologram = HologramsAPI.createHologram(Main.getInstance(),
+						checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
+				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
+						.replaceAll("%checkpoint%", Integer.toString(iterator)));
+				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
+						.replaceAll("%checkpoint%", Integer.toString(iterator)));
+				checkpoint.setHologram(hologram);
+				iterator++;
 			}
 		}
 	}
@@ -235,6 +318,9 @@ public class ParkourHandler {
 		}
 		if(parkour.getEnd().isHologramEnabled()) {
 			parkour.getEnd().getHologram().delete();
+		}
+		for (Plate checkpoint : parkour.getCheckpoints()) {
+			checkpoint.getHologram().delete();
 		}
 	}
 
@@ -258,8 +344,10 @@ public class ParkourHandler {
 
 	public Parkour getParkourByLocation(Location loc) {
 		for (Parkour parkour : parkours.values()) {
-			if (loc.equals(parkour.getStart().getLocation()) || loc.equals(parkour.getEnd().getLocation()))
-				return parkours.get(parkour.getId());
+			if (loc.equals(parkour.getStart().getLocation()) ||
+					loc.equals(parkour.getEnd().getLocation()) ||
+					parkour.getCheckpointLocations().contains(loc))
+				return parkour;
 		}
 		return null;
 	}
@@ -320,6 +408,19 @@ public class ParkourHandler {
 			}
 		}
 		return rewards;
+	}
+
+	public List<Plate> getCheckpoints(String pid) {
+		List<Plate> checkpoints = new ArrayList<Plate>();
+		if (parkourConfigs.get(pid).contains("parkour.checkpoints")) {
+			if (parkourConfigs.get(pid).getConfigurationSection("parkour.checkpoints") != null) {
+				for (String id : parkourConfigs.get(pid).getConfigurationSection("parkour.checkpoints").getKeys(false)) {
+					Location loc = (Location) parkourConfigs.get(id).get("parkour.checkpoints." + Integer.parseInt(id));
+					checkpoints.add(new Plate(loc));
+				}
+			}
+		}
+		return checkpoints;
 	}
 
 	private boolean validRewardData(String parkourID, String rewardID) {

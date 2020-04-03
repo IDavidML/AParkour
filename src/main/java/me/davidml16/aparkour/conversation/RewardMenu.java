@@ -1,6 +1,7 @@
 package me.davidml16.aparkour.conversation;
 
 import me.davidml16.aparkour.Main;
+import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.data.Reward;
 import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.utils.Sounds;
@@ -15,10 +16,10 @@ import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Player;
 
 public class RewardMenu implements ConversationAbandonedListener, CommonPrompts {
-    public Conversation getConversation(Player paramPlayer, String id) {
-        Conversation conversation = (new ConversationFactory(Main.getInstance())).withModality(true).withLocalEcho(false).withFirstPrompt(new RewardMenuOptions()).withTimeout(3600).thatExcludesNonPlayersWithMessage(Main.getInstance().getLanguageHandler().getMessage("PREFIX")).addConversationAbandonedListener(this).buildConversation(paramPlayer);
+    public Conversation getConversation(Player paramPlayer, Parkour parkour) {
+        Conversation conversation = (new ConversationFactory(Main.getInstance())).withModality(true).withLocalEcho(false).withFirstPrompt(new RewardMenuOptions()).withTimeout(3600).thatExcludesNonPlayersWithMessage("").addConversationAbandonedListener(this).buildConversation(paramPlayer);
         conversation.getContext().setSessionData("player", paramPlayer);
-        conversation.getContext().setSessionData("parkourID", id);
+        conversation.getContext().setSessionData("parkour", parkour);
         return conversation;
     }
 
@@ -27,9 +28,10 @@ public class RewardMenu implements ConversationAbandonedListener, CommonPrompts 
     public void conversationAbandoned(ConversationAbandonedEvent paramConversationAbandonedEvent) {}
 
     public class RewardMenuOptions extends FixedSetPrompt {
-        public RewardMenuOptions() { super("1", "2", "3", "4", "5", "6"); }
+        RewardMenuOptions() { super("1", "2", "3", "4", "5", "6"); }
 
         protected Prompt acceptValidatedInput(ConversationContext param1ConversationContext, String param1String) {
+            Parkour parkour = (Parkour) param1ConversationContext.getSessionData("parkour");
             switch (param1String) {
                 case "1":
                     return new CommonPrompts.CommonStringPrompt(this, false,ChatColor.YELLOW + "  Enter reward identificator, \"cancel\" to return.\n\n ", "rewardID");
@@ -44,21 +46,20 @@ public class RewardMenu implements ConversationAbandonedListener, CommonPrompts 
                             && param1ConversationContext.getSessionData("rewardPermission") != null
                             && param1ConversationContext.getSessionData("rewardCommand") != null
                             && param1ConversationContext.getSessionData("rewardFirstTime") != null) {
-                        String parkourID = (String)param1ConversationContext.getSessionData("parkourID");
-                        if(!rewardsIdExist(parkourID, (String)param1ConversationContext.getSessionData("rewardID"))) {
+                        if(!rewardsIdExist(parkour, (String)param1ConversationContext.getSessionData("rewardID"))) {
                             Reward reward = new Reward((String) param1ConversationContext.getSessionData("rewardID"),
                                     (String) param1ConversationContext.getSessionData("rewardPermission"),
                                     (String) param1ConversationContext.getSessionData("rewardCommand"),
                                     Boolean.valueOf((String) param1ConversationContext.getSessionData("rewardFirstTime"))
                             );
-                            Main.getInstance().getParkourHandler().getParkours().get(parkourID).getRewards().add(reward);
-                            Main.getInstance().getParkourHandler().getParkours().get(parkourID).saveParkour();
+                            parkour.getRewards().add(reward);
+                            parkour.saveParkour();
                             param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
-                                    + " &aYou added reward &e" + reward.getId() + " &ato rewards of parkour &e" + parkourID));
+                                    + " &aYou added reward &e" + reward.getId() + " &ato rewards of parkour &e" + parkour.getId()));
 
                             Sounds.playSound((Player) param1ConversationContext.getSessionData("player"),
                                     ((Player) param1ConversationContext.getSessionData("player")).getLocation(), Sounds.MySound.ANVIL_USE, 10, 3);
-                            Main.getInstance().getRewardsGUI().reloadGUI(parkourID);
+                            Main.getInstance().getRewardsGUI().reloadGUI(parkour.getId());
                             return Prompt.END_OF_CONVERSATION;
                         } else {
                             return new CommonPrompts.ErrorPrompt(this, "\n" + ChatColor.RED + "  There is already a reward with that ID, please change it and try again\n  Write anything to continue\n ");
@@ -103,8 +104,8 @@ public class RewardMenu implements ConversationAbandonedListener, CommonPrompts 
         }
     }
 
-    public boolean rewardsIdExist(String parkourID, String rewardID) {
-        for(Reward reward : Main.getInstance().getParkourHandler().getParkourById(parkourID).getRewards()) {
+    public boolean rewardsIdExist(Parkour parkour, String rewardID) {
+        for(Reward reward : parkour.getRewards()) {
             if(reward.getId().equalsIgnoreCase(rewardID)) return true;
         }
         return false;

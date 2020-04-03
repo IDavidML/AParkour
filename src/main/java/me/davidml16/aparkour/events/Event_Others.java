@@ -101,6 +101,7 @@ public class Event_Others implements Listener {
         Main.getInstance().getConfigGUI().getOpened().remove(p.getUniqueId());
         Main.getInstance().getWalkableBlocksGUI().getOpened().remove(p.getUniqueId());
         Main.getInstance().getRewardsGUI().getOpened().remove(p.getUniqueId());
+        Main.getInstance().getCheckpointsGUI().getOpened().remove(p.getUniqueId());
 
         if (Main.getInstance().getTimerManager().hasPlayerTimer(e.getPlayer())) {
             Main.getInstance().getTimerManager().cancelTimer(e.getPlayer());

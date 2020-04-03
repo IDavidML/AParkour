@@ -32,7 +32,7 @@ public class ParkourConfig_GUI implements Listener {
     public ParkourConfig_GUI() {
         this.opened = new HashMap<UUID, String>();
         this.guis = new HashMap<String, Inventory>();
-        this.borders = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 17, 18, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44);
+        this.borders = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 17, 18, 24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44);
         Main.getInstance().getServer().getPluginManager().registerEvents(this, Main.getInstance());
     }
 
@@ -116,6 +116,19 @@ public class ParkourConfig_GUI implements Listener {
                             "",
                             ColorManager.translate("&eClick to config blocks! ")
                     ).toItemStack());
+            gui.setItem(25, new ItemBuilder(Material.BEACON, 1)
+                    .setName(ColorManager.translate("&aCheckpoints"))
+                    .setLore(
+                            "",
+                            ColorManager.translate(" &7Open checkpoints gui and "),
+                            ColorManager.translate(" &7click on add checkpoints "),
+                            ColorManager.translate(" &7to begin checkpoint setup. "),
+                            "",
+                            ColorManager.translate(" &7Click the checkpoint item "),
+                            ColorManager.translate(" &7in the GUI to remove it. "),
+                            "",
+                            ColorManager.translate("&eClick to config checkpoints! ")
+                    ).toItemStack());
             gui.setItem(34, new ItemBuilder(Material.GOLD_NUGGET, 1)
                     .setName(ColorManager.translate("&aRewards"))
                     .setLore(
@@ -132,6 +145,7 @@ public class ParkourConfig_GUI implements Listener {
         } else {
             ItemStack noSetup = new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 14).setName(ColorManager.translate("&cParkour setup not valid")).toItemStack();
             gui.setItem(16, noSetup);
+            gui.setItem(25, noSetup);
             gui.setItem(34, noSetup);
         }
 
@@ -219,6 +233,19 @@ public class ParkourConfig_GUI implements Listener {
                             "",
                             ColorManager.translate("&eClick to config blocks! ")
                     ).toItemStack());
+            gui.setItem(25, new ItemBuilder(Material.BEACON, 1)
+                    .setName(ColorManager.translate("&aCheckpoints"))
+                    .setLore(
+                            "",
+                            ColorManager.translate(" &7Open checkpoints gui and "),
+                            ColorManager.translate(" &7click on add checkpoints "),
+                            ColorManager.translate(" &7to begin checkpoint setup. "),
+                            "",
+                            ColorManager.translate(" &7Click the checkpoint item "),
+                            ColorManager.translate(" &7in the GUI to remove it. "),
+                            "",
+                            ColorManager.translate("&eClick to config checkpoints! ")
+                    ).toItemStack());
             gui.setItem(34, new ItemBuilder(Material.GOLD_NUGGET, 1)
                     .setName(ColorManager.translate("&aRewards "))
                     .setLore(
@@ -263,6 +290,12 @@ public class ParkourConfig_GUI implements Listener {
                     String id = opened.get(p.getUniqueId());
                     p.closeInventory();
                     Main.getInstance().getWalkableBlocksGUI().open(p, id);
+                }
+            } else if (slot == 25) {
+                if (e.getCurrentItem().getType() == Material.BEACON) {
+                    String id = opened.get(p.getUniqueId());
+                    p.closeInventory();
+                    Main.getInstance().getCheckpointsGUI().open(p, id);
                 }
             } else if (slot == 34) {
                 if (e.getCurrentItem().getType() == Material.GOLD_NUGGET) {

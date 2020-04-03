@@ -92,6 +92,7 @@ public class LanguageHandler {
 		msgDefaults.put("GUIs.Config.title", "%parkour% | Configuration");
 		msgDefaults.put("GUIs.WalkableBlocks.title", "%parkour% | Blocks");
 		msgDefaults.put("GUIs.Rewards.title", "%parkour% | Rewards");
+		msgDefaults.put("GUIs.Checkpoints.title", "%parkour% | Checkpoints");
 
 		msgDefaults.put("Times.Hours", "hours");
 		msgDefaults.put("Times.Hour", "hour");
@@ -115,10 +116,14 @@ public class LanguageHandler {
 		msgDefaults.put("Holograms.Plates.Start.Line2", "&fStart here!");
 		msgDefaults.put("Holograms.Plates.End.Line1", "&e&lParkour Challenge");
 		msgDefaults.put("Holograms.Plates.End.Line2", "&fFinish here!");
+		msgDefaults.put("Holograms.Plates.Checkpoint.Line1", "&e&lParkour Challenge");
+		msgDefaults.put("Holograms.Plates.Checkpoint.Line2", "&fCheckpoint Nº%checkpoint%");
 
 		msgDefaults.put("Messages.Started", "&aStarted parkour! Get to the end as quick as possible.");
 		msgDefaults.put("Messages.Fly", "&cYou can not fly when you are in parkour.");
 		msgDefaults.put("Messages.Return", "&6Returning to beginning of parkour...");
+		msgDefaults.put("Messages.Checkpoint", "&aYou reached checkpoint &e#%checkpoint% &ain &e%time%.");
+		msgDefaults.put("Messages.NeedCheckpoint", "&cYou first need to reach previous checkpoints to end parkour.");
 
 		msgDefaults.put("EndMessage.FirstTime", "&6You completed this parkour for the first time!");
 		msgDefaults.put("EndMessage.Normal", "&6You completed the parkour in &d%endTime%");
@@ -162,6 +167,7 @@ public class LanguageHandler {
 		msgDefaults.put("GUIs.Config.title", "%parkour% | Configuración");
 		msgDefaults.put("GUIs.WalkableBlocks.title", "%parkour% | Bloques");
 		msgDefaults.put("GUIs.Rewards.title", "%parkour% | Recompensas");
+		msgDefaults.put("GUIs.Checkpoints.title", "%parkour% | Checkpoints");
 
 		msgDefaults.put("Times.Hours", "horas");
 		msgDefaults.put("Times.Hour", "hora");
@@ -185,10 +191,14 @@ public class LanguageHandler {
 		msgDefaults.put("Holograms.Plates.Start.Line2", "&fEmpieza aquí!");
 		msgDefaults.put("Holograms.Plates.End.Line1", "&e&lReto parkour");
 		msgDefaults.put("Holograms.Plates.End.Line2", "&fTermina aquí!");
+		msgDefaults.put("Holograms.Plates.Checkpoint.Line1", "&e&lReto parkour");
+		msgDefaults.put("Holograms.Plates.Checkpoint.Line2", "&fCheckpoint Nº%checkpoint%");
 
 		msgDefaults.put("Messages.Started", "&aParkour iniciado! Llega al final lo más rapido que puedeas.");
 		msgDefaults.put("Messages.Fly", "&cNo puedes volar cuando estas en el parkour.");
 		msgDefaults.put("Messages.Return", "&6Volviendo al inicio del parkour...");
+		msgDefaults.put("Messages.Checkpoint", "&aHas llegado al checkpoint &e#%checkpoint% &aen &e%time%");
+		msgDefaults.put("Messages.NeedCheckpoint", "&cPrimero necesitas llegar a los checkpoints para acabar el parkour.");
 
 		msgDefaults.put("EndMessage.FirstTime", "&6Has completado este parkour por primera vez!");
 		msgDefaults.put("EndMessage.Normal", "&6Has completado el parkour en &d%endTime%");

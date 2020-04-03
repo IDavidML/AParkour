@@ -1,6 +1,7 @@
 package me.davidml16.aparkour.events;
 
 import me.davidml16.aparkour.api.events.ParkourReturnEvent;
+import me.davidml16.aparkour.data.Profile;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,7 +30,11 @@ public class Event_Fall implements Listener {
 				p.teleport(parkour.getSpawn());
 
 				if(Main.getInstance().getParkourHandler().isKickFromParkourOnFail()) {
-					Main.getInstance().getPlayerDataHandler().getData(p).setParkour(null);
+
+					Profile data = Main.getInstance().getPlayerDataHandler().getData(p);
+					data.setParkour(null);
+					data.setLastCheckpoint(-1);
+
 					p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.Return"));
 
 					Main.getInstance().getTimerManager().cancelTimer(p);

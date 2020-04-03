@@ -21,6 +21,8 @@ public class Profile {
 	private ItemStack[] inventory;
 	private ItemStack[] armor;
 
+	private Integer lastCheckpoint;
+
 	private GameMode lastGamemode;
 
 	private Collection<PotionEffect> potionEffects;
@@ -36,6 +38,7 @@ public class Profile {
 		this.armor = new ItemStack[4];
 		this.potionEffects = null;
 		this.lastGamemode = null;
+		this.lastCheckpoint = -1;
 		this.lastTimes = Main.getInstance().getDatabaseHandler().getPlayerLastTimes(uuid);
 		this.bestTimes = Main.getInstance().getDatabaseHandler().getPlayerBestTimes(uuid);
 		this.holograms = new HashMap<String, Hologram>();
@@ -48,6 +51,14 @@ public class Profile {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	public void save(String id) {
+		try {
+			Main.getInstance().getDatabaseHandler().setTimes(uuid, lastTimes.get(id), bestTimes.get(id), id);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -115,4 +126,11 @@ public class Profile {
 		this.parkour = parkour;
 	}
 
+	public Integer getLastCheckpoint() {
+		return lastCheckpoint;
+	}
+
+	public void setLastCheckpoint(Integer lastCheckpoint) {
+		this.lastCheckpoint = lastCheckpoint;
+	}
 }

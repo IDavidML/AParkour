@@ -2,8 +2,10 @@ package me.davidml16.aparkour.commands;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import me.davidml16.aparkour.conversation.CheckpointMenu;
 import me.davidml16.aparkour.conversation.RewardMenu;
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.data.Plate;
 import me.davidml16.aparkour.managers.PluginManager;
 import me.davidml16.aparkour.utils.ActionBar;
 import me.davidml16.aparkour.utils.LocationUtil;
@@ -105,6 +107,8 @@ public class Command_AParkour implements CommandExecutor {
                     config.set("parkour.plateHolograms.start.distanceBelowPlate", 2.5D);
                     config.set("parkour.plateHolograms.end.enabled", false);
                     config.set("parkour.plateHolograms.end.distanceBelowPlate", 2.5D);
+                    config.set("parkour.plateHolograms.checkpoints.enabled", false);
+                    config.set("parkour.plateHolograms.checkpoints.distanceBelowPlate", 2.5D);
                     config.set("parkour.permissionRequired.enabled", false);
                     config.set("parkour.permissionRequired.permission", "aparkour.permission." + id);
                     config.set("parkour.permissionRequired.message", "&cYou dont have permission to start this parkour!");
@@ -112,6 +116,7 @@ public class Command_AParkour implements CommandExecutor {
                     config.set("parkour.rewards.example.permission", "*");
                     config.set("parkour.rewards.example.command", "give %player% diamond 1");
                     config.set("parkour.walkableBlocks", new ArrayList<>());
+                    config.set("parkour.checkpoints", new ArrayList<>());
                     Main.getInstance().getParkourHandler().saveConfig(id);
                     Main.getInstance().getConfigGUI().loadGUI(id);
                     Main.getInstance().getWalkableBlocksGUI().loadGUI(id);
@@ -218,6 +223,15 @@ public class Command_AParkour implements CommandExecutor {
                 if (Main.getInstance().getRewardsGUI().getGuis().containsKey(id)) {
                     for (UUID uuid : Main.getInstance().getRewardsGUI().getOpened().keySet()) {
                         if (Main.getInstance().getRewardsGUI().getOpened().get(uuid).equals(id)) {
+                            Bukkit.getPlayer(uuid).closeInventory();
+                        }
+                    }
+                    Main.getInstance().getRewardsGUI().getGuis().remove(id);
+                }
+
+                if (Main.getInstance().getCheckpointsGUI().getGuis().containsKey(id)) {
+                    for (UUID uuid : Main.getInstance().getCheckpointsGUI().getOpened().keySet()) {
+                        if (Main.getInstance().getCheckpointsGUI().getOpened().get(uuid).equals(id)) {
                             Bukkit.getPlayer(uuid).closeInventory();
                         }
                     }

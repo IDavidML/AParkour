@@ -65,6 +65,8 @@ public class PluginManager {
         Main.getInstance().getWalkableBlocksGUI().reloadAllGUI();
         Main.getInstance().getRewardsGUI().loadGUI();
         Main.getInstance().getRewardsGUI().reloadAllGUI();
+        Main.getInstance().getCheckpointsGUI().loadGUI();
+        Main.getInstance().getCheckpointsGUI().reloadAllGUI();
         Main.getInstance().getParkourHandler().loadHolograms();
     }
 

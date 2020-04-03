@@ -56,4 +56,12 @@ public class LocationUtil {
                 + " &aSuccesfully set the " + type + " location of parkour &e" + id));
     }
 
+    public static Location getPosition(Player p) {
+        double x = p.getLocation().getBlockX();
+        double y = p.getLocation().getBlockY();
+        double z = p.getLocation().getBlockZ();
+
+        return new Location(p.getWorld(), x, y, z, 0, 0);
+    }
+
 }
