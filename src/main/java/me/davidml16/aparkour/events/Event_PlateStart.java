@@ -52,7 +52,9 @@ public class Event_PlateStart implements Listener {
                         }
 
                         if (!Main.getInstance().getTimerManager().hasPlayerTimer(p)) {
-                            p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.Started"));
+                            String message = Main.getInstance().getLanguageHandler().getMessage("Messages.Started");
+                            if(message.length() > 0)
+                                p.sendMessage(message);
                             p.setFlying(false);
                             SoundUtil.playStart(p);
 

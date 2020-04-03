@@ -39,7 +39,9 @@ public class Command_AParkour implements CommandExecutor {
             if (Main.getInstance().getParkourHandler().getParkours().size() > 0) {
                 Main.getInstance().getStatsGUI().open(p);
             } else {
-                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Commands.NoStats"));
+                String message = Main.getInstance().getLanguageHandler().getMessage("Commands.NoStats");
+                if(message.length() > 0)
+                    p.sendMessage(message);
             }
             return true;
         }
@@ -53,28 +55,36 @@ public class Command_AParkour implements CommandExecutor {
             if (Main.getInstance().getParkourHandler().getParkours().size() > 0) {
                 Main.getInstance().getRankingsGUI().open(p);
             } else {
-                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Commands.NoParkours"));
+                String message = Main.getInstance().getLanguageHandler().getMessage("Commands.NoParkours");
+                if(message.length() > 0)
+                    p.sendMessage(message);
             }
             return true;
         }
 
         if (args[0].equalsIgnoreCase("reload")) {
             if (!Main.getInstance().getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
-                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Commands.NoPerms"));
+                String message = Main.getInstance().getLanguageHandler().getMessage("Commands.NoPerms");
+                if(message.length() > 0)
+                    p.sendMessage(message);
                 return false;
             }
 
             Main.getInstance().reloadConfig();
             PluginManager.reloadAll();
-            p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Commands.Reload"));
 
+            String message = Main.getInstance().getLanguageHandler().getMessage("Commands.Reload");
+            if(message.length() > 0)
+                p.sendMessage(message);
 
             return true;
         }
 
         if (args[0].equalsIgnoreCase("create")) {
             if (!Main.getInstance().getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
-                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Commands.NoPerms"));
+                String message = Main.getInstance().getLanguageHandler().getMessage("Commands.NoPerms");
+                if(message.length() > 0)
+                    p.sendMessage(message);
                 return false;
             }
 
@@ -126,7 +136,9 @@ public class Command_AParkour implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("setup")) {
             if (!Main.getInstance().getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
-                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Commands.NoPerms"));
+                String message = Main.getInstance().getLanguageHandler().getMessage("Commands.NoPerms");
+                if(message.length() > 0)
+                    p.sendMessage(message);
                 return false;
             }
 
@@ -153,7 +165,9 @@ public class Command_AParkour implements CommandExecutor {
                 p.setFlying(false);
                 p.teleport(parkour.getSpawn());
 
-                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.Return"));
+                String message = Main.getInstance().getLanguageHandler().getMessage("Messages.Return");
+                if(message.length() > 0)
+                    p.sendMessage(message);
 
                 Profile data = Main.getInstance().getPlayerDataHandler().getData(p);
                 data.setParkour(null);
@@ -170,7 +184,9 @@ public class Command_AParkour implements CommandExecutor {
 
                 p.setNoDamageTicks(40);
             } else {
-                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.NotInParkour"));
+                String message = Main.getInstance().getLanguageHandler().getMessage("Messages.NotInParkour");
+                if(message.length() > 0)
+                    p.sendMessage(message);
                 return false;
             }
         }
@@ -182,7 +198,10 @@ public class Command_AParkour implements CommandExecutor {
 
                 if (data.getLastCheckpoint() < 0) {
                     p.teleport(parkour.getSpawn());
-                    p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.Return"));
+
+                    String message = Main.getInstance().getLanguageHandler().getMessage("Messages.Return");
+                    if(message.length() > 0)
+                        p.sendMessage(message);
 
                     data.setParkour(null);
                     data.setLastCheckpoint(-1);
@@ -194,8 +213,9 @@ public class Command_AParkour implements CommandExecutor {
                     Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
                 } else if (data.getLastCheckpoint() >= 0) {
                     p.teleport(data.getLastCheckpointLocation());
-                    p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.ReturnCheckpoint")
-                            .replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1)));
+                    String message = Main.getInstance().getLanguageHandler().getMessage("Messages.ReturnCheckpoint");
+                    if(message.length() > 0)
+                        p.sendMessage(message.replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1)));
                     Bukkit.getPluginManager().callEvent(new ParkourCheckpointEvent(p, parkour));
                 }
 
@@ -204,14 +224,18 @@ public class Command_AParkour implements CommandExecutor {
                 p.setNoDamageTicks(40);
                 return true;
             } else {
-                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.NotInParkour"));
+                String message = Main.getInstance().getLanguageHandler().getMessage("Messages.NotInParkour");
+                if(message.length() > 0)
+                    p.sendMessage(message);
                 return false;
             }
         }
 
         if (args[0].equalsIgnoreCase("remove")) {
             if (!Main.getInstance().getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
-                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Commands.NoPerms"));
+                String message = Main.getInstance().getLanguageHandler().getMessage("Commands.NoPerms");
+                if(message.length() > 0)
+                    p.sendMessage(message);
                 return false;
             }
 
@@ -302,7 +326,9 @@ public class Command_AParkour implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("set")) {
             if (!Main.getInstance().getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
-                p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Commands.NoPerms"));
+                String message = Main.getInstance().getLanguageHandler().getMessage("Commands.NoPerms");
+                if(message.length() > 0)
+                    p.sendMessage(message);
                 return false;
             }
 

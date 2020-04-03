@@ -41,7 +41,10 @@ public class ReturnTask {
                                 if(data.getLastCheckpoint() < 0) {
 
                                     p.teleport(parkour.getSpawn());
-                                    p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.Return"));
+
+                                    String message = Main.getInstance().getLanguageHandler().getMessage("Messages.Return");
+                                    if(message.length() > 0)
+                                        p.sendMessage(message);
 
                                     data.setParkour(null);
                                     data.setLastCheckpoint(-1);
@@ -53,10 +56,11 @@ public class ReturnTask {
 
                                     Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
                                 } else if (data.getLastCheckpoint() >= 0) {
-
                                     p.teleport(data.getLastCheckpointLocation());
-                                    p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.ReturnCheckpoint")
-                                            .replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1)));
+
+                                    String message = Main.getInstance().getLanguageHandler().getMessage("Messages.ReturnCheckpoint");
+                                    if(message.length() > 0)
+                                        p.sendMessage(message.replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1)));
 
                                     Bukkit.getPluginManager().callEvent(new ParkourCheckpointEvent(p, parkour));
                                 }
@@ -73,7 +77,9 @@ public class ReturnTask {
                                     p.setFlying(false);
                                     p.teleport(parkour.getSpawn());
 
-                                    p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.Fly"));
+                                    String message = Main.getInstance().getLanguageHandler().getMessage("Messages.Fly");
+                                    if(message.length() > 0)
+                                        p.sendMessage(message);
 
                                     Profile data = Main.getInstance().getPlayerDataHandler().getData(p);
                                     data.setParkour(null);

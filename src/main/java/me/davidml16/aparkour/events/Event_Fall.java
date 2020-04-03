@@ -34,7 +34,9 @@ public class Event_Fall implements Listener {
 				if(data.getLastCheckpoint() < 0) {
 					p.teleport(parkour.getSpawn());
 
-					p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.Return"));
+					String message = Main.getInstance().getLanguageHandler().getMessage("Messages.Return");
+					if(message.length() > 0)
+						p.sendMessage(message);
 
 					data.setParkour(null);
 					data.setLastCheckpoint(-1);
@@ -46,10 +48,11 @@ public class Event_Fall implements Listener {
 
 					Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
 				} else if (data.getLastCheckpoint() >= 0) {
-
 					p.teleport(data.getLastCheckpointLocation());
-					p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.ReturnCheckpoint")
-							.replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1)));
+
+					String message = Main.getInstance().getLanguageHandler().getMessage("Messages.ReturnCheckpoint");
+					if(message.length() > 0)
+						p.sendMessage(message.replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1)));
 
 					Bukkit.getPluginManager().callEvent(new ParkourCheckpointEvent(p, parkour));
 				}

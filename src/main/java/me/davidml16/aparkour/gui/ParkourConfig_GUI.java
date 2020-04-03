@@ -307,7 +307,9 @@ public class ParkourConfig_GUI implements Listener {
                 if (e.getCurrentItem().getType() == Material.BARRIER) {
                     PluginManager.reloadAll();
                     Sounds.playSound(p, p.getLocation(), Sounds.MySound.ANVIL_USE, 100, 3);
-                    p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Commands.Reload"));
+                    String message = Main.getInstance().getLanguageHandler().getMessage("Commands.Reload");
+                    if(message.length() > 0)
+                        p.sendMessage(message);
                 }
             }
         }

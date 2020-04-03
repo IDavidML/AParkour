@@ -43,10 +43,11 @@ public class Event_PlateCheckpoint implements Listener {
 
 								int time = (Main.getInstance().getTimerManager().getTimer().get(p.getUniqueId()));
 
-								p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.Checkpoint")
-										.replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1))
-										.replaceAll("%time%", Main.getInstance().getTimerManager().timeAsString(time))
-								);
+								String message = Main.getInstance().getLanguageHandler().getMessage("Messages.Checkpoint");
+								if(message.length() > 0)
+									p.sendMessage(message
+											.replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1))
+											.replaceAll("%time%", Main.getInstance().getTimerManager().timeAsString(time)));
 
 								Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
 							}

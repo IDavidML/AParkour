@@ -63,13 +63,15 @@ public class Event_PlateEnd implements Listener {
 
 							SoundUtil.playEnd(p);
 
-							String End = Main.getInstance().getLanguageHandler().getMessage("EndMessage.Normal");
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&', End).replaceAll("%endTime%",
-									Main.getInstance().getTimerManager().timeAsString(total)));
+							String end = Main.getInstance().getLanguageHandler().getMessage("EndMessage.Normal");
+							if(end.length() > 0)
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', end)
+										.replaceAll("%endTime%", Main.getInstance().getTimerManager().timeAsString(total)));
 
-							if (data.getBestTimes().get(parkour.getId()) == 0
-									&& data.getLastTimes().get(parkour.getId()) == 0) {
-								p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("EndMessage.FirstTime"));
+							if (data.getBestTimes().get(parkour.getId()) == 0 && data.getLastTimes().get(parkour.getId()) == 0) {
+								String message = Main.getInstance().getLanguageHandler().getMessage("EndMessage.FirstTime");
+								if(message.length() > 0)
+									p.sendMessage(message);
 								Main.getInstance().getRewardHandler().giveParkourRewards(p, parkour.getId(), true);
 							}
 
@@ -92,12 +94,13 @@ public class Event_PlateEnd implements Listener {
 								Player eplayer = e.getPlayer();
 								int bestTotal = data.getBestTimes().get(parkour.getId()) - total;
 
-								String Record = Main.getInstance().getLanguageHandler().getMessage("EndMessage.Record");
+								String record = Main.getInstance().getLanguageHandler().getMessage("EndMessage.Record");
 
 								data.setBestTime(total, parkour.getId());
 
-								eplayer.sendMessage(ChatColor.translateAlternateColorCodes('&', Record).replaceAll(
-										"%recordTime%", Main.getInstance().getTimerManager().timeAsString(bestTotal)));
+								if(record.length() > 0)
+									eplayer.sendMessage(ChatColor.translateAlternateColorCodes('&', record)
+											.replaceAll("%recordTime%", Main.getInstance().getTimerManager().timeAsString(bestTotal)));
 							}
 
 							data.save(parkour.getId());
@@ -109,7 +112,9 @@ public class Event_PlateEnd implements Listener {
 						} else {
 							if (!cooldown.contains(p)) {
 								cooldown.add(p);
-								p.sendMessage(Main.getInstance().getLanguageHandler().getMessage("Messages.NeedCheckpoint"));
+								String message = Main.getInstance().getLanguageHandler().getMessage("Messages.NeedCheckpoint");
+								if(message.length() > 0)
+									p.sendMessage(message);
 								Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
 								Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> cooldown.remove(p), 40);
 							}
