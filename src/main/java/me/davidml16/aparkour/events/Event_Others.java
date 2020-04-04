@@ -2,8 +2,11 @@ package me.davidml16.aparkour.events;
 
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.utils.ParkourItems;
+import me.davidml16.aparkour.utils.Sounds;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,11 +16,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.*;
 
 import java.sql.SQLException;
 
@@ -27,6 +26,28 @@ public class Event_Others implements Listener {
     public void onBreak(BlockBreakEvent e) {
         if (Main.getInstance().getTimerManager().hasPlayerTimer(e.getPlayer())) {
             e.setCancelled(true);
+        } else {
+            if(Main.getInstance().getParkourHandler().getParkourByLocation(e.getBlock().getLocation()) != null) {
+                Player p = e.getPlayer();
+                if (!Main.getInstance().getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
+                    e.setCancelled(true);
+                } else {
+                    if (!p.getGameMode().equals(GameMode.CREATIVE)) {
+                        e.setCancelled(true);
+                        p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix() + " &cYou need &eCREATIVE &cmode to break the plate"));
+                        Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onTeleport(PlayerTeleportEvent e) {
+        if (e.getCause().equals(PlayerTeleportEvent.TeleportCause.COMMAND)) {
+            if(Main.getInstance().getTimerManager().hasPlayerTimer(e.getPlayer())) {
+                e.setCancelled(true);
+            }
         }
     }
 
