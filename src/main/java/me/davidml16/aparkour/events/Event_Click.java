@@ -77,21 +77,19 @@ public class Event_Click implements Listener {
                             if (Main.getInstance().isParkourItemsEnabled()) {
                                 Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
                             }
-
-                            Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
                         } else if (data.getLastCheckpoint() >= 0) {
                             p.teleport(data.getLastCheckpointLocation(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
 
                             String message = Main.getInstance().getLanguageHandler().getMessage("Messages.ReturnCheckpoint");
                             if(message.length() > 0)
                                 p.sendMessage(message.replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1)));
-
-                            Bukkit.getPluginManager().callEvent(new ParkourCheckpointEvent(p, parkour));
                         }
 
                         SoundUtil.playReturn(p);
 
                         p.setNoDamageTicks(40);
+
+                        Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
                     }
                 }
             }

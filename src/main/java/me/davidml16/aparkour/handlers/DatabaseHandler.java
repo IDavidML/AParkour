@@ -24,20 +24,38 @@ public class DatabaseHandler {
 
 	public void loadTables() {
 		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+			PreparedStatement statement = null;
 			try {
-				Statement statement = connection.createStatement();
-				statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + parkour.getId()
+				statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + parkour.getId()
 						+ " (`UUID` varchar(40) NOT NULL, `lastTime` integer NOT NULL, `bestTime` integer NOT NULL, PRIMARY KEY (`UUID`));");
+				statement.execute();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if(statement != null) {
+						statement.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-		
+
+		PreparedStatement statement = null;
 		try {
-			Statement statement = connection.createStatement();
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS playerNames (`UUID` varchar(40) NOT NULL, `NAME` varchar(40), PRIMARY KEY (`UUID`));");
+			statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS playernames (`UUID` varchar(40) NOT NULL, `NAME` varchar(40), PRIMARY KEY (`UUID`));");
+			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if(statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -45,56 +63,74 @@ public class DatabaseHandler {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
-		ps = connection.prepareStatement("SELECT * FROM " + parkour + " WHERE UUID = '" + uuid.toString() + "';");
-		rs = ps.executeQuery();
+		try {
+			ps = connection.prepareStatement("SELECT * FROM " + parkour + " WHERE UUID = '" + uuid.toString() + "';");
+			rs = ps.executeQuery();
 
-		if (rs.next()) {
-			return true;
+			if (rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(ps != null) ps.close();
+			if(rs != null) rs.close();
 		}
 
 		return false;
 	}
 
-	public void createDataAllParkours(UUID uuid) throws SQLException {
-		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
-			createData(uuid, parkour.getId());
-		}
-	}
-
 	public void createData(UUID uuid, String parkour) throws SQLException {
 		PreparedStatement ps = null;
-		ps = connection.prepareStatement("INSERT INTO " + parkour + " (UUID,lastTime,bestTime) VALUES(?,0,0)");
-		ps.setString(1, uuid.toString());
-		ps.executeUpdate();
+		try {
+			ps = connection.prepareStatement("INSERT INTO " + parkour + " (UUID,lastTime,bestTime) VALUES(?,0,0)");
+			ps.setString(1, uuid.toString());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(ps != null) ps.close();
+		}
 	}
 	
 	public boolean hasName(Player p) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
-		ps = connection.prepareStatement("SELECT * FROM playernames WHERE UUID = '" + p.getUniqueId().toString() + "';");
-		rs = ps.executeQuery();
+		try {
+			ps = connection.prepareStatement("SELECT * FROM playernames WHERE UUID = '" + p.getUniqueId().toString() + "';");
+			rs = ps.executeQuery();
 
-		if (rs.next()) {
-			return true;
+			if (rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(ps != null) ps.close();
+			if(rs != null) rs.close();
 		}
 
 		return false;
 	}
 	
 	public void updatePlayerName(Player p) throws SQLException {
-		if(!hasName(p)) { 
-			PreparedStatement ps = null;
-			ps = connection.prepareStatement("INSERT INTO playerNames (UUID,NAME) VALUES(?,?)");
-			ps.setString(1, p.getUniqueId().toString());
-			ps.setString(2, p.getName());
+		PreparedStatement ps = null;
+		try {
+			if (!hasName(p)) {
+				ps = connection.prepareStatement("INSERT INTO playernames (UUID,NAME) VALUES(?,?)");
+				ps.setString(1, p.getUniqueId().toString());
+				ps.setString(2, p.getName());
+			} else {
+				ps = connection.prepareStatement("REPLACE INTO playernames (UUID,NAME) VALUES(?,?)");
+				ps.setString(1, p.getUniqueId().toString());
+				ps.setString(2, p.getName());
+			}
 			ps.executeUpdate();
-		} else {
-			PreparedStatement ps = null;
-			ps = connection.prepareStatement("REPLACE INTO playernames (UUID,NAME) VALUES(?,?)");
-			ps.setString(1, p.getUniqueId().toString());
-			ps.setString(2, p.getName());
-			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(ps != null) ps.close();
 		}
 	}
 	
@@ -116,11 +152,18 @@ public class DatabaseHandler {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
-		ps = connection.prepareStatement("SELECT * FROM " + parkour + " WHERE UUID = '" + uuid.toString() + "';");
+		try {
+			ps = connection.prepareStatement("SELECT * FROM " + parkour + " WHERE UUID = '" + uuid.toString() + "';");
 
-		rs = ps.executeQuery();
-		while (rs.next()) {
-			return rs.getInt("lastTime");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				return rs.getInt("lastTime");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(ps != null) ps.close();
+			if(rs != null) rs.close();
 		}
 
 		return 0;
@@ -130,11 +173,18 @@ public class DatabaseHandler {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
-		ps = connection.prepareStatement("SELECT * FROM " + parkour + " WHERE UUID = '" + uuid.toString() + "';");
+		try {
+			ps = connection.prepareStatement("SELECT * FROM " + parkour + " WHERE UUID = '" + uuid.toString() + "';");
 
-		rs = ps.executeQuery();
-		while (rs.next()) {
-			return rs.getInt("bestTime");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				return rs.getInt("bestTime");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(ps != null) ps.close();
+			if(rs != null) rs.close();
 		}
 
 		return 0;
@@ -143,22 +193,27 @@ public class DatabaseHandler {
 	public void setTimes(UUID uuid, Integer lastTime, Integer bestTime, String parkour) throws SQLException {
 		PreparedStatement ps = null;
 
-		ps = connection.prepareStatement("REPLACE INTO " + parkour + " (UUID,lastTime,bestTime) VALUES(?,?,?)");
-		ps.setString(1, uuid.toString());
-		ps.setInt(2, lastTime);
-		ps.setInt(3, bestTime);
-		ps.executeUpdate();
+		try {
+			ps = connection.prepareStatement("REPLACE INTO " + parkour + " (UUID,lastTime,bestTime) VALUES(?,?,?)");
+			ps.setString(1, uuid.toString());
+			ps.setInt(2, lastTime);
+			ps.setInt(3, bestTime);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(ps != null) ps.close();
+		}
 	}
 
 	public HashMap<String, Integer> getPlayerLastTimes(UUID uuid) {
 		HashMap<String, Integer> times = new HashMap<String, Integer>();
 		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 			try {
-				if (Main.getInstance().getDatabaseHandler().hasData(uuid, parkour.getId())) {
-					times.put(parkour.getId(),
-							Main.getInstance().getDatabaseHandler().getLastTime(uuid, parkour.getId()));
+				if (hasData(uuid, parkour.getId())) {
+					times.put(parkour.getId(), getLastTime(uuid, parkour.getId()));
 				} else {
-					Main.getInstance().getDatabaseHandler().createData(uuid, parkour.getId());
+					createData(uuid, parkour.getId());
 					times.put(parkour.getId(), 0);
 				}
 			} catch (SQLException e) {
@@ -172,11 +227,10 @@ public class DatabaseHandler {
 		HashMap<String, Integer> times = new HashMap<String, Integer>();
 		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
 			try {
-				if (Main.getInstance().getDatabaseHandler().hasData(uuid, parkour.getId())) {
-					times.put(parkour.getId(),
-							Main.getInstance().getDatabaseHandler().getBestTime(uuid, parkour.getId()));
+				if (hasData(uuid, parkour.getId())) {
+					times.put(parkour.getId(), getBestTime(uuid, parkour.getId()));
 				} else {
-					Main.getInstance().getDatabaseHandler().createData(uuid, parkour.getId());
+					createData(uuid, parkour.getId());
 					times.put(parkour.getId(), 0);
 				}
 			} catch (SQLException e) {
@@ -191,13 +245,20 @@ public class DatabaseHandler {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
-		ps = connection.prepareStatement("SELECT * FROM " + id + " WHERE bestTime != 0 ORDER BY bestTime ASC LIMIT " + amount + ";");
+		try {
+			ps = connection.prepareStatement("SELECT * FROM " + id + " WHERE bestTime != 0 ORDER BY bestTime ASC LIMIT " + amount + ";");
 
-		rs = ps.executeQuery();
-		while (rs.next()) {
-			times.put(rs.getString("UUID"), rs.getInt("bestTime"));
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				times.put(rs.getString("UUID"), rs.getInt("bestTime"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(ps != null) ps.close();
+			if(rs != null) rs.close();
 		}
-		
+
 		return times;
 	}
 

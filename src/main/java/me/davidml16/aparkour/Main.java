@@ -143,13 +143,13 @@ public class Main extends JavaPlugin {
         RandomFirework.loadFireworks();
 
         for (Player p : Bukkit.getOnlinePlayers()) {
-            getPlayerDataHandler().loadPlayerData(p);
+            playerDataHandler.loadPlayerData(p);
             try {
-                Main.getInstance().getDatabaseHandler().updatePlayerName(p);
+                databaseHandler.updatePlayerName(p);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            getStatsHologramManager().loadStatsHolograms(p);
+            statsHologramManager.loadStatsHolograms(p);
         }
 
         PluginDescriptionFile pdf = getDescription();
@@ -159,12 +159,12 @@ public class Main extends JavaPlugin {
         log.sendMessage(ColorManager.translate("    &aAuthor: &b" + pdf.getAuthors().get(0)));
         log.sendMessage("");
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+        Bukkit.getScheduler().runTaskLaterAsynchronously(this, () -> {
             try {
                 Main.log.sendMessage(ColorManager.translate(""));
                 Main.log.sendMessage(ColorManager.translate("  &eAParkour checking updates:"));
-                new UpdateChecker(instance).getVersion(version -> {
-                    if (instance.getDescription().getVersion().equalsIgnoreCase(version)) {
+                new UpdateChecker(this).getVersion(version -> {
+                    if (getDescription().getVersion().equalsIgnoreCase(version)) {
                         Main.log.sendMessage(ColorManager.translate("    &cNo update found!"));
                         Main.log.sendMessage(ColorManager.translate(""));
                     } else {
@@ -196,10 +196,10 @@ public class Main extends JavaPlugin {
         }
 
         for (UUID d : playerDataHandler.getPlayersData().keySet()) {
-            getPlayerDataHandler().getData(d).save();
+            playerDataHandler.getData(d).save();
         }
 
-        getHologramTask().stop();
+        hologramTask.stop();
     }
 
     public static Main getInstance() {
