@@ -111,6 +111,9 @@ public class Command_AParkour implements CommandExecutor {
                     config.set("parkour.plateHolograms.end.distanceBelowPlate", 2.5D);
                     config.set("parkour.plateHolograms.checkpoints.enabled", false);
                     config.set("parkour.plateHolograms.checkpoints.distanceBelowPlate", 2.5D);
+                    config.set("parkour.titles.start.enabled", false);
+                    config.set("parkour.titles.end.enabled", false);
+                    config.set("parkour.titles.checkpoint.enabled", false);
                     config.set("parkour.permissionRequired.enabled", false);
                     config.set("parkour.permissionRequired.permission", "aparkour.permission." + id);
                     config.set("parkour.permissionRequired.message", "&cYou dont have permission to start this parkour!");

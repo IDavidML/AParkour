@@ -116,8 +116,8 @@ public class LanguageHandler {
 		msgDefaults.put("Holograms.Plates.Start.Line2", "&fStart here!");
 		msgDefaults.put("Holograms.Plates.End.Line1", "&e&lParkour Challenge");
 		msgDefaults.put("Holograms.Plates.End.Line2", "&fFinish here!");
-		msgDefaults.put("Holograms.Plates.Checkpoint.Line1", "&e&lParkour Challenge");
-		msgDefaults.put("Holograms.Plates.Checkpoint.Line2", "&fCheckpoint Nº%checkpoint%");
+		msgDefaults.put("Holograms.Plates.Checkpoint.Line1", "&e&lCheckpoint");
+		msgDefaults.put("Holograms.Plates.Checkpoint.Line2", "&f#%checkpoint%");
 
 		msgDefaults.put("Messages.NotInParkour", "&cYour are not in any parkour..");
 		msgDefaults.put("Messages.Started", "&aStarted parkour! Get to the end as quick as possible.");
@@ -130,6 +130,13 @@ public class LanguageHandler {
 		msgDefaults.put("EndMessage.FirstTime", "&6You completed this parkour for the first time!");
 		msgDefaults.put("EndMessage.Normal", "&6You completed the parkour in &d%endTime%");
 		msgDefaults.put("EndMessage.Record", "&6You beat your previous best time by &d%recordTime%");
+
+		msgDefaults.put("Titles.Start.Title", "&e&lPARKOUR CHALLENGE");
+		msgDefaults.put("Titles.Start.Subtitle", "&f&lSTARTED");
+		msgDefaults.put("Titles.Checkpoint.Title", "&e&lCHECKPOINT");
+		msgDefaults.put("Titles.Checkpoint.Subtitle", "&f&l#%checkpoint%");
+		msgDefaults.put("Titles.End.Title", "&e&lPARKOUR CHALLENGE");
+		msgDefaults.put("Titles.End.Subtitle", "&f&lFINISHED");
 
 		for (String key : msgDefaults.keySet()) {
 			if (!cfg.isSet(key)) {
@@ -193,8 +200,8 @@ public class LanguageHandler {
 		msgDefaults.put("Holograms.Plates.Start.Line2", "&fEmpieza aquí!");
 		msgDefaults.put("Holograms.Plates.End.Line1", "&e&lReto parkour");
 		msgDefaults.put("Holograms.Plates.End.Line2", "&fTermina aquí!");
-		msgDefaults.put("Holograms.Plates.Checkpoint.Line1", "&e&lReto parkour");
-		msgDefaults.put("Holograms.Plates.Checkpoint.Line2", "&fCheckpoint Nº%checkpoint%");
+		msgDefaults.put("Holograms.Plates.Checkpoint.Line1", "&e&lCheckpoint");
+		msgDefaults.put("Holograms.Plates.Checkpoint.Line2", "&f#%checkpoint%");
 
 		msgDefaults.put("Messages.NotInParkour", "&cNo estás dentro de ningún parkour..");
 		msgDefaults.put("Messages.Started", "&aParkour iniciado! Llega al final lo más rapido que puedeas.");
@@ -207,6 +214,13 @@ public class LanguageHandler {
 		msgDefaults.put("EndMessage.FirstTime", "&6Has completado este parkour por primera vez!");
 		msgDefaults.put("EndMessage.Normal", "&6Has completado el parkour en &d%endTime%");
 		msgDefaults.put("EndMessage.Record", "&6Has mejorado tu anterior tiempo por &d%recordTime%");
+
+		msgDefaults.put("Titles.Start.Title", "&e&lRETO PARKOUR");
+		msgDefaults.put("Titles.Start.Subtitle", "&f&lINICIADO");
+		msgDefaults.put("Titles.Checkpoint.Title", "&e&lCHECKPOINT");
+		msgDefaults.put("Titles.Checkpoint.Subtitle", "&f&l#%checkpoint%");
+		msgDefaults.put("Titles.End.Title", "&e&lRETO PARKOUR");
+		msgDefaults.put("Titles.End.Subtitle", "&f&lFINALIZADO");
 
 		for (String key : msgDefaults.keySet()) {
 			if (!cfg.isSet(key)) {

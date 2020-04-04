@@ -5,10 +5,7 @@ import me.davidml16.aparkour.api.events.ParkourEndEvent;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.data.Profile;
 import me.davidml16.aparkour.managers.ColorManager;
-import me.davidml16.aparkour.utils.ParkourItems;
-import me.davidml16.aparkour.utils.RandomFirework;
-import me.davidml16.aparkour.utils.SoundUtil;
-import me.davidml16.aparkour.utils.Sounds;
+import me.davidml16.aparkour.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -62,6 +59,8 @@ public class Event_PlateEnd implements Listener {
 							data.setLastCheckpoint(-1);
 
 							SoundUtil.playEnd(p);
+
+							TitleAPI.sendEndTitle(p, parkour);
 
 							String end = Main.getInstance().getLanguageHandler().getMessage("EndMessage.Normal");
 							if(end.length() > 0)

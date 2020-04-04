@@ -159,25 +159,22 @@ public class Main extends JavaPlugin {
         log.sendMessage(ColorManager.translate("    &aAuthor: &b" + pdf.getAuthors().get(0)));
         log.sendMessage("");
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Main.log.sendMessage(ColorManager.translate(""));
-                    Main.log.sendMessage(ColorManager.translate("  &eAParkour checking updates:"));
-                    new UpdateChecker(instance).getVersion(version -> {
-                        if (instance.getDescription().getVersion().equalsIgnoreCase(version)) {
-                            Main.log.sendMessage(ColorManager.translate("    &cNo update found!"));
-                            Main.log.sendMessage(ColorManager.translate(""));
-                        } else {
-                            Main.log.sendMessage(ColorManager.translate("    &aNew update found! [" + version + "]"));
-                            Main.log.sendMessage(ColorManager.translate(""));
-                        }
-                    });
-                }catch(Exception e) {
-                    Main.log.sendMessage(ColorManager.translate("    &cCould not proceed update-checking"));
-                    Main.log.sendMessage(ColorManager.translate(""));
-                }
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+            try {
+                Main.log.sendMessage(ColorManager.translate(""));
+                Main.log.sendMessage(ColorManager.translate("  &eAParkour checking updates:"));
+                new UpdateChecker(instance).getVersion(version -> {
+                    if (instance.getDescription().getVersion().equalsIgnoreCase(version)) {
+                        Main.log.sendMessage(ColorManager.translate("    &cNo update found!"));
+                        Main.log.sendMessage(ColorManager.translate(""));
+                    } else {
+                        Main.log.sendMessage(ColorManager.translate("    &aNew update found! [" + version + "]"));
+                        Main.log.sendMessage(ColorManager.translate(""));
+                    }
+                });
+            }catch(Exception e) {
+                Main.log.sendMessage(ColorManager.translate("    &cCould not proceed update-checking"));
+                Main.log.sendMessage(ColorManager.translate(""));
             }
         }, 20);
     }

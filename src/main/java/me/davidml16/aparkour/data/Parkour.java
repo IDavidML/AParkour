@@ -28,6 +28,10 @@ public class Parkour {
     private String permission;
     private String permissionMessage;
 
+    private boolean startTitleEnabled;
+    private boolean endTitleEnabled;
+    private boolean checkpointTitleEnabled;
+
     public Parkour(String id, String name, Location spawn, Location start, Location end, Location statsHologram, Location topHologram) {
         this.id = id;
         this.name = name;
@@ -43,6 +47,9 @@ public class Parkour {
         this.permissionRequired = false;
         this.permission = "";
         this.permissionMessage = "";
+        this.startTitleEnabled = false;
+        this.endTitleEnabled = false;
+        this.checkpointTitleEnabled = false;
     }
 
     public String getId() {
@@ -129,6 +136,30 @@ public class Parkour {
         this.permissionMessage = permissionMessage;
     }
 
+    public boolean isStartTitleEnabled() {
+        return startTitleEnabled;
+    }
+
+    public void setStartTitleEnabled(boolean startTitleEnabled) {
+        this.startTitleEnabled = startTitleEnabled;
+    }
+
+    public boolean isEndTitleEnabled() {
+        return endTitleEnabled;
+    }
+
+    public void setEndTitleEnabled(boolean endTitleEnabled) {
+        this.endTitleEnabled = endTitleEnabled;
+    }
+
+    public boolean isCheckpointTitleEnabled() {
+        return checkpointTitleEnabled;
+    }
+
+    public void setCheckpointTitleEnabled(boolean checkpointTitleEnabled) {
+        this.checkpointTitleEnabled = checkpointTitleEnabled;
+    }
+
     public void saveParkour() {
         Main.getInstance().getParkourHandler().getConfig(id).set("parkour.walkableBlocks", Main.getInstance().getParkourHandler().getWalkableBlocksString(walkableBlocks));
 
@@ -154,6 +185,16 @@ public class Parkour {
             Main.getInstance().getParkourHandler().getConfig(id).set("parkour.permissionRequired.enabled", false);
             Main.getInstance().getParkourHandler().getConfig(id).set("parkour.permissionRequired.permission", "aparkour.permission." + id);
             Main.getInstance().getParkourHandler().getConfig(id).set("parkour.permissionRequired.enabled", "&cYou dont have permission to start this parkour!");
+        }
+
+        if (!Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.titles.start")) {
+            Main.getInstance().getParkourHandler().getConfig(id).set("parkour.titles.start.enabled", false);
+        }
+        if (!Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.titles.end")) {
+            Main.getInstance().getParkourHandler().getConfig(id).set("parkour.titles.end.enabled", false);
+        }
+        if (!Main.getInstance().getParkourHandler().getConfig(id).contains("parkour.titles.checkpoint")) {
+            Main.getInstance().getParkourHandler().getConfig(id).set("parkour.titles.checkpoint.enabled", false);
         }
 
         Main.getInstance().getParkourHandler().saveConfig(id);

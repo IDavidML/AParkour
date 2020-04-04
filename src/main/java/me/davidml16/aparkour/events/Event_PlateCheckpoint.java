@@ -4,6 +4,7 @@ import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.data.Profile;
 import me.davidml16.aparkour.utils.Sounds;
+import me.davidml16.aparkour.utils.TitleAPI;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -50,6 +51,8 @@ public class Event_PlateCheckpoint implements Listener {
 											.replaceAll("%time%", Main.getInstance().getTimerManager().timeAsString(time)));
 
 								Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
+
+								TitleAPI.sendCheckpointTitle(p, parkour, data);
 							}
 						}
 					}

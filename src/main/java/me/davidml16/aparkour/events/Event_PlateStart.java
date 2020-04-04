@@ -7,6 +7,7 @@ import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.utils.ParkourItems;
 import me.davidml16.aparkour.utils.SoundUtil;
 import me.davidml16.aparkour.utils.Sounds;
+import me.davidml16.aparkour.utils.TitleAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -67,6 +68,8 @@ public class Event_PlateStart implements Listener {
                                     p.getInventory().setItem(4, Main.getInstance().getParkourItems().getRestartItem());
                                 }
                             }
+
+                            TitleAPI.sendStartTitle(p, parkour);
 
                             Main.getInstance().getPlayerDataHandler().getData(p).setParkour(parkour);
 
