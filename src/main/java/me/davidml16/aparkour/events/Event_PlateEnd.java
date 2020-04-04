@@ -4,7 +4,6 @@ import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.api.events.ParkourEndEvent;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.data.Profile;
-import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +82,7 @@ public class Event_PlateEnd implements Listener {
 							Main.getInstance().getTimerManager().cancelTimer(p);
 
 							if (Main.getInstance().getConfig().getBoolean("TpToParkourSpawn.Enabled")) {
-								p.teleport(parkour.getSpawn());
+								p.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
 							}
 
 							if (Main.getInstance().getConfig().getBoolean("Firework.Enabled")) {

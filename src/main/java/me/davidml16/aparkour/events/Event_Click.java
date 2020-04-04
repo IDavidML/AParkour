@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class Event_Click implements Listener {
@@ -34,7 +35,7 @@ public class Event_Click implements Listener {
                         Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
 
                         p.setFlying(false);
-                        p.teleport(parkour.getSpawn());
+                        p.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
 
                         String message = Main.getInstance().getLanguageHandler().getMessage("Messages.Return");
                         if(message.length() > 0)
@@ -63,7 +64,7 @@ public class Event_Click implements Listener {
                         Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
 
                         if (data.getLastCheckpoint() < 0) {
-                            p.teleport(parkour.getSpawn());
+                            p.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
 
                             String message = Main.getInstance().getLanguageHandler().getMessage("Messages.Return");
                             if(message.length() > 0)
@@ -76,9 +77,10 @@ public class Event_Click implements Listener {
                             if (Main.getInstance().isParkourItemsEnabled()) {
                                 Main.getInstance().getPlayerDataHandler().restorePlayerInventory(p);
                             }
+
                             Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
                         } else if (data.getLastCheckpoint() >= 0) {
-                            p.teleport(data.getLastCheckpointLocation());
+                            p.teleport(data.getLastCheckpointLocation(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
 
                             String message = Main.getInstance().getLanguageHandler().getMessage("Messages.ReturnCheckpoint");
                             if(message.length() > 0)

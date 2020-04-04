@@ -7,6 +7,7 @@ import me.davidml16.aparkour.utils.SoundUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class PluginManager {
 
@@ -19,7 +20,7 @@ public class PluginManager {
                     Main.getInstance().getPlayerDataHandler().getData(pl).setParkour(null);
 
                     pl.setFlying(false);
-                    pl.teleport(parkour.getSpawn());
+                    pl.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
                     if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
                         Main.getInstance().getPlayerDataHandler().restorePlayerInventory(pl);
                     }

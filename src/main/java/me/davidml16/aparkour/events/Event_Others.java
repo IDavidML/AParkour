@@ -44,8 +44,10 @@ public class Event_Others implements Listener {
 
     @EventHandler
     public void onTeleport(PlayerTeleportEvent e) {
-        if (e.getCause().equals(PlayerTeleportEvent.TeleportCause.COMMAND)) {
-            if(Main.getInstance().getTimerManager().hasPlayerTimer(e.getPlayer())) {
+        if(Main.getInstance().getTimerManager().hasPlayerTimer(e.getPlayer())) {
+            if (e.getCause().equals(PlayerTeleportEvent.TeleportCause.COMMAND)
+                    || e.getCause().equals(PlayerTeleportEvent.TeleportCause.PLUGIN)
+                    || e.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL)) {
                 e.setCancelled(true);
             }
         }

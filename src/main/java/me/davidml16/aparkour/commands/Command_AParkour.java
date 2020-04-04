@@ -16,6 +16,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -166,7 +167,7 @@ public class Command_AParkour implements CommandExecutor {
             Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
             if (Main.getInstance().getTimerManager().hasPlayerTimer(p)) {
                 p.setFlying(false);
-                p.teleport(parkour.getSpawn());
+                p.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
 
                 String message = Main.getInstance().getLanguageHandler().getMessage("Messages.Return");
                 if(message.length() > 0)
@@ -200,7 +201,7 @@ public class Command_AParkour implements CommandExecutor {
                 Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
 
                 if (data.getLastCheckpoint() < 0) {
-                    p.teleport(parkour.getSpawn());
+                    p.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
 
                     String message = Main.getInstance().getLanguageHandler().getMessage("Messages.Return");
                     if(message.length() > 0)
@@ -215,7 +216,7 @@ public class Command_AParkour implements CommandExecutor {
                     }
                     Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
                 } else if (data.getLastCheckpoint() >= 0) {
-                    p.teleport(data.getLastCheckpointLocation());
+                    p.teleport(data.getLastCheckpointLocation(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
                     String message = Main.getInstance().getLanguageHandler().getMessage("Messages.ReturnCheckpoint");
                     if(message.length() > 0)
                         p.sendMessage(message.replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1)));
@@ -263,7 +264,7 @@ public class Command_AParkour implements CommandExecutor {
                         Main.getInstance().getPlayerDataHandler().getData(pl).setParkour(null);
 
                         pl.setFlying(false);
-                        pl.teleport(parkour.getSpawn());
+                        pl.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
                         if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
                             Main.getInstance().getPlayerDataHandler().restorePlayerInventory(pl);
                         }

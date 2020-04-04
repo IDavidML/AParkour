@@ -313,6 +313,7 @@ public class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new Event_PlateEnd(), this);
         Bukkit.getPluginManager().registerEvents(new Event_PlateCheckpoint(), this);
         Bukkit.getPluginManager().registerEvents(new Event_Fall(), this);
+        Bukkit.getPluginManager().registerEvents(new Event_Void(), this);
         Bukkit.getPluginManager().registerEvents(new Event_Others(), this);
     }
 }
