@@ -121,6 +121,7 @@ public class Command_AParkour implements CommandExecutor {
                     config.set("parkour.rewards.example.firstTime", true);
                     config.set("parkour.rewards.example.permission", "*");
                     config.set("parkour.rewards.example.command", "give %player% diamond 1");
+                    config.set("parkour.rewards.example.chance", 100);
                     config.set("parkour.walkableBlocks", new ArrayList<>());
                     config.set("parkour.checkpoints", new ArrayList<>());
                     Main.getInstance().getParkourHandler().saveConfig(id);

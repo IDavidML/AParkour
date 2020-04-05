@@ -28,7 +28,7 @@ public class RewardMenu implements ConversationAbandonedListener, CommonPrompts 
     public void conversationAbandoned(ConversationAbandonedEvent paramConversationAbandonedEvent) {}
 
     public class RewardMenuOptions extends FixedSetPrompt {
-        RewardMenuOptions() { super("1", "2", "3", "4", "5", "6"); }
+        RewardMenuOptions() { super("1", "2", "3", "4", "5", "6", "7"); }
 
         protected Prompt acceptValidatedInput(ConversationContext param1ConversationContext, String param1String) {
             Parkour parkour = (Parkour) param1ConversationContext.getSessionData("parkour");
@@ -42,15 +42,20 @@ public class RewardMenu implements ConversationAbandonedListener, CommonPrompts 
                 case "4":
                     return new CommonPrompts.BooleanPrompt(this,ChatColor.YELLOW + "  Choose if reward is only in first time, \"cancel\" to return.\n  Write 'true' or 'false'\n\n ", "rewardFirstTime");
                 case "5":
+                    return new CommonPrompts.CommonStringPrompt(this, true,ChatColor.YELLOW + "  Enter reward chance (0% to 100%), \"cancel\" to return.\n\n ", "rewardChance");
+                case "6":
                     if(param1ConversationContext.getSessionData("rewardID") != null
                             && param1ConversationContext.getSessionData("rewardPermission") != null
                             && param1ConversationContext.getSessionData("rewardCommand") != null
-                            && param1ConversationContext.getSessionData("rewardFirstTime") != null) {
+                            && param1ConversationContext.getSessionData("rewardFirstTime") != null
+                            && param1ConversationContext.getSessionData("rewardChance") != null) {
                         if(!rewardsIdExist(parkour, (String)param1ConversationContext.getSessionData("rewardID"))) {
+                            String chance = (String) param1ConversationContext.getSessionData("rewardChance");
                             Reward reward = new Reward((String) param1ConversationContext.getSessionData("rewardID"),
                                     (String) param1ConversationContext.getSessionData("rewardPermission"),
                                     (String) param1ConversationContext.getSessionData("rewardCommand"),
-                                    Boolean.valueOf((String) param1ConversationContext.getSessionData("rewardFirstTime"))
+                                    Boolean.valueOf((String) param1ConversationContext.getSessionData("rewardFirstTime")),
+                                    Integer.parseInt(chance.replaceAll("%", ""))
                             );
                             parkour.getRewards().add(reward);
                             parkour.saveParkour();
@@ -67,7 +72,7 @@ public class RewardMenu implements ConversationAbandonedListener, CommonPrompts 
                     } else {
                         return new CommonPrompts.ErrorPrompt(this, "\n" + ChatColor.RED + "  You need to setup ID, PERMISSION, COMMAND and FIRST_TIME to save reward!\n  Write anything to continue\n ");
                     }
-                case "6":
+                case "7":
                     return new CommonPrompts.ConfirmExitPrompt(this);
             }
             return null;
@@ -93,10 +98,15 @@ public class RewardMenu implements ConversationAbandonedListener, CommonPrompts 
             }  if (param1ConversationContext.getSessionData("rewardFirstTime") == null) {
                 cadena += ChatColor.RED + "    4 " + ChatColor.GRAY + "- Set Reward FirstTime (" + ChatColor.RED + "none" + ChatColor.GRAY + ")\n";
             } else {
-                cadena += ChatColor.GREEN + "    2 " + ChatColor.GRAY + "- Set Reward FirstTime (" + ChatColor.YELLOW + param1ConversationContext.getSessionData("rewardFirstTime") + ChatColor.GRAY + ")\n";
+                cadena += ChatColor.GREEN + "    4 " + ChatColor.GRAY + "- Set Reward FirstTime (" + ChatColor.YELLOW + param1ConversationContext.getSessionData("rewardFirstTime") + ChatColor.GRAY + ")\n";
+            }  if (param1ConversationContext.getSessionData("rewardChance") == null) {
+                cadena += ChatColor.RED + "    5 " + ChatColor.GRAY + "- Set Reward Chance (" + ChatColor.RED + "none" + ChatColor.GRAY + ")\n";
+            } else {
+                cadena += ChatColor.GREEN + "    5 " + ChatColor.GRAY + "- Set Reward Chance (" + ChatColor.YELLOW + param1ConversationContext.getSessionData("rewardChance") + "%" + ChatColor.GRAY + ")\n";
             }
-            cadena += ChatColor.GREEN + "    5 " + ChatColor.GRAY + "- Save\n";
-            cadena += ChatColor.GREEN + "    6 " + ChatColor.GRAY + "- Exit and discard\n";
+
+            cadena += ChatColor.GREEN + "    6 " + ChatColor.GRAY + "- Save\n";
+            cadena += ChatColor.GREEN + "    7 " + ChatColor.GRAY + "- Exit and discard\n";
             cadena += ChatColor.GREEN + " \n";
             cadena += ChatColor.GOLD + "" + ChatColor.YELLOW + "  Choose the option: \n";
             cadena += ChatColor.GREEN + " \n";

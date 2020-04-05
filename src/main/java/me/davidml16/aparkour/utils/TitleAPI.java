@@ -16,19 +16,33 @@ import java.util.Objects;
 public class TitleAPI extends JavaPlugin implements Listener {
 
     public static void sendStartTitle(Player player, Parkour parkour) {
-        if(parkour.isStartTitleEnabled())
-            sendTitle(player, 5, 20, 5, Main.getInstance().getLanguageHandler().getMessage("Titles.Start.Title"), Main.getInstance().getLanguageHandler().getMessage("Titles.Start.Subtitle"));
+        if (parkour.isStartTitleEnabled()) {
+            String title = Main.getInstance().getLanguageHandler().getMessage("Titles.Start.Title")
+                    .replaceAll("%parkour%", parkour.getName());
+            String subtitle = Main.getInstance().getLanguageHandler().getMessage("Titles.Start.Subtitle")
+                    .replaceAll("%parkour%", parkour.getName());
+            sendTitle(player, 5, 20, 5, title, subtitle);
+        }
     }
 
     public static void sendEndTitle(Player player, Parkour parkour) {
-        if(parkour.isEndTitleEnabled())
-            sendTitle(player, 5, 20, 5, Main.getInstance().getLanguageHandler().getMessage("Titles.End.Title"), Main.getInstance().getLanguageHandler().getMessage("Titles.End.Subtitle"));
+        if(parkour.isEndTitleEnabled()) {
+            String title = Main.getInstance().getLanguageHandler().getMessage("Titles.Start.Title")
+                    .replaceAll("%parkour%", parkour.getName());
+            String subtitle = Main.getInstance().getLanguageHandler().getMessage("Titles.Start.Subtitle")
+                    .replaceAll("%parkour%", parkour.getName());
+            sendTitle(player, 5, 20, 5, title, subtitle);
+        }
     }
 
     public static void sendCheckpointTitle(Player player, Parkour parkour, Profile profile) {
         if(parkour.isCheckpointTitleEnabled()) {
-            String title = Main.getInstance().getLanguageHandler().getMessage("Titles.Checkpoint.Title").replaceAll("%checkpoint%", Integer.toString(profile.getLastCheckpoint() + 1));
-            String subtitle = Main.getInstance().getLanguageHandler().getMessage("Titles.Checkpoint.Subtitle").replaceAll("%checkpoint%", Integer.toString(profile.getLastCheckpoint() + 1));
+            String title = Main.getInstance().getLanguageHandler().getMessage("Titles.Checkpoint.Title")
+                    .replaceAll("%checkpoint%", Integer.toString(profile.getLastCheckpoint() + 1))
+                    .replaceAll("%parkour%", parkour.getName());
+            String subtitle = Main.getInstance().getLanguageHandler().getMessage("Titles.Checkpoint.Subtitle")
+                    .replaceAll("%checkpoint%", Integer.toString(profile.getLastCheckpoint() + 1))
+                    .replaceAll("%parkour%", parkour.getName());
             sendTitle(player, 5, 20, 5, title, subtitle);
         }
     }

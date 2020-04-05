@@ -169,6 +169,7 @@ public class Parkour {
                 Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".firstTime", reward.isFirstTime());
                 Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".permission", reward.getPermission());
                 Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".command", reward.getCommand());
+                Main.getInstance().getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".chance", reward.getChance());
             }
         }
 

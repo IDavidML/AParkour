@@ -80,6 +80,7 @@ public class Rewards_GUI implements Listener {
                                 ColorManager.translate(" &7First time: &6" + reward.isFirstTime() + " "),
                                 ColorManager.translate(" &7Permission: &6" + reward.getPermission() + " "),
                                 ColorManager.translate(" &7Command: &6" + reward.getCommand() + " "),
+                                ColorManager.translate(" &7Chance: &6" + reward.getChance() + "% "),
                                 "",
                                 ColorManager.translate("&eClick to remove! ")).toItemStack());
             }
@@ -124,6 +125,7 @@ public class Rewards_GUI implements Listener {
                                 ColorManager.translate(" &7First time: &6" + reward.isFirstTime() + " "),
                                 ColorManager.translate(" &7Permission: &6" + reward.getPermission() + " "),
                                 ColorManager.translate(" &7Command: &6" + reward.getCommand() + " "),
+                                ColorManager.translate(" &7Chance: &6" + reward.getChance() + "% "),
                                 "",
                                 ColorManager.translate("&eClick to remove! ")).toItemStack());
             }

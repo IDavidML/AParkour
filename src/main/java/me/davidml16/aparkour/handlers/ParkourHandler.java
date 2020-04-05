@@ -231,7 +231,7 @@ public class ParkourHandler {
 
 						Main.getInstance().getPlateManager().loadPlates(parkour);
 
-						Main.log.sendMessage(ColorManager.translate("    &a'" + name + "' - " + parkour.getCheckpoints().size() + " checkpoints!"));
+						Main.log.sendMessage(ColorManager.translate("    &a'" + name + "' &7- " + (parkour.getCheckpoints().size() > 0 ? "&a" : "&c") + parkour.getCheckpoints().size() + " checkpoints"));
 					} else {
 						Main.log.sendMessage(ColorManager
 								.translate("    &c'" + name + "' not loaded because maximum parkours limit reached!"));
@@ -405,14 +405,20 @@ public class ParkourHandler {
 
 	public List<Reward> getRewards(String id) {
 		List<Reward> rewards = new ArrayList<Reward>();
-		if (parkourConfigs.get(id).contains("parkour.rewards")) {
-			if (parkourConfigs.get(id).getConfigurationSection("parkour.rewards") != null) {
-				for (String rewardid : parkourConfigs.get(id).getConfigurationSection("parkour.rewards").getKeys(false)) {
+		FileConfiguration config = parkourConfigs.get(id);
+		if (config.contains("parkour.rewards")) {
+			if (config.getConfigurationSection("parkour.rewards") != null) {
+				for (String rewardid : config.getConfigurationSection("parkour.rewards").getKeys(false)) {
+					if(!config.contains("parkour.rewards." + rewardid + ".chance")) {
+						config.set("parkour.rewards." + rewardid + ".chance", 100);
+						saveConfig(id);
+					}
 					if (validRewardData(id, rewardid)) {
-						String permission = parkourConfigs.get(id).getString("parkour.rewards." + rewardid + ".permission");
-						String command = parkourConfigs.get(id).getString("parkour.rewards." + rewardid + ".command");
-						boolean firstTime = parkourConfigs.get(id).getBoolean("parkour.rewards." + rewardid + ".firstTime");
-						rewards.add(new Reward(id, permission, command, firstTime));
+						String permission = config.getString("parkour.rewards." + rewardid + ".permission");
+						String command = config.getString("parkour.rewards." + rewardid + ".command");
+						boolean firstTime = config.getBoolean("parkour.rewards." + rewardid + ".firstTime");
+						int chance = config.getInt("parkour.rewards." + rewardid + ".chance");
+						rewards.add(new Reward(rewardid, permission, command, firstTime, chance));
 
 						if (Main.getInstance().getServer().getPluginManager().getPermission(permission) == null) {
 							Main.getInstance().getServer().getPluginManager().addPermission(new Permission(permission));
@@ -438,9 +444,11 @@ public class ParkourHandler {
 	}
 
 	private boolean validRewardData(String parkourID, String rewardID) {
-		return parkourConfigs.get(parkourID).contains("parkour.rewards." + rewardID + ".permission")
-				&& parkourConfigs.get(parkourID).contains("parkour.rewards." + rewardID + ".command")
-				&& parkourConfigs.get(parkourID).contains("parkour.rewards." + rewardID + ".firstTime");
+		FileConfiguration config = parkourConfigs.get(parkourID);
+		return config.contains("parkour.rewards." + rewardID + ".permission")
+				&& config.contains("parkour.rewards." + rewardID + ".command")
+				&& config.contains("parkour.rewards." + rewardID + ".firstTime")
+				&& config.contains("parkour.rewards." + rewardID + ".chance");
 	}
 
 }
