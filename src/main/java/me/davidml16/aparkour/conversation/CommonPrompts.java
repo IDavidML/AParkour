@@ -17,8 +17,10 @@ public interface CommonPrompts  {
         private String text;
         private String storeValue;
         private boolean allowSpaces;
+        private Main main;
 
-        public CommonStringPrompt(Prompt param1Prompt, boolean param1Boolean, String param1String1, String param1String2) {
+        public CommonStringPrompt(Main main, Prompt param1Prompt, boolean param1Boolean, String param1String1, String param1String2) {
+            this.main = main;
             this.parentPrompt = param1Prompt;
             this.allowSpaces = param1Boolean;
             this.text = param1String1;
@@ -26,7 +28,7 @@ public interface CommonPrompts  {
         }
 
         public CommonStringPrompt(Prompt param1Prompt, String param1String1, String param1String2) {
-            this(param1Prompt, true, param1String1, param1String2);
+            this(null, param1Prompt, true, param1String1, param1String2);
         }
 
         public String getPromptText(ConversationContext param1ConversationContext) {
@@ -55,8 +57,10 @@ public interface CommonPrompts  {
         private Prompt parentPrompt;
         private String text;
         private String storeValue;
+        private Main main;
 
-        public BooleanPrompt(Prompt param1Prompt, String param1String1, String param1String2) {
+        public BooleanPrompt(Main main, Prompt param1Prompt, String param1String1, String param1String2) {
+            this.main = main;
             this.parentPrompt = param1Prompt;
             this.text = param1String1;
             this.storeValue = param1String2;
@@ -92,11 +96,12 @@ public interface CommonPrompts  {
         }
     }
 
-    public static class ConfirmExitPrompt
-            extends StringPrompt {
+    public static class ConfirmExitPrompt extends StringPrompt {
         private Prompt parent;
+        private Main main;
 
-        ConfirmExitPrompt(Prompt param1Prompt) {
+        ConfirmExitPrompt(Main main, Prompt param1Prompt) {
+            this.main = main;
             this.parent = param1Prompt;
         }
 
@@ -111,7 +116,7 @@ public interface CommonPrompts  {
         public Prompt acceptInput(ConversationContext param1ConversationContext, String param1String) {
             if (param1String.equals("1") || param1String.equalsIgnoreCase("Yes")) {
 
-                param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(main.getLanguageHandler().getPrefix()
                         + " &cYou leave rewards setup menu!"));
                 return Prompt.END_OF_CONVERSATION;
             }
@@ -128,8 +133,10 @@ public interface CommonPrompts  {
     public static class ErrorPrompt extends StringPrompt {
         private Prompt parent;
         private String text;
+        private Main main;
 
-        ErrorPrompt(Prompt param1Prompt, String param1String1) {
+        ErrorPrompt(Main main, Prompt param1Prompt, String param1String1) {
+            this.main = main;
             this.parent = param1Prompt;
             this.text = param1String1;
         }

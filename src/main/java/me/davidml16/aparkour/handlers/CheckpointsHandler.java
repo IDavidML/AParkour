@@ -1,5 +1,6 @@
 package me.davidml16.aparkour.handlers;
 
+import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.data.Plate;
 import org.bukkit.Location;

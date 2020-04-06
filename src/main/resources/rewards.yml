@@ -1,4 +1,0 @@
-rewards:
-    example:
-        permission: '*'
-        command: 'give %player% diamond 1'

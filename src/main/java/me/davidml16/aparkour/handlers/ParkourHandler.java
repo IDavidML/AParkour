@@ -32,11 +32,14 @@ public class ParkourHandler {
 
 	private GameMode parkourGamemode;
 
-	public ParkourHandler() {
+	private Main main;
+
+	public ParkourHandler(Main main) {
+		this.main = main;
 		this.parkours = new HashMap<String, Parkour>();
 		this.parkourFiles = new HashMap<String, File>();
 		this.parkourConfigs = new HashMap<String, YamlConfiguration>();
-		this.parkourGamemode = GameMode.valueOf(Main.getInstance().getConfig().getString("ParkourGamemode"));
+		this.parkourGamemode = GameMode.valueOf(this.main.getConfig().getString("ParkourGamemode"));
 	}
 
 	public HashMap<String, Parkour> getParkours() {
@@ -60,7 +63,7 @@ public class ParkourHandler {
 	}
 
 	public boolean createParkour(String id) {
-		File file = new File(Main.getInstance().getDataFolder(), "parkours/" + id + ".yml");
+		File file = new File(main.getDataFolder(), "parkours/" + id + ".yml");
 		if(!file.exists()) {
 			try {
 				file.createNewFile();
@@ -101,14 +104,14 @@ public class ParkourHandler {
 	}
 
 	public void loadParkours() {
-		File directory = new File(Main.getInstance().getDataFolder(), "parkours");
+		File directory = new File(main.getDataFolder(), "parkours");
 		if(!directory.exists()) {
 			directory.mkdir();
 		}
 
 		Main.log.sendMessage(ColorManager.translate(""));
 		Main.log.sendMessage(ColorManager.translate("  &eLoading parkours:"));
-		File[] allFiles = new File(Main.getInstance().getDataFolder(), "parkours").listFiles();
+		File[] allFiles = new File(main.getDataFolder(), "parkours").listFiles();
 		for (File file : allFiles) {
 			String id = file.getName().toLowerCase().replace(".yml", "");
 
@@ -126,7 +129,7 @@ public class ParkourHandler {
 					Location statsHologram = null;
 					Location topHologram = null;
 
-					if (Main.getInstance().isHologramsEnabled()) {
+					if (main.isHologramsEnabled()) {
 						if ((Location) config.get("parkour.holograms.stats") != null) {
 							statsHologram = (Location) config.get("parkour.holograms.stats");
 						}
@@ -137,7 +140,7 @@ public class ParkourHandler {
 					}
 
 					if (parkours.size() < 21) {
-						Parkour parkour = new Parkour(id, name, spawn, start, end, statsHologram, topHologram);
+						Parkour parkour = new Parkour(main, id, name, spawn, start, end, statsHologram, topHologram);
 						parkours.put(id, parkour);
 
 						if (config.contains("parkour.walkableBlocks")) {
@@ -165,8 +168,8 @@ public class ParkourHandler {
 							parkour.setPermission(config.getString("parkour.permissionRequired.permission"));
 							parkour.setPermissionMessage(config.getString("parkour.permissionRequired.message"));
 
-							if (Main.getInstance().getServer().getPluginManager().getPermission(parkour.getPermission()) == null) {
-								Main.getInstance().getServer().getPluginManager().addPermission(new Permission(parkour.getPermission()));
+							if (main.getServer().getPluginManager().getPermission(parkour.getPermission()) == null) {
+								main.getServer().getPluginManager().addPermission(new Permission(parkour.getPermission()));
 							}
 						}
 
@@ -199,7 +202,7 @@ public class ParkourHandler {
 
 						saveConfig(id);
 
-						Main.getInstance().getCheckpointsHandler().loadCheckpoints(parkour, config);
+						main.getCheckpointsHandler().loadCheckpoints(parkour, config);
 
 						if (config.contains("parkour.plateHolograms")) {
 							parkour.getStart().setHologramEnabled(config.getBoolean("parkour.plateHolograms.start.enabled"));
@@ -229,7 +232,7 @@ public class ParkourHandler {
 							parkour.setCheckpointTitleEnabled(config.getBoolean("parkour.titles.checkpoint.enabled"));
 						}
 
-						Main.getInstance().getPlateManager().loadPlates(parkour);
+						main.getPlateManager().loadPlates(parkour);
 
 						Main.log.sendMessage(ColorManager.translate("    &a'" + name + "' &7- " + (parkour.getCheckpoints().size() > 0 ? "&a" : "&c") + parkour.getCheckpoints().size() + " checkpoints"));
 					} else {
@@ -253,28 +256,28 @@ public class ParkourHandler {
 	public void loadHolograms() {
 		for (Parkour parkour : parkours.values()) {
 			if(parkour.getStart().isHologramEnabled()) {
-				Hologram hologram = HologramsAPI.createHologram(Main.getInstance(),
+				Hologram hologram = HologramsAPI.createHologram(main,
 						parkour.getStart().getLocation().clone().add(0.5D, parkour.getStart().getHologramDistance(), 0.5D));
-				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Start.Line1"));
-				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Start.Line2"));
+				hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Start.Line1"));
+				hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Start.Line2"));
 				parkour.getStart().setHologram(hologram);
 			}
 			if(parkour.getEnd().isHologramEnabled()) {
-				Hologram hologram = HologramsAPI.createHologram(Main.getInstance(),
+				Hologram hologram = HologramsAPI.createHologram(main,
 						parkour.getEnd().getLocation().clone().add(0.5D, parkour.getEnd().getHologramDistance(), 0.5D));
-				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.End.Line1"));
-				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.End.Line2"));
+				hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.End.Line1"));
+				hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.End.Line2"));
 				parkour.getEnd().setHologram(hologram);
 			}
 			if(!parkour.getCheckpoints().isEmpty()) {
 				int iterator = 1;
 				for (Plate checkpoint : parkour.getCheckpoints()) {
 					if(checkpoint.isHologramEnabled()) {
-						Hologram hologram = HologramsAPI.createHologram(Main.getInstance(),
+						Hologram hologram = HologramsAPI.createHologram(main,
 								checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
-						hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
+						hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
 								.replaceAll("%checkpoint%", Integer.toString(iterator)));
-						hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
+						hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
 								.replaceAll("%checkpoint%", Integer.toString(iterator)));
 						checkpoint.setHologram(hologram);
 						iterator++;
@@ -291,10 +294,10 @@ public class ParkourHandler {
 		checkpoint.setHologramEnabled(enabled);
 		checkpoint.setHologramDistance(distance);
 		if(enabled) {
-			Hologram hologram = HologramsAPI.createHologram(Main.getInstance(), checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
-			hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
+			Hologram hologram = HologramsAPI.createHologram(main, checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
+			hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
 					.replaceAll("%checkpoint%", Integer.toString(parkour.getCheckpoints().size())));
-			hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
+			hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
 					.replaceAll("%checkpoint%", Integer.toString(parkour.getCheckpoints().size())));
 			checkpoint.setHologram(hologram);
 		}
@@ -312,11 +315,11 @@ public class ParkourHandler {
 		int iterator = 1;
 		for (Plate checkpoint : parkour.getCheckpoints()) {
 			if(checkpoint.isHologramEnabled()) {
-				Hologram hologram = HologramsAPI.createHologram(Main.getInstance(),
+				Hologram hologram = HologramsAPI.createHologram(main,
 						checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
-				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
+				hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
 						.replaceAll("%checkpoint%", Integer.toString(iterator)));
-				hologram.appendTextLine(Main.getInstance().getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
+				hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
 						.replaceAll("%checkpoint%", Integer.toString(iterator)));
 				checkpoint.setHologram(hologram);
 				iterator++;
@@ -420,8 +423,8 @@ public class ParkourHandler {
 						int chance = config.getInt("parkour.rewards." + rewardid + ".chance");
 						rewards.add(new Reward(rewardid, permission, command, firstTime, chance));
 
-						if (Main.getInstance().getServer().getPluginManager().getPermission(permission) == null) {
-							Main.getInstance().getServer().getPluginManager().addPermission(new Permission(permission));
+						if (main.getServer().getPluginManager().getPermission(permission) == null) {
+							main.getServer().getPluginManager().addPermission(new Permission(permission));
 						}
 					}
 				}

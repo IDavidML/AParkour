@@ -3,13 +3,13 @@ package me.davidml16.aparkour;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import me.davidml16.aparkour.api.ParkourAPI;
 import me.davidml16.aparkour.events.*;
 import me.davidml16.aparkour.gui.*;
 import me.davidml16.aparkour.handlers.*;
 import me.davidml16.aparkour.managers.*;
 import me.davidml16.aparkour.tasks.ReturnTask;
-import me.davidml16.aparkour.utils.ParkourItems;
-import me.davidml16.aparkour.utils.UpdateChecker;
+import me.davidml16.aparkour.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -23,11 +23,9 @@ import me.davidml16.aparkour.commands.TabCompleter_AParkour;
 import me.davidml16.aparkour.commands.Command_AParkour;
 import me.davidml16.aparkour.database.ADatabase;
 import me.davidml16.aparkour.tasks.HologramTask;
-import me.davidml16.aparkour.utils.RandomFirework;
 
 public class Main extends JavaPlugin {
 
-    public static Main instance;
     public static ConsoleCommandSender log;
 
     private PlayerStats_GUI statsGUI;
@@ -44,6 +42,7 @@ public class Main extends JavaPlugin {
     private StatsHologramManager statsHologramManager;
     private TopHologramManager topHologramManager;
     private PlateManager plateManager;
+    private PluginManager pluginManager;
 
     private ParkourHandler parkourHandler;
     private RewardHandler rewardHandler;
@@ -52,17 +51,22 @@ public class Main extends JavaPlugin {
     private PlayerDataHandler playerDataHandler;
     private DatabaseHandler databaseHandler;
 
+    private SoundUtil soundUtil;
+    private LocationUtil locationUtil;
+    private TitleUtil titleUtil;
+
     private ADatabase database;
 
     private ParkourItems parkourItems;
 
     private MetricsLite metrics;
 
+    private ParkourAPI parkourAPI;
+
     private boolean hologramsEnabled;
     private boolean parkourItemsEnabled;
 
     public void onEnable() {
-        instance = this;
         metrics = new MetricsLite(this, 6728);
         log = Bukkit.getConsoleSender();
 
@@ -79,64 +83,72 @@ public class Main extends JavaPlugin {
             }
         }
 
-        parkourItems = new ParkourItems();
+        parkourItems = new ParkourItems(this);
         parkourItemsEnabled = getConfig().getBoolean("Items.Enabled");
         if (parkourItemsEnabled) {
             parkourItems.loadReturnItem();
             parkourItems.loadCheckpointItem();
         }
 
-        languageHandler = new LanguageHandler(getConfig().getString("Language").toLowerCase());
+        languageHandler = new LanguageHandler(this, getConfig().getString("Language").toLowerCase());
         languageHandler.pushMessages();
 
-        statsHologramManager = new StatsHologramManager();
-        topHologramManager = new TopHologramManager(getConfig().getInt("Tasks.ReloadInterval"));
+        statsHologramManager = new StatsHologramManager(this);
 
         checkpointsHandler = new CheckpointsHandler();
 
         plateManager = new PlateManager();
 
-        parkourHandler = new ParkourHandler();
+        parkourHandler = new ParkourHandler(this);
         parkourHandler.loadParkours();
         parkourHandler.loadHolograms();
 
-        rewardHandler = new RewardHandler();
+        rewardHandler = new RewardHandler(this);
         rewardHandler.loadRewards();
 
-        database = new ADatabase();
+        database = new ADatabase(this);
         database.openConnection();
-        databaseHandler = new DatabaseHandler();
+        databaseHandler = new DatabaseHandler(this);
         databaseHandler.loadTables();
 
-        playerDataHandler = new PlayerDataHandler();
+        playerDataHandler = new PlayerDataHandler(this);
 
-        timerManager = new TimerManager();
+        timerManager = new TimerManager(this);
 
-        statsGUI = new PlayerStats_GUI();
+        statsGUI = new PlayerStats_GUI(this);
 
-        rankingsGUI = new ParkourRanking_GUI();
+        rankingsGUI = new ParkourRanking_GUI(this);
         rankingsGUI.loadGUI();
 
-        configGUI = new ParkourConfig_GUI();
+        configGUI = new ParkourConfig_GUI(this);
         configGUI.loadGUI();
 
-        walkableBlocksGUI = new WalkableBlocks_GUI();
+        walkableBlocksGUI = new WalkableBlocks_GUI(this);
         walkableBlocksGUI.loadGUI();
 
-        rewardsGUI = new Rewards_GUI();
+        rewardsGUI = new Rewards_GUI(this);
         rewardsGUI.loadGUI();
 
-        checkpointsGUI = new Checkpoints_GUI();
+        checkpointsGUI = new Checkpoints_GUI(this);
         checkpointsGUI.loadGUI();
 
+        topHologramManager = new TopHologramManager(this, getConfig().getInt("Tasks.ReloadInterval"));
         topHologramManager.loadTopHolograms();
         topHologramManager.restartTimeLeft();
 
-        hologramTask = new HologramTask();
+        hologramTask = new HologramTask(this);
         hologramTask.start();
 
-        returnTask = new ReturnTask();
+        returnTask = new ReturnTask(this);
         returnTask.start();
+
+        pluginManager = new PluginManager(this);
+
+        parkourAPI = new ParkourAPI(this);
+
+        soundUtil = new SoundUtil(this);
+        locationUtil = new LocationUtil(this);
+        titleUtil = new TitleUtil(this);
 
         registerEvents();
         registerCommands();
@@ -187,7 +199,7 @@ public class Main extends JavaPlugin {
         log.sendMessage(ColorManager.translate("    &aAuthor: &b" + pdf.getAuthors().get(0)));
         log.sendMessage("");
 
-        PluginManager.removePlayersFromParkour();
+        pluginManager.removePlayersFromParkour();
 
         if(isHologramsEnabled()) {
             for (Hologram hologram : HologramsAPI.getHolograms(this)) {
@@ -200,10 +212,6 @@ public class Main extends JavaPlugin {
         }
 
         hologramTask.stop();
-    }
-
-    public static Main getInstance() {
-        return instance;
     }
 
     public PlayerStats_GUI getStatsGUI() {
@@ -249,6 +257,8 @@ public class Main extends JavaPlugin {
     public ParkourHandler getParkourHandler() {
         return parkourHandler;
     }
+
+    public PluginManager getPluginManager() { return pluginManager; }
 
     public LanguageHandler getLanguageHandler() {
         return languageHandler;
@@ -302,18 +312,24 @@ public class Main extends JavaPlugin {
         return parkourItems;
     }
 
+    public SoundUtil getSoundUtil() { return soundUtil; }
+
+    public LocationUtil getLocationUtil() { return locationUtil; }
+
+    public TitleUtil getTitleUtil() { return titleUtil; }
+
     private void registerCommands() {
-        getCommand("aparkour").setExecutor(new Command_AParkour());
-        getCommand("aparkour").setTabCompleter(new TabCompleter_AParkour());
+        getCommand("aparkour").setExecutor(new Command_AParkour(this));
+        getCommand("aparkour").setTabCompleter(new TabCompleter_AParkour(this));
     }
 
     private void registerEvents() {
-        Bukkit.getPluginManager().registerEvents(new Event_Click(), this);
-        Bukkit.getPluginManager().registerEvents(new Event_PlateStart(), this);
-        Bukkit.getPluginManager().registerEvents(new Event_PlateEnd(), this);
-        Bukkit.getPluginManager().registerEvents(new Event_PlateCheckpoint(), this);
-        Bukkit.getPluginManager().registerEvents(new Event_Fall(), this);
-        Bukkit.getPluginManager().registerEvents(new Event_Void(), this);
-        Bukkit.getPluginManager().registerEvents(new Event_Others(), this);
+        Bukkit.getPluginManager().registerEvents(new Event_Click(this), this);
+        Bukkit.getPluginManager().registerEvents(new Event_PlateStart(this), this);
+        Bukkit.getPluginManager().registerEvents(new Event_PlateEnd(this), this);
+        Bukkit.getPluginManager().registerEvents(new Event_PlateCheckpoint(this), this);
+        Bukkit.getPluginManager().registerEvents(new Event_Fall(this), this);
+        Bukkit.getPluginManager().registerEvents(new Event_Void(this), this);
+        Bukkit.getPluginManager().registerEvents(new Event_Others(this), this);
     }
 }

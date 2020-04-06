@@ -19,12 +19,15 @@ public class DatabaseHandler {
 
 	private Connection connection;
 
-	public DatabaseHandler() {
-		this.connection = Main.getInstance().getADatabase().getConnection();
+	private Main main;
+
+	public DatabaseHandler(Main main) {
+		this.main = main;
+		this.connection = main.getADatabase().getConnection();
 	}
 
 	public void loadTables() {
-		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
 			PreparedStatement statement = null;
 			try {
 				statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + parkour.getId()
@@ -209,7 +212,7 @@ public class DatabaseHandler {
 
 	public HashMap<String, Integer> getPlayerLastTimes(UUID uuid) {
 		HashMap<String, Integer> times = new HashMap<String, Integer>();
-		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
 			try {
 				if (hasData(uuid, parkour.getId())) {
 					times.put(parkour.getId(), getLastTime(uuid, parkour.getId()));
@@ -226,7 +229,7 @@ public class DatabaseHandler {
 
 	public HashMap<String, Integer> getPlayerBestTimes(UUID uuid) {
 		HashMap<String, Integer> times = new HashMap<String, Integer>();
-		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
 			try {
 				if (hasData(uuid, parkour.getId())) {
 					times.put(parkour.getId(), getBestTime(uuid, parkour.getId()));

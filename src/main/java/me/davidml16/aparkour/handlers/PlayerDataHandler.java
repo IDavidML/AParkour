@@ -19,6 +19,11 @@ public class PlayerDataHandler {
 		return data;
 	}
 
+	private Main main;
+	public PlayerDataHandler(Main main) {
+		this.main = main;
+	}
+
 	public Profile getData(Player p) {
 		if (data.containsKey(p.getUniqueId()))
 			return data.get(p.getUniqueId());
@@ -36,7 +41,7 @@ public class PlayerDataHandler {
 	}
 
 	public void loadPlayerData(Player p) {
-		data.put(p.getUniqueId(), new Profile(p.getUniqueId()));
+		data.put(p.getUniqueId(), new Profile(main, p.getUniqueId()));
 	}
 	
 	public void saveAllPlayerData() {
@@ -67,7 +72,7 @@ public class PlayerDataHandler {
 			p.removePotionEffect(effect.getType());
 		}
 
-		p.setGameMode(Main.getInstance().getParkourHandler().getParkourGamemode());
+		p.setGameMode(main.getParkourHandler().getParkourGamemode());
 		p.getInventory().clear();
 		p.getInventory().setArmorContents(null);
 		p.updateInventory();
@@ -80,7 +85,7 @@ public class PlayerDataHandler {
 
 		ItemStack[] inventory = data.getInventory();
 		for (int i = 0; i < inventory.length; i++) {
-			p.getInventory().setItem(i, inventory[i]);;
+			p.getInventory().setItem(i, inventory[i]);
 		}
 
 		p.getInventory().setHelmet(data.getArmor()[3]);

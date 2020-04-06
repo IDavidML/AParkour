@@ -8,10 +8,15 @@ public class HologramTask {
 	
 	private int id;
 
+	private Main main;
+	public HologramTask(Main main) {
+		this.main = main;
+	}
+
 	class Task implements Runnable {
 		@Override
 		public void run() {
-			Main.getInstance().getTopHologramManager().reloadTopHolograms();
+			main.getTopHologramManager().reloadTopHolograms();
 		}
 	}
 	
@@ -21,7 +26,7 @@ public class HologramTask {
 
 	@SuppressWarnings("deprecation")
 	public void start() {
-		id = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(Main.getInstance(), new Task(), 0L, 20 * 1);
+		id = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(main, new Task(), 0L, 20);
 	}
 	
 	public void stop() {

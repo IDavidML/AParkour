@@ -16,6 +16,8 @@ import org.bukkit.potion.PotionEffect;
 
 public class Profile {
 
+	private Main main;
+
 	private UUID uuid;
 	private Parkour parkour;
 
@@ -33,7 +35,8 @@ public class Profile {
 	private HashMap<String, Integer> bestTimes;
 	private HashMap<String, Hologram> holograms;
 
-	public Profile(UUID uuid) {
+	public Profile(Main main, UUID uuid) {
+		this.main = main;
 		this.uuid = uuid;
 		this.parkour = null;
 		this.inventory = new ItemStack[36];
@@ -42,15 +45,15 @@ public class Profile {
 		this.lastGamemode = null;
 		this.lastCheckpoint = -1;
 		this.lastCheckpointLocation = null;
-		this.lastTimes = Main.getInstance().getDatabaseHandler().getPlayerLastTimes(uuid);
-		this.bestTimes = Main.getInstance().getDatabaseHandler().getPlayerBestTimes(uuid);
+		this.lastTimes = this.main.getDatabaseHandler().getPlayerLastTimes(uuid);
+		this.bestTimes = this.main.getDatabaseHandler().getPlayerBestTimes(uuid);
 		this.holograms = new HashMap<String, Hologram>();
 	}
 
 	public void save() {
-		for(Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		for(Parkour parkour : main.getParkourHandler().getParkours().values()) {
 			try {
-				Main.getInstance().getDatabaseHandler().setTimes(uuid, lastTimes.get(parkour.getId()), bestTimes.get(parkour.getId()), parkour.getId());
+				main.getDatabaseHandler().setTimes(uuid, lastTimes.get(parkour.getId()), bestTimes.get(parkour.getId()), parkour.getId());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -59,7 +62,7 @@ public class Profile {
 
 	public void save(String id) {
 		try {
-			Main.getInstance().getDatabaseHandler().setTimes(uuid, lastTimes.get(id), bestTimes.get(id), id);
+			main.getDatabaseHandler().setTimes(uuid, lastTimes.get(id), bestTimes.get(id), id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

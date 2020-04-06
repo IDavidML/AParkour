@@ -19,8 +19,11 @@ public class TimerManager {
 	
 	private boolean actionBarEnabled;
 
-	public TimerManager() {
-		actionBarEnabled = Main.getInstance().getConfig().getBoolean("ActionBarTimer.Enabled");
+	private Main main;
+
+	public TimerManager(Main main) {
+		this.main = main;
+		actionBarEnabled = main.getConfig().getBoolean("ActionBarTimer.Enabled");
 		timer = new HashMap<UUID, Integer>();
 		timerTask = new HashMap<UUID, BukkitRunnable>();
 	}
@@ -43,31 +46,31 @@ public class TimerManager {
 	
 	public void startTimer(Player p, Parkour parkour) {
 		if(!hasPlayerTimer(p)) {
-			Main.getInstance().getTimerManager().getTimer().put(p.getUniqueId(), 0);
-			if (Main.getInstance().getTimerManager().isActionBarEnabled()) {
-				Main.getInstance().getTimerManager().sendTimer(p);
+			main.getTimerManager().getTimer().put(p.getUniqueId(), 0);
+			if (main.getTimerManager().isActionBarEnabled()) {
+				main.getTimerManager().sendTimer(p);
 			}
 			
-			Main.getInstance().getTimerManager().getTimerTask().put(p.getUniqueId(), new BukkitRunnable() {
+			main.getTimerManager().getTimerTask().put(p.getUniqueId(), new BukkitRunnable() {
 				public void run() {
-					Main.getInstance().getTimerManager().getTimer().put(p.getUniqueId(), Main.getInstance().getTimerManager().getTimer().get(p.getUniqueId()) + 1);
-					if (Main.getInstance().getTimerManager().getTimer().get(p.getUniqueId()) < 3600) {
-						if (Main.getInstance().getConfig().getBoolean("ActionBarTimer.Enabled")) {
-							Main.getInstance().getTimerManager().sendTimer(p);
+					main.getTimerManager().getTimer().put(p.getUniqueId(), main.getTimerManager().getTimer().get(p.getUniqueId()) + 1);
+					if (main.getTimerManager().getTimer().get(p.getUniqueId()) < 3600) {
+						if (main.getConfig().getBoolean("ActionBarTimer.Enabled")) {
+							main.getTimerManager().sendTimer(p);
 						}
-					} else if (Main.getInstance().getTimerManager().getTimer().get(p.getUniqueId()) >= 3600) {
+					} else if (main.getTimerManager().getTimer().get(p.getUniqueId()) >= 3600) {
 						cancelTimer(p);
 	
 						p.setFlying(false);
 						p.teleport(parkour.getSpawn());
 
-						SoundUtil.playReturn(p);
+						main.getSoundUtil().playReturn(p);
 	
 						p.setNoDamageTicks(20);
 					}
 				}
 			});
-			timerTask.get(p.getUniqueId()).runTaskTimerAsynchronously(Main.getInstance(), 20L, 20L);
+			timerTask.get(p.getUniqueId()).runTaskTimerAsynchronously(main, 20L, 20L);
 		}
 	}
 
@@ -80,15 +83,15 @@ public class TimerManager {
 		}
 	}
 
-	public void sendTimer(Player p) {
+	private void sendTimer(Player p) {
 		if (hasPlayerTimer(p)) {
 			int secs = timer.get(p.getUniqueId());
-			int total = Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes()
-					.get(Main.getInstance().getPlayerDataHandler().getData(p).getParkour().getId());
+			int total = main.getPlayerDataHandler().getData(p).getBestTimes()
+					.get(main.getPlayerDataHandler().getData(p).getParkour().getId());
 
-			String message = Main.getInstance().getLanguageHandler().getMessage("Timer.ActionBar");
+			String message = main.getLanguageHandler().getMessage("Timer.ActionBar");
 			if(message.length() > 0) {
-				String NoBestTime = Main.getInstance().getLanguageHandler().getMessage("Times.NoBestTime");
+				String NoBestTime = main.getLanguageHandler().getMessage("Times.NoBestTime");
 				if (total != 0) {
 					ActionBar.sendActionbar(p, message.replaceAll("%currentTime%", timeAsString(secs)).replaceAll("%bestTime%",
 							timeAsString(total)));
@@ -101,12 +104,12 @@ public class TimerManager {
 	}
 
 	public String timeAsString(int total) {
-		String Hours = Main.getInstance().getLanguageHandler().getMessage("Times.Hours");
-		String Hour = Main.getInstance().getLanguageHandler().getMessage("Times.Hour");
-		String Minutes = Main.getInstance().getLanguageHandler().getMessage("Times.Minutes");
-		String Minute = Main.getInstance().getLanguageHandler().getMessage("Times.Minute");
-		String Seconds = Main.getInstance().getLanguageHandler().getMessage("Times.Seconds");
-		String Second = Main.getInstance().getLanguageHandler().getMessage("Times.Second");
+		String Hours = main.getLanguageHandler().getMessage("Times.Hours");
+		String Hour = main.getLanguageHandler().getMessage("Times.Hour");
+		String Minutes = main.getLanguageHandler().getMessage("Times.Minutes");
+		String Minute = main.getLanguageHandler().getMessage("Times.Minute");
+		String Seconds = main.getLanguageHandler().getMessage("Times.Seconds");
+		String Second = main.getLanguageHandler().getMessage("Times.Second");
 
 		long millis = total * 1000;
 		String output = "";
@@ -144,8 +147,8 @@ public class TimerManager {
 
 	public HashMap<String, String> getLastTimes(Player p) {
 		HashMap<String, String> times = new HashMap<String, String>();
-		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
-			int total = Main.getInstance().getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId());
+		for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
+			int total = main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId());
 			times.put(parkour.getId(), timeAsString(total));
 		}
 
@@ -154,8 +157,8 @@ public class TimerManager {
 
 	public HashMap<String, String> getBestTimes(Player p) {
 		HashMap<String, String> times = new HashMap<String, String>();
-		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
-			int total = Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
+		for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
+			int total = main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
 			times.put(parkour.getId(), timeAsString(total));
 		}
 

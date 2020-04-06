@@ -16,23 +16,28 @@ import me.davidml16.aparkour.Main;
 
 public class StatsHologramManager {
 
+	private Main main;
+	public StatsHologramManager(Main main) {
+		this.main = main;
+	}
+
 	public void loadStatsHolograms(Player p) {
-		if (Main.getInstance().isHologramsEnabled()) {
-			for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		if (main.isHologramsEnabled()) {
+			for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
 				loadStatsHologram(p, parkour.getId());
 			}
 		}
 	}
 	
 	public void loadStatsHologram(Player p, String id) {
-		if (Main.getInstance().isHologramsEnabled()) {
-			Parkour parkour = Main.getInstance().getParkourHandler().getParkours().get(id);
+		if (main.isHologramsEnabled()) {
+			Parkour parkour = main.getParkourHandler().getParkours().get(id);
 			if(parkour.getStatsHologram() != null) {
-				int bestTime = Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
+				int bestTime = main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
 
 				List<String> lines = getLines(parkour, p, bestTime);
 
-				Hologram hologram = HologramsAPI.createHologram(Main.getInstance(),
+				Hologram hologram = HologramsAPI.createHologram(main,
 						parkour.getStatsHologram().clone().add(0.5D, 2.0D, 0.5D));
 				VisibilityManager visibilityManager = hologram.getVisibilityManager();
 
@@ -42,26 +47,26 @@ public class StatsHologramManager {
 				hologram.insertTextLine(0, lines.get(0));
 				hologram.insertTextLine(1, lines.get(1));
 
-				Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().put(parkour.getId(), hologram);
+				main.getPlayerDataHandler().getData(p).getHolograms().put(parkour.getId(), hologram);
 			}
 		}
 	}
 	
 	public void reloadStatsHolograms(Player p) {
-		if (Main.getInstance().isHologramsEnabled()) {
-			for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		if (main.isHologramsEnabled()) {
+			for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
 				reloadStatsHologram(p, parkour.getId());
 			}
 		}
 	}
 
 	public void reloadStatsHologram(Player p, String id) {
-		if (Main.getInstance().isHologramsEnabled()) {
-			Parkour parkour = Main.getInstance().getParkourHandler().getParkours().get(id);
-			if(Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().containsKey(parkour.getId())) {
-				Hologram hologram = Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().get(parkour.getId());
+		if (main.isHologramsEnabled()) {
+			Parkour parkour = main.getParkourHandler().getParkours().get(id);
+			if(main.getPlayerDataHandler().getData(p).getHolograms().containsKey(parkour.getId())) {
+				Hologram hologram = main.getPlayerDataHandler().getData(p).getHolograms().get(parkour.getId());
 
-				int bestTime = Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
+				int bestTime = main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
 
 				List<String> lines = getLines(parkour, p, bestTime);
 
@@ -73,16 +78,16 @@ public class StatsHologramManager {
 	
 	public List<String> getLines(Parkour parkour, Player p, int bestTime) {
 		List<String> lines = new ArrayList<String>();
-		String NoBestTime = Main.getInstance().getLanguageHandler().getMessage("Times.NoBestTime");
-		String Line1 = Main.getInstance().getLanguageHandler().getMessage("Holograms.Stats.Line1");
-		String Line2 = Main.getInstance().getLanguageHandler().getMessage("Holograms.Stats.Line2");
+		String NoBestTime = main.getLanguageHandler().getMessage("Times.NoBestTime");
+		String Line1 = main.getLanguageHandler().getMessage("Holograms.Stats.Line1");
+		String Line2 = main.getLanguageHandler().getMessage("Holograms.Stats.Line2");
 		
 		if (bestTime != 0) {
 			Line1 = Line1.replaceAll("%player%", p.getName())
-					.replaceAll("%time%", Main.getInstance().getTimerManager().timeAsString(bestTime))
+					.replaceAll("%time%", main.getTimerManager().timeAsString(bestTime))
 					.replaceAll("%parkour%", parkour.getName());
 			Line2 = Line2.replaceAll("%player%", p.getName())
-					.replaceAll("%time%", Main.getInstance().getTimerManager().timeAsString(bestTime))
+					.replaceAll("%time%", main.getTimerManager().timeAsString(bestTime))
 					.replaceAll("%parkour%", parkour.getName());
 		} else if (bestTime == 0) {
 			Line1 = Line1.replaceAll("%player%", p.getName()).replaceAll("%time%", NoBestTime)
@@ -97,36 +102,34 @@ public class StatsHologramManager {
 	}
 	
 	public void removeStatsHolograms(Player p) {
-		if (Main.getInstance().isHologramsEnabled()) {
-			for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		if (main.isHologramsEnabled()) {
+			for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
 				if(parkour.getStatsHologram() != null) {
 					removeStatsHologram(p, parkour.getId());
 				}
 			}
-			Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().clear();
+			main.getPlayerDataHandler().getData(p).getHolograms().clear();
 		}
 	}
 	
 	public void removeStatsHologram(Player p, String id) {
-		if (Main.getInstance().isHologramsEnabled()) {
-			if(Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().containsKey(id)) {
-				Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().get(id).delete();
-				Main.getInstance().getPlayerDataHandler().getData(p).getHolograms().remove(id);
+		if (main.isHologramsEnabled()) {
+			if(main.getPlayerDataHandler().getData(p).getHolograms().containsKey(id)) {
+				main.getPlayerDataHandler().getData(p).getHolograms().get(id).delete();
+				main.getPlayerDataHandler().getData(p).getHolograms().remove(id);
 			}
 		}
 	}
 
 	public void reloadStatsHolograms() {
-		if (Main.getInstance().isHologramsEnabled()) {
-			for (Hologram hologram : HologramsAPI.getHolograms(Main.getInstance())) {
+		if (main.isHologramsEnabled()) {
+			for (Hologram hologram : HologramsAPI.getHolograms(main)) {
 				hologram.delete();
 			}
 			
-			Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-				public void run() {
-					for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-						loadStatsHolograms(p);
-					}
+			Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
+				for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+					loadStatsHolograms(p);
 				}
 			}, 1L);
 		}

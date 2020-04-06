@@ -18,14 +18,17 @@ public class ADatabase {
 	
 	private String host, user, password, database;
 	private int port;
+
+	private Main main;
 	
-	public ADatabase() {
-		if(Main.getInstance().getConfig().getBoolean("MySQL.Enabled")) {
-			this.host = Main.getInstance().getConfig().getString("MySQL.Host");
-			this.user = Main.getInstance().getConfig().getString("MySQL.User");
-			this.password = Main.getInstance().getConfig().getString("MySQL.Password");
-			this.database = Main.getInstance().getConfig().getString("MySQL.Database");
-			this.port = Main.getInstance().getConfig().getInt("MySQL.Port");
+	public ADatabase(Main main) {
+		this.main = main;
+		if(main.getConfig().getBoolean("MySQL.Enabled")) {
+			this.host = main.getConfig().getString("MySQL.Host");
+			this.user = main.getConfig().getString("MySQL.User");
+			this.password = main.getConfig().getString("MySQL.Password");
+			this.database = main.getConfig().getString("MySQL.Database");
+			this.port = main.getConfig().getInt("MySQL.Port");
 			mysqlEnabled = true;
 		} else {
 			mysqlEnabled = false;
@@ -62,7 +65,7 @@ public class ADatabase {
 		
 		if (connection != null)  return;
 		
-		File file = new File(Main.getInstance().getDataFolder(), "playerData.db");
+		File file = new File(main.getDataFolder(), "playerData.db");
 		String URL = "jdbc:sqlite:" + file;
 		
 		synchronized (this) {

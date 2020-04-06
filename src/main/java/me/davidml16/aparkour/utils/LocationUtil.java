@@ -16,7 +16,12 @@ import java.util.stream.Collectors;
 
 public class LocationUtil {
 
-    public static void setPosition(Player p, String id, String type) {
+    private Main main;
+    public LocationUtil(Main main) {
+        this.main = main;
+    }
+
+    public void setPosition(Player p, String id, String type) {
         double x = p.getLocation().getBlockX();
         double y = p.getLocation().getBlockY();
         double z = p.getLocation().getBlockZ();
@@ -33,14 +38,14 @@ public class LocationUtil {
 
         Location location = new Location(p.getWorld(), x, y, z, yaw, pitch);
 
-        Main.getInstance().getParkourHandler().getConfig(id).set("parkour." + type, location);
-        Main.getInstance().getParkourHandler().saveConfig(id);
+       main.getParkourHandler().getConfig(id).set("parkour." + type, location);
+       main.getParkourHandler().saveConfig(id);
 
-        p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+        p.sendMessage(ColorManager.translate(main.getLanguageHandler().getPrefix()
                 + " &aSuccesfully set the " + type + " location of parkour &e" + id));
     }
 
-    public static void setHologram(Player p, String id, String type) {
+    public void setHologram(Player p, String id, String type) {
         double x = p.getLocation().getBlockX();
         double y = p.getLocation().getBlockY();
         double z = p.getLocation().getBlockZ();
@@ -49,14 +54,14 @@ public class LocationUtil {
 
         Location location = new Location(p.getWorld(), x, y, z, yaw, pitch);
 
-        Main.getInstance().getParkourHandler().getConfig(id).set("parkour.holograms." + type, location);
-        Main.getInstance().getParkourHandler().saveConfig(id);
+       main.getParkourHandler().getConfig(id).set("parkour.holograms." + type, location);
+       main.getParkourHandler().saveConfig(id);
 
-        p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+        p.sendMessage(ColorManager.translate(main.getLanguageHandler().getPrefix()
                 + " &aSuccesfully set the " + type + " location of parkour &e" + id));
     }
 
-    public static Location getPosition(Player p) {
+    public Location getPosition(Player p) {
         double x = p.getLocation().getBlockX();
         double y = p.getLocation().getBlockY();
         double z = p.getLocation().getBlockZ();

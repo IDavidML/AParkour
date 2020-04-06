@@ -31,11 +31,14 @@ public class WalkableBlocks_GUI implements Listener {
     private HashMap<String, Inventory> guis;
     private List<Integer> borders;
 
-    public WalkableBlocks_GUI() {
+    private Main main;
+
+    public WalkableBlocks_GUI(Main main) {
+        this.main = main;
         this.opened = new HashMap<UUID, String>();
         this.guis = new HashMap<String, Inventory>();
         this.borders = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 41, 42, 43, 44);
-        Main.getInstance().getServer().getPluginManager().registerEvents(this, Main.getInstance());
+        this.main.getServer().getPluginManager().registerEvents(this, this.main);
     }
 
     public HashMap<UUID, String> getOpened() {
@@ -47,7 +50,7 @@ public class WalkableBlocks_GUI implements Listener {
     }
 
     public void loadGUI() {
-        for (File file : Objects.requireNonNull(new File(Main.getInstance().getDataFolder(), "parkours").listFiles())) {
+        for (File file : Objects.requireNonNull(new File(main.getDataFolder(), "parkours").listFiles())) {
             loadGUI(file.getName().toLowerCase().replace(".yml", ""));
         }
     }
@@ -55,7 +58,7 @@ public class WalkableBlocks_GUI implements Listener {
     public void loadGUI(String id) {
         if (guis.containsKey(id)) return;
 
-        Inventory gui = Bukkit.createInventory(null, 45, Main.getInstance().getLanguageHandler().getMessage("GUIs.WalkableBlocks.title").replaceAll("%parkour%", id));
+        Inventory gui = Bukkit.createInventory(null, 45, main.getLanguageHandler().getMessage("GUIs.WalkableBlocks.title").replaceAll("%parkour%", id));
 
         ItemStack edge = new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 7).setName("").toItemStack();
         ItemStack back = new ItemBuilder(Material.ARROW, 1).setName(ColorManager.translate("&aBack to config")).toItemStack();
@@ -65,10 +68,10 @@ public class WalkableBlocks_GUI implements Listener {
         }
 
         List<WalkableBlock> walkable;
-        if (Main.getInstance().getParkourHandler().getParkours().containsKey(id))
-            walkable = Main.getInstance().getParkourHandler().getParkourById(id).getWalkableBlocks();
+        if (main.getParkourHandler().getParkours().containsKey(id))
+            walkable = main.getParkourHandler().getParkourById(id).getWalkableBlocks();
         else
-            walkable = Main.getInstance().getParkourHandler().getWalkableBlocks(id);
+            walkable = main.getParkourHandler().getWalkableBlocks(id);
 
         if(walkable.size() > 0) {
             for (WalkableBlock block : walkable) {
@@ -94,7 +97,7 @@ public class WalkableBlocks_GUI implements Listener {
     }
 
     public void reloadAllGUI() {
-        for(String id : Main.getInstance().getParkourHandler().getParkours().keySet()) {
+        for(String id : main.getParkourHandler().getParkours().keySet()) {
             reloadGUI(id);
         }
     }
@@ -109,7 +112,7 @@ public class WalkableBlocks_GUI implements Listener {
         for (int i = 28; i <= 34; i++)
             gui.setItem(i, null);
 
-        List<WalkableBlock> walkable = Main.getInstance().getParkourHandler().getParkourById(id).getWalkableBlocks();
+        List<WalkableBlock> walkable = main.getParkourHandler().getParkourById(id).getWalkableBlocks();
         if(walkable.size() > 0) {
             for (WalkableBlock block : walkable) {
                 String name = Material.getMaterial(block.getId()).name().replaceAll("_", " ");
@@ -137,7 +140,7 @@ public class WalkableBlocks_GUI implements Listener {
         p.updateInventory();
         p.openInventory(guis.get(id));
 
-        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> opened.put(p.getUniqueId(), id), 1L);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), id), 1L);
     }
 
     @SuppressWarnings("deprecation")
@@ -151,10 +154,10 @@ public class WalkableBlocks_GUI implements Listener {
             e.setCancelled(true);
             int slot = e.getRawSlot();
             String id = opened.get(p.getUniqueId());
-            Parkour parkour = Main.getInstance().getParkourHandler().getParkourById(id);
+            Parkour parkour = main.getParkourHandler().getParkourById(id);
             if (slot == 40) {
                 p.closeInventory();
-                Main.getInstance().getConfigGUI().open(p, id);
+                main.getConfigGUI().open(p, id);
             } else if (slot >= 45 && slot <= 80) {
                 List<WalkableBlock> walkable = parkour.getWalkableBlocks();
                 if (walkable.size() < 21) {
@@ -168,7 +171,7 @@ public class WalkableBlocks_GUI implements Listener {
                         Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
                     } else {
                         if (WalkableBlocksUtil.noContainsWalkable(walkable, itemId, data)) {
-                            p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                            p.sendMessage(ColorManager.translate(main.getLanguageHandler().getPrefix()
                                     + " &aYou added &e" + e.getCurrentItem().getType().name() + " &ato walkable blocks of parkour &e" + id));
                             WalkableBlock walkableBlock = new WalkableBlock(itemId, data);
                             walkable.add(walkableBlock);
@@ -176,7 +179,7 @@ public class WalkableBlocks_GUI implements Listener {
                             reloadGUI(id);
                             Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
                         } else {
-                            p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                            p.sendMessage(ColorManager.translate(main.getLanguageHandler().getPrefix()
                                     + " &cThe block &e" + e.getCurrentItem().getType().name() + " &calready exists in walkable blocks of parkour &e" + id));
                             Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
                         }
@@ -190,7 +193,7 @@ public class WalkableBlocks_GUI implements Listener {
                 int itemId = e.getCurrentItem().getTypeId();
                 byte data = e.getCurrentItem().getData().getData();
 
-                p.sendMessage(ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                p.sendMessage(ColorManager.translate(main.getLanguageHandler().getPrefix()
                         + " &aYou removed &e" + e.getCurrentItem().getType().name() + " &afrom walkable blocks of parkour &e" + id));
                 List<WalkableBlock> walkable = parkour.getWalkableBlocks();
                 WalkableBlock walkableBlock = WalkableBlocksUtil.getWalkableBlock(walkable, itemId, data);
@@ -206,7 +209,7 @@ public class WalkableBlocks_GUI implements Listener {
     public void InventoryCloseEvent(InventoryCloseEvent e) {
         Player p = (Player) e.getPlayer();
         if (opened.containsKey(p.getUniqueId())) {
-            Main.getInstance().getParkourHandler().getParkours().get(opened.get(p.getUniqueId())).saveParkour();
+            main.getParkourHandler().getParkours().get(opened.get(p.getUniqueId())).saveParkour();
             opened.remove(p.getUniqueId());
         }
     }

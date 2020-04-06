@@ -10,17 +10,22 @@ public class ParkourItems {
     private ItemStack returnItem;
     private ItemStack checkpointItem;
 
+    private Main main;
+    public ParkourItems(Main main) {
+        this.main = main;
+    }
+
     public void loadReturnItem() {
-        int id = Main.getInstance().getConfig().getInt("Items.Restart.ID");
-        String name = ColorManager.translate(Main.getInstance().getConfig().getString("Items.Restart.Name"));
-        String lore = ColorManager.translate(Main.getInstance().getConfig().getString("Items.Restart.Lore"));
+        int id = main.getConfig().getInt("Items.Restart.ID");
+        String name = ColorManager.translate(main.getConfig().getString("Items.Restart.Name"));
+        String lore = ColorManager.translate(main.getConfig().getString("Items.Restart.Lore"));
         returnItem = new ItemBuilder(Material.getMaterial(id), 1).setName(name).setLore(lore).toItemStack();
     }
 
     public void loadCheckpointItem() {
-        int id = Main.getInstance().getConfig().getInt("Items.Checkpoint.ID");
-        String name = ColorManager.translate(Main.getInstance().getConfig().getString("Items.Checkpoint.Name"));
-        String lore = ColorManager.translate(Main.getInstance().getConfig().getString("Items.Checkpoint.Lore"));
+        int id = main.getConfig().getInt("Items.Checkpoint.ID");
+        String name = ColorManager.translate(main.getConfig().getString("Items.Checkpoint.Name"));
+        String lore = ColorManager.translate(main.getConfig().getString("Items.Checkpoint.Lore"));
         checkpointItem = new ItemBuilder(Material.getMaterial(id), 1).setName(name).setLore(lore).toItemStack();
     }
 

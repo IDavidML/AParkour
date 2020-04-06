@@ -13,41 +13,46 @@ import java.lang.reflect.Constructor;
 import java.util.Objects;
 
 
-public class TitleAPI extends JavaPlugin implements Listener {
+public class TitleUtil implements Listener {
 
-    public static void sendStartTitle(Player player, Parkour parkour) {
+    private Main main;
+    public TitleUtil(Main main) {
+        this.main = main;
+    }
+
+    public void sendStartTitle(Player player, Parkour parkour) {
         if (parkour.isStartTitleEnabled()) {
-            String title = Main.getInstance().getLanguageHandler().getMessage("Titles.Start.Title")
+            String title = main.getLanguageHandler().getMessage("Titles.Start.Title")
                     .replaceAll("%parkour%", parkour.getName());
-            String subtitle = Main.getInstance().getLanguageHandler().getMessage("Titles.Start.Subtitle")
+            String subtitle = main.getLanguageHandler().getMessage("Titles.Start.Subtitle")
                     .replaceAll("%parkour%", parkour.getName());
             sendTitle(player, 5, 20, 5, title, subtitle);
         }
     }
 
-    public static void sendEndTitle(Player player, Parkour parkour) {
+    public void sendEndTitle(Player player, Parkour parkour) {
         if(parkour.isEndTitleEnabled()) {
-            String title = Main.getInstance().getLanguageHandler().getMessage("Titles.Start.Title")
+            String title = main.getLanguageHandler().getMessage("Titles.End.Title")
                     .replaceAll("%parkour%", parkour.getName());
-            String subtitle = Main.getInstance().getLanguageHandler().getMessage("Titles.Start.Subtitle")
+            String subtitle = main.getLanguageHandler().getMessage("Titles.End.Subtitle")
                     .replaceAll("%parkour%", parkour.getName());
             sendTitle(player, 5, 20, 5, title, subtitle);
         }
     }
 
-    public static void sendCheckpointTitle(Player player, Parkour parkour, Profile profile) {
+    public void sendCheckpointTitle(Player player, Parkour parkour, Profile profile) {
         if(parkour.isCheckpointTitleEnabled()) {
-            String title = Main.getInstance().getLanguageHandler().getMessage("Titles.Checkpoint.Title")
+            String title = main.getLanguageHandler().getMessage("Titles.Checkpoint.Title")
                     .replaceAll("%checkpoint%", Integer.toString(profile.getLastCheckpoint() + 1))
                     .replaceAll("%parkour%", parkour.getName());
-            String subtitle = Main.getInstance().getLanguageHandler().getMessage("Titles.Checkpoint.Subtitle")
+            String subtitle = main.getLanguageHandler().getMessage("Titles.Checkpoint.Subtitle")
                     .replaceAll("%checkpoint%", Integer.toString(profile.getLastCheckpoint() + 1))
                     .replaceAll("%parkour%", parkour.getName());
             sendTitle(player, 5, 20, 5, title, subtitle);
         }
     }
 
-    public static void sendPacket(Player player, Object packet) {
+    private static void sendPacket(Player player, Object packet) {
         try {
             Object handle = player.getClass().getMethod("getHandle").invoke(player);
             Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
@@ -57,7 +62,7 @@ public class TitleAPI extends JavaPlugin implements Listener {
         }
     }
 
-    public static Class<?> getNMSClass(String name) {
+    private static Class<?> getNMSClass(String name) {
         String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
         try {
             return Class.forName("net.minecraft.server." + version + "." + name);
@@ -67,7 +72,7 @@ public class TitleAPI extends JavaPlugin implements Listener {
         }
     }
 
-    public static void sendTitle(Player player, Integer fadeIn, Integer stay, Integer fadeOut, String title, String subtitle) {
+    private void sendTitle(Player player, Integer fadeIn, Integer stay, Integer fadeOut, String title, String subtitle) {
         try {
             Object e;
             Object chatTitle;
@@ -114,7 +119,7 @@ public class TitleAPI extends JavaPlugin implements Listener {
         }
     }
 
-    public static void clearTitle(Player player) {
+    public void clearTitle(Player player) {
         sendTitle(player, 0, 0, 0, "", "");
     }
 

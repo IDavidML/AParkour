@@ -10,64 +10,71 @@ import java.util.HashMap;
 
 public class ParkourAPI {
 
+    private Main main;
+    public ParkourAPI(Main main) {
+        this.main = main;
+    }
+
     public int getCurrentTime(Player p) {
-        if(Main.getInstance().getTimerManager().hasPlayerTimer(p)) {
-            return Main.getInstance().getTimerManager().getTimer().get(p.getUniqueId());
+        if(main.getTimerManager().hasPlayerTimer(p)) {
+            return main.getTimerManager().getTimer().get(p.getUniqueId());
         } else {
             return 0;
         }
     }
 
     public String getCurrentTimeFormatted(Player p) {
-        if(Main.getInstance().getTimerManager().hasPlayerTimer(p)) {
-            return Main.getInstance().getTimerManager().timeAsString(Main.getInstance().getTimerManager().getTimer().get(p.getUniqueId()));
+        if(main.getTimerManager().hasPlayerTimer(p)) {
+            return main.getTimerManager().timeAsString(main.getTimerManager().getTimer().get(p.getUniqueId()));
         } else {
-            return Main.getInstance().getTimerManager().timeAsString(0);
+            return main.getTimerManager().timeAsString(0);
         }
     }
 
     public int getLastTime(Player p, String parkour) {
-        if(Main.getInstance().getPlayerDataHandler().playerExists(p) && Main.getInstance().getPlayerDataHandler().getData(p).getLastTimes().containsKey(parkour)) {
-            return Main.getInstance().getPlayerDataHandler().getData(p).getLastTimes().get(parkour);
+        if(main.getPlayerDataHandler().playerExists(p) && main.getPlayerDataHandler().getData(p).getLastTimes().containsKey(parkour)) {
+            return main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour);
         }
         return 0;
     }
 
     public String getLastTimeFormatted(Player p, String parkour) {
-        if(Main.getInstance().getPlayerDataHandler().playerExists(p) && Main.getInstance().getPlayerDataHandler().getData(p).getLastTimes().containsKey(parkour)) {
-            return Main.getInstance().getTimerManager().timeAsString(Main.getInstance().getPlayerDataHandler().getData(p).getLastTimes().get(parkour));
+        if(main.getPlayerDataHandler().playerExists(p) && main.getPlayerDataHandler().getData(p).getLastTimes().containsKey(parkour)) {
+            return main.getTimerManager().timeAsString(main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour));
         }
-        return Main.getInstance().getTimerManager().timeAsString(0);
+        return main.getTimerManager().timeAsString(0);
     }
 
     public int getBestTime(Player p, String parkour) {
-        if(Main.getInstance().getPlayerDataHandler().playerExists(p) && Main.getInstance().getPlayerDataHandler().getData(p).getLastTimes().containsKey(parkour)) {
-            return Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour);
+        if(main.getPlayerDataHandler().playerExists(p) && main.getPlayerDataHandler().getData(p).getLastTimes().containsKey(parkour)) {
+            return main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour);
         }
         return 0;
     }
 
     public String getBestTimeFormatted(Player p, String parkour) {
-        if(Main.getInstance().getPlayerDataHandler().playerExists(p) && Main.getInstance().getPlayerDataHandler().getData(p).getLastTimes().containsKey(parkour)) {
-            return Main.getInstance().getTimerManager().timeAsString(Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour));
+        if(main.getPlayerDataHandler().playerExists(p) && main.getPlayerDataHandler().getData(p).getLastTimes().containsKey(parkour)) {
+            return main.getTimerManager().timeAsString(main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour));
         }
-        return Main.getInstance().getTimerManager().timeAsString(0);
+        return main.getTimerManager().timeAsString(0);
     }
 
     public HashMap<String, Parkour> getParkours() {
-        return Main.getInstance().getParkourHandler().getParkours();
+        return main.getParkourHandler().getParkours();
     }
 
     public Parkour getParkourByLocation(Location loc) {
-        for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
-            if (loc.equals(parkour.getStart()) || loc.equals(parkour.getEnd()))
-                return Main.getInstance().getParkourHandler().getParkours().get(parkour.getId());
+        for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
+            if (loc.equals(parkour.getStart().getLocation()) ||
+                    loc.equals(parkour.getEnd().getLocation()) ||
+                    parkour.getCheckpointLocations().contains(loc))
+                return parkour;
         }
         return null;
     }
 
     public Parkour getParkourByPlayer(Player p) {
-        return Main.getInstance().getPlayerDataHandler().getData(p).getParkour();
+        return main.getPlayerDataHandler().getData(p).getParkour();
     }
 
 }

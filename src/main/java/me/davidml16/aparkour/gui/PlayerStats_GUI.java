@@ -33,11 +33,14 @@ public class PlayerStats_GUI implements Listener {
 	private HashMap<UUID, Inventory> guis;
 	private List<Integer> borders;
 
-	public PlayerStats_GUI() {
+	private Main main;
+
+	public PlayerStats_GUI(Main main) {
+		this.main = main;
 		this.opened = new ArrayList<UUID>();
 		this.guis = new HashMap<UUID, Inventory>();
 		this.borders = Arrays.asList(0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44);
-		Main.getInstance().getServer().getPluginManager().registerEvents(this, Main.getInstance());
+		this.main.getServer().getPluginManager().registerEvents(this, this.main);
 	}
 
 	public List<UUID> getOpened() {
@@ -51,7 +54,7 @@ public class PlayerStats_GUI implements Listener {
 	public void open(Player p) {
 		p.updateInventory();
 
-		Inventory gui = Bukkit.createInventory(null, 45, Main.getInstance().getLanguageHandler().getMessage("GUIs.Stats.title"));
+		Inventory gui = Bukkit.createInventory(null, 45, main.getLanguageHandler().getMessage("GUIs.Stats.title"));
 
 		ItemStack edge = new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 7).setName("").toItemStack();
 		ItemStack book = new ItemBuilder(Material.BOOK, 1).setName(ColorManager.translate("&a&l" + p.getName() + "'s statistics")).toItemStack();
@@ -62,22 +65,22 @@ public class PlayerStats_GUI implements Listener {
 
 		gui.setItem(4, book);
 
-		for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+		for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
 			List<String> lore = new ArrayList<String>();
 			lore.add(ColorManager.translate("  &eParkour: &a" + parkour.getName() + "  "));
 			lore.add(" ");
 
-			if(Main.getInstance().getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId()) > 0)
-				lore.add(ColorManager.translate("  &eLast Time: &6" + Main.getInstance().getTimerManager().timeAsString(Main.getInstance().getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId())) + "  "));
+			if(main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId()) > 0)
+				lore.add(ColorManager.translate("  &eLast Time: &6" + main.getTimerManager().timeAsString(main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId())) + "  "));
 			else
-				lore.add(ColorManager.translate("  &eLast Time: &c" + Main.getInstance().getLanguageHandler().getMessage("Times.NoBestTime") + "  "));
+				lore.add(ColorManager.translate("  &eLast Time: &c" + main.getLanguageHandler().getMessage("Times.NoBestTime") + "  "));
 
 			lore.add(" ");
 
-			if(Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId()) > 0)
-				lore.add(ColorManager.translate("  &eBest Time: &6" + Main.getInstance().getTimerManager().timeAsString(Main.getInstance().getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId())) + "  "));
+			if(main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId()) > 0)
+				lore.add(ColorManager.translate("  &eBest Time: &6" + main.getTimerManager().timeAsString(main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId())) + "  "));
 			else
-				lore.add(ColorManager.translate("  &eBest Time: &c" + Main.getInstance().getLanguageHandler().getMessage("Times.NoBestTime") + "  "));
+				lore.add(ColorManager.translate("  &eBest Time: &c" + main.getLanguageHandler().getMessage("Times.NoBestTime") + "  "));
 
 			lore.add(" ");
 

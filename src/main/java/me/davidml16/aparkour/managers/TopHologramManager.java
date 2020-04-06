@@ -21,7 +21,10 @@ public class TopHologramManager {
     private int timeLeft;
     private int reloadInterval;
 
-    public TopHologramManager(int reloadInterval) {
+    private Main main;
+
+    public TopHologramManager(Main main, int reloadInterval) {
+        this.main = main;
         this.reloadInterval = reloadInterval;
         this.holoHeader = new HashMap<String, Hologram>();
         this.holoBody = new HashMap<String, Hologram>();
@@ -53,42 +56,42 @@ public class TopHologramManager {
     }
 
     public void loadTopHolograms() {
-        if (Main.getInstance().isHologramsEnabled()) {
-            for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+        if (main.isHologramsEnabled()) {
+            for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
                 loadTopHologram(parkour.getId());
             }
         }
     }
 
     public void loadTopHologram(String id) {
-        if (Main.getInstance().isHologramsEnabled()) {
-            Parkour parkour = Main.getInstance().getParkourHandler().getParkours().get(id);
+        if (main.isHologramsEnabled()) {
+            Parkour parkour = main.getParkourHandler().getParkours().get(id);
             if (parkour.getTopHologram() != null) {
-                Hologram header = HologramsAPI.createHologram(Main.getInstance(),
+                Hologram header = HologramsAPI.createHologram(main,
                         parkour.getTopHologram().clone().add(0.5D, 4.5D, 0.5D));
-                header.appendTextLine(Main.getInstance().getLanguageHandler()
+                header.appendTextLine(main.getLanguageHandler()
                         .getMessage("Holograms.Top.Header.Line1").replaceAll("%parkour%", parkour.getName()));
-                header.appendTextLine(Main.getInstance().getLanguageHandler()
+                header.appendTextLine(main.getLanguageHandler()
                         .getMessage("Holograms.Top.Header.Line2").replaceAll("%parkour%", parkour.getName()));
 
-                Hologram body = HologramsAPI.createHologram(Main.getInstance(),
+                Hologram body = HologramsAPI.createHologram(main,
                         parkour.getTopHologram().clone().add(0.5D, 3.75D, 0.5D));
 
-                Hologram footer = HologramsAPI.createHologram(Main.getInstance(),
+                Hologram footer = HologramsAPI.createHologram(main,
                         parkour.getTopHologram().clone().add(0.5D, 1D, 0.5D));
-                footer.appendTextLine("&aUpdate: &6" + Main.getInstance().getTimerManager().timeAsString(timeLeft));
+                footer.appendTextLine("&aUpdate: &6" + main.getTimerManager().timeAsString(timeLeft));
 
-                HashMap<String, Integer> times = Main.getInstance().getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10);
+                HashMap<String, Integer> times = main.getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10);
 
                 int it = 0;
                 for (Entry<String, Integer> entry : times.entrySet()) {
                     try {
 
-                        body.appendTextLine(Main.getInstance().getLanguageHandler()
+                        body.appendTextLine(main.getLanguageHandler()
                                 .getMessage("Holograms.Top.Body.Line").replaceAll("%position%", "" + Integer.toString(it + 1))
                                 .replaceAll("%player%",
-                                        Main.getInstance().getDatabaseHandler().getPlayerName(entry.getKey().toString()))
-                                .replaceAll("%time%", Main.getInstance().getTimerManager().timeAsString(entry.getValue())));
+                                        main.getDatabaseHandler().getPlayerName(entry.getKey().toString()))
+                                .replaceAll("%time%", main.getTimerManager().timeAsString(entry.getValue())));
 
                         it++;
                     } catch (SQLException e) {
@@ -97,7 +100,7 @@ public class TopHologramManager {
                 }
 
                 for (int i = it; i < 10; i++) {
-                    body.appendTextLine(Main.getInstance().getLanguageHandler()
+                    body.appendTextLine(main.getLanguageHandler()
                             .getMessage("Holograms.Top.Body.NoTime").replaceAll("%position%", "" + Integer.toString(i + 1)));
                 }
 
@@ -127,27 +130,27 @@ public class TopHologramManager {
     }
 
     public void reloadTopHolograms() {
-        if (Main.getInstance().isHologramsEnabled()) {
+        if (main.isHologramsEnabled()) {
             if (timeLeft <= 0) {
 
-                Main.getInstance().getRankingsGUI().reloadGUI();
+                main.getRankingsGUI().reloadGUI();
 
-                for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+                for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
                     if (holoBody.containsKey(parkour.getId()) && holoFooter.containsKey(parkour.getId())) {
                         Hologram body = holoBody.get(parkour.getId());
 
-                        HashMap<String, Integer> times = Main.getInstance().getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10);
+                        HashMap<String, Integer> times = main.getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10);
 
                         int it = 0;
                         for (Entry<String, Integer> entry : times.entrySet()) {
                             try {
-                                ((TextLine) body.getLine(it)).setText(Main.getInstance().getLanguageHandler()
+                                ((TextLine) body.getLine(it)).setText(main.getLanguageHandler()
                                         .getMessage("Holograms.Top.Body.Line").replaceAll("%position%", Integer.toString(it + 1))
                                         .replaceAll("%player%",
-                                                Main.getInstance().getDatabaseHandler()
+                                                main.getDatabaseHandler()
                                                         .getPlayerName(entry.getKey().toString()))
                                         .replaceAll("%time%",
-                                                Main.getInstance().getTimerManager().timeAsString(entry.getValue())));
+                                                main.getTimerManager().timeAsString(entry.getValue())));
 
                                 it++;
                             } catch (SQLException e) {
@@ -156,24 +159,24 @@ public class TopHologramManager {
                         }
 
                         for (int i = it; i < 10; i++) {
-                            ((TextLine) body.getLine(i)).setText(Main.getInstance().getLanguageHandler()
+                            ((TextLine) body.getLine(i)).setText(main.getLanguageHandler()
                                     .getMessage("Holograms.Top.Body.NoTime").replaceAll("%position%", Integer.toString(i + 1)));
                         }
 
                         holoFooter.get(parkour.getId()).setText(
-                                Main.getInstance().getLanguageHandler().getMessage("Holograms.Top.Footer.Updating"));
+                                main.getLanguageHandler().getMessage("Holograms.Top.Footer.Updating"));
                     }
                 }
 
                 restartTimeLeft();
                 return;
             }
-            for (Parkour parkour : Main.getInstance().getParkourHandler().getParkours().values()) {
+            for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
                 if (holoFooter.containsKey(parkour.getId())) {
                     holoFooter.get(parkour.getId())
-                            .setText(Main.getInstance().getLanguageHandler()
+                            .setText(main.getLanguageHandler()
                                     .getMessage("Holograms.Top.Footer.Line")
-                                    .replaceAll("%time%", Main.getInstance().getTimerManager().timeAsString(timeLeft)));
+                                    .replaceAll("%time%", main.getTimerManager().timeAsString(timeLeft)));
                 }
             }
             timeLeft--;

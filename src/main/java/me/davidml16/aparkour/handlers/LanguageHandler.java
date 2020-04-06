@@ -20,8 +20,11 @@ public class LanguageHandler {
 
 	private HashMap<String, String> messages;
 
-	public LanguageHandler(String language) {
-		new File(Main.getInstance().getDataFolder().toString() + "/language").mkdirs();
+	private Main main;
+
+	public LanguageHandler(Main main, String language) {
+		this.main = main;
+		new File(main.getDataFolder().toString() + "/language").mkdirs();
 		loadEnglish();
 		loadSpanish();
 		this.language = checkLanguage(language);
@@ -68,7 +71,7 @@ public class LanguageHandler {
 	}
 
 	public void loadEnglish() {
-		File file = new File(Main.getInstance().getDataFolder() + "/language/messages_en.yml");
+		File file = new File(main.getDataFolder() + "/language/messages_en.yml");
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
@@ -152,7 +155,7 @@ public class LanguageHandler {
 	}
 
 	public void loadSpanish() {
-		File file = new File(Main.getInstance().getDataFolder() + "/language/messages_es.yml");
+		File file = new File(main.getDataFolder() + "/language/messages_es.yml");
 		if (!file.exists()) {
 			try {
 				file.createNewFile();

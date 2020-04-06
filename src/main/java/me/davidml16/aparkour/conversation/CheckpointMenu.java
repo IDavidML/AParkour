@@ -15,8 +15,14 @@ import org.bukkit.conversations.*;
 import org.bukkit.entity.Player;
 
 public class CheckpointMenu implements ConversationAbandonedListener, CommonPrompts {
+
+    private Main main;
+    public CheckpointMenu(Main main) {
+        this.main = main;
+    }
+
     public Conversation getConversation(Player paramPlayer, Parkour parkour) {
-        Conversation conversation = (new ConversationFactory(Main.getInstance())).withModality(true).withLocalEcho(false).withFirstPrompt(new CheckpointMenuOptions()).withTimeout(3600).thatExcludesNonPlayersWithMessage("").addConversationAbandonedListener(this).buildConversation(paramPlayer);
+        Conversation conversation = (new ConversationFactory(main)).withModality(true).withLocalEcho(false).withFirstPrompt(new CheckpointMenuOptions()).withTimeout(3600).thatExcludesNonPlayersWithMessage("").addConversationAbandonedListener(this).buildConversation(paramPlayer);
         conversation.getContext().setSessionData("player", paramPlayer);
         conversation.getContext().setSessionData("parkour", parkour);
         return conversation;
@@ -46,18 +52,18 @@ public class CheckpointMenu implements ConversationAbandonedListener, CommonProm
                                 block.setType(Material.IRON_PLATE);
                             }
 
-                            Main.getInstance().getParkourHandler().loadCheckpointHologram(parkour, checkpoint);
-                            param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                            main.getParkourHandler().loadCheckpointHologram(parkour, checkpoint);
+                            param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(main.getLanguageHandler().getPrefix()
                                     + " &aAdded checkpoint &e#" + parkour.getCheckpoints().size() + " &ato parkour &e" + parkour.getId()));
-                            Main.getInstance().getCheckpointsGUI().reloadGUI(parkour.getId());
+                            main.getCheckpointsGUI().reloadGUI(parkour.getId());
                             Sounds.playSound(player, player.getLocation(), Sounds.MySound.CLICK, 10, 2);
                         } else {
-                            param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                            param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(main.getLanguageHandler().getPrefix()
                                     + " &cReached checkpoint limit (21) for parkour &e" + parkour.getId()));
                             Sounds.playSound(player, player.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
                         }
                     } else {
-                        param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                        param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(main.getLanguageHandler().getPrefix()
                                 + " &cThis checkpoint location already exist in parkour &e" + parkour.getId()));
                         Sounds.playSound(player, player.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
                     }
@@ -75,19 +81,19 @@ public class CheckpointMenu implements ConversationAbandonedListener, CommonProm
                         }
 
                         parkour.getCheckpointLocations().remove(parkour.getCheckpointLocations().size() - 1);
-                        param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                        param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(main.getLanguageHandler().getPrefix()
                                 + " &aRemoved checkpoint &e#" + (parkour.getCheckpoints().size() + 1) + " &afrom parkour &e" + parkour.getId()));
-                        Main.getInstance().getCheckpointsGUI().reloadGUI(parkour.getId());
+                        main.getCheckpointsGUI().reloadGUI(parkour.getId());
                         Sounds.playSound(player, player.getLocation(), Sounds.MySound.CLICK, 10, 2);
                     } else {
-                        param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                        param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(main.getLanguageHandler().getPrefix()
                                 + " &cThere are no checkpoints in parkour &e" + parkour.getId()));
                         Sounds.playSound(player, player.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
                     }
                     return this;
                 case "3":
                     parkour.saveParkour();
-                    param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(Main.getInstance().getLanguageHandler().getPrefix()
+                    param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(main.getLanguageHandler().getPrefix()
                             + " &aSaved data of parkour &e" + parkour.getId() + " &awithout errors!"));
                     Sounds.playSound(player, player.getLocation(), Sounds.MySound.ANVIL_USE, 10, 3);
                     return Prompt.END_OF_CONVERSATION;
@@ -110,7 +116,7 @@ public class CheckpointMenu implements ConversationAbandonedListener, CommonProm
         }
     }
 
-    public boolean checkpointExist(Parkour parkour, Location loc) {
+    private boolean checkpointExist(Parkour parkour, Location loc) {
         return parkour.getCheckpointLocations().contains(loc);
     }
 }

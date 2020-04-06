@@ -3,7 +3,6 @@ package me.davidml16.aparkour.managers;
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.utils.ActionBar;
-import me.davidml16.aparkour.utils.SoundUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -11,23 +10,28 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class PluginManager {
 
-    public static void removePlayersFromParkour() {
+    private Main main;
+    public PluginManager(Main main) {
+        this.main = main;
+    }
+
+    public void removePlayersFromParkour() {
         for (Player pl : Bukkit.getOnlinePlayers()) {
-            if(Main.getInstance().getTimerManager().hasPlayerTimer(pl)) {
-                Main.getInstance().getTimerManager().cancelTimer(pl);
-                Parkour parkour = Main.getInstance().getPlayerDataHandler().getData(pl).getParkour();
+            if(main.getTimerManager().hasPlayerTimer(pl)) {
+                main.getTimerManager().cancelTimer(pl);
+                Parkour parkour = main.getPlayerDataHandler().getData(pl).getParkour();
                 if (parkour != null) {
-                    Main.getInstance().getPlayerDataHandler().getData(pl).setParkour(null);
+                    main.getPlayerDataHandler().getData(pl).setParkour(null);
 
                     pl.setFlying(false);
                     pl.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
-                    if (Main.getInstance().getConfig().getBoolean("RestartItem.Enabled")) {
-                        Main.getInstance().getPlayerDataHandler().restorePlayerInventory(pl);
+                    if (main.getConfig().getBoolean("RestartItem.Enabled")) {
+                        main.getPlayerDataHandler().restorePlayerInventory(pl);
                     }
-                    if (Main.getInstance().getTimerManager().isActionBarEnabled()) {
+                    if (main.getTimerManager().isActionBarEnabled()) {
                         ActionBar.sendActionbar(pl, " ");
                     }
-                    SoundUtil.playFall(pl);
+                    main.getSoundUtil().playFall(pl);
 
                     pl.setNoDamageTicks(40);
                 }
@@ -35,40 +39,40 @@ public class PluginManager {
         }
     }
 
-    public static void reloadAll() {
-        Main.getInstance().setParkourItemsEnabled(Main.getInstance().getConfig().getBoolean("Items.Enabled"));
-        if (Main.getInstance().isParkourItemsEnabled()) {
-            Main.getInstance().getParkourItems().loadReturnItem();
-            Main.getInstance().getParkourItems().loadCheckpointItem();
+    public void reloadAll() {
+        main.setParkourItemsEnabled(main.getConfig().getBoolean("Items.Enabled"));
+        if (main.isParkourItemsEnabled()) {
+            main.getParkourItems().loadReturnItem();
+            main.getParkourItems().loadCheckpointItem();
         }
 
         removePlayersFromParkour();
 
-        Main.getInstance().setHologramsEnabled(Main.getInstance().getConfig().getBoolean("Hologram.Enabled"));
-        Main.getInstance().getHologramTask().stop();
-        Main.getInstance().getLanguageHandler().setLanguage(Main.getInstance().getConfig().getString("Language").toLowerCase());
-        Main.getInstance().getLanguageHandler().pushMessages();
-        Main.getInstance().getParkourHandler().loadParkours();
-        Main.getInstance().getParkourHandler().setParkourGamemode(GameMode.valueOf(Main.getInstance().getConfig().getString("ParkourGamemode")));
-        Main.getInstance().getDatabaseHandler().loadTables();
-        Main.getInstance().getPlayerDataHandler().loadAllPlayerData();
-        Main.getInstance().getPlayerDataHandler().saveAllPlayerData();
-        Main.getInstance().getRewardHandler().loadRewards();
-        Main.getInstance().getStatsHologramManager().reloadStatsHolograms();
-        Main.getInstance().getTopHologramManager().setReloadInterval(Main.getInstance().getConfig().getInt("Tasks.ReloadInterval"));
-        Main.getInstance().getTopHologramManager().restartTimeLeft();
-        Main.getInstance().getTopHologramManager().loadTopHolograms();
-        Main.getInstance().getRankingsGUI().reloadGUI();
-        Main.getInstance().getHologramTask().start();
-        Main.getInstance().getConfigGUI().loadGUI();
-        Main.getInstance().getConfigGUI().reloadAllGUI();
-        Main.getInstance().getWalkableBlocksGUI().loadGUI();
-        Main.getInstance().getWalkableBlocksGUI().reloadAllGUI();
-        Main.getInstance().getRewardsGUI().loadGUI();
-        Main.getInstance().getRewardsGUI().reloadAllGUI();
-        Main.getInstance().getCheckpointsGUI().loadGUI();
-        Main.getInstance().getCheckpointsGUI().reloadAllGUI();
-        Main.getInstance().getParkourHandler().loadHolograms();
+        main.setHologramsEnabled(main.getConfig().getBoolean("Hologram.Enabled"));
+        main.getHologramTask().stop();
+        main.getLanguageHandler().setLanguage(main.getConfig().getString("Language").toLowerCase());
+        main.getLanguageHandler().pushMessages();
+        main.getParkourHandler().loadParkours();
+        main.getParkourHandler().setParkourGamemode(GameMode.valueOf(main.getConfig().getString("ParkourGamemode")));
+        main.getDatabaseHandler().loadTables();
+        main.getPlayerDataHandler().loadAllPlayerData();
+        main.getPlayerDataHandler().saveAllPlayerData();
+        main.getRewardHandler().loadRewards();
+        main.getStatsHologramManager().reloadStatsHolograms();
+        main.getTopHologramManager().setReloadInterval(main.getConfig().getInt("Tasks.ReloadInterval"));
+        main.getTopHologramManager().restartTimeLeft();
+        main.getTopHologramManager().loadTopHolograms();
+        main.getRankingsGUI().reloadGUI();
+        main.getHologramTask().start();
+        main.getConfigGUI().loadGUI();
+        main.getConfigGUI().reloadAllGUI();
+        main.getWalkableBlocksGUI().loadGUI();
+        main.getWalkableBlocksGUI().reloadAllGUI();
+        main.getRewardsGUI().loadGUI();
+        main.getRewardsGUI().reloadAllGUI();
+        main.getCheckpointsGUI().loadGUI();
+        main.getCheckpointsGUI().reloadAllGUI();
+        main.getParkourHandler().loadHolograms();
     }
 
 }
