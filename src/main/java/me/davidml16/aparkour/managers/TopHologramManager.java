@@ -78,12 +78,7 @@ public class TopHologramManager {
                         parkour.getTopHologram().clone().add(0.5D, 1D, 0.5D));
                 footer.appendTextLine("&aUpdate: &6" + Main.getInstance().getTimerManager().timeAsString(timeLeft));
 
-                HashMap<String, Integer> times = new HashMap<String, Integer>();
-                try {
-                    times = Main.getInstance().getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                HashMap<String, Integer> times = Main.getInstance().getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10);
 
                 int it = 0;
                 for (Entry<String, Integer> entry : times.entrySet()) {
@@ -141,12 +136,7 @@ public class TopHologramManager {
                     if (holoBody.containsKey(parkour.getId()) && holoFooter.containsKey(parkour.getId())) {
                         Hologram body = holoBody.get(parkour.getId());
 
-                        HashMap<String, Integer> times = new HashMap<String, Integer>();
-                        try {
-                            times = Main.getInstance().getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                        HashMap<String, Integer> times = Main.getInstance().getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10);
 
                         int it = 0;
                         for (Entry<String, Integer> entry : times.entrySet()) {

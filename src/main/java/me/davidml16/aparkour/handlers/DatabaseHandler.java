@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import me.davidml16.aparkour.Main;
@@ -240,11 +241,10 @@ public class DatabaseHandler {
 		return times;
 	}
 	
-	public LinkedHashMap<String, Integer> getParkourBestTimes(String id, int amount) throws SQLException {
+	public LinkedHashMap<String, Integer> getParkourBestTimes(String id, int amount) {
 		LinkedHashMap<String, Integer> times = new LinkedHashMap<String, Integer>();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-
 		try {
 			ps = connection.prepareStatement("SELECT * FROM " + id + " WHERE bestTime != 0 ORDER BY bestTime ASC LIMIT " + amount + ";");
 
@@ -255,8 +255,20 @@ public class DatabaseHandler {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if(ps != null) ps.close();
-			if(rs != null) rs.close();
+			if(ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 		return times;

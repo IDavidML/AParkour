@@ -83,12 +83,7 @@ public class ParkourRanking_GUI implements Listener {
 			lore.add(ColorManager.translate("  &eParkour: &a" + parkour.getName() + "  "));
 			lore.add(" ");
 
-			HashMap<String, Integer> times = new HashMap<String, Integer>();
-			try {
-				times = Main.getInstance().getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			HashMap<String, Integer> times = Main.getInstance().getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10);
 
 			int it = 1;
 			for (Entry<String, Integer> entry : times.entrySet()) {
