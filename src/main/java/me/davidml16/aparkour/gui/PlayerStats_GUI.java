@@ -90,6 +90,7 @@ public class PlayerStats_GUI implements Listener {
 		guis.put(p.getUniqueId(), gui);
 		opened.add(p.getUniqueId());
 		p.openInventory(gui);
+		Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 100, 3);
 	}
 
 	@SuppressWarnings("deprecation")

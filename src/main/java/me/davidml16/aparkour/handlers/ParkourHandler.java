@@ -9,10 +9,7 @@ import java.util.Map;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import me.davidml16.aparkour.data.Parkour;
-import me.davidml16.aparkour.data.Plate;
-import me.davidml16.aparkour.data.Reward;
-import me.davidml16.aparkour.data.WalkableBlock;
+import me.davidml16.aparkour.data.*;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -287,6 +284,38 @@ public class ParkourHandler {
 		}
 	}
 
+	public void loadHolograms(Parkour parkour) {
+		if(parkour.getStart().isHologramEnabled()) {
+			Hologram hologram = HologramsAPI.createHologram(main,
+					parkour.getStart().getLocation().clone().add(0.5D, parkour.getStart().getHologramDistance(), 0.5D));
+			hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Start.Line1"));
+			hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Start.Line2"));
+			parkour.getStart().setHologram(hologram);
+		}
+		if(parkour.getEnd().isHologramEnabled()) {
+			Hologram hologram = HologramsAPI.createHologram(main,
+					parkour.getEnd().getLocation().clone().add(0.5D, parkour.getEnd().getHologramDistance(), 0.5D));
+			hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.End.Line1"));
+			hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.End.Line2"));
+			parkour.getEnd().setHologram(hologram);
+		}
+		if(!parkour.getCheckpoints().isEmpty()) {
+			int iterator = 1;
+			for (Plate checkpoint : parkour.getCheckpoints()) {
+				if(checkpoint.isHologramEnabled()) {
+					Hologram hologram = HologramsAPI.createHologram(main,
+							checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
+					hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
+							.replaceAll("%checkpoint%", Integer.toString(iterator)));
+					hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
+							.replaceAll("%checkpoint%", Integer.toString(iterator)));
+					checkpoint.setHologram(hologram);
+					iterator++;
+				}
+			}
+		}
+	}
+
 	public void loadCheckpointHologram(Parkour parkour, Plate checkpoint) {
 		FileConfiguration config = getConfig(parkour.getId());
 		boolean enabled = config.getBoolean("parkour.plateHolograms.checkpoints.enabled");
@@ -343,12 +372,6 @@ public class ParkourHandler {
 
 	public boolean parkourExists(String id) {
 		return parkourFiles.containsKey(id);
-	}
-
-	public boolean validParkourData(YamlConfiguration config) {
-			return config.contains("parkour.spawn")
-					&& config.contains("parkour.start")
-					&& config.contains("parkour.end");
 	}
 
 	public Parkour getParkourById(String id) {
@@ -446,12 +469,34 @@ public class ParkourHandler {
 		return checkpoints;
 	}
 
+	public boolean validParkourData(YamlConfiguration config) {
+		return config.contains("parkour.spawn")
+				&& config.contains("parkour.start")
+				&& config.contains("parkour.end");
+	}
+
 	private boolean validRewardData(String parkourID, String rewardID) {
 		FileConfiguration config = parkourConfigs.get(parkourID);
 		return config.contains("parkour.rewards." + rewardID + ".permission")
 				&& config.contains("parkour.rewards." + rewardID + ".command")
 				&& config.contains("parkour.rewards." + rewardID + ".firstTime")
 				&& config.contains("parkour.rewards." + rewardID + ".chance");
+	}
+
+	public void resetPlayer(Player p) {
+		Profile profile = main.getPlayerDataHandler().getData(p);
+
+		profile.setParkour(null);
+		profile.setLastCheckpoint(-1);
+
+		p.setFlying(false);
+		p.setFallDistance(0);
+		p.setNoDamageTicks(40);
+
+		main.getTimerManager().cancelTimer(p);
+		if (main.isParkourItemsEnabled()) {
+			main.getPlayerDataHandler().restorePlayerInventory(p);
+		}
 	}
 
 }

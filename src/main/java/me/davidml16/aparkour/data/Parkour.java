@@ -6,6 +6,7 @@ import org.bukkit.Location;
 
 import me.davidml16.aparkour.Main;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public class Parkour {
 
@@ -62,6 +63,8 @@ public class Parkour {
     public String getName() {
         return name;
     }
+
+    public void setName(String name) { this.name = name; }
 
     public Location getSpawn() {
         return spawn;
@@ -164,41 +167,42 @@ public class Parkour {
     }
 
     public void saveParkour() {
-        main.getParkourHandler().getConfig(id).set("parkour.walkableBlocks", main.getParkourHandler().getWalkableBlocksString(walkableBlocks));
+        FileConfiguration config = main.getParkourHandler().getConfig(id);
+        config.set("parkour.walkableBlocks", main.getParkourHandler().getWalkableBlocksString(walkableBlocks));
 
-        main.getParkourHandler().getConfig(id).set("parkour.rewards", new ArrayList<>());
-        if (main.getParkourHandler().getConfig(id).contains("parkour.rewards")) {
+        config.set("parkour.rewards", new ArrayList<>());
+        if (config.contains("parkour.rewards")) {
             for (Reward reward : rewards) {
-                main.getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".firstTime", reward.isFirstTime());
-                main.getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".permission", reward.getPermission());
-                main.getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".command", reward.getCommand());
-                main.getParkourHandler().getConfig(id).set("parkour.rewards." + reward.getId() + ".chance", reward.getChance());
+                config.set("parkour.rewards." + reward.getId() + ".firstTime", reward.isFirstTime());
+                config.set("parkour.rewards." + reward.getId() + ".permission", reward.getPermission());
+                config.set("parkour.rewards." + reward.getId() + ".command", reward.getCommand());
+                config.set("parkour.rewards." + reward.getId() + ".chance", reward.getChance());
             }
         }
 
-        main.getParkourHandler().getConfig(id).set("parkour.checkpoints", new ArrayList<>());
-        if (main.getParkourHandler().getConfig(id).contains("parkour.checkpoints")) {
+        config.set("parkour.checkpoints", new ArrayList<>());
+        if (config.contains("parkour.checkpoints")) {
             int iterator = 0;
             for (Plate checkpoint : checkpoints) {
-                main.getParkourHandler().getConfig(id).set("parkour.checkpoints." + iterator, checkpoint.getLocation());
+                config.set("parkour.checkpoints." + iterator, checkpoint.getLocation());
                 iterator++;
             }
         }
 
-        if (!main.getParkourHandler().getConfig(id).contains("parkour.permissionRequired")) {
-            main.getParkourHandler().getConfig(id).set("parkour.permissionRequired.enabled", false);
-            main.getParkourHandler().getConfig(id).set("parkour.permissionRequired.permission", "aparkour.permission." + id);
-            main.getParkourHandler().getConfig(id).set("parkour.permissionRequired.enabled", "&cYou dont have permission to start this parkour!");
+        if (!config.contains("parkour.permissionRequired")) {
+            config.set("parkour.permissionRequired.enabled", false);
+            config.set("parkour.permissionRequired.permission", "aparkour.permission." + id);
+            config.set("parkour.permissionRequired.enabled", "&cYou dont have permission to start this parkour!");
         }
 
-        if (!main.getParkourHandler().getConfig(id).contains("parkour.titles.start")) {
-            main.getParkourHandler().getConfig(id).set("parkour.titles.start.enabled", false);
+        if (!config.contains("parkour.titles.start")) {
+            config.set("parkour.titles.start.enabled", false);
         }
-        if (!main.getParkourHandler().getConfig(id).contains("parkour.titles.end")) {
-            main.getParkourHandler().getConfig(id).set("parkour.titles.end.enabled", false);
+        if (!config.contains("parkour.titles.end")) {
+            config.set("parkour.titles.end.enabled", false);
         }
-        if (!main.getParkourHandler().getConfig(id).contains("parkour.titles.checkpoint")) {
-            main.getParkourHandler().getConfig(id).set("parkour.titles.checkpoint.enabled", false);
+        if (!config.contains("parkour.titles.checkpoint")) {
+            config.set("parkour.titles.checkpoint.enabled", false);
         }
 
         main.getParkourHandler().saveConfig(id);

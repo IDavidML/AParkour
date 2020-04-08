@@ -48,17 +48,6 @@ public class Event_Others implements Listener {
     }
 
     @EventHandler
-    public void onTeleport(PlayerTeleportEvent e) {
-        if(main.getTimerManager().hasPlayerTimer(e.getPlayer())) {
-            if (e.getCause().equals(PlayerTeleportEvent.TeleportCause.COMMAND)
-                    || e.getCause().equals(PlayerTeleportEvent.TeleportCause.PLUGIN)
-                    || e.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL)) {
-                e.setCancelled(true);
-            }
-        }
-    }
-
-    @EventHandler
     public void onPlace(BlockPlaceEvent e) {
         if (main.getTimerManager().hasPlayerTimer(e.getPlayer())) {
             e.setCancelled(true);
@@ -131,6 +120,8 @@ public class Event_Others implements Listener {
         main.getWalkableBlocksGUI().getOpened().remove(p.getUniqueId());
         main.getRewardsGUI().getOpened().remove(p.getUniqueId());
         main.getCheckpointsGUI().getOpened().remove(p.getUniqueId());
+        main.getHologramsGUI().getOpened().remove(p.getUniqueId());
+        main.getTitlesGUI().getOpened().remove(p.getUniqueId());
 
         if (main.getTimerManager().hasPlayerTimer(e.getPlayer())) {
             main.getTimerManager().cancelTimer(e.getPlayer());
@@ -162,4 +153,18 @@ public class Event_Others implements Listener {
             }
         }
     }
+
+    @EventHandler
+    public void onCommand(PlayerCommandPreprocessEvent e) {
+        Player p = e.getPlayer();
+        if (main.getTimerManager().hasPlayerTimer(p)) {
+            String[] command = e.getMessage().split(" ");
+            command[0] = command[0].replace("/", "");
+            if (main.getBlockedCommands().contains(command[0])) {
+                e.setCancelled(true);
+                p.sendMessage(main.getLanguageHandler().getMessage("Messages.BlockedCommand"));
+            }
+        }
+    }
+
 }

@@ -1,6 +1,8 @@
 package me.davidml16.aparkour;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import me.davidml16.aparkour.api.ParkourAPI;
@@ -30,10 +32,12 @@ public class Main extends JavaPlugin {
 
     private PlayerStats_GUI statsGUI;
     private ParkourRanking_GUI rankingsGUI;
-    private ParkourConfig_GUI configGUI;
+    private MainConfig_GUI configGUI;
     private WalkableBlocks_GUI walkableBlocksGUI;
     private Rewards_GUI rewardsGUI;
     private Checkpoints_GUI checkpointsGUI;
+    private Holograms_GUI hologramsGUI;
+    private Titles_GUI titlesGUI;
 
     private HologramTask hologramTask;
     private ReturnTask returnTask;
@@ -65,6 +69,8 @@ public class Main extends JavaPlugin {
 
     private boolean hologramsEnabled;
     private boolean parkourItemsEnabled;
+
+    private List<String> blockedCommands;
 
     public void onEnable() {
         metrics = new MetricsLite(this, 6728);
@@ -120,7 +126,7 @@ public class Main extends JavaPlugin {
         rankingsGUI = new ParkourRanking_GUI(this);
         rankingsGUI.loadGUI();
 
-        configGUI = new ParkourConfig_GUI(this);
+        configGUI = new MainConfig_GUI(this);
         configGUI.loadGUI();
 
         walkableBlocksGUI = new WalkableBlocks_GUI(this);
@@ -131,6 +137,12 @@ public class Main extends JavaPlugin {
 
         checkpointsGUI = new Checkpoints_GUI(this);
         checkpointsGUI.loadGUI();
+
+        hologramsGUI = new Holograms_GUI(this);
+        hologramsGUI.loadGUI();
+
+        titlesGUI = new Titles_GUI(this);
+        titlesGUI.loadGUI();
 
         topHologramManager = new TopHologramManager(this, getConfig().getInt("Tasks.ReloadInterval"));
         topHologramManager.loadTopHolograms();
@@ -149,6 +161,8 @@ public class Main extends JavaPlugin {
         soundUtil = new SoundUtil(this);
         locationUtil = new LocationUtil(this);
         titleUtil = new TitleUtil(this);
+
+        blockedCommands = getConfig().getStringList("BlockedCommands");
 
         registerEvents();
         registerCommands();
@@ -222,7 +236,7 @@ public class Main extends JavaPlugin {
         return rankingsGUI;
     }
 
-    public ParkourConfig_GUI getConfigGUI() {
+    public MainConfig_GUI getConfigGUI() {
         return configGUI;
     }
 
@@ -237,6 +251,10 @@ public class Main extends JavaPlugin {
     public Checkpoints_GUI getCheckpointsGUI() {
         return checkpointsGUI;
     }
+
+    public Holograms_GUI getHologramsGUI() { return hologramsGUI; }
+
+    public Titles_GUI getTitlesGUI() { return titlesGUI; }
 
     public TimerManager getTimerManager() {
         return timerManager;
@@ -317,6 +335,14 @@ public class Main extends JavaPlugin {
     public LocationUtil getLocationUtil() { return locationUtil; }
 
     public TitleUtil getTitleUtil() { return titleUtil; }
+
+    public List<String> getBlockedCommands() {
+        return blockedCommands;
+    }
+
+    public void setBlockedCommands(List<String> blockedCommands) {
+        this.blockedCommands = blockedCommands;
+    }
 
     private void registerCommands() {
         getCommand("aparkour").setExecutor(new Command_AParkour(this));

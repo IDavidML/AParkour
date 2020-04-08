@@ -33,26 +33,18 @@ public class Event_Fall implements Listener {
 				Parkour parkour = main.getPlayerDataHandler().getData(p).getParkour();
 				Profile data = main.getPlayerDataHandler().getData(p);
 
-				p.setFlying(false);
-
 				if(data.getLastCheckpoint() < 0) {
-					p.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+					p.teleport(parkour.getSpawn());
 
 					String message = main.getLanguageHandler().getMessage("Messages.Return");
 					if(message.length() > 0)
 						p.sendMessage(message);
 
-					data.setParkour(null);
-					data.setLastCheckpoint(-1);
-
-					main.getTimerManager().cancelTimer(p);
-					if (main.isParkourItemsEnabled()) {
-						main.getPlayerDataHandler().restorePlayerInventory(p);
-					}
+					main.getParkourHandler().resetPlayer(p);
 
 					Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
 				} else if (data.getLastCheckpoint() >= 0) {
-					p.teleport(data.getLastCheckpointLocation(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+					p.teleport(data.getLastCheckpointLocation());
 
 					String message = main.getLanguageHandler().getMessage("Messages.ReturnCheckpoint");
 					if(message.length() > 0)

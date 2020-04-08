@@ -5,15 +5,12 @@ import me.davidml16.aparkour.api.events.ParkourCheckpointEvent;
 import me.davidml16.aparkour.api.events.ParkourReturnEvent;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.data.Profile;
-import me.davidml16.aparkour.utils.ParkourItems;
-import me.davidml16.aparkour.utils.SoundUtil;
 import me.davidml16.aparkour.utils.WalkableBlocksUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class ReturnTask {
 
@@ -45,23 +42,17 @@ public class ReturnTask {
                                 p.setFlying(false);
 
                                 if(data.getLastCheckpoint() < 0) {
-                                    p.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+                                    p.teleport(parkour.getSpawn());
 
                                     String message = main.getLanguageHandler().getMessage("Messages.Return");
                                     if(message.length() > 0)
                                         p.sendMessage(message);
 
-                                    data.setParkour(null);
-                                    data.setLastCheckpoint(-1);
-
-                                    main.getTimerManager().cancelTimer(p);
-                                    if (main.isParkourItemsEnabled()) {
-                                        main.getPlayerDataHandler().restorePlayerInventory(p);
-                                    }
+                                     main.getParkourHandler().resetPlayer(p);
 
                                     Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
                                 } else if (data.getLastCheckpoint() >= 0) {
-                                    p.teleport(data.getLastCheckpointLocation(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+                                    p.teleport(data.getLastCheckpointLocation());
 
                                     String message = main.getLanguageHandler().getMessage("Messages.ReturnCheckpoint");
                                     if(message.length() > 0)
@@ -72,6 +63,7 @@ public class ReturnTask {
 
                                 main.getSoundUtil().playReturn(p);
 
+                                p.setFallDistance(0);
                                 p.setNoDamageTicks(40);
                             }
                         });
@@ -79,21 +71,13 @@ public class ReturnTask {
                         if (main.getConfig().getBoolean("ReturnOnFly.Enabled")) {
                             Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
                                 if (main.getTimerManager().hasPlayerTimer(p)) {
-                                    p.setFlying(false);
-                                    p.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+                                    p.teleport(parkour.getSpawn());
 
                                     String message = main.getLanguageHandler().getMessage("Messages.Fly");
                                     if(message.length() > 0)
                                         p.sendMessage(message);
 
-                                    Profile data = main.getPlayerDataHandler().getData(p);
-                                    data.setParkour(null);
-                                    data.setLastCheckpoint(-1);
-
-                                    main.getTimerManager().cancelTimer(p);
-                                    if (main.isParkourItemsEnabled()) {
-                                        main.getPlayerDataHandler().restorePlayerInventory(p);
-                                    }
+                                    main.getParkourHandler().resetPlayer(p);
 
                                     main.getSoundUtil().playFly(p);
 

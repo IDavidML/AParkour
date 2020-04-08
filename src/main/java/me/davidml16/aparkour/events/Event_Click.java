@@ -39,27 +39,19 @@ public class Event_Click implements Listener {
 
                         Parkour parkour = main.getPlayerDataHandler().getData(p).getParkour();
 
-                        p.setFlying(false);
-                        p.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+                        p.teleport(parkour.getSpawn());
 
                         String message = main.getLanguageHandler().getMessage("Messages.Return");
                         if(message.length() > 0)
                             p.sendMessage(message);
 
-                        Profile data = main.getPlayerDataHandler().getData(p);
-                        data.setParkour(null);
-                        data.setLastCheckpoint(-1);
-
-                        main.getTimerManager().cancelTimer(p);
-                        if (main.isParkourItemsEnabled()) {
-                            main.getPlayerDataHandler().restorePlayerInventory(p);
-                        }
+                        main.getParkourHandler().resetPlayer(p);
 
                         main.getSoundUtil().playReturn(p);
 
                         Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
 
-                        p.setNoDamageTicks(40);
+
                     }
                 } else if (item.equals(main.getParkourItems().getCheckpointItem())) {
                     if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -69,21 +61,16 @@ public class Event_Click implements Listener {
                         Parkour parkour = main.getPlayerDataHandler().getData(p).getParkour();
 
                         if (data.getLastCheckpoint() < 0) {
-                            p.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+                            p.teleport(parkour.getSpawn());
 
                             String message = main.getLanguageHandler().getMessage("Messages.Return");
                             if(message.length() > 0)
                                 p.sendMessage(message);
 
-                            data.setParkour(null);
-                            data.setLastCheckpoint(-1);
+                            main.getParkourHandler().resetPlayer(p);
 
-                            main.getTimerManager().cancelTimer(p);
-                            if (main.isParkourItemsEnabled()) {
-                                main.getPlayerDataHandler().restorePlayerInventory(p);
-                            }
                         } else if (data.getLastCheckpoint() >= 0) {
-                            p.teleport(data.getLastCheckpointLocation(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+                            p.teleport(data.getLastCheckpointLocation());
 
                             String message = main.getLanguageHandler().getMessage("Messages.ReturnCheckpoint");
                             if(message.length() > 0)

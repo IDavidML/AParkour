@@ -54,15 +54,6 @@ public class Event_PlateEnd implements Listener {
 
 							int total = (main.getTimerManager().getTimer().get(p.getUniqueId()));
 
-							if (main.isParkourItemsEnabled()) {
-								main.getPlayerDataHandler().restorePlayerInventory(p);
-							}
-
-							main.getRewardHandler().giveParkourRewards(p, parkour.getId(), false);
-
-							data.setParkour(null);
-							data.setLastCheckpoint(-1);
-
 							main.getSoundUtil().playEnd(p);
 
 							main.getTitleUtil().sendEndTitle(p, parkour);
@@ -84,10 +75,12 @@ public class Event_PlateEnd implements Listener {
 								data.setBestTime(total, parkour.getId());
 							}
 
-							main.getTimerManager().cancelTimer(p);
+							main.getParkourHandler().resetPlayer(p);
+
+							main.getRewardHandler().giveParkourRewards(p, parkour.getId(), false);
 
 							if (main.getConfig().getBoolean("TpToParkourSpawn.Enabled")) {
-								p.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+								p.teleport(parkour.getSpawn());
 							}
 
 							if (main.getConfig().getBoolean("Firework.Enabled")) {

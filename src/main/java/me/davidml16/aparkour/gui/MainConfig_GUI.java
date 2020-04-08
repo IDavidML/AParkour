@@ -1,6 +1,9 @@
 package me.davidml16.aparkour.gui;
 
 import me.davidml16.aparkour.Main;
+import me.davidml16.aparkour.conversation.RenameMenu;
+import me.davidml16.aparkour.conversation.RewardMenu;
+import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.managers.PluginManager;
 import me.davidml16.aparkour.utils.ItemBuilder;
@@ -23,19 +26,17 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.util.*;
 
-public class ParkourConfig_GUI implements Listener {
+public class MainConfig_GUI implements Listener {
 
     private HashMap<UUID, String> opened;
     private HashMap<String, Inventory> guis;
-    private List<Integer> borders;
 
     private Main main;
 
-    public ParkourConfig_GUI(Main main) {
+    public MainConfig_GUI(Main main) {
         this.main = main;
         this.opened = new HashMap<UUID, String>();
         this.guis = new HashMap<String, Inventory>();
-        this.borders = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 17, 18, 24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44);
         this.main.getServer().getPluginManager().registerEvents(this, this.main);
     }
 
@@ -59,10 +60,6 @@ public class ParkourConfig_GUI implements Listener {
         Inventory gui = Bukkit.createInventory(null, 45, main.getLanguageHandler().getMessage("GUIs.Config.title").replaceAll("%parkour%", id));
         ItemStack edge = new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 7).setName("").toItemStack();
 
-        for (Integer i : borders) {
-            gui.setItem(i, edge);
-        }
-
         FileConfiguration config = main.getParkourHandler().getConfig(id);
 
         if(config.contains("parkour.spawn")) {
@@ -83,30 +80,14 @@ public class ParkourConfig_GUI implements Listener {
 
         if(config.contains("parkour.end")) {
             gui.setItem(12, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
-            gui.setItem(21, new ItemBuilder(Material.GOLD_PLATE, 1).setName(ColorManager.translate("&aGold plate location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
+            gui.setItem(21, new ItemBuilder(Material.GOLD_PLATE, 1).setName(ColorManager.translate("&aEnd plate location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
         } else {
             gui.setItem(12, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 8).setName(ColorManager.translate("&c&l[-]")).toItemStack());
-            gui.setItem(21, new ItemBuilder(Material.GOLD_PLATE, 1).setName(ColorManager.translate("&cGold plate location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
-        }
-
-        if(config.contains("parkour.holograms.stats")) {
-            gui.setItem(13, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
-            gui.setItem(22, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aStats hologram location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
-        } else {
-            gui.setItem(13, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 8).setName(ColorManager.translate("&c&l[-]")).toItemStack());
-            gui.setItem(22, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&cStats hologram location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
-        }
-
-        if(config.contains("parkour.holograms.top")) {
-            gui.setItem(14, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
-            gui.setItem(23, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aTop hologram location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
-        } else {
-            gui.setItem(14, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 8).setName(ColorManager.translate("&c&l[-]")).toItemStack());
-            gui.setItem(23, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&cTop hologram location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
+            gui.setItem(21, new ItemBuilder(Material.GOLD_PLATE, 1).setName(ColorManager.translate("&cEnd plate location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
         }
 
         if(main.getParkourHandler().getParkours().containsKey(id)) {
-            gui.setItem(16, new ItemBuilder(Material.PISTON_BASE, 1)
+            gui.setItem(14, new ItemBuilder(Material.PISTON_BASE, 1)
                     .setName(ColorManager.translate("&aWalkable blocks"))
                     .setLore(
                             "",
@@ -119,7 +100,19 @@ public class ParkourConfig_GUI implements Listener {
                             "",
                             ColorManager.translate("&eClick to config blocks! ")
                     ).toItemStack());
-            gui.setItem(25, new ItemBuilder(Material.BEACON, 1)
+            gui.setItem(15, new ItemBuilder(Material.ARMOR_STAND, 1)
+                    .setName(ColorManager.translate("&aHolograms"))
+                    .setLore(
+                            "",
+                            ColorManager.translate("&eClick to config holograms! ")
+                    ).toItemStack());
+            gui.setItem(16, new ItemBuilder(Material.SIGN, 1)
+                    .setName(ColorManager.translate("&aTitles"))
+                    .setLore(
+                            "",
+                            ColorManager.translate("&eClick to config titles! ")
+                    ).toItemStack());
+            gui.setItem(23, new ItemBuilder(Material.BEACON, 1)
                     .setName(ColorManager.translate("&aCheckpoints"))
                     .setLore(
                             "",
@@ -132,7 +125,7 @@ public class ParkourConfig_GUI implements Listener {
                             "",
                             ColorManager.translate("&eClick to config checkpoints! ")
                     ).toItemStack());
-            gui.setItem(34, new ItemBuilder(Material.GOLD_NUGGET, 1)
+            gui.setItem(24, new ItemBuilder(Material.GOLD_NUGGET, 1)
                     .setName(ColorManager.translate("&aRewards"))
                     .setLore(
                             "",
@@ -145,14 +138,23 @@ public class ParkourConfig_GUI implements Listener {
                             "",
                             ColorManager.translate("&eClick to config rewards! ")
                     ).toItemStack());
+            gui.setItem(25, new ItemBuilder(Material.ANVIL, 1)
+                    .setName(ColorManager.translate("&aRename parkour"))
+                    .setLore(
+                            "",
+                            ColorManager.translate("&eClick to rename parkour! ")
+                    ).toItemStack());
         } else {
             ItemStack noSetup = new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 14).setName(ColorManager.translate("&cParkour setup not valid")).toItemStack();
+            gui.setItem(14, noSetup);
+            gui.setItem(15, noSetup);
             gui.setItem(16, noSetup);
+            gui.setItem(23, noSetup);
+            gui.setItem(24, noSetup);
             gui.setItem(25, noSetup);
-            gui.setItem(34, noSetup);
         }
 
-        gui.setItem(39, new ItemBuilder(Material.BARRIER, 1)
+        gui.setItem(40, new ItemBuilder(Material.BARRIER, 1)
                 .setName(ColorManager.translate("&cParkour setup tutorial"))
                 .setLore(
                         "",
@@ -167,6 +169,12 @@ public class ParkourConfig_GUI implements Listener {
                         "",
                         ColorManager.translate("&eClick reload parkours! "))
                 .toItemStack());
+
+        for (int i = 0; i < 45; i++) {
+            if(gui.getItem(i) == null) {
+                gui.setItem(i, edge);
+            }
+        }
 
         guis.put(id, gui);
     }
@@ -200,31 +208,15 @@ public class ParkourConfig_GUI implements Listener {
 
         if(config.contains("parkour.end")) {
             gui.setItem(12, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
-            gui.setItem(21, new ItemBuilder(Material.GOLD_PLATE, 1).setName(ColorManager.translate("&aGold plate location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
+            gui.setItem(21, new ItemBuilder(Material.GOLD_PLATE, 1).setName(ColorManager.translate("&aEnd plate location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
         } else {
             gui.setItem(12, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 8).setName(ColorManager.translate("&c&l[-]")).toItemStack());
-            gui.setItem(21, new ItemBuilder(Material.GOLD_PLATE, 1).setName(ColorManager.translate("&cGold plate location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
-        }
-
-        if(config.contains("parkour.holograms.stats")) {
-            gui.setItem(13, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
-            gui.setItem(22, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aStats hologram location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
-        } else {
-            gui.setItem(13, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 8).setName(ColorManager.translate("&c&l[-]")).toItemStack());
-            gui.setItem(22, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&cStats hologram location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
-        }
-
-        if(config.contains("parkour.holograms.top")) {
-            gui.setItem(14, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
-            gui.setItem(23, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aTop hologram location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
-        } else {
-            gui.setItem(14, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 8).setName(ColorManager.translate("&c&l[-]")).toItemStack());
-            gui.setItem(23, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&cTop hologram location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
+            gui.setItem(21, new ItemBuilder(Material.GOLD_PLATE, 1).setName(ColorManager.translate("&cEnd plate location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
         }
 
         if(main.getParkourHandler().getParkours().containsKey(id)) {
-            gui.setItem(16, new ItemBuilder(Material.PISTON_BASE, 1)
-                    .setName(ColorManager.translate("&aWalkable blocks "))
+            gui.setItem(14, new ItemBuilder(Material.PISTON_BASE, 1)
+                    .setName(ColorManager.translate("&aWalkable blocks"))
                     .setLore(
                             "",
                             ColorManager.translate(" &7Open walkable blocks gui "),
@@ -236,7 +228,19 @@ public class ParkourConfig_GUI implements Listener {
                             "",
                             ColorManager.translate("&eClick to config blocks! ")
                     ).toItemStack());
-            gui.setItem(25, new ItemBuilder(Material.BEACON, 1)
+            gui.setItem(15, new ItemBuilder(Material.ARMOR_STAND, 1)
+                    .setName(ColorManager.translate("&aHolograms"))
+                    .setLore(
+                            "",
+                            ColorManager.translate("&eClick to config holograms! ")
+                    ).toItemStack());
+            gui.setItem(16, new ItemBuilder(Material.SIGN, 1)
+                    .setName(ColorManager.translate("&aTitles"))
+                    .setLore(
+                            "",
+                            ColorManager.translate("&eClick to config titles! ")
+                    ).toItemStack());
+            gui.setItem(23, new ItemBuilder(Material.BEACON, 1)
                     .setName(ColorManager.translate("&aCheckpoints"))
                     .setLore(
                             "",
@@ -249,8 +253,8 @@ public class ParkourConfig_GUI implements Listener {
                             "",
                             ColorManager.translate("&eClick to config checkpoints! ")
                     ).toItemStack());
-            gui.setItem(34, new ItemBuilder(Material.GOLD_NUGGET, 1)
-                    .setName(ColorManager.translate("&aRewards "))
+            gui.setItem(24, new ItemBuilder(Material.GOLD_NUGGET, 1)
+                    .setName(ColorManager.translate("&aRewards"))
                     .setLore(
                             "",
                             ColorManager.translate(" &7Open rewards gui and "),
@@ -261,6 +265,12 @@ public class ParkourConfig_GUI implements Listener {
                             ColorManager.translate(" &7in the GUI to remove it. "),
                             "",
                             ColorManager.translate("&eClick to config rewards! ")
+                    ).toItemStack());
+            gui.setItem(25, new ItemBuilder(Material.ANVIL, 1)
+                    .setName(ColorManager.translate("&aRename parkour"))
+                    .setLore(
+                            "",
+                            ColorManager.translate("&eClick to rename parkour! ")
                     ).toItemStack());
         }
 
@@ -273,6 +283,7 @@ public class ParkourConfig_GUI implements Listener {
         p.updateInventory();
         p.openInventory(guis.get(id));
 
+        Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 100, 3);
         Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), id), 1L);
     }
 
@@ -286,28 +297,35 @@ public class ParkourConfig_GUI implements Listener {
         if (opened.containsKey(p.getUniqueId())) {
             e.setCancelled(true);
             int slot = e.getRawSlot();
-            if ((slot >= 19 && slot <= 23)) {
+            if ((slot >= 19 && slot <= 21)) {
                 changeParkourConfig(p, slot);
-            } else if (slot == 16) {
-                if (e.getCurrentItem().getType() == Material.PISTON_BASE) {
-                    String id = opened.get(p.getUniqueId());
-                    //p.closeInventory();
-                    opened.remove(p.getUniqueId());
-                    main.getWalkableBlocksGUI().open(p, id);
-                }
-            } else if (slot == 25) {
-                if (e.getCurrentItem().getType() == Material.BEACON) {
-                    String id = opened.get(p.getUniqueId());
-                    p.closeInventory();
-                    main.getCheckpointsGUI().open(p, id);
-                }
-            } else if (slot == 34) {
-                if (e.getCurrentItem().getType() == Material.GOLD_NUGGET) {
-                    String id = opened.get(p.getUniqueId());
-                    p.closeInventory();
-                    main.getRewardsGUI().open(p, id);
-                }
-            } else if (slot == 39) {
+            } else if (slot == 14 && e.getCurrentItem().getType() == Material.PISTON_BASE) {
+                String id = opened.get(p.getUniqueId());
+                opened.remove(p.getUniqueId());
+                main.getWalkableBlocksGUI().open(p, id);
+            } else if (slot == 15 && e.getCurrentItem().getType() == Material.ARMOR_STAND) {
+                String id = opened.get(p.getUniqueId());
+                p.closeInventory();
+                main.getHologramsGUI().open(p, id);
+            } else if (slot == 16 && e.getCurrentItem().getType() == Material.SIGN) {
+                String id = opened.get(p.getUniqueId());
+                p.closeInventory();
+                main.getTitlesGUI().open(p, id);
+            } else if (slot == 23 && e.getCurrentItem().getType() == Material.BEACON) {
+                String id = opened.get(p.getUniqueId());
+                p.closeInventory();
+                main.getCheckpointsGUI().open(p, id);
+            } else if (slot == 24 && e.getCurrentItem().getType() == Material.GOLD_NUGGET) {
+                String id = opened.get(p.getUniqueId());
+                p.closeInventory();
+                main.getRewardsGUI().open(p, id);
+            } else if (slot == 25 && e.getCurrentItem().getType() == Material.ANVIL) {
+                String id = opened.get(p.getUniqueId());
+                Parkour parkour = main.getParkourHandler().getParkourById(id);
+                p.closeInventory();
+                new RenameMenu(main).getConversation(p, parkour).begin();
+                Sounds.playSound(p, p.getLocation(), Sounds.MySound.ANVIL_USE, 100, 3);
+            } else if (slot == 40) {
                 if (e.getCurrentItem().getType() == Material.BARRIER) {
                     main.getPluginManager().reloadAll();
                     Sounds.playSound(p, p.getLocation(), Sounds.MySound.ANVIL_USE, 100, 3);
@@ -338,19 +356,11 @@ public class ParkourConfig_GUI implements Listener {
             case 21:
                 main.getLocationUtil().setPosition(p, id, "end");
                 break;
-            case 22:
-                main.getLocationUtil().setHologram(p, id, "stats");
-                break;
-            case 23:
-                main.getLocationUtil().setHologram(p, id, "top");
-                break;
             default:
                 break;
         }
 
-        if (slot != 25) {
-            Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 100, 3);
-        }
+        Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 100, 3);
 
         reloadGUI(id);
     }

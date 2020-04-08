@@ -21,6 +21,12 @@ MySQL:
 ParkourGamemode: 'ADVENTURE'
 
 
+BlockedCommands:
+    - 'home'
+    - 'sethome'
+    - 'spawn'
+
+
 TpToParkourSpawn:
     Enabled: false
 

@@ -40,7 +40,6 @@ public class TabCompleter_AParkour implements TabCompleter {
 			if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
 				list.add("create");
 				list.add("remove");
-				list.add("set");
 				list.add("setup");
 				list.add("reload");
 			}
@@ -54,23 +53,6 @@ public class TabCompleter_AParkour implements TabCompleter {
 			if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
 				for (File file : Objects.requireNonNull(new File(main.getDataFolder(), "parkours").listFiles())) {
 					list.add(file.getName().toLowerCase().replace(".yml", ""));
-				}
-			}
-		} else if (args[0].equalsIgnoreCase("set")) {
-			if (args.length == 3) {
-				if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
-					list.add("name");
-					list.add("spawn");
-					list.add("start");
-					list.add("end");
-					list.add("stats");
-					list.add("top");
-				}
-			} else {
-				if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
-					for (File file : Objects.requireNonNull(new File(main.getDataFolder(), "parkours").listFiles())) {
-						list.add(file.getName().toLowerCase().replace(".yml", ""));
-					}
 				}
 			}
 		}

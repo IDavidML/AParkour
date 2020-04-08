@@ -96,6 +96,8 @@ public class LanguageHandler {
 		msgDefaults.put("GUIs.WalkableBlocks.title", "%parkour% | Blocks");
 		msgDefaults.put("GUIs.Rewards.title", "%parkour% | Rewards");
 		msgDefaults.put("GUIs.Checkpoints.title", "%parkour% | Checkpoints");
+		msgDefaults.put("GUIs.Holograms.title", "%parkour% | Holograms");
+		msgDefaults.put("GUIs.Titles.title", "%parkour% | Titles");
 
 		msgDefaults.put("Times.Hours", "hours");
 		msgDefaults.put("Times.Hour", "hour");
@@ -123,6 +125,7 @@ public class LanguageHandler {
 		msgDefaults.put("Holograms.Plates.Checkpoint.Line2", "&f#%checkpoint%");
 
 		msgDefaults.put("Messages.NotInParkour", "&cYour are not in any parkour..");
+		msgDefaults.put("Messages.BlockedCommand", "&cYou can't execute this command in parkour.");
 		msgDefaults.put("Messages.Started", "&aStarted parkour! Get to the end as quick as possible.");
 		msgDefaults.put("Messages.Fly", "&cYou can not fly when you are in parkour.");
 		msgDefaults.put("Messages.Return", "&6Returning to beginning of parkour...");
@@ -180,6 +183,8 @@ public class LanguageHandler {
 		msgDefaults.put("GUIs.WalkableBlocks.title", "%parkour% | Bloques");
 		msgDefaults.put("GUIs.Rewards.title", "%parkour% | Recompensas");
 		msgDefaults.put("GUIs.Checkpoints.title", "%parkour% | Checkpoints");
+		msgDefaults.put("GUIs.Holograms.title", "%parkour% | Hologramas");
+		msgDefaults.put("GUIs.Titles.title", "%parkour% | Títulos");
 
 		msgDefaults.put("Times.Hours", "horas");
 		msgDefaults.put("Times.Hour", "hora");
@@ -207,6 +212,7 @@ public class LanguageHandler {
 		msgDefaults.put("Holograms.Plates.Checkpoint.Line2", "&f#%checkpoint%");
 
 		msgDefaults.put("Messages.NotInParkour", "&cNo estás dentro de ningún parkour..");
+		msgDefaults.put("Messages.BlockedCommand", "&cNo puedes ejecutar ese comando mientras estás en el parkour");
 		msgDefaults.put("Messages.Started", "&aParkour iniciado! Llega al final lo más rapido que puedeas.");
 		msgDefaults.put("Messages.Fly", "&cNo puedes volar cuando estas en el parkour.");
 		msgDefaults.put("Messages.Return", "&6Volviendo al inicio del parkour...");

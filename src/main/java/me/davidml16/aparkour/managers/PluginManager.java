@@ -24,7 +24,7 @@ public class PluginManager {
                     main.getPlayerDataHandler().getData(pl).setParkour(null);
 
                     pl.setFlying(false);
-                    pl.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+                    pl.teleport(parkour.getSpawn());
                     if (main.getConfig().getBoolean("RestartItem.Enabled")) {
                         main.getPlayerDataHandler().restorePlayerInventory(pl);
                     }
@@ -48,6 +48,7 @@ public class PluginManager {
 
         removePlayersFromParkour();
 
+        main.setBlockedCommands(main.getConfig().getStringList("BlockedCommands"));
         main.setHologramsEnabled(main.getConfig().getBoolean("Hologram.Enabled"));
         main.getHologramTask().stop();
         main.getLanguageHandler().setLanguage(main.getConfig().getString("Language").toLowerCase());
@@ -72,6 +73,10 @@ public class PluginManager {
         main.getRewardsGUI().reloadAllGUI();
         main.getCheckpointsGUI().loadGUI();
         main.getCheckpointsGUI().reloadAllGUI();
+        main.getHologramsGUI().loadGUI();
+        main.getHologramsGUI().reloadAllGUI();
+        main.getTitlesGUI().loadGUI();
+        main.getTitlesGUI().reloadAllGUI();
         main.getParkourHandler().loadHolograms();
     }
 

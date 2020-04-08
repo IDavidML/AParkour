@@ -157,6 +157,7 @@ public class Checkpoints_GUI implements Listener {
         p.updateInventory();
         p.openInventory(guis.get(id));
 
+        Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 100, 3);
         Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), id), 1L);
     }
 

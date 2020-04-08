@@ -6,17 +6,13 @@ import me.davidml16.aparkour.api.events.ParkourReturnEvent;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.data.Profile;
 import me.davidml16.aparkour.managers.ColorManager;
-import me.davidml16.aparkour.managers.PluginManager;
 import me.davidml16.aparkour.utils.ActionBar;
-import me.davidml16.aparkour.utils.LocationUtil;
-import me.davidml16.aparkour.utils.SoundUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -173,7 +169,7 @@ public class Command_AParkour implements CommandExecutor {
             Parkour parkour = main.getPlayerDataHandler().getData(p).getParkour();
             if (main.getTimerManager().hasPlayerTimer(p)) {
                 p.setFlying(false);
-                p.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+                p.teleport(parkour.getSpawn());
 
                 String message = main.getLanguageHandler().getMessage("Messages.Return");
                 if(message.length() > 0)
@@ -207,7 +203,7 @@ public class Command_AParkour implements CommandExecutor {
                 Parkour parkour = main.getPlayerDataHandler().getData(p).getParkour();
 
                 if (data.getLastCheckpoint() < 0) {
-                    p.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+                    p.teleport(parkour.getSpawn());
 
                     String message = main.getLanguageHandler().getMessage("Messages.Return");
                     if(message.length() > 0)
@@ -222,7 +218,7 @@ public class Command_AParkour implements CommandExecutor {
                     }
                     Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
                 } else if (data.getLastCheckpoint() >= 0) {
-                    p.teleport(data.getLastCheckpointLocation(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+                    p.teleport(data.getLastCheckpointLocation());
                     String message = main.getLanguageHandler().getMessage("Messages.ReturnCheckpoint");
                     if(message.length() > 0)
                         p.sendMessage(message.replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1)));
@@ -270,7 +266,7 @@ public class Command_AParkour implements CommandExecutor {
                         main.getPlayerDataHandler().getData(pl).setParkour(null);
 
                         pl.setFlying(false);
-                        pl.teleport(parkour.getSpawn(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+                        pl.teleport(parkour.getSpawn());
                         if (main.getConfig().getBoolean("RestartItem.Enabled")) {
                             main.getPlayerDataHandler().restorePlayerInventory(pl);
                         }
@@ -334,71 +330,8 @@ public class Command_AParkour implements CommandExecutor {
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("set")) {
-            if (!main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
-                String message = main.getLanguageHandler().getMessage("Commands.NoPerms");
-                if(message.length() > 0)
-                    p.sendMessage(message);
-                return false;
-            }
-
-            if (args.length == 1 || args.length == 2) {
-                p.sendMessage(ColorManager.translate(main.getLanguageHandler().getPrefix()
-                        + " &cUsage: /aparkour set [id] [name,spawn,start,end,stats,top]"));
-                return true;
-            }
-
-            String id = args[1];
-            if (!main.getParkourHandler().getParkourConfigs().containsKey(id)) {
-                p.sendMessage(ColorManager.translate(
-                        main.getLanguageHandler().getPrefix() + " &cThis parkour doesn't exists!"));
-                return true;
-            }
-
-            if (args[2].equalsIgnoreCase("name")) {
-                if (args.length == 3) {
-                    p.sendMessage(ColorManager.translate(main.getLanguageHandler().getPrefix()
-                            + " &cUsage: /aparkour set [id] name newName"));
-                    return true;
-                }
-
-                String name = args[3];
-                main.getParkourHandler().getConfig(id).set("parkours." + id + ".name", name);
-                main.getParkourHandler().saveConfig(id);
-                p.sendMessage(ColorManager.translate(main.getLanguageHandler().getPrefix()
-                        + " &aSuccesfully renamed parkour &e" + id + " &awith the new name &e" + name));
-                return true;
-            }
-
-            if (args[2].equalsIgnoreCase("spawn")) {
-                main.getLocationUtil().setPosition(p, id, "spawn");
-                return true;
-            }
-
-            if (args[2].equalsIgnoreCase("start")) {
-                main.getLocationUtil().setPosition(p, id, "start");
-                return true;
-            }
-
-            if (args[2].equalsIgnoreCase("end")) {
-                main.getLocationUtil().setPosition(p, id, "end");
-                return true;
-            }
-
-            if (args[2].equalsIgnoreCase("stats")) {
-                main.getLocationUtil().setHologram(p, id, "stats");
-                return true;
-            }
-
-            if (args[2].equalsIgnoreCase("top")) {
-                main.getLocationUtil().setHologram(p, id, "top");
-                return true;
-            }
-
-            p.sendMessage(ColorManager.translate(main.getLanguageHandler().getPrefix()
-                    + " &cUsage: /aparkour set [id] [name, spawn, start, end, stats, top]"));
-            return true;
-        }
+        p.sendMessage(ColorManager.translate(
+                main.getLanguageHandler().getPrefix() + " &cInvalid argument, use /aparkour to see available commands"));
         return false;
     }
 
@@ -428,7 +361,6 @@ public class Command_AParkour implements CommandExecutor {
         if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
             p.sendMessage(ColorManager.translate("&7 - &a/aparkour create [id] [name]"));
             p.sendMessage(ColorManager.translate("&7 - &a/aparkour remove [id]"));
-            p.sendMessage(ColorManager.translate("&7 - &a/aparkour set [id] [name, spawn, start, end, stats, top]"));
             p.sendMessage(ColorManager.translate("&7 - &a/aparkour setup [id]"));
             p.sendMessage(ColorManager.translate("&7 - &a/aparkour reload"));
             p.sendMessage("");

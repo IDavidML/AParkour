@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
+import javafx.util.Pair;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
@@ -147,4 +148,5 @@ public class Profile {
 	public void setLastCheckpointLocation(Location lastCheckpointLocation) {
 		this.lastCheckpointLocation = lastCheckpointLocation;
 	}
+
 }

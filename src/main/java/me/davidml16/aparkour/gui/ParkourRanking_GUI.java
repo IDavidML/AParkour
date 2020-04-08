@@ -114,8 +114,9 @@ public class ParkourRanking_GUI implements Listener {
 
 	public void open(Player p) {
 		p.updateInventory();
-
 		p.openInventory(this.gui);
+
+		Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 100, 3);
 		opened.add(p.getUniqueId());
 	}
 
