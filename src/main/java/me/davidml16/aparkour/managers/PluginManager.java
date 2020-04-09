@@ -2,6 +2,7 @@ package me.davidml16.aparkour.managers;
 
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.enums.CommandBlockType;
 import me.davidml16.aparkour.utils.ActionBar;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -48,7 +49,8 @@ public class PluginManager {
 
         removePlayersFromParkour();
 
-        main.setBlockedCommands(main.getConfig().getStringList("BlockedCommands"));
+        main.getCommandBlocker().setCommands(main.getConfig().getStringList("CommandBlocker.Commands"));
+        main.getCommandBlocker().setType(CommandBlockType.valueOf(main.getConfig().getString("CommandBlocker.Type").toUpperCase()));
         main.setHologramsEnabled(main.getConfig().getBoolean("Hologram.Enabled"));
         main.getHologramTask().stop();
         main.getLanguageHandler().setLanguage(main.getConfig().getString("Language").toLowerCase());

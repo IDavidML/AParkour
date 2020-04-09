@@ -2,6 +2,7 @@ package me.davidml16.aparkour.events;
 
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.enums.CommandBlockType;
 import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.utils.ParkourItems;
 import me.davidml16.aparkour.utils.Sounds;
@@ -160,9 +161,16 @@ public class Event_Others implements Listener {
         if (main.getTimerManager().hasPlayerTimer(p)) {
             String[] command = e.getMessage().split(" ");
             command[0] = command[0].replace("/", "");
-            if (main.getBlockedCommands().contains(command[0])) {
-                e.setCancelled(true);
-                p.sendMessage(main.getLanguageHandler().getMessage("Messages.BlockedCommand"));
+            if (main.getCommandBlocker().getType() == CommandBlockType.BLACKLIST) {
+                if (main.getCommandBlocker().getCommands().contains(command[0])) {
+                    e.setCancelled(true);
+                    p.sendMessage(main.getLanguageHandler().getMessage("Messages.BlockedCommand"));
+                }
+            } else if (main.getCommandBlocker().getType() == CommandBlockType.WHITELIST) {
+                if (!main.getCommandBlocker().getCommands().contains(command[0])) {
+                    e.setCancelled(true);
+                    p.sendMessage(main.getLanguageHandler().getMessage("Messages.BlockedCommand"));
+                }
             }
         }
     }

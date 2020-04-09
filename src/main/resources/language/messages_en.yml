@@ -1,0 +1,98 @@
+# 
+# 
+# This is the messsages file.
+# You can change any messages that are in this file
+# 
+# If you want to reset a message back to the default,
+# delete the entire line the message is on and restart the server.
+# 	
+#
+
+Prefix: '&9&lAParkour &l&o&f>>&r'
+
+Commands:
+  NoPerms: '%prefix% &cYou dont have permissions to use this command!'
+  NoStats: '%prefix% &cYou dont haves statistics at this moment!'
+  NoParkours: '%prefix% &cAny parkour created at this moment!'
+  Reload: '%prefix% &aPlugin reloaded with no errors!'
+  Prueba: 'PRUEBA'
+GUIs:
+  Stats:
+    title: 'Parkour Statistics'
+  Top:
+    title: 'Parkour Top Players'
+  Config:
+    title: '%parkour% | Configuration'
+  WalkableBlocks:
+    title: '%parkour% | Blocks'
+  Rewards:
+    title: '%parkour% | Rewards'
+  Checkpoints:
+    title: '%parkour% | Checkpoints'
+  Holograms:
+    title: '%parkour% | Holograms'
+  Titles:
+    title: '%parkour% | Titles'
+
+Times:
+  Hours: hours
+  Hour: hour
+  Minutes: minutes
+  Minute: minute
+  Seconds: seconds
+  Second: second
+  NoBestTime: N/A
+
+Timer:
+  ActionBar: '&e&lCurrent Time: &6%currentTime% &7- &e&lBest Time: &6%bestTime%'
+
+Holograms:
+  Stats:
+    Line1: '&a%player%''s %parkour% parkour stats'
+    Line2: '&aBest time&7: &6%time%'
+  Top:
+    Header:
+      Line1: '&a&lTOP PARKOUR TIMES'
+      Line2: '&7- %parkour% -'
+    Body:
+      Line: '&e%position%. &a%player% &7- &6%time%'
+      NoTime: '&e%position%. &cN/A'
+    Footer:
+      Line: '&aUpdating: &6%time%'
+      Updating: '&aUpdating: &cLoading...'
+  Plates:
+    Start:
+      Line1: '&e&lParkour Challenge'
+      Line2: '&fStart here!'
+    End:
+      Line1: '&e&lParkour Challenge'
+      Line2: '&fFinish here!'
+    Checkpoint:
+      Line1: '&e&lCheckpoint'
+      Line2: '&f#%checkpoint%'
+
+Messages:
+  NotInParkour: '&cYour are not in any parkour..'
+  BlockedCommand: '&cYou can''t execute this command in parkour.'
+  Started: '&aStarted parkour! Get to the end as quick as possible.'
+  Fly: '&cYou can not fly when you are in parkour.'
+  Return: '&6Returning to beginning of parkour...'
+  Checkpoint: '&aYou reached checkpoint &e#%checkpoint% &ain &e%time%.'
+  ReturnCheckpoint: '&6Returning to checkpoint &e#%checkpoint%'
+  NeedCheckpoint: '&cYou first need to reach previous checkpoints to end parkour.'
+
+EndMessage:
+  FirstTime: '&6You completed this parkour for the first time!'
+  Normal: '&6You completed the parkour in &d%endTime%'
+  Record: '&6You beat your previous best time by &d%recordTime%'
+
+Titles:
+  Start:
+    Title: '&e&lPARKOUR CHALLENGE'
+    Subtitle: '&f&lSTARTED'
+  Checkpoint:
+    Title: '&e&lCHECKPOINT'
+    Subtitle: '&f&l#%checkpoint%'
+  End:
+    Title: '&e&lPARKOUR CHALLENGE'
+    Subtitle: '&f&lFINISHED'

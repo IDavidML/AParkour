@@ -6,9 +6,12 @@
 #-------------------------#
 
 
+# LANGUAGE OF THE PLUGIN
+# AVAILABLES BY DEFAULT: EN, ES
 Language: EN
 
 
+# DATABASE DETAILS
 MySQL:
     Enabled: false
     Host: localhost
@@ -18,36 +21,50 @@ MySQL:
     Database: aparkour
 
 
+# PLAYER GAMEMODE WHILE PLAYING IN PARKOUR
 ParkourGamemode: 'ADVENTURE'
 
 
-BlockedCommands:
-    - 'home'
-    - 'sethome'
-    - 'spawn'
+#-----------------------------------------------------------#
+#   COMMAND BLOCKER TYPES:                                  #
+#       - "blacklist": block all commands in the list       #
+#       - "whitelist": only allow commands in the list      #
+#-----------------------------------------------------------#
+CommandBlocker:
+    Type: "whitelist"
+    Commands:
+        - 'aparkour'
+        - 'apk'
+        - 'pk'
 
 
+# RETURN TO SPAWN ON PARKOUR END
 TpToParkourSpawn:
     Enabled: false
 
 
+# LAUNCH FIREWORK ON PARKOUR END
 Firework:
     Enabled: true
 
 
+# RETURN TO SPAWN WHEN PLAYER FLY
 ReturnOnFly:
     Enabled: true
 
 
+# RETURN TO SPAWN/CHECKPOINT IF YOU FALL OF SPECIFIED BLOCKS
 ReturnOnFall:
     Enabled: false
     BlocksDistance: 5
 
 
+# ACTION BAR TIMER WHILE PLAYING PARKOUR
 ActionBarTimer:
     Enabled: true
 
 
+# PARKOUR ITEMS | IF YOU HAVE DISABLED, THE INVENTORY DON'T CLEAR
 Items:
     Enabled: true
     Restart:
@@ -60,14 +77,17 @@ Items:
         Lore: '&7Return to your last checkpoint of the course!'
 
 
+# ENABLE HOLOGRAMS, YOU NEED DEPENDENCIES
 Hologram:
     Enabled: true
 
 
+# RELOAD INTERVAL OF TOP HOLOGRAM AND TOP GUI
 Tasks:
     ReloadInterval: 120
 
 
+# SOUNDS OF PARKOUR EVENTS
 Sounds:
     ParkourStart:
         Enabled: true

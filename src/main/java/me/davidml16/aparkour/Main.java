@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.UUID;
 
 import me.davidml16.aparkour.api.ParkourAPI;
+import me.davidml16.aparkour.data.CommandBlocker;
+import me.davidml16.aparkour.enums.CommandBlockType;
 import me.davidml16.aparkour.events.*;
 import me.davidml16.aparkour.gui.*;
 import me.davidml16.aparkour.handlers.*;
@@ -63,14 +65,14 @@ public class Main extends JavaPlugin {
 
     private ParkourItems parkourItems;
 
+    private CommandBlocker commandBlocker;
+
     private MetricsLite metrics;
 
     private ParkourAPI parkourAPI;
 
     private boolean hologramsEnabled;
     private boolean parkourItemsEnabled;
-
-    private List<String> blockedCommands;
 
     public void onEnable() {
         metrics = new MetricsLite(this, 6728);
@@ -162,7 +164,9 @@ public class Main extends JavaPlugin {
         locationUtil = new LocationUtil(this);
         titleUtil = new TitleUtil(this);
 
-        blockedCommands = getConfig().getStringList("BlockedCommands");
+        commandBlocker = new CommandBlocker();
+        commandBlocker.setCommands(getConfig().getStringList("CommandBlocker.Commands"));
+        commandBlocker.setType(CommandBlockType.valueOf(getConfig().getString("CommandBlocker.Type").toUpperCase()));
 
         registerEvents();
         registerCommands();
@@ -336,13 +340,7 @@ public class Main extends JavaPlugin {
 
     public TitleUtil getTitleUtil() { return titleUtil; }
 
-    public List<String> getBlockedCommands() {
-        return blockedCommands;
-    }
-
-    public void setBlockedCommands(List<String> blockedCommands) {
-        this.blockedCommands = blockedCommands;
-    }
+    public CommandBlocker getCommandBlocker() { return commandBlocker; }
 
     private void registerCommands() {
         getCommand("aparkour").setExecutor(new Command_AParkour(this));
