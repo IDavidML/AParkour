@@ -182,9 +182,7 @@ public class Rewards_GUI implements Listener {
                 new RewardMenu(main).getConversation(p, parkour).begin();
                 Sounds.playSound(p, p.getLocation(), Sounds.MySound.ANVIL_USE, 100, 3);
             } else if (slot == 41) {
-                if (parkour.getRewards().size() < 21) {
-                    main.getConfigGUI().open(p, parkour.getId());
-                }
+                main.getConfigGUI().open(p, parkour.getId());
             } else if ((slot >= 10 && slot <= 16) || (slot >= 19 && slot <= 25) || (slot >= 28 && slot <= 34)) {
                 if (e.getCurrentItem().getType() == Material.AIR) return;
 
