@@ -71,6 +71,7 @@ public class RewardMenu implements ConversationAbandonedListener, CommonPrompts 
                             Sounds.playSound((Player) param1ConversationContext.getSessionData("player"),
                                     ((Player) param1ConversationContext.getSessionData("player")).getLocation(), Sounds.MySound.ANVIL_USE, 10, 3);
                             main.getRewardsGUI().reloadGUI(parkour.getId());
+                            main.getRewardsGUI().open((Player) param1ConversationContext.getSessionData("player"), parkour.getId());
                             return Prompt.END_OF_CONVERSATION;
                         } else {
                             return new CommonPrompts.ErrorPrompt(main, this, "\n" + ChatColor.RED + "  There is already a reward with that ID, please change it and try again\n  Write anything to continue\n ");

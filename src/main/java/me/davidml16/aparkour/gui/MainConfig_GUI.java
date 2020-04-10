@@ -318,6 +318,7 @@ public class MainConfig_GUI implements Listener {
             } else if (slot == 25 && e.getCurrentItem().getType() == Material.ANVIL) {
                 String id = opened.get(p.getUniqueId());
                 Parkour parkour = main.getParkourHandler().getParkourById(id);
+                p.closeInventory();
                 new RenameMenu(main).getConversation(p, parkour).begin();
                 Sounds.playSound(p, p.getLocation(), Sounds.MySound.ANVIL_USE, 100, 3);
             } else if (slot == 40) {

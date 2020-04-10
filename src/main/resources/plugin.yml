@@ -2,7 +2,8 @@ name: AParkour
 version: ${project.version}
 author: DavidML16
 main: me.davidml16.aparkour.Main
-softdepend: [HolographicDisplays, ProtocolLib]
+load: POSTWORLD
+softdepend: [HolographicDisplays, ProtocolLib, PlaceholderAPI]
 commands:
     aparkour:
         description: Use this to see all commands.

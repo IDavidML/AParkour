@@ -102,40 +102,50 @@ public class Event_Others implements Listener {
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent e) throws SQLException {
+    public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        main.getPlayerDataHandler().loadPlayerData(p);
-        main.getDatabaseHandler().updatePlayerName(p);
-        main.getStatsHologramManager().loadStatsHolograms(p);
+        Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+            main.getPlayerDataHandler().loadPlayerData(p);
+            try {
+                main.getDatabaseHandler().updatePlayerName(p);
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            Bukkit.getScheduler().runTask(main , () -> {
+                main.getStatsHologramManager().loadStatsHolograms(p);
+            });
+        });
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
 
-        main.getStatsHologramManager().removeStatsHolograms(p);
-        main.getStatsGUI().getOpened().remove(p.getUniqueId());
-        main.getStatsGUI().getGuis().remove(p.getUniqueId());
-        main.getRankingsGUI().getOpened().remove(p.getUniqueId());
-        main.getConfigGUI().getOpened().remove(p.getUniqueId());
-        main.getWalkableBlocksGUI().getOpened().remove(p.getUniqueId());
-        main.getRewardsGUI().getOpened().remove(p.getUniqueId());
-        main.getCheckpointsGUI().getOpened().remove(p.getUniqueId());
-        main.getHologramsGUI().getOpened().remove(p.getUniqueId());
-        main.getTitlesGUI().getOpened().remove(p.getUniqueId());
+        Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+            main.getStatsHologramManager().removeStatsHolograms(p);
+            main.getStatsGUI().getOpened().remove(p.getUniqueId());
+            main.getStatsGUI().getGuis().remove(p.getUniqueId());
+            main.getRankingsGUI().getOpened().remove(p.getUniqueId());
+            main.getConfigGUI().getOpened().remove(p.getUniqueId());
+            main.getWalkableBlocksGUI().getOpened().remove(p.getUniqueId());
+            main.getRewardsGUI().getOpened().remove(p.getUniqueId());
+            main.getCheckpointsGUI().getOpened().remove(p.getUniqueId());
+            main.getHologramsGUI().getOpened().remove(p.getUniqueId());
+            main.getTitlesGUI().getOpened().remove(p.getUniqueId());
 
-        if (main.getTimerManager().hasPlayerTimer(e.getPlayer())) {
-            main.getTimerManager().cancelTimer(e.getPlayer());
+            if (main.getTimerManager().hasPlayerTimer(e.getPlayer())) {
+                main.getTimerManager().cancelTimer(e.getPlayer());
 
-            main.getPlayerDataHandler().getData(p).setParkour(null);
+                main.getPlayerDataHandler().getData(p).setParkour(null);
 
-            if (main.isParkourItemsEnabled()) {
-                main.getPlayerDataHandler().restorePlayerInventory(p);
+                if (main.isParkourItemsEnabled()) {
+                    main.getPlayerDataHandler().restorePlayerInventory(p);
+                }
             }
-        }
 
-        main.getPlayerDataHandler().getData(p).save();
-        main.getPlayerDataHandler().getPlayersData().remove(p.getUniqueId());
+            main.getPlayerDataHandler().getData(p).save();
+            main.getPlayerDataHandler().getPlayersData().remove(p.getUniqueId());
+        });
     }
 
     @EventHandler

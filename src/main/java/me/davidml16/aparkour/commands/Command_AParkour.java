@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -138,6 +139,51 @@ public class Command_AParkour implements CommandExecutor {
                         main.getLanguageHandler().getPrefix() + " &cThe parkour id cannot start with a number, use for example 'p1'."));
                 return false;
             }
+        }
+
+        if (args[0].equalsIgnoreCase("reset")) {
+            if (!main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
+                String message = main.getLanguageHandler().getMessage("Commands.NoPerms");
+                if(message.length() > 0)
+                    p.sendMessage(message);
+                return false;
+            }
+
+            if (args.length == 1 || args.length == 2) {
+                p.sendMessage(ColorManager.translate(
+                        main.getLanguageHandler().getPrefix() + " &cUsage: /aparkour reset [player] [parkourID]"));
+                return false;
+            }
+
+            String player = args[1];
+            Player target = Bukkit.getPlayer(player);
+
+            if(target == null || !target.isOnline()) {
+                p.sendMessage(ColorManager.translate(
+                        main.getLanguageHandler().getPrefix() + " &cThis player is not online!"));
+                return false;
+            }
+
+            String id = args[2];
+            if (!main.getParkourHandler().getParkourConfigs().containsKey(id)) {
+                p.sendMessage(ColorManager.translate(
+                        main.getLanguageHandler().getPrefix() + " &cThis parkour doesn't exists!"));
+                return true;
+            }
+
+            main.getPlayerDataHandler().getData(target).setLastTime(0, id);
+            main.getPlayerDataHandler().getData(target).setBestTime(0, id);
+            try {
+                main.getDatabaseHandler().setTimes(target.getUniqueId(), 0, 0, id);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            main.getStatsHologramManager().reloadStatsHologram(target, id);
+
+            p.sendMessage(ColorManager.translate(
+                    main.getLanguageHandler().getPrefix() + " &aSuccesfully reseted times of parkour &e" + id + " &ato player &e" + target.getName()));
+
+            return true;
         }
 
         if (args[0].equalsIgnoreCase("setup")) {
@@ -360,6 +406,7 @@ public class Command_AParkour implements CommandExecutor {
         p.sendMessage("");
         if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
             p.sendMessage(ColorManager.translate("&7 - &a/aparkour create [id] [name]"));
+            p.sendMessage(ColorManager.translate("&7 - &a/aparkour reset [player] [id]"));
             p.sendMessage(ColorManager.translate("&7 - &a/aparkour remove [id]"));
             p.sendMessage(ColorManager.translate("&7 - &a/aparkour setup [id]"));
             p.sendMessage(ColorManager.translate("&7 - &a/aparkour reload"));

@@ -90,6 +90,7 @@ public class CheckpointMenu implements ConversationAbandonedListener, CommonProm
                     param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(main.getLanguageHandler().getPrefix()
                             + " &aSaved data of parkour &e" + parkour.getId() + " &awithout errors!"));
                     Sounds.playSound(player, player.getLocation(), Sounds.MySound.ANVIL_USE, 10, 3);
+                    main.getCheckpointsGUI().open(player, parkour.getId());
                     return Prompt.END_OF_CONVERSATION;
             }
             return null;

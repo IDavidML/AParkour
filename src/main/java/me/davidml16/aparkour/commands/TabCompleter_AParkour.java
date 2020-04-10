@@ -42,6 +42,7 @@ public class TabCompleter_AParkour implements TabCompleter {
 				list.add("remove");
 				list.add("setup");
 				list.add("reload");
+				list.add("reset");
 			}
 		} else if (args[0].equalsIgnoreCase("remove")) {
 			if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
@@ -55,7 +56,22 @@ public class TabCompleter_AParkour implements TabCompleter {
 					list.add(file.getName().toLowerCase().replace(".yml", ""));
 				}
 			}
+		} else if (args[0].equalsIgnoreCase("reset")) {
+			if (args.length == 2) {
+				if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
+					for (Player target : main.getServer().getOnlinePlayers()) {
+						list.add(target.getName());
+					}
+				}
+			} else {
+				if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
+					for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
+						list.add(parkour.getId());
+					}
+				}
+			}
 		}
+
 
 		for (String s : list) {
 			if (s.startsWith(args[args.length - 1])) {

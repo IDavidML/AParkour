@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import me.davidml16.aparkour.PlaceholderAPI.PlaceholderHook;
 import me.davidml16.aparkour.api.ParkourAPI;
 import me.davidml16.aparkour.data.CommandBlocker;
 import me.davidml16.aparkour.enums.CommandBlockType;
@@ -180,6 +181,10 @@ public class Main extends JavaPlugin {
                 e.printStackTrace();
             }
             statsHologramManager.loadStatsHolograms(p);
+        }
+
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new PlaceholderHook(this).register();
         }
 
         PluginDescriptionFile pdf = getDescription();
