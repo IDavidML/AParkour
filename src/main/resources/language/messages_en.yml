@@ -15,7 +15,7 @@ Commands:
   NoStats: '%prefix% &cYou dont haves statistics at this moment!'
   NoParkours: '%prefix% &cAny parkour created at this moment!'
   Reload: '%prefix% &aPlugin reloaded with no errors!'
-  Prueba: 'PRUEBA'
+
 GUIs:
   Stats:
     title: 'Parkour Statistics'

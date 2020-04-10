@@ -157,7 +157,6 @@ public class Titles_GUI implements Listener {
                 changeTitleConfig(p, slot);
             } else if (slot == 40) {
                 String id = opened.get(p.getUniqueId());
-                p.closeInventory();
                 main.getConfigGUI().open(p, id);
             }
         }

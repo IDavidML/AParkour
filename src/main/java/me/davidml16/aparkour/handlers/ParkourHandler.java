@@ -402,9 +402,7 @@ public class ParkourHandler {
 				byte data = parts.length == 2 ? Byte.parseByte(parts[1]) : 0;
 				WalkableBlock walkableBlockk = new WalkableBlock(Integer.parseInt(parts[0]), data);
 				if (material != null && !walkable.contains(walkableBlockk)) {
-					if (walkable.size() < 21) {
-						walkable.add(walkableBlockk);
-					}
+					walkable.add(walkableBlockk);
 				}
 			}
 		}

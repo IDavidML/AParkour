@@ -42,26 +42,20 @@ public class CheckpointMenu implements ConversationAbandonedListener, CommonProm
                 case "1":
                     Location loc = player.getLocation().getBlock().getLocation();
                     if(!checkpointExist(parkour, loc)) {
-                        if(parkour.getCheckpoints().size() < 21) {
-                            Plate checkpoint = new Plate(loc);
-                            parkour.getCheckpoints().add(checkpoint);
-                            parkour.getCheckpointLocations().add(loc);
+                        Plate checkpoint = new Plate(loc);
+                        parkour.getCheckpoints().add(checkpoint);
+                        parkour.getCheckpointLocations().add(loc);
 
-                            Block block = loc.getWorld().getBlockAt(loc);
-                            if(block.getType() != Material.IRON_PLATE) {
-                                block.setType(Material.IRON_PLATE);
-                            }
-
-                            main.getParkourHandler().loadCheckpointHologram(parkour, checkpoint);
-                            param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(main.getLanguageHandler().getPrefix()
-                                    + " &aAdded checkpoint &e#" + parkour.getCheckpoints().size() + " &ato parkour &e" + parkour.getId()));
-                            main.getCheckpointsGUI().reloadGUI(parkour.getId());
-                            Sounds.playSound(player, player.getLocation(), Sounds.MySound.CLICK, 10, 2);
-                        } else {
-                            param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(main.getLanguageHandler().getPrefix()
-                                    + " &cReached checkpoint limit (21) for parkour &e" + parkour.getId()));
-                            Sounds.playSound(player, player.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
+                        Block block = loc.getWorld().getBlockAt(loc);
+                        if(block.getType() != Material.IRON_PLATE) {
+                            block.setType(Material.IRON_PLATE);
                         }
+
+                        main.getParkourHandler().loadCheckpointHologram(parkour, checkpoint);
+                        param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(main.getLanguageHandler().getPrefix()
+                                + " &aAdded checkpoint &e#" + parkour.getCheckpoints().size() + " &ato parkour &e" + parkour.getId()));
+                        main.getCheckpointsGUI().reloadGUI(parkour.getId());
+                        Sounds.playSound(player, player.getLocation(), Sounds.MySound.CLICK, 10, 2);
                     } else {
                         param1ConversationContext.getForWhom().sendRawMessage("\n" + ColorManager.translate(main.getLanguageHandler().getPrefix()
                                 + " &cThis checkpoint location already exist in parkour &e" + parkour.getId()));

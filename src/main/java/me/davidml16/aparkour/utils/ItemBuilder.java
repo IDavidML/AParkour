@@ -8,6 +8,7 @@ import java.util.Map;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -120,10 +121,10 @@ public class ItemBuilder {
      *
      * @param owner The name of the skull's owner.
      */
-    public ItemBuilder setSkullOwner(String owner) {
+    public ItemBuilder setSkullOwner(OfflinePlayer owner) {
         try {
             SkullMeta im = (SkullMeta) is.getItemMeta();
-            im.setOwner(owner);
+            im.setOwningPlayer(owner);
             is.setItemMeta(im);
         } catch (ClassCastException expected) {
         }

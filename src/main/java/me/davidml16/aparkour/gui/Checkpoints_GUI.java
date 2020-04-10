@@ -1,5 +1,6 @@
 package me.davidml16.aparkour.gui;
 
+import javafx.util.Pair;
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.conversation.CheckpointMenu;
 import me.davidml16.aparkour.conversation.RewardMenu;
@@ -30,7 +31,7 @@ import java.util.*;
 
 public class Checkpoints_GUI implements Listener {
 
-    private HashMap<UUID, String> opened;
+    private HashMap<UUID, Pair<String, Integer>> opened;
     private HashMap<String, Inventory> guis;
     private List<Integer> borders;
 
@@ -38,13 +39,13 @@ public class Checkpoints_GUI implements Listener {
 
     public Checkpoints_GUI(Main main) {
         this.main = main;
-        this.opened = new HashMap<UUID, String>();
+        this.opened = new HashMap<UUID, Pair<String, Integer>>();
         this.guis = new HashMap<String, Inventory>();
         this.borders = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 40, 42, 43, 44);
         this.main.getServer().getPluginManager().registerEvents(this, this.main);
     }
 
-    public HashMap<UUID, String> getOpened() {
+    public HashMap<UUID, Pair<String, Integer>> getOpened() {
         return opened;
     }
 
@@ -71,36 +72,6 @@ public class Checkpoints_GUI implements Listener {
             gui.setItem(i, edge);
         }
 
-        List<Plate> checkpoints;
-        if (main.getParkourHandler().getParkours().containsKey(id))
-            checkpoints = main.getParkourHandler().getParkourById(id).getCheckpoints();
-        else
-            checkpoints = main.getParkourHandler().getCheckpoints(id);
-
-        if(checkpoints.size() > 0) {
-            int iterator = 1;
-            for (Plate checkpoint : checkpoints) {
-                Location loc = checkpoint.getLocation();
-                gui.addItem(new ItemBuilder(Material.BEACON, 1)
-                        .setName(ColorManager.translate("&aCheckpoint &e#" + iterator))
-                        .setLore(
-                                "",
-                                ColorManager.translate(" &7X: &6" + loc.getBlockX() + " "),
-                                ColorManager.translate(" &7Y: &6" + loc.getBlockY() + " "),
-                                ColorManager.translate(" &7Z: &6" + loc.getBlockZ() + " "),
-                                "",
-                                ColorManager.translate("&eClick to remove! ")).toItemStack());
-                iterator++;
-            }
-        } else {
-            gui.setItem(22, new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 14).setName(ColorManager.translate("&cAny checkpoints selected")).setLore(
-                    "",
-                    ColorManager.translate(" &7You dont have any "),
-                    ColorManager.translate(" &7checkpoints selected. "),
-                    ""
-            ).toItemStack());
-        }
-
         gui.setItem(39, newReward);
         gui.setItem(41, back);
 
@@ -114,7 +85,24 @@ public class Checkpoints_GUI implements Listener {
     }
 
     public void reloadGUI(String id) {
-        Inventory gui = guis.get(id);
+        for(UUID uuid : opened.keySet()) {
+            if(opened.get(uuid).getKey().equals(id)) {
+                Player p = Bukkit.getPlayer(uuid);
+                openPage(p, id, opened.get(uuid).getValue());
+            }
+        }
+    }
+
+    private void openPage(Player p, String id, int page) {
+        List<Plate> checkpoints = main.getParkourHandler().getParkourById(id).getCheckpoints();
+
+        if(page > 0 && checkpoints.size() < (page * 21) + 1) {
+            openPage(p, id, page - 1);
+            return;
+        }
+
+        Inventory gui = Bukkit.createInventory(null, 45, main.getLanguageHandler().getMessage("GUIs.Checkpoints.title").replaceAll("%parkour%", id));
+        gui.setContents(guis.get(id).getContents());
 
         for (int i = 10; i <= 16; i++)
             gui.setItem(i, null);
@@ -123,9 +111,22 @@ public class Checkpoints_GUI implements Listener {
         for (int i = 28; i <= 34; i++)
             gui.setItem(i, null);
 
-        List<Plate> checkpoints = main.getParkourHandler().getParkourById(id).getCheckpoints();
+        if (page > 0) {
+            gui.setItem(18, new ItemBuilder(Material.ENDER_PEARL, 1).setName(ColorManager.translate("&aPrevious page")).toItemStack());
+        } else {
+            gui.setItem(18, new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 7).setName("").toItemStack());
+        }
+
+        if (checkpoints.size() > (page + 1) * 21) {
+            gui.setItem(26, new ItemBuilder(Material.ENDER_PEARL, 1).setName(ColorManager.translate("&aNext page")).toItemStack());
+        } else {
+            gui.setItem(26, new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 7).setName("").toItemStack());
+        }
+
+        if (checkpoints.size() > 21) checkpoints = checkpoints.subList(page * 21, ((page * 21) + 21) > checkpoints.size() ? checkpoints.size() : (page * 21) + 21);
+
         if(checkpoints.size() > 0) {
-            int iterator = 1;
+            int iterator = (page * 21) + 1;
             for (Plate checkpoint : checkpoints) {
                 Location loc = checkpoint.getLocation();
                 gui.addItem(new ItemBuilder(Material.BEACON, 1)
@@ -148,17 +149,21 @@ public class Checkpoints_GUI implements Listener {
             ).toItemStack());
         }
 
-        for (HumanEntity pl : gui.getViewers()) {
-            pl.getOpenInventory().getTopInventory().setContents(gui.getContents());
+        if (!opened.containsKey(p.getUniqueId())) {
+            p.openInventory(gui);
+        } else {
+            p.getOpenInventory().getTopInventory().setContents(gui.getContents());
         }
+
+        Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), new Pair<>(id, page)), 1L);
     }
 
     public void open(Player p, String id) {
         p.updateInventory();
-        p.openInventory(guis.get(id));
+        openPage(p, id, 0);
 
-        Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 100, 3);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), id), 1L);
+        Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), new Pair<>(id, 0)), 1L);
     }
 
     @SuppressWarnings("deprecation")
@@ -171,16 +176,20 @@ public class Checkpoints_GUI implements Listener {
         if (opened.containsKey(p.getUniqueId())) {
             e.setCancelled(true);
             int slot = e.getRawSlot();
-            Parkour parkour = main.getParkourHandler().getParkourById(opened.get(p.getUniqueId()));
-            if (slot == 39) {
+            String id = opened.get(p.getUniqueId()).getKey();
+            Parkour parkour = main.getParkourHandler().getParkourById(opened.get(p.getUniqueId()).getKey());
+            if (slot == 18 && e.getCurrentItem().getType() == Material.ENDER_PEARL) {
+                Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
+                openPage(p, id, opened.get(p.getUniqueId()).getValue() - 1);
+            } else if (slot == 26 && e.getCurrentItem().getType() == Material.ENDER_PEARL) {
+                Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
+                openPage(p, id, opened.get(p.getUniqueId()).getValue() + 1);
+            } else if (slot == 39) {
                 p.closeInventory();
                 new CheckpointMenu(main).getConversation(p, parkour).begin();
                 Sounds.playSound(p, p.getLocation(), Sounds.MySound.ANVIL_USE, 100, 3);
             } else if (slot == 41) {
-                if (parkour.getRewards().size() < 21) {
-                    p.closeInventory();
-                    main.getConfigGUI().open(p, parkour.getId());
-                }
+                main.getConfigGUI().open(p, parkour.getId());
             } else if ((slot >= 10 && slot <= 16) || (slot >= 19 && slot <= 25) || (slot >= 28 && slot <= 34)) {
                 if (e.getCurrentItem().getType() == Material.AIR) return;
 
@@ -212,7 +221,7 @@ public class Checkpoints_GUI implements Listener {
     public void InventoryCloseEvent(InventoryCloseEvent e) {
         Player p = (Player) e.getPlayer();
         if (opened.containsKey(p.getUniqueId())) {
-            main.getParkourHandler().getParkours().get(opened.get(p.getUniqueId())).saveParkour();
+            main.getParkourHandler().getParkours().get(opened.get(p.getUniqueId()).getKey()).saveParkour();
             opened.remove(p.getUniqueId());
         }
     }

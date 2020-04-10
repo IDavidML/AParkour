@@ -243,7 +243,6 @@ public class Holograms_GUI implements Listener {
                 changeHologramConfig(p, slot);
             } else if (slot == 40) {
                 String id = opened.get(p.getUniqueId());
-                p.closeInventory();
                 main.getConfigGUI().open(p, id);
             }
         }

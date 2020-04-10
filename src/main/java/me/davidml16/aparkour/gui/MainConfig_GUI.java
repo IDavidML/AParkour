@@ -305,24 +305,19 @@ public class MainConfig_GUI implements Listener {
                 main.getWalkableBlocksGUI().open(p, id);
             } else if (slot == 15 && e.getCurrentItem().getType() == Material.ARMOR_STAND) {
                 String id = opened.get(p.getUniqueId());
-                p.closeInventory();
                 main.getHologramsGUI().open(p, id);
             } else if (slot == 16 && e.getCurrentItem().getType() == Material.SIGN) {
                 String id = opened.get(p.getUniqueId());
-                p.closeInventory();
                 main.getTitlesGUI().open(p, id);
             } else if (slot == 23 && e.getCurrentItem().getType() == Material.BEACON) {
                 String id = opened.get(p.getUniqueId());
-                p.closeInventory();
                 main.getCheckpointsGUI().open(p, id);
             } else if (slot == 24 && e.getCurrentItem().getType() == Material.GOLD_NUGGET) {
                 String id = opened.get(p.getUniqueId());
-                p.closeInventory();
                 main.getRewardsGUI().open(p, id);
             } else if (slot == 25 && e.getCurrentItem().getType() == Material.ANVIL) {
                 String id = opened.get(p.getUniqueId());
                 Parkour parkour = main.getParkourHandler().getParkourById(id);
-                p.closeInventory();
                 new RenameMenu(main).getConversation(p, parkour).begin();
                 Sounds.playSound(p, p.getLocation(), Sounds.MySound.ANVIL_USE, 100, 3);
             } else if (slot == 40) {
