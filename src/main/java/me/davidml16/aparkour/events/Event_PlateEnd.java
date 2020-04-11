@@ -45,6 +45,7 @@ public class Event_PlateEnd implements Listener {
 				ParkourSession session = main.getSessionHandler().getSession(p);
 
 				if (e.getClickedBlock().getLocation().equals(parkour.getEnd().getLocation())) {
+					if (session == null) return;
 					if (parkour != session.getParkour()) return;
 
 					if (main.getTimerManager().hasPlayerTimer(p)) {
