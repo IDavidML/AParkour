@@ -4,6 +4,7 @@ import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.api.events.ParkourCheckpointEvent;
 import me.davidml16.aparkour.api.events.ParkourReturnEvent;
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.data.ParkourSession;
 import me.davidml16.aparkour.data.Profile;
 import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.utils.ActionBar;
@@ -212,29 +213,20 @@ public class Command_AParkour implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("cancel")) {
-            Parkour parkour = main.getPlayerDataHandler().getData(p).getParkour();
             if (main.getTimerManager().hasPlayerTimer(p)) {
-                p.setFlying(false);
-                p.teleport(parkour.getSpawn());
+                ParkourSession session = main.getSessionHandler().getSession(p);
+                p.teleport(session.getParkour().getSpawn());
 
                 String message = main.getLanguageHandler().getMessage("Messages.Return");
                 if(message.length() > 0)
                     p.sendMessage(message);
 
-                Profile data = main.getPlayerDataHandler().getData(p);
-                data.setParkour(null);
-                data.setLastCheckpoint(-1);
-
-                main.getTimerManager().cancelTimer(p);
-                if (main.isParkourItemsEnabled()) {
-                    main.getPlayerDataHandler().restorePlayerInventory(p);
-                }
+                main.getParkourHandler().resetPlayer(p);
 
                 main.getSoundUtil().playReturn(p);
 
-                Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
-
-                p.setNoDamageTicks(40);
+                Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, session.getParkour()));
+                return true;
             } else {
                 String message = main.getLanguageHandler().getMessage("Messages.NotInParkour");
                 if(message.length() > 0)
@@ -245,30 +237,23 @@ public class Command_AParkour implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("checkpoint")) {
             if (main.getTimerManager().hasPlayerTimer(p)) {
-                Profile data = main.getPlayerDataHandler().getData(p);
-                Parkour parkour = main.getPlayerDataHandler().getData(p).getParkour();
+                ParkourSession session = main.getSessionHandler().getSession(p);
 
-                if (data.getLastCheckpoint() < 0) {
-                    p.teleport(parkour.getSpawn());
+                if (session.getLastCheckpoint() < 0) {
+                    p.teleport(session.getParkour().getSpawn());
 
                     String message = main.getLanguageHandler().getMessage("Messages.Return");
                     if(message.length() > 0)
                         p.sendMessage(message);
 
-                    data.setParkour(null);
-                    data.setLastCheckpoint(-1);
-
-                    main.getTimerManager().cancelTimer(p);
-                    if (main.isParkourItemsEnabled()) {
-                        main.getPlayerDataHandler().restorePlayerInventory(p);
-                    }
-                    Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
-                } else if (data.getLastCheckpoint() >= 0) {
-                    p.teleport(data.getLastCheckpointLocation());
+                    main.getParkourHandler().resetPlayer(p);
+                    Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, session.getParkour()));
+                } else if (session.getLastCheckpoint() >= 0) {
+                    p.teleport(session.getLastCheckpointLocation());
                     String message = main.getLanguageHandler().getMessage("Messages.ReturnCheckpoint");
                     if(message.length() > 0)
-                        p.sendMessage(message.replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1)));
-                    Bukkit.getPluginManager().callEvent(new ParkourCheckpointEvent(p, parkour));
+                        p.sendMessage(message.replaceAll("%checkpoint%", Integer.toString(session.getLastCheckpoint() + 1)));
+                    Bukkit.getPluginManager().callEvent(new ParkourCheckpointEvent(p, session.getParkour()));
                 }
 
                 main.getSoundUtil().playReturn(p);
@@ -306,22 +291,19 @@ public class Command_AParkour implements CommandExecutor {
             for (Player pl : Bukkit.getOnlinePlayers()) {
                 main.getStatsHologramManager().removeStatsHologram(pl, id);
                 if(main.getTimerManager().hasPlayerTimer(pl)) {
-                    Parkour parkour = main.getPlayerDataHandler().getData(pl).getParkour();
-                    if(parkour.getId().equals(id)) {
-                        main.getTimerManager().cancelTimer(pl);
-                        main.getPlayerDataHandler().getData(pl).setParkour(null);
+                    ParkourSession session = main.getSessionHandler().getSession(pl);
+                    if(session.getParkour().getId().equals(id)) {
+                        pl.teleport(session.getParkour().getSpawn());
 
-                        pl.setFlying(false);
-                        pl.teleport(parkour.getSpawn());
-                        if (main.getConfig().getBoolean("RestartItem.Enabled")) {
-                            main.getPlayerDataHandler().restorePlayerInventory(pl);
-                        }
                         if (main.getTimerManager().isActionBarEnabled()) {
                             ActionBar.sendActionbar(pl, " ");
                         }
+
+                        main.getParkourHandler().resetPlayer(pl);
+
                         main.getSoundUtil().playFall(pl);
 
-                        pl.setNoDamageTicks(40);
+                        Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, session.getParkour()));
                     }
                 }
             }

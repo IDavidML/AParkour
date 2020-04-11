@@ -2,6 +2,7 @@ package me.davidml16.aparkour.managers;
 
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.data.ParkourSession;
 import me.davidml16.aparkour.enums.CommandBlockType;
 import me.davidml16.aparkour.utils.ActionBar;
 import org.bukkit.Bukkit;
@@ -20,22 +21,16 @@ public class PluginManager {
         for (Player pl : Bukkit.getOnlinePlayers()) {
             if(main.getTimerManager().hasPlayerTimer(pl)) {
                 main.getTimerManager().cancelTimer(pl);
-                Parkour parkour = main.getPlayerDataHandler().getData(pl).getParkour();
-                if (parkour != null) {
-                    main.getPlayerDataHandler().getData(pl).setParkour(null);
-
-                    pl.setFlying(false);
-                    pl.teleport(parkour.getSpawn());
-                    if (main.getConfig().getBoolean("RestartItem.Enabled")) {
-                        main.getPlayerDataHandler().restorePlayerInventory(pl);
-                    }
-                    if (main.getTimerManager().isActionBarEnabled()) {
-                        ActionBar.sendActionbar(pl, " ");
-                    }
-                    main.getSoundUtil().playFall(pl);
-
-                    pl.setNoDamageTicks(40);
+                ParkourSession session = main.getSessionHandler().getSession(pl);
+                pl.teleport(session.getParkour().getSpawn());
+                if (main.getConfig().getBoolean("RestartItem.Enabled")) {
+                    main.getPlayerDataHandler().restorePlayerInventory(pl);
                 }
+                if (main.getTimerManager().isActionBarEnabled()) {
+                    ActionBar.sendActionbar(pl, " ");
+                }
+                main.getParkourHandler().resetPlayer(pl);
+                main.getSoundUtil().playFall(pl);
             }
         }
     }

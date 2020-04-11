@@ -57,6 +57,7 @@ public class Main extends JavaPlugin {
     private LanguageHandler languageHandler;
     private PlayerDataHandler playerDataHandler;
     private DatabaseHandler databaseHandler;
+    private SessionHandler sessionHandler;
 
     private SoundUtil soundUtil;
     private LocationUtil locationUtil;
@@ -121,6 +122,7 @@ public class Main extends JavaPlugin {
         databaseHandler.loadTables();
 
         playerDataHandler = new PlayerDataHandler(this);
+        sessionHandler = new SessionHandler(this);
 
         timerManager = new TimerManager(this);
 
@@ -285,6 +287,8 @@ public class Main extends JavaPlugin {
         return parkourHandler;
     }
 
+    public SessionHandler getSessionHandler() { return sessionHandler; }
+
     public PluginManager getPluginManager() { return pluginManager; }
 
     public LanguageHandler getLanguageHandler() {
@@ -360,5 +364,10 @@ public class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new Event_Fall(this), this);
         Bukkit.getPluginManager().registerEvents(new Event_Void(this), this);
         Bukkit.getPluginManager().registerEvents(new Event_Others(this), this);
+
+        if(!Bukkit.getBukkitVersion().contains("1.8")) {
+            Bukkit.getPluginManager().registerEvents(new Event_Swap(this), this);
+        }
+
     }
 }

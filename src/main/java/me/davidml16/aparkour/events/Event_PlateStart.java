@@ -74,7 +74,7 @@ public class Event_PlateStart implements Listener {
 
                             main.getTitleUtil().sendStartTitle(p, parkour);
 
-                            main.getPlayerDataHandler().getData(p).setParkour(parkour);
+                            main.getSessionHandler().createSession(p, parkour);
 
                             main.getTimerManager().startTimer(p, parkour);
 

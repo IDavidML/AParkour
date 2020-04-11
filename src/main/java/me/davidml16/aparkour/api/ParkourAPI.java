@@ -74,7 +74,7 @@ public class ParkourAPI {
     }
 
     public Parkour getParkourByPlayer(Player p) {
-        return main.getPlayerDataHandler().getData(p).getParkour();
+        return main.getSessionHandler().getSession(p).getParkour();
     }
 
 }

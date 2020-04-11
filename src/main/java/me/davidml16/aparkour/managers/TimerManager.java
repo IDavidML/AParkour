@@ -87,7 +87,7 @@ public class TimerManager {
 		if (hasPlayerTimer(p)) {
 			int secs = timer.get(p.getUniqueId());
 			int total = main.getPlayerDataHandler().getData(p).getBestTimes()
-					.get(main.getPlayerDataHandler().getData(p).getParkour().getId());
+					.get(main.getSessionHandler().getSession(p).getParkour().getId());
 
 			String message = main.getLanguageHandler().getMessage("Timer.ActionBar");
 			if(message.length() > 0) {

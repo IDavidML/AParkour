@@ -2,6 +2,7 @@ package me.davidml16.aparkour.utils;
 
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.data.ParkourSession;
 import me.davidml16.aparkour.data.Profile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -40,13 +41,13 @@ public class TitleUtil implements Listener {
         }
     }
 
-    public void sendCheckpointTitle(Player player, Parkour parkour, Profile profile) {
+    public void sendCheckpointTitle(Player player, Parkour parkour, ParkourSession session) {
         if(parkour.isCheckpointTitleEnabled()) {
             String title = main.getLanguageHandler().getMessage("Titles.Checkpoint.Title")
-                    .replaceAll("%checkpoint%", Integer.toString(profile.getLastCheckpoint() + 1))
+                    .replaceAll("%checkpoint%", Integer.toString(session.getLastCheckpoint() + 1))
                     .replaceAll("%parkour%", parkour.getName());
             String subtitle = main.getLanguageHandler().getMessage("Titles.Checkpoint.Subtitle")
-                    .replaceAll("%checkpoint%", Integer.toString(profile.getLastCheckpoint() + 1))
+                    .replaceAll("%checkpoint%", Integer.toString(session.getLastCheckpoint() + 1))
                     .replaceAll("%parkour%", parkour.getName());
             sendTitle(player, 5, 20, 5, title, subtitle);
         }

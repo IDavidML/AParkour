@@ -482,11 +482,6 @@ public class ParkourHandler {
 	}
 
 	public void resetPlayer(Player p) {
-		Profile profile = main.getPlayerDataHandler().getData(p);
-
-		profile.setParkour(null);
-		profile.setLastCheckpoint(-1);
-
 		p.setFlying(false);
 		p.setFallDistance(0);
 		p.setNoDamageTicks(40);
@@ -495,6 +490,8 @@ public class ParkourHandler {
 		if (main.isParkourItemsEnabled()) {
 			main.getPlayerDataHandler().restorePlayerInventory(p);
 		}
+
+		main.getSessionHandler().removeSession(p);
 	}
 
 }

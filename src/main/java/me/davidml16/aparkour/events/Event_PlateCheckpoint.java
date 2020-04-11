@@ -3,6 +3,7 @@ package me.davidml16.aparkour.events;
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.api.events.ParkourCheckpointEvent;
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.data.ParkourSession;
 import me.davidml16.aparkour.data.Profile;
 import me.davidml16.aparkour.utils.Sounds;
 import me.davidml16.aparkour.utils.TitleUtil;
@@ -38,28 +39,30 @@ public class Event_PlateCheckpoint implements Listener {
 
 				if(parkour.getCheckpointLocations().contains(e.getClickedBlock().getLocation())) {
 					if (main.getTimerManager().hasPlayerTimer(p)) {
-						Profile data = main.getPlayerDataHandler().getData(p);
-						if (data.getLastCheckpoint() < data.getParkour().getCheckpoints().size() - 1) {
-							if (e.getClickedBlock().getLocation().equals(data.getParkour().getCheckpoints().get(data.getLastCheckpoint() + 1).getLocation())) {
-								data.setLastCheckpoint(data.getLastCheckpoint() + 1);
 
-								Location loc = parkour.getCheckpointLocations().get(data.getLastCheckpoint()).clone();
+						ParkourSession session = main.getSessionHandler().getSession(p);
+
+						if (session.getLastCheckpoint() < session.getParkour().getCheckpoints().size() - 1) {
+							if (e.getClickedBlock().getLocation().equals(session.getParkour().getCheckpoints().get(session.getLastCheckpoint() + 1).getLocation())) {
+								session.setLastCheckpoint(session.getLastCheckpoint() + 1);
+
+								Location loc = parkour.getCheckpointLocations().get(session.getLastCheckpoint()).clone();
 								loc.add(0.5D, 0D, 0.5D);
 								loc.setPitch(p.getLocation().getPitch());
 								loc.setYaw(p.getLocation().getYaw());
-								data.setLastCheckpointLocation(loc);
+								session.setLastCheckpointLocation(loc);
 
 								int time = (main.getTimerManager().getTimer().get(p.getUniqueId()));
 
 								String message = main.getLanguageHandler().getMessage("Messages.Checkpoint");
 								if(message.length() > 0)
 									p.sendMessage(message
-											.replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1))
+											.replaceAll("%checkpoint%", Integer.toString(session.getLastCheckpoint() + 1))
 											.replaceAll("%time%", main.getTimerManager().timeAsString(time)));
 
 								Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
 
-								main.getTitleUtil().sendCheckpointTitle(p, parkour, data);
+								main.getTitleUtil().sendCheckpointTitle(p, parkour, session);
 
 								Bukkit.getPluginManager().callEvent(new ParkourCheckpointEvent(p, parkour));
 							}

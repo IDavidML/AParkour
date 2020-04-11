@@ -134,13 +134,7 @@ public class Event_Others implements Listener {
             main.getTitlesGUI().getOpened().remove(p.getUniqueId());
 
             if (main.getTimerManager().hasPlayerTimer(e.getPlayer())) {
-                main.getTimerManager().cancelTimer(e.getPlayer());
-
-                main.getPlayerDataHandler().getData(p).setParkour(null);
-
-                if (main.isParkourItemsEnabled()) {
-                    main.getPlayerDataHandler().restorePlayerInventory(p);
-                }
+                main.getParkourHandler().resetPlayer(p);
             }
 
             main.getPlayerDataHandler().getData(p).save();
@@ -154,14 +148,7 @@ public class Event_Others implements Listener {
         main.getStatsHologramManager().reloadStatsHolograms(p);
 
         if (main.getTimerManager().hasPlayerTimer(e.getPlayer())) {
-            main.getTimerManager().cancelTimer(e.getPlayer());
-
-            Parkour parkour = main.getPlayerDataHandler().getData(p).getParkour();
-            main.getPlayerDataHandler().getData(p).setParkour(null);
-
-            if (main.isParkourItemsEnabled()) {
-                main.getPlayerDataHandler().restorePlayerInventory(p);
-            }
+            main.getParkourHandler().resetPlayer(p);
         }
     }
 

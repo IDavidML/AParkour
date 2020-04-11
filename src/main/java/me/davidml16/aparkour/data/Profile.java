@@ -20,13 +20,9 @@ public class Profile {
 	private Main main;
 
 	private UUID uuid;
-	private Parkour parkour;
 
 	private ItemStack[] inventory;
 	private ItemStack[] armor;
-
-	private Integer lastCheckpoint;
-	private Location lastCheckpointLocation;
 
 	private GameMode lastGamemode;
 
@@ -39,13 +35,10 @@ public class Profile {
 	public Profile(Main main, UUID uuid) {
 		this.main = main;
 		this.uuid = uuid;
-		this.parkour = null;
 		this.inventory = new ItemStack[36];
 		this.armor = new ItemStack[4];
 		this.potionEffects = null;
 		this.lastGamemode = null;
-		this.lastCheckpoint = -1;
-		this.lastCheckpointLocation = null;
 		this.lastTimes = this.main.getDatabaseHandler().getPlayerLastTimes(uuid);
 		this.bestTimes = this.main.getDatabaseHandler().getPlayerBestTimes(uuid);
 		this.holograms = new HashMap<String, Hologram>();
@@ -123,30 +116,6 @@ public class Profile {
 
 	public HashMap<String, Hologram> getHolograms() {
 		return holograms;
-	}
-
-	public Parkour getParkour() {
-		return parkour;
-	}
-
-	public void setParkour(Parkour parkour) {
-		this.parkour = parkour;
-	}
-
-	public Integer getLastCheckpoint() {
-		return lastCheckpoint;
-	}
-
-	public void setLastCheckpoint(Integer lastCheckpoint) {
-		this.lastCheckpoint = lastCheckpoint;
-	}
-
-	public Location getLastCheckpointLocation() {
-		return lastCheckpointLocation;
-	}
-
-	public void setLastCheckpointLocation(Location lastCheckpointLocation) {
-		this.lastCheckpointLocation = lastCheckpointLocation;
 	}
 
 }

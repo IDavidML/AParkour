@@ -4,6 +4,7 @@ import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.api.events.ParkourCheckpointEvent;
 import me.davidml16.aparkour.api.events.ParkourReturnEvent;
 import me.davidml16.aparkour.data.Parkour;
+import me.davidml16.aparkour.data.ParkourSession;
 import me.davidml16.aparkour.data.Profile;
 import me.davidml16.aparkour.utils.SoundUtil;
 import org.bukkit.Bukkit;
@@ -27,11 +28,10 @@ public class Event_Void implements Listener {
 		if (p.getLocation().getBlockY() <= 0) {
 			if (main.getTimerManager().hasPlayerTimer(p)) {
 
-				Parkour parkour = main.getPlayerDataHandler().getData(p).getParkour();
-				Profile data = main.getPlayerDataHandler().getData(p);
+				ParkourSession session = main.getSessionHandler().getSession(p);
 
-				if(data.getLastCheckpoint() < 0) {
-					p.teleport(parkour.getSpawn());
+				if(session.getLastCheckpoint() < 0) {
+					p.teleport(session.getParkour().getSpawn());
 
 					String message = main.getLanguageHandler().getMessage("Messages.Return");
 					if(message.length() > 0)
@@ -39,15 +39,15 @@ public class Event_Void implements Listener {
 
 					main.getParkourHandler().resetPlayer(p);
 
-					Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, parkour));
-				} else if (data.getLastCheckpoint() >= 0) {
-					p.teleport(data.getLastCheckpointLocation());
+					Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, session.getParkour()));
+				} else if (session.getLastCheckpoint() >= 0) {
+					p.teleport(session.getLastCheckpointLocation());
 
 					String message = main.getLanguageHandler().getMessage("Messages.ReturnCheckpoint");
 					if(message.length() > 0)
-						p.sendMessage(message.replaceAll("%checkpoint%", Integer.toString(data.getLastCheckpoint() + 1)));
+						p.sendMessage(message.replaceAll("%checkpoint%", Integer.toString(session.getLastCheckpoint() + 1)));
 
-					Bukkit.getPluginManager().callEvent(new ParkourCheckpointEvent(p, parkour));
+					Bukkit.getPluginManager().callEvent(new ParkourCheckpointEvent(p, session.getParkour()));
 				}
 
 				main.getSoundUtil().playFall(p);
