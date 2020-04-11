@@ -1,18 +1,14 @@
 package me.davidml16.aparkour.gui;
 
-import javafx.util.Pair;
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.conversation.RewardMenu;
+import me.davidml16.aparkour.data.Pair;
 import me.davidml16.aparkour.data.Parkour;
-import me.davidml16.aparkour.data.Plate;
 import me.davidml16.aparkour.data.Reward;
-import me.davidml16.aparkour.data.WalkableBlock;
 import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.utils.ItemBuilder;
 import me.davidml16.aparkour.utils.Sounds;
-import me.davidml16.aparkour.utils.WalkableBlocksUtil;
 import org.bukkit.*;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,7 +22,7 @@ import java.util.*;
 
 public class Rewards_GUI implements Listener {
 
-    private HashMap<UUID, Pair<String, Integer>> opened;
+    private HashMap<UUID, Pair> opened;
     private HashMap<String, Inventory> guis;
     private List<Integer> borders;
 
@@ -34,13 +30,13 @@ public class Rewards_GUI implements Listener {
 
     public Rewards_GUI(Main main) {
         this.main = main;
-        this.opened = new HashMap<UUID, Pair<String, Integer>>();
+        this.opened = new HashMap<UUID, Pair>();
         this.guis = new HashMap<String, Inventory>();
         this.borders = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 40, 42, 43, 44);
         this.main.getServer().getPluginManager().registerEvents(this, this.main);
     }
 
-    public HashMap<UUID, Pair<String, Integer>> getOpened() {
+    public HashMap<UUID, Pair> getOpened() {
         return opened;
     }
 
@@ -81,9 +77,9 @@ public class Rewards_GUI implements Listener {
 
     public void reloadGUI(String id) {
         for(UUID uuid : opened.keySet()) {
-            if(opened.get(uuid).getKey().equals(id)) {
+            if(opened.get(uuid).getParkour().equals(id)) {
                 Player p = Bukkit.getPlayer(uuid);
-                openPage(p, id, opened.get(uuid).getValue());
+                openPage(p, id, opened.get(uuid).getPage());
             }
         }
     }
@@ -148,7 +144,7 @@ public class Rewards_GUI implements Listener {
             p.getOpenInventory().getTopInventory().setContents(gui.getContents());
         }
 
-        Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), new Pair<>(id, page)), 1L);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), new Pair(id, page)), 1L);
     }
 
     public void open(Player p, String id) {
@@ -156,7 +152,7 @@ public class Rewards_GUI implements Listener {
         openPage(p, id, 0);
 
         Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), new Pair<>(id, 0)), 1L);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), new Pair(id, 0)), 1L);
     }
 
     @SuppressWarnings("deprecation")
@@ -169,14 +165,14 @@ public class Rewards_GUI implements Listener {
         if (opened.containsKey(p.getUniqueId())) {
             e.setCancelled(true);
             int slot = e.getRawSlot();
-            String id = opened.get(p.getUniqueId()).getKey();
-            Parkour parkour = main.getParkourHandler().getParkourById(opened.get(p.getUniqueId()).getKey());
+            String id = opened.get(p.getUniqueId()).getParkour();
+            Parkour parkour = main.getParkourHandler().getParkourById(opened.get(p.getUniqueId()).getParkour());
             if (slot == 18 && e.getCurrentItem().getType() == Material.ENDER_PEARL) {
                 Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
-                openPage(p, id, opened.get(p.getUniqueId()).getValue() - 1);
+                openPage(p, id, opened.get(p.getUniqueId()).getPage() - 1);
             } else if (slot == 26 && e.getCurrentItem().getType() == Material.ENDER_PEARL) {
                 Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
-                openPage(p, id, opened.get(p.getUniqueId()).getValue() + 1);
+                openPage(p, id, opened.get(p.getUniqueId()).getPage() + 1);
             } else if (slot == 39) {
                 p.closeInventory();
                 new RewardMenu(main).getConversation(p, parkour).begin();
@@ -207,7 +203,7 @@ public class Rewards_GUI implements Listener {
     public void InventoryCloseEvent(InventoryCloseEvent e) {
         Player p = (Player) e.getPlayer();
         if (opened.containsKey(p.getUniqueId())) {
-            main.getParkourHandler().getParkours().get(opened.get(p.getUniqueId()).getKey()).saveParkour();
+            main.getParkourHandler().getParkours().get(opened.get(p.getUniqueId()).getParkour()).saveParkour();
             opened.remove(p.getUniqueId());
         }
     }

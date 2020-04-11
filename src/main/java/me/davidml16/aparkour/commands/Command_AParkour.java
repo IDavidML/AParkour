@@ -5,7 +5,6 @@ import me.davidml16.aparkour.api.events.ParkourCheckpointEvent;
 import me.davidml16.aparkour.api.events.ParkourReturnEvent;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.data.ParkourSession;
-import me.davidml16.aparkour.data.Profile;
 import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.utils.ActionBar;
 import org.bukkit.Bukkit;
@@ -325,7 +324,7 @@ public class Command_AParkour implements CommandExecutor {
 
                 if (main.getWalkableBlocksGUI().getGuis().containsKey(id)) {
                     for (UUID uuid : main.getWalkableBlocksGUI().getOpened().keySet()) {
-                        if (main.getWalkableBlocksGUI().getOpened().get(uuid).equals(id)) {
+                        if (main.getWalkableBlocksGUI().getOpened().get(uuid).getParkour().equals(id)) {
                             Bukkit.getPlayer(uuid).closeInventory();
                         }
                     }
@@ -334,7 +333,7 @@ public class Command_AParkour implements CommandExecutor {
 
                 if (main.getRewardsGUI().getGuis().containsKey(id)) {
                     for (UUID uuid : main.getRewardsGUI().getOpened().keySet()) {
-                        if (main.getRewardsGUI().getOpened().get(uuid).equals(id)) {
+                        if (main.getRewardsGUI().getOpened().get(uuid).getParkour().equals(id)) {
                             Bukkit.getPlayer(uuid).closeInventory();
                         }
                     }
@@ -343,7 +342,7 @@ public class Command_AParkour implements CommandExecutor {
 
                 if (main.getCheckpointsGUI().getGuis().containsKey(id)) {
                     for (UUID uuid : main.getCheckpointsGUI().getOpened().keySet()) {
-                        if (main.getCheckpointsGUI().getOpened().get(uuid).equals(id)) {
+                        if (main.getCheckpointsGUI().getOpened().get(uuid).getParkour().equals(id)) {
                             Bukkit.getPlayer(uuid).closeInventory();
                         }
                     }

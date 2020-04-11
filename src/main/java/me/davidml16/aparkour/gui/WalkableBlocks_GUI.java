@@ -1,7 +1,7 @@
 package me.davidml16.aparkour.gui;
 
-import javafx.util.Pair;
 import me.davidml16.aparkour.Main;
+import me.davidml16.aparkour.data.Pair;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.data.WalkableBlock;
 import me.davidml16.aparkour.managers.ColorManager;
@@ -23,7 +23,7 @@ import java.util.*;
 
 public class WalkableBlocks_GUI implements Listener {
 
-    private HashMap<UUID, Pair<String, Integer>> opened;
+    private HashMap<UUID, Pair> opened;
     private HashMap<String, Inventory> guis;
     private List<Integer> borders;
 
@@ -31,13 +31,13 @@ public class WalkableBlocks_GUI implements Listener {
 
     public WalkableBlocks_GUI(Main main) {
         this.main = main;
-        this.opened = new HashMap<UUID, Pair<String, Integer>>();
+        this.opened = new HashMap<UUID, Pair>();
         this.guis = new HashMap<String, Inventory>();
         this.borders = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 41, 42, 43, 44);
         this.main.getServer().getPluginManager().registerEvents(this, this.main);
     }
 
-    public HashMap<UUID, Pair<String, Integer>> getOpened() {
+    public HashMap<UUID, Pair> getOpened() {
         return opened;
     }
 
@@ -76,9 +76,9 @@ public class WalkableBlocks_GUI implements Listener {
 
     public void reloadGUI(String id) {
         for(UUID uuid : opened.keySet()) {
-            if(opened.get(uuid).getKey().equals(id)) {
+            if(opened.get(uuid).getParkour().equals(id)) {
                 Player p = Bukkit.getPlayer(uuid);
-                openPage(p, id, opened.get(uuid).getValue());
+                openPage(p, id, opened.get(uuid).getPage());
             }
         }
     }
@@ -139,7 +139,7 @@ public class WalkableBlocks_GUI implements Listener {
             p.getOpenInventory().getTopInventory().setContents(gui.getContents());
         }
 
-        Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), new Pair<>(id, page)), 1L);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), new Pair(id, page)), 1L);
     }
 
     public void open(Player p, String id) {
@@ -147,7 +147,7 @@ public class WalkableBlocks_GUI implements Listener {
         openPage(p, id, 0);
 
         Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), new Pair<>(id, 0)), 1L);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), new Pair(id, 0)), 1L);
     }
 
     @SuppressWarnings("deprecation")
@@ -160,14 +160,14 @@ public class WalkableBlocks_GUI implements Listener {
         if (opened.containsKey(p.getUniqueId())) {
             e.setCancelled(true);
             int slot = e.getRawSlot();
-            String id = opened.get(p.getUniqueId()).getKey();
+            String id = opened.get(p.getUniqueId()).getParkour();
             Parkour parkour = main.getParkourHandler().getParkourById(id);
             if (slot == 18 && e.getCurrentItem().getType() == Material.ENDER_PEARL) {
                 Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
-                openPage(p, id, opened.get(p.getUniqueId()).getValue() - 1);
+                openPage(p, id, opened.get(p.getUniqueId()).getPage() - 1);
             } else if (slot == 26 && e.getCurrentItem().getType() == Material.ENDER_PEARL) {
                 Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
-                openPage(p, id, opened.get(p.getUniqueId()).getValue() + 1);
+                openPage(p, id, opened.get(p.getUniqueId()).getPage() + 1);
             } else if (slot == 40) {
                 main.getConfigGUI().open(p, id);
             } else if (slot >= 45 && slot <= 80) {
@@ -219,7 +219,7 @@ public class WalkableBlocks_GUI implements Listener {
     public void InventoryCloseEvent(InventoryCloseEvent e) {
         Player p = (Player) e.getPlayer();
         if (opened.containsKey(p.getUniqueId())) {
-            main.getParkourHandler().getParkours().get(opened.get(p.getUniqueId()).getKey()).saveParkour();
+            main.getParkourHandler().getParkours().get(opened.get(p.getUniqueId()).getParkour()).saveParkour();
             opened.remove(p.getUniqueId());
         }
     }
