@@ -121,22 +121,23 @@ public class Event_Others implements Listener {
     public void onQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
 
+        main.getStatsHologramManager().removeStatsHolograms(p);
+        main.getStatsGUI().getOpened().remove(p.getUniqueId());
+        main.getStatsGUI().getGuis().remove(p.getUniqueId());
+        main.getRankingsGUI().getOpened().remove(p.getUniqueId());
+        main.getConfigGUI().getOpened().remove(p.getUniqueId());
+        main.getWalkableBlocksGUI().getOpened().remove(p.getUniqueId());
+        main.getRewardsGUI().getOpened().remove(p.getUniqueId());
+        main.getCheckpointsGUI().getOpened().remove(p.getUniqueId());
+        main.getHologramsGUI().getOpened().remove(p.getUniqueId());
+        main.getTitlesGUI().getOpened().remove(p.getUniqueId());
+
+        if (main.getTimerManager().hasPlayerTimer(e.getPlayer())) {
+            p.teleport(main.getSessionHandler().getSession(p).getParkour().getSpawn());
+            main.getParkourHandler().resetPlayer(p);
+        }
+
         Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
-            main.getStatsHologramManager().removeStatsHolograms(p);
-            main.getStatsGUI().getOpened().remove(p.getUniqueId());
-            main.getStatsGUI().getGuis().remove(p.getUniqueId());
-            main.getRankingsGUI().getOpened().remove(p.getUniqueId());
-            main.getConfigGUI().getOpened().remove(p.getUniqueId());
-            main.getWalkableBlocksGUI().getOpened().remove(p.getUniqueId());
-            main.getRewardsGUI().getOpened().remove(p.getUniqueId());
-            main.getCheckpointsGUI().getOpened().remove(p.getUniqueId());
-            main.getHologramsGUI().getOpened().remove(p.getUniqueId());
-            main.getTitlesGUI().getOpened().remove(p.getUniqueId());
-
-            if (main.getTimerManager().hasPlayerTimer(e.getPlayer())) {
-                main.getParkourHandler().resetPlayer(p);
-            }
-
             main.getPlayerDataHandler().getData(p).save();
             main.getPlayerDataHandler().getPlayersData().remove(p.getUniqueId());
         });

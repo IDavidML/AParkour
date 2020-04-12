@@ -76,6 +76,7 @@ public class Event_Click implements Listener {
 
                         main.getSoundUtil().playReturn(p);
 
+                        p.setFallDistance(0);
                         p.setNoDamageTicks(40);
 
                         Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, session.getParkour()));

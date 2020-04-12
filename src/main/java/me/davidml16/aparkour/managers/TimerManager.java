@@ -77,17 +77,16 @@ public class TimerManager {
 	public void cancelTimer(Player p) {
 		if (hasPlayerTimer(p)) {
 			timer.remove(p.getUniqueId());
-			timer.remove(p.getUniqueId());
 			timerTask.get(p.getUniqueId()).cancel();
 			timerTask.remove(p.getUniqueId());
 		}
 	}
 
 	private void sendTimer(Player p) {
+		if(!p.isOnline()) cancelTimer(p);
 		if (hasPlayerTimer(p)) {
 			int secs = timer.get(p.getUniqueId());
-			int total = main.getPlayerDataHandler().getData(p).getBestTimes()
-					.get(main.getSessionHandler().getSession(p).getParkour().getId());
+			int total = main.getPlayerDataHandler().getData(p).getBestTimes().get(main.getSessionHandler().getSession(p).getParkour().getId());
 
 			String message = main.getLanguageHandler().getMessage("Timer.ActionBar");
 			if(message.length() > 0) {

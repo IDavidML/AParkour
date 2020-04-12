@@ -55,7 +55,9 @@ public class Event_Fall implements Listener {
 
 				main.getSoundUtil().playFall(p);
 
+				p.setFallDistance(0);
 				p.setNoDamageTicks(40);
+
 			}
 		}
 	}

@@ -49,7 +49,6 @@ public class ReturnTask {
 
                                      main.getParkourHandler().resetPlayer(p);
 
-                                    Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, session.getParkour()));
                                 } else if (session.getLastCheckpoint() >= 0) {
                                     p.teleport(session.getLastCheckpointLocation());
 
