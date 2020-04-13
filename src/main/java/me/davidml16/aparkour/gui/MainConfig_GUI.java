@@ -100,12 +100,16 @@ public class MainConfig_GUI implements Listener {
                             "",
                             ColorManager.translate("&eClick to config blocks! ")
                     ).toItemStack());
-            gui.setItem(15, new ItemBuilder(Material.ARMOR_STAND, 1)
-                    .setName(ColorManager.translate("&aHolograms"))
-                    .setLore(
-                            "",
-                            ColorManager.translate("&eClick to config holograms! ")
-                    ).toItemStack());
+            if(main.isHologramsEnabled()) {
+                gui.setItem(15, new ItemBuilder(Material.ARMOR_STAND, 1)
+                        .setName(ColorManager.translate("&aHolograms"))
+                        .setLore(
+                                "",
+                                ColorManager.translate("&eClick to config holograms! ")
+                        ).toItemStack());
+            } else {
+                gui.setItem(15, new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 14).setName(ColorManager.translate("&cHolograms disabled")).toItemStack());
+            }
             gui.setItem(16, new ItemBuilder(Material.SIGN, 1)
                     .setName(ColorManager.translate("&aTitles"))
                     .setLore(
@@ -228,12 +232,16 @@ public class MainConfig_GUI implements Listener {
                             "",
                             ColorManager.translate("&eClick to config blocks! ")
                     ).toItemStack());
-            gui.setItem(15, new ItemBuilder(Material.ARMOR_STAND, 1)
-                    .setName(ColorManager.translate("&aHolograms"))
-                    .setLore(
-                            "",
-                            ColorManager.translate("&eClick to config holograms! ")
-                    ).toItemStack());
+            if(main.isHologramsEnabled()) {
+                gui.setItem(15, new ItemBuilder(Material.ARMOR_STAND, 1)
+                        .setName(ColorManager.translate("&aHolograms"))
+                        .setLore(
+                                "",
+                                ColorManager.translate("&eClick to config holograms! ")
+                        ).toItemStack());
+            } else {
+                gui.setItem(15, new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 14).setName(ColorManager.translate("&cHolograms disabled")).toItemStack());
+            }
             gui.setItem(16, new ItemBuilder(Material.SIGN, 1)
                     .setName(ColorManager.translate("&aTitles"))
                     .setLore(

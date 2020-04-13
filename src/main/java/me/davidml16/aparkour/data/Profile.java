@@ -45,9 +45,9 @@ public class Profile {
 	}
 
 	public void save() {
-		for(Parkour parkour : main.getParkourHandler().getParkours().values()) {
+		for(String parkour : main.getParkourHandler().getParkours().keySet()) {
 			try {
-				main.getDatabaseHandler().setTimes(uuid, lastTimes.get(parkour.getId()), bestTimes.get(parkour.getId()), parkour.getId());
+				main.getDatabaseHandler().setTimes(uuid, lastTimes.get(parkour), bestTimes.get(parkour), parkour);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

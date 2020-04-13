@@ -38,6 +38,16 @@ CommandBlocker:
         - 'pk'
 
 
+# ENABLE HOLOGRAMS, YOU NEED DEPENDENCIES
+Hologram:
+    Enabled: true
+
+
+# RELOAD INTERVAL OF TOP HOLOGRAM AND TOP GUI
+Tasks:
+    ReloadInterval: 120
+
+
 # RETURN TO SPAWN ON PARKOUR END
 TpToParkourSpawn:
     Enabled: false
@@ -75,16 +85,6 @@ Items:
         ID: 148
         Name: '&a&lCheckpoint'
         Lore: '&7Return to your last checkpoint of the course!'
-
-
-# ENABLE HOLOGRAMS, YOU NEED DEPENDENCIES
-Hologram:
-    Enabled: true
-
-
-# RELOAD INTERVAL OF TOP HOLOGRAM AND TOP GUI
-Tasks:
-    ReloadInterval: 120
 
 
 # SOUNDS OF PARKOUR EVENTS

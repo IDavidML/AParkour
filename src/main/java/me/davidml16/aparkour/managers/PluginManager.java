@@ -53,8 +53,6 @@ public class PluginManager {
         main.getStatsHologramManager().reloadStatsHolograms();
         main.getTopHologramManager().setReloadInterval(main.getConfig().getInt("Tasks.ReloadInterval"));
         main.getTopHologramManager().restartTimeLeft();
-        main.getTopHologramManager().loadTopHolograms();
-        main.getHologramTask().start();
         main.getConfigGUI().loadGUI();
         main.getConfigGUI().reloadAllGUI();
         main.getWalkableBlocksGUI().loadGUI();
@@ -68,6 +66,10 @@ public class PluginManager {
         main.getTitlesGUI().loadGUI();
         main.getTitlesGUI().reloadAllGUI();
         main.getParkourHandler().loadHolograms();
+        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
+            main.getTopHologramManager().loadTopHolograms();
+        }, 40L);
+        main.getHologramTask().start();
     }
 
 }

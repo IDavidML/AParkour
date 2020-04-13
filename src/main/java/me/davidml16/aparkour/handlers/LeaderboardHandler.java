@@ -27,8 +27,8 @@ public class LeaderboardHandler {
     }
 
     public void reloadLeaderboards() {
-        for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
-            HashMap<String, Long> times = main.getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10);
+        for (String parkour : main.getParkourHandler().getParkours().keySet()) {
+            HashMap<String, Long> times = main.getDatabaseHandler().getParkourBestTimes(parkour, 10);
 
             Map<Integer, LeaderboardEntry> leaderboard = new HashMap<>();
 
@@ -45,8 +45,29 @@ public class LeaderboardHandler {
                 leaderboard.put(i, new LeaderboardEntry("NONE", 0L));
             }
 
-            leaderboards.put(parkour.getId(), leaderboard);
+            leaderboards.put(parkour, leaderboard);
         }
+    }
+
+    public void reloadLeaderboard(String parkour) {
+        HashMap<String, Long> times = main.getDatabaseHandler().getParkourBestTimes(parkour, 10);
+
+        Map<Integer, LeaderboardEntry> leaderboard = new HashMap<>();
+
+        int it = 0;
+        for (Map.Entry<String, Long> entry : times.entrySet()) {
+            try {
+                leaderboard.put(it, new LeaderboardEntry( main.getDatabaseHandler().getPlayerName(entry.getKey()), entry.getValue()));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            it++;
+        }
+        for (int i = it; i < 10; i++) {
+            leaderboard.put(i, new LeaderboardEntry("NONE", 0L));
+        }
+
+        leaderboards.put(parkour, leaderboard);
     }
 
 }

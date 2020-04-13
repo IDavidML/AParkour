@@ -23,8 +23,8 @@ public class StatsHologramManager {
 
 	public void loadStatsHolograms(Player p) {
 		if (main.isHologramsEnabled()) {
-			for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
-				loadStatsHologram(p, parkour.getId());
+			for (String parkour : main.getParkourHandler().getParkours().keySet()) {
+				loadStatsHologram(p, parkour);
 			}
 		}
 	}
@@ -54,8 +54,8 @@ public class StatsHologramManager {
 	
 	public void reloadStatsHolograms(Player p) {
 		if (main.isHologramsEnabled()) {
-			for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
-				reloadStatsHologram(p, parkour.getId());
+			for (String parkour : main.getParkourHandler().getParkours().keySet()) {
+				reloadStatsHologram(p, parkour);
 			}
 		}
 	}

@@ -62,54 +62,54 @@ public class PlaceholderHook extends PlaceholderExpansion {
         String[] identifiers = identifier.split("_");
         switch (identifiers[0]) {
             case "lt":
-                for (Parkour parkour : api.getParkours().values()) {
-                    if (identifiers[1].equals(parkour.getId())) {
-                        long time = api.getLastTime(player.getPlayer(), parkour.getId());
+                for (String parkour : api.getParkours().keySet()) {
+                    if (identifiers[1].equals(parkour)) {
+                        long time = api.getLastTime(player.getPlayer(), parkour);
                         if (time == 0) return "N/A";
                         return "" + time;
                     }
                 }
                 break;
             case "ltf":
-                for (Parkour parkour : api.getParkours().values()) {
-                    if (identifiers[1].equals(parkour.getId())) {
-                        long time = api.getLastTime(player.getPlayer(), parkour.getId());
+                for (String parkour : api.getParkours().keySet()) {
+                    if (identifiers[1].equals(parkour)) {
+                        long time = api.getLastTime(player.getPlayer(), parkour);
                         if (time == 0) return "N/A";
-                        return "" + api.getLastTimeFormatted(player.getPlayer(), parkour.getId());
+                        return "" + api.getLastTimeFormatted(player.getPlayer(), parkour);
                     }
                 }
                 break;
             case "bt":
-                for (Parkour parkour : api.getParkours().values()) {
-                    if (identifiers[1].equals(parkour.getId())) {
-                        long time = api.getBestTime(player.getPlayer(), parkour.getId());
+                for (String parkour : api.getParkours().keySet()) {
+                    if (identifiers[1].equals(parkour)) {
+                        long time = api.getBestTime(player.getPlayer(), parkour);
                         if (time == 0) return "N/A";
                         return "" + time;
                     }
                 }
                 break;
             case "btf":
-                for (Parkour parkour : api.getParkours().values()) {
-                    if (identifiers[1].equals(parkour.getId())) {
-                        long time = api.getBestTime(player.getPlayer(), parkour.getId());
+                for (String parkour : api.getParkours().keySet()) {
+                    if (identifiers[1].equals(parkour)) {
+                        long time = api.getBestTime(player.getPlayer(), parkour);
                         if (time == 0) return "N/A";
-                        return "" + api.getBestTimeFormatted(player.getPlayer(), parkour.getId());
+                        return "" + api.getBestTimeFormatted(player.getPlayer(), parkour);
                     }
                 }
                 break;
             case "top":
                 switch (identifiers[1]) {
                     case "name":
-                        for (Parkour parkour : api.getParkours().values()) {
-                            if (identifiers[2].equals(parkour.getId())) {
-                                return api.getLeaderboard(parkour.getId()).get(Integer.parseInt(identifiers[3]) - 1).getName();
+                        for (String parkour : api.getParkours().keySet()) {
+                            if (identifiers[2].equals(parkour)) {
+                                return api.getLeaderboard(parkour).get(Integer.parseInt(identifiers[3]) - 1).getName();
                             }
                         }
                         break;
                     case "time":
-                        for (Parkour parkour : api.getParkours().values()) {
-                            if (identifiers[2].equals(parkour.getId())) {
-                                long time = api.getLeaderboard(parkour.getId()).get(Integer.parseInt(identifiers[3]) - 1).getTime();
+                        for (String parkour : api.getParkours().keySet()) {
+                            if (identifiers[2].equals(parkour)) {
+                                long time = api.getLeaderboard(parkour).get(Integer.parseInt(identifiers[3]) - 1).getTime();
                                 if (time == 0) return "N/A";
                                 return "" + main.getTimerManager().millisToString(time);
                             }

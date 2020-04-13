@@ -64,8 +64,8 @@ public class TabCompleter_AParkour implements TabCompleter {
 				}
 			} else {
 				if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
-					for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
-						list.add(parkour.getId());
+					for (String parkour : main.getParkourHandler().getParkours().keySet()) {
+						list.add(parkour);
 					}
 				}
 			}

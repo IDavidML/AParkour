@@ -211,13 +211,13 @@ public class DatabaseHandler {
 
 	public HashMap<String, Long> getPlayerLastTimes(UUID uuid) {
 		HashMap<String, Long> times = new HashMap<String, Long>();
-		for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
+		for (String parkour : main.getParkourHandler().getParkours().keySet()) {
 			try {
-				if (hasData(uuid, parkour.getId())) {
-					times.put(parkour.getId(), getLastTime(uuid, parkour.getId()));
+				if (hasData(uuid, parkour)) {
+					times.put(parkour, getLastTime(uuid, parkour));
 				} else {
-					createData(uuid, parkour.getId());
-					times.put(parkour.getId(), 0L);
+					createData(uuid, parkour);
+					times.put(parkour, 0L);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -228,13 +228,13 @@ public class DatabaseHandler {
 
 	public HashMap<String, Long> getPlayerBestTimes(UUID uuid) {
 		HashMap<String, Long> times = new HashMap<String, Long>();
-		for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
+		for (String parkour : main.getParkourHandler().getParkours().keySet()) {
 			try {
-				if (hasData(uuid, parkour.getId())) {
-					times.put(parkour.getId(), getBestTime(uuid, parkour.getId()));
+				if (hasData(uuid, parkour)) {
+					times.put(parkour, getBestTime(uuid, parkour));
 				} else {
-					createData(uuid, parkour.getId());
-					times.put(parkour.getId(), 0L);
+					createData(uuid, parkour);
+					times.put(parkour, 0L);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

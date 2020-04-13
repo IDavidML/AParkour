@@ -256,25 +256,61 @@ public class ParkourHandler {
 	}
 
 	public void loadHolograms() {
-		for (Parkour parkour : parkours.values()) {
-			if(parkour.getStart().isHologramEnabled()) {
+		if(main.isHologramsEnabled()) {
+			for (Parkour parkour : parkours.values()) {
+				if (parkour.getStart().isHologramEnabled()) {
+					Hologram hologram = HologramsAPI.createHologram(main,
+							parkour.getStart().getLocation().clone().add(0.5D, parkour.getStart().getHologramDistance(), 0.5D));
+					hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Start.Line1"));
+					hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Start.Line2"));
+					parkour.getStart().setHologram(hologram);
+				}
+				if (parkour.getEnd().isHologramEnabled()) {
+					Hologram hologram = HologramsAPI.createHologram(main,
+							parkour.getEnd().getLocation().clone().add(0.5D, parkour.getEnd().getHologramDistance(), 0.5D));
+					hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.End.Line1"));
+					hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.End.Line2"));
+					parkour.getEnd().setHologram(hologram);
+				}
+				if (!parkour.getCheckpoints().isEmpty()) {
+					int iterator = 1;
+					for (Plate checkpoint : parkour.getCheckpoints()) {
+						if (checkpoint.isHologramEnabled()) {
+							Hologram hologram = HologramsAPI.createHologram(main,
+									checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
+							hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
+									.replaceAll("%checkpoint%", Integer.toString(iterator)));
+							hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
+									.replaceAll("%checkpoint%", Integer.toString(iterator)));
+							checkpoint.setHologram(hologram);
+							iterator++;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void loadHolograms(Parkour parkour) {
+		if(main.isHologramsEnabled()) {
+			if (parkour.getStart().isHologramEnabled()) {
 				Hologram hologram = HologramsAPI.createHologram(main,
 						parkour.getStart().getLocation().clone().add(0.5D, parkour.getStart().getHologramDistance(), 0.5D));
 				hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Start.Line1"));
 				hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Start.Line2"));
 				parkour.getStart().setHologram(hologram);
 			}
-			if(parkour.getEnd().isHologramEnabled()) {
+			if (parkour.getEnd().isHologramEnabled()) {
 				Hologram hologram = HologramsAPI.createHologram(main,
 						parkour.getEnd().getLocation().clone().add(0.5D, parkour.getEnd().getHologramDistance(), 0.5D));
 				hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.End.Line1"));
 				hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.End.Line2"));
 				parkour.getEnd().setHologram(hologram);
 			}
-			if(!parkour.getCheckpoints().isEmpty()) {
+			if (!parkour.getCheckpoints().isEmpty()) {
 				int iterator = 1;
 				for (Plate checkpoint : parkour.getCheckpoints()) {
-					if(checkpoint.isHologramEnabled()) {
+					if (checkpoint.isHologramEnabled()) {
 						Hologram hologram = HologramsAPI.createHologram(main,
 								checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
 						hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
@@ -289,25 +325,39 @@ public class ParkourHandler {
 		}
 	}
 
-	public void loadHolograms(Parkour parkour) {
-		if(parkour.getStart().isHologramEnabled()) {
-			Hologram hologram = HologramsAPI.createHologram(main,
-					parkour.getStart().getLocation().clone().add(0.5D, parkour.getStart().getHologramDistance(), 0.5D));
-			hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Start.Line1"));
-			hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Start.Line2"));
-			parkour.getStart().setHologram(hologram);
+	public void loadCheckpointHologram(Parkour parkour, Plate checkpoint) {
+		if(main.isHologramsEnabled()) {
+			FileConfiguration config = getConfig(parkour.getId());
+			boolean enabled = config.getBoolean("parkour.plateHolograms.checkpoints.enabled");
+			double distance = config.getDouble("parkour.plateHolograms.checkpoints.distanceBelowPlate");
+			checkpoint.setHologramEnabled(enabled);
+			checkpoint.setHologramDistance(distance);
+			if (enabled) {
+				Hologram hologram = HologramsAPI.createHologram(main, checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
+				hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
+						.replaceAll("%checkpoint%", Integer.toString(parkour.getCheckpoints().size())));
+				hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
+						.replaceAll("%checkpoint%", Integer.toString(parkour.getCheckpoints().size())));
+				checkpoint.setHologram(hologram);
+			}
 		}
-		if(parkour.getEnd().isHologramEnabled()) {
-			Hologram hologram = HologramsAPI.createHologram(main,
-					parkour.getEnd().getLocation().clone().add(0.5D, parkour.getEnd().getHologramDistance(), 0.5D));
-			hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.End.Line1"));
-			hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.End.Line2"));
-			parkour.getEnd().setHologram(hologram);
+	}
+
+	public void removeCheckpointHolograms(Parkour parkour) {
+		if (main.isHologramsEnabled()) {
+			for (Plate checkpoint : parkour.getCheckpoints()) {
+				if (checkpoint.isHologramEnabled()) {
+					checkpoint.getHologram().delete();
+				}
+			}
 		}
-		if(!parkour.getCheckpoints().isEmpty()) {
+	}
+
+	public void loadCheckpointHolograms(Parkour parkour) {
+		if(main.isHologramsEnabled()) {
 			int iterator = 1;
 			for (Plate checkpoint : parkour.getCheckpoints()) {
-				if(checkpoint.isHologramEnabled()) {
+				if (checkpoint.isHologramEnabled()) {
 					Hologram hologram = HologramsAPI.createHologram(main,
 							checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
 					hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
@@ -321,57 +371,19 @@ public class ParkourHandler {
 		}
 	}
 
-	public void loadCheckpointHologram(Parkour parkour, Plate checkpoint) {
-		FileConfiguration config = getConfig(parkour.getId());
-		boolean enabled = config.getBoolean("parkour.plateHolograms.checkpoints.enabled");
-		double distance = config.getDouble("parkour.plateHolograms.checkpoints.distanceBelowPlate");
-		checkpoint.setHologramEnabled(enabled);
-		checkpoint.setHologramDistance(distance);
-		if(enabled) {
-			Hologram hologram = HologramsAPI.createHologram(main, checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
-			hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
-					.replaceAll("%checkpoint%", Integer.toString(parkour.getCheckpoints().size())));
-			hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
-					.replaceAll("%checkpoint%", Integer.toString(parkour.getCheckpoints().size())));
-			checkpoint.setHologram(hologram);
-		}
-	}
-
-	public void removeCheckpointHolograms(Parkour parkour) {
-		for (Plate checkpoint : parkour.getCheckpoints()) {
-			if(checkpoint.isHologramEnabled()) {
-				checkpoint.getHologram().delete();
-			}
-		}
-	}
-
-	public void loadCheckpointHolograms(Parkour parkour) {
-		int iterator = 1;
-		for (Plate checkpoint : parkour.getCheckpoints()) {
-			if(checkpoint.isHologramEnabled()) {
-				Hologram hologram = HologramsAPI.createHologram(main,
-						checkpoint.getLocation().clone().add(0.5D, checkpoint.getHologramDistance(), 0.5D));
-				hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line1")
-						.replaceAll("%checkpoint%", Integer.toString(iterator)));
-				hologram.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Plates.Checkpoint.Line2")
-						.replaceAll("%checkpoint%", Integer.toString(iterator)));
-				checkpoint.setHologram(hologram);
-				iterator++;
-			}
-		}
-	}
-
 	public void removeHologram(String id) {
-		Parkour parkour = parkours.get(id);
-		if(parkour.getStart().isHologramEnabled()) {
-			parkour.getStart().getHologram().delete();
-		}
-		if(parkour.getEnd().isHologramEnabled()) {
-			parkour.getEnd().getHologram().delete();
-		}
-		for (Plate checkpoint : parkour.getCheckpoints()) {
-			if(checkpoint.getHologram() != null)
-				checkpoint.getHologram().delete();
+		if (main.isHologramsEnabled()) {
+			Parkour parkour = parkours.get(id);
+			if (parkour.getStart().isHologramEnabled()) {
+				parkour.getStart().getHologram().delete();
+			}
+			if (parkour.getEnd().isHologramEnabled()) {
+				parkour.getEnd().getHologram().delete();
+			}
+			for (Plate checkpoint : parkour.getCheckpoints()) {
+				if (checkpoint.getHologram() != null)
+					checkpoint.getHologram().delete();
+			}
 		}
 	}
 

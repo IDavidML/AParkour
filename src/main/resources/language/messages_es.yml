@@ -33,12 +33,6 @@ GUIs:
     title: '%parkour% | Títulos'
 
 Times:
-  Hours: horas
-  Hour: hora
-  Minutes: minutos
-  Minute: minuto
-  Seconds: segundos
-  Second: segundo
   NoBestTime: N/A
 
 Timer:

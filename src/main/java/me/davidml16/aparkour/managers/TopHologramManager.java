@@ -9,6 +9,7 @@ import me.davidml16.aparkour.data.Parkour;
 import org.bukkit.Bukkit;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -58,8 +59,8 @@ public class TopHologramManager {
 
     public void loadTopHolograms() {
         if (main.isHologramsEnabled()) {
-            for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
-                loadTopHologram(parkour.getId());
+            for (String parkour : main.getParkourHandler().getParkours().keySet()) {
+                loadTopHologram(parkour);
             }
         }
     }
@@ -80,7 +81,9 @@ public class TopHologramManager {
 
                 Hologram footer = HologramsAPI.createHologram(main,
                         parkour.getTopHologram().clone().add(0.5D, 1D, 0.5D));
-                footer.appendTextLine("&aUpdate: &6" + main.getTimerManager().millisToString(timeLeft));
+                footer.appendTextLine(main.getLanguageHandler()
+                        .getMessage("Holograms.Top.Footer.Line")
+                        .replaceAll("%time%", main.getTimerManager().secondsToString(timeLeft * 1000)));
 
                 HashMap<String, Long> times = main.getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10);
 
@@ -114,19 +117,21 @@ public class TopHologramManager {
     }
 
     public void removeHologram(String id) {
-        if (holoHeader.containsKey(id)) {
-            holoHeader.get(id).delete();
-            holoHeader.remove(id);
-        }
+        if (main.isHologramsEnabled()) {
+            if (holoHeader.containsKey(id)) {
+                holoHeader.get(id).delete();
+                holoHeader.remove(id);
+            }
 
-        if (holoBody.containsKey(id)) {
-            holoBody.get(id).delete();
-            holoBody.remove(id);
-        }
+            if (holoBody.containsKey(id)) {
+                holoBody.get(id).delete();
+                holoBody.remove(id);
+            }
 
-        if (holoFooter.containsKey(id)) {
-            holoFooter.get(id).getParent().delete();
-            holoFooter.remove(id);
+            if (holoFooter.containsKey(id)) {
+                holoFooter.get(id).getParent().delete();
+                holoFooter.remove(id);
+            }
         }
     }
 
@@ -134,20 +139,16 @@ public class TopHologramManager {
         if (main.isHologramsEnabled()) {
             if (timeLeft <= 0) {
 
-                Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+                for (String parkour : main.getParkourHandler().getParkours().keySet()) {
+                    Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+                        holoFooter.get(parkour).setText(main.getLanguageHandler().getMessage("Holograms.Top.Footer.Updating"));
 
-                    for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
-                        holoFooter.get(parkour.getId()).setText(main.getLanguageHandler().getMessage("Holograms.Top.Footer.Updating"));
-                    }
+                        main.getLeaderboardHandler().reloadLeaderboard(parkour);
 
-                    main.getLeaderboardHandler().reloadLeaderboards();
+                        if (holoBody.containsKey(parkour) && holoFooter.containsKey(parkour)) {
+                            Hologram body = holoBody.get(parkour);
 
-                    for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
-
-                        if (holoBody.containsKey(parkour.getId()) && holoFooter.containsKey(parkour.getId())) {
-                            Hologram body = holoBody.get(parkour.getId());
-
-                            Map<Integer, LeaderboardEntry> leaderboard = main.getLeaderboardHandler().getLeaderboard(parkour.getId());
+                            Map<Integer, LeaderboardEntry> leaderboard = main.getLeaderboardHandler().getLeaderboard(parkour);
 
                             for (int i = 0; i < 10; i++) {
                                 if (leaderboard.get(i).getTime() > 0) {
@@ -161,14 +162,14 @@ public class TopHologramManager {
                                 }
                             }
                         }
-                    }
+                    });
+                }
 
-                    restartTimeLeft();
-                });
+                restartTimeLeft();
             }
-            for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
-                if (holoFooter.containsKey(parkour.getId())) {
-                    holoFooter.get(parkour.getId())
+            for (String parkour : main.getParkourHandler().getParkours().keySet()) {
+                if (holoFooter.containsKey(parkour)) {
+                    holoFooter.get(parkour)
                             .setText(main.getLanguageHandler()
                                     .getMessage("Holograms.Top.Footer.Line")
                                     .replaceAll("%time%", main.getTimerManager().secondsToString(timeLeft * 1000)));

@@ -7,6 +7,7 @@ import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.utils.ItemBuilder;
 import me.davidml16.aparkour.utils.Sounds;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.HumanEntity;
@@ -62,7 +63,7 @@ public class Holograms_GUI implements Listener {
 
         if(config.contains("parkour.holograms.stats")) {
             gui.setItem(10, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
-            gui.setItem(19, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aStats hologram location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
+            gui.setItem(19, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aStats hologram location")).setLore("", ColorManager.translate("&eClick to remove location!")).toItemStack());
         } else {
             gui.setItem(10, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 8).setName(ColorManager.translate("&c&l[-]")).toItemStack());
             gui.setItem(19, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&cStats hologram location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
@@ -70,7 +71,7 @@ public class Holograms_GUI implements Listener {
 
         if(config.contains("parkour.holograms.top")) {
             gui.setItem(11, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
-            gui.setItem(20, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aTop hologram location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
+            gui.setItem(20, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aTop hologram location")).setLore("", ColorManager.translate("&eClick to remove location!")).toItemStack());
         } else {
             gui.setItem(11, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 8).setName(ColorManager.translate("&c&l[-]")).toItemStack());
             gui.setItem(20, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&cTop hologram location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
@@ -150,7 +151,7 @@ public class Holograms_GUI implements Listener {
 
         if(config.contains("parkour.holograms.stats")) {
             gui.setItem(10, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
-            gui.setItem(19, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aStats hologram location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
+            gui.setItem(19, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aStats hologram location")).setLore("", ColorManager.translate("&eClick to remove location!")).toItemStack());
         } else {
             gui.setItem(10, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 8).setName(ColorManager.translate("&c&l[-]")).toItemStack());
             gui.setItem(19, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&cStats hologram location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
@@ -158,7 +159,7 @@ public class Holograms_GUI implements Listener {
 
         if(config.contains("parkour.holograms.top")) {
             gui.setItem(11, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&a&l[+]")).toItemStack());
-            gui.setItem(20, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aTop hologram location")).setLore("", ColorManager.translate("&eClick to relocate location!")).toItemStack());
+            gui.setItem(20, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&aTop hologram location")).setLore("", ColorManager.translate("&eClick to remove location!")).toItemStack());
         } else {
             gui.setItem(11, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 8).setName(ColorManager.translate("&c&l[-]")).toItemStack());
             gui.setItem(20, new ItemBuilder(Material.ARMOR_STAND, 1).setName(ColorManager.translate("&cTop hologram location")).setLore("", ColorManager.translate("&eClick to set location!")).toItemStack());
@@ -256,12 +257,35 @@ public class Holograms_GUI implements Listener {
 
     private void changeParkourConfig(Player p, int slot) {
         String id = opened.get(p.getUniqueId());
+        FileConfiguration config = main.getParkourHandler().getConfig(id);
         switch (slot) {
             case 19:
-                main.getLocationUtil().setHologram(p, id, "stats");
+                if(!config.contains("parkour.holograms.stats")) {
+                    main.getLocationUtil().setHologram(p, id, "stats");
+                    main.getParkourHandler().getParkourById(id).setStatsHologram((Location) config.get("parkour.holograms.stats"));
+                    for(Player pl : Bukkit.getServer().getOnlinePlayers()) {
+                        main.getStatsHologramManager().loadStatsHologram(pl, id);
+                    }
+                } else {
+                    config.set("parkour.holograms.stats", null);
+                    for(Player pl : Bukkit.getServer().getOnlinePlayers()) {
+                        main.getStatsHologramManager().removeStatsHologram(pl, id);
+                    }
+                    p.sendMessage(ColorManager.translate(main.getLanguageHandler().getPrefix()
+                            + " &cSuccesfully removed stats hologram location of parkour &e" + id));
+                }
                 break;
             case 20:
-                main.getLocationUtil().setHologram(p, id, "top");
+                if(!config.contains("parkour.holograms.top")) {
+                    main.getLocationUtil().setHologram(p, id, "top");
+                    main.getParkourHandler().getParkourById(id).setTopHologram((Location) config.get("parkour.holograms.top"));
+                    main.getTopHologramManager().loadTopHologram(id);
+                } else {
+                    config.set("parkour.holograms.top", null);
+                    main.getTopHologramManager().removeHologram(id);
+                    p.sendMessage(ColorManager.translate(main.getLanguageHandler().getPrefix()
+                            + " &cSuccesfully removed top hologram location of parkour &e" + id));
+                }
                 break;
             default:
                 break;

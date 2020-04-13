@@ -8,31 +8,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4467d438-d629-4a77-aced-9b0c874b398a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/DaviD.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/DaviD.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/PlaceholderAPI/PlaceholderHook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/PlaceholderAPI/PlaceholderHook.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/api/ParkourAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/api/ParkourAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/Command_AParkour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/Command_AParkour.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/TabCompleter_AParkour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/TabCompleter_AParkour.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/data/ParkourSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/data/ParkourSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/data/Parkour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/data/Parkour.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/data/Profile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/data/Profile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_Others.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_Others.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_PlateCheckpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_PlateCheckpoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_PlateEnd.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_PlateEnd.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_PlateStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_PlateStart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/ParkourRanking_GUI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/PlayerStats_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/PlayerStats_GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/Holograms_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/Holograms_GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/MainConfig_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/MainConfig_GUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/DatabaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/DatabaseHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/LeaderboardHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/LeaderboardHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/ParkourHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/ParkourHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/SessionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/SessionHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/PluginManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/PluginManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/StatsHologramManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/StatsHologramManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TimerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TimerManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TopHologramManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TopHologramManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/tasks/ReturnTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/tasks/ReturnTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/tasks/HologramTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/tasks/HologramTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/language/messages_en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language/messages_en.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/language/messages_es.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language/messages_es.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/version.txt" beforeDir="false" afterPath="$PROJECT_DIR$/version.txt" afterDir="false" />
@@ -49,70 +42,6 @@
         <option value="Class" />
       </list>
     </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>getType</find>
-      <find>getId</find>
-      <find>.getConfig()</find>
-      <find>parkours</find>
-      <find>noperms</find>
-      <find>getPrefix</find>
-      <find>ColorUtil</find>
-      <find>null</find>
-      <find>WandMenuOptions</find>
-      <find>wand</find>
-      <find>Main.getInstance().getWalkableBlocksGUI().getOpened()</find>
-      <find>cfg</find>
-      <find>cfg.set</find>
-      <find>COMMANDS_NOPERMS</find>
-      <find>getMessa</find>
-      <find>parkour</find>
-      <find>Main.getInstance().getParkourItems().isItemsEnabled()</find>
-      <find>getMessage</find>
-      <find>Main.getInstance().getParkourHandler().getConfig(id)</find>
-      <find>event</find>
-      <find>teleport</find>
-      <find>parkourConfigs.get(id)</find>
-      <find>Main.getInstance().getParkourHandler().getConfig(parkour.getId())</find>
-      <find>Main.getInstance().getParkourHandler().getConfig(parkourID)</find>
-      <find>Main.getInstance()</find>
-      <find>SoundUtil</find>
-      <find>main.getParkourHandler().getConfig(id)</find>
-      <find>TeleportCause</find>
-      <find>21</find>
-      <find>'</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>&amp;</replace>
-      <replace>§</replace>
-      <replace>&amp;c&amp;l[+]</replace>
-      <replace>&amp;c&amp;l[-]</replace>
-      <replace>spawnIC</replace>
-      <replace>start</replace>
-      <replace>end</replace>
-      <replace>stats</replace>
-      <replace>top</replace>
-      <replace>wb</replace>
-      <replace>back</replace>
-      <replace>DyeColor.GRAY</replace>
-      <replace>.setDurability((short) 8)</replace>
-      <replace>relocate</replace>
-      <replace>.getConfig(id)</replace>
-      <replace>ChatColor</replace>
-      <replace>cadena</replace>
-      <replace>parkourConfigs.get(id)</replace>
-      <replace>parkourConfigs.get(parkourID)</replace>
-      <replace>opened</replace>
-      <replace>msgDefaults</replace>
-      <replace>msgDefaults.put</replace>
-      <replace>Commands.NoPerms</replace>
-      <replace>Main.getInstance().isParkourItemsEnabled()</replace>
-      <replace>e</replace>
-      <replace>main.getSound</replace>
-      <replace>main</replace>
-      <replace>config</replace>
-    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="ROOT_SYNC" value="DONT_SYNC" />
@@ -240,38 +169,46 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586737241986" />
-    <state x="765" y="196" key="#com.intellij.ide.util.MemberChooser" timestamp="1586737301675">
+    <state x="765" y="196" key="#com.intellij.ide.util.MemberChooser" timestamp="1586790044550">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="196" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1586737301675" />
+    <state x="765" y="196" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1586790044550" />
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1586735752346">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586735752346" />
-    <state width="1879" height="237" key="GridCell.Tab.0.bottom" timestamp="1586737257529">
+    <state width="1879" height="261" key="GridCell.Tab.0.bottom" timestamp="1586790184394">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1879" height="237" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586737257529" />
-    <state width="1879" height="237" key="GridCell.Tab.0.center" timestamp="1586737257529">
+    <state width="1879" height="261" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586790184394" />
+    <state width="1879" height="261" key="GridCell.Tab.0.center" timestamp="1586790184394">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1879" height="237" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586737257529" />
-    <state width="1879" height="237" key="GridCell.Tab.0.left" timestamp="1586737257529">
+    <state width="1879" height="261" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586790184394" />
+    <state width="1879" height="261" key="GridCell.Tab.0.left" timestamp="1586790184394">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1879" height="237" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586737257529" />
-    <state width="1879" height="237" key="GridCell.Tab.0.right" timestamp="1586737257529">
+    <state width="1879" height="261" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586790184394" />
+    <state width="1879" height="261" key="GridCell.Tab.0.right" timestamp="1586790184394">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1879" height="237" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586737257529" />
+    <state width="1879" height="261" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586790184394" />
     <state x="730" y="122" key="SettingsEditor" timestamp="1586704435527">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="730" y="122" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1586704435527" />
+    <state x="386" y="75" width="930" height="770" key="find.popup" timestamp="1586787935800">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="386" y="75" width="930" height="770" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586787935800" />
     <state x="365" y="96" key="new project wizard" timestamp="1586704758658">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="365" y="96" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1586704758658" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1586788074895">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586788074895" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />

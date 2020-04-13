@@ -78,13 +78,13 @@ public class Parkour {
         return end;
     }
 
-    public Location getStatsHologram() {
-        return statsHologram;
-    }
+    public Location getStatsHologram() { return statsHologram; }
 
-    public Location getTopHologram() {
-        return topHologram;
-    }
+    public void setStatsHologram(Location statsHologram) { this.statsHologram = statsHologram; }
+
+    public Location getTopHologram() { return topHologram; }
+
+    public void setTopHologram(Location topHologram) { this.topHologram = topHologram; }
 
     public List<WalkableBlock> getWalkableBlocks() {
         return walkableBlocks;

@@ -125,7 +125,6 @@ public class Main extends JavaPlugin {
         sessionHandler = new SessionHandler(this);
 
         leaderboardHandler = new LeaderboardHandler(this);
-        leaderboardHandler.reloadLeaderboards();
 
         timerManager = new TimerManager(this);
 
@@ -150,8 +149,12 @@ public class Main extends JavaPlugin {
         titlesGUI.loadGUI();
 
         topHologramManager = new TopHologramManager(this, getConfig().getInt("Tasks.ReloadInterval"));
-        topHologramManager.loadTopHolograms();
-        topHologramManager.restartTimeLeft();
+
+        leaderboardHandler.reloadLeaderboards();
+        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+            topHologramManager.loadTopHolograms();
+            topHologramManager.restartTimeLeft();
+        }, 40L);
 
         hologramTask = new HologramTask(this);
         hologramTask.start();

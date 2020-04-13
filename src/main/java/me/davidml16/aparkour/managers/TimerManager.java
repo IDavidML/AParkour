@@ -40,9 +40,9 @@ public class TimerManager {
 
 	public HashMap<String, String> getLastTimes(Player p) {
 		HashMap<String, String> times = new HashMap<String, String>();
-		for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
-			long total = main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId());
-			times.put(parkour.getId(), millisToString(total));
+		for (String parkour : main.getParkourHandler().getParkours().keySet()) {
+			long total = main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour);
+			times.put(parkour, millisToString(total));
 		}
 
 		return times;
@@ -50,9 +50,9 @@ public class TimerManager {
 
 	public HashMap<String, String> getBestTimes(Player p) {
 		HashMap<String, String> times = new HashMap<String, String>();
-		for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
-			long total = main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
-			times.put(parkour.getId(), millisToString(total));
+		for (String parkour : main.getParkourHandler().getParkours().keySet()) {
+			long total = main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour);
+			times.put(parkour, millisToString(total));
 		}
 
 		return times;
