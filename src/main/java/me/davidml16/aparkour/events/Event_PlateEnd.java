@@ -14,10 +14,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Event_PlateEnd implements Listener {
 
@@ -54,7 +54,7 @@ public class Event_PlateEnd implements Listener {
 
 							Profile profile = main.getPlayerDataHandler().getData(p);
 
-							int total = (main.getTimerManager().getTimer().get(p.getUniqueId()));
+							long total = session.getLiveTime();
 
 							main.getSoundUtil().playEnd(p);
 
@@ -63,7 +63,7 @@ public class Event_PlateEnd implements Listener {
 							String end = main.getLanguageHandler().getMessage("EndMessage.Normal");
 							if(end.length() > 0)
 								p.sendMessage(ChatColor.translateAlternateColorCodes('&', end)
-										.replaceAll("%endTime%", main.getTimerManager().timeAsString(total)));
+										.replaceAll("%endTime%", main.getTimerManager().millisToString(total)));
 
 							if (profile.getBestTimes().get(parkour.getId()) == 0 && profile.getLastTimes().get(parkour.getId()) == 0) {
 								String message = main.getLanguageHandler().getMessage("EndMessage.FirstTime");
@@ -91,7 +91,7 @@ public class Event_PlateEnd implements Listener {
 
 							if (profile.isBestTime(total, parkour.getId())) {
 								Player eplayer = e.getPlayer();
-								int bestTotal = profile.getBestTimes().get(parkour.getId()) - total;
+								long bestTotal = profile.getBestTimes().get(parkour.getId()) - total;
 
 								String record = main.getLanguageHandler().getMessage("EndMessage.Record");
 
@@ -99,7 +99,7 @@ public class Event_PlateEnd implements Listener {
 
 								if(record.length() > 0)
 									eplayer.sendMessage(ChatColor.translateAlternateColorCodes('&', record)
-											.replaceAll("%recordTime%", main.getTimerManager().timeAsString(bestTotal)));
+											.replaceAll("%recordTime%", main.getTimerManager().millisToString(bestTotal)));
 							}
 
 							profile.save(parkour.getId());

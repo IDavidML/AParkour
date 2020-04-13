@@ -7,6 +7,8 @@ import me.davidml16.aparkour.data.Parkour;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
+import java.util.Arrays;
+
 public class PlaceholderHook extends PlaceholderExpansion {
 
     private Main main;
@@ -57,26 +59,65 @@ public class PlaceholderHook extends PlaceholderExpansion {
             return "" + api.getCurrentTimeFormatted(player.getPlayer());
         }
 
-        for (Parkour parkour : api.getParkours().values()) {
-            if (identifier.equals("lt_" + parkour.getId())) {
-                int time = api.getLastTime(player.getPlayer(), parkour.getId());
-                if (time == 0) return "N/A";
-                return "" + time;
-            } else if (identifier.equals("ltf_" + parkour.getId())) {
-                int time = api.getLastTime(player.getPlayer(), parkour.getId());
-                if (time == 0) return "N/A";
-                return "" + api.getLastTimeFormatted(player.getPlayer(), parkour.getId());
-            } else if (identifier.equals("bt_" + parkour.getId())) {
-                int time = api.getBestTime(player.getPlayer(), parkour.getId());
-                if (time == 0) return "N/A";
-                return "" + time;
-            } else if (identifier.equals("btf_" + parkour.getId())) {
-                int time = api.getBestTime(player.getPlayer(), parkour.getId());
-                if (time == 0) return "N/A";
-                return "" + api.getBestTimeFormatted(player.getPlayer(), parkour.getId());
-            }
+        String[] identifiers = identifier.split("_");
+        switch (identifiers[0]) {
+            case "lt":
+                for (Parkour parkour : api.getParkours().values()) {
+                    if (identifiers[1].equals(parkour.getId())) {
+                        long time = api.getLastTime(player.getPlayer(), parkour.getId());
+                        if (time == 0) return "N/A";
+                        return "" + time;
+                    }
+                }
+                break;
+            case "ltf":
+                for (Parkour parkour : api.getParkours().values()) {
+                    if (identifiers[1].equals(parkour.getId())) {
+                        long time = api.getLastTime(player.getPlayer(), parkour.getId());
+                        if (time == 0) return "N/A";
+                        return "" + api.getLastTimeFormatted(player.getPlayer(), parkour.getId());
+                    }
+                }
+                break;
+            case "bt":
+                for (Parkour parkour : api.getParkours().values()) {
+                    if (identifiers[1].equals(parkour.getId())) {
+                        long time = api.getBestTime(player.getPlayer(), parkour.getId());
+                        if (time == 0) return "N/A";
+                        return "" + time;
+                    }
+                }
+                break;
+            case "btf":
+                for (Parkour parkour : api.getParkours().values()) {
+                    if (identifiers[1].equals(parkour.getId())) {
+                        long time = api.getBestTime(player.getPlayer(), parkour.getId());
+                        if (time == 0) return "N/A";
+                        return "" + api.getBestTimeFormatted(player.getPlayer(), parkour.getId());
+                    }
+                }
+                break;
+            case "top":
+                switch (identifiers[1]) {
+                    case "name":
+                        for (Parkour parkour : api.getParkours().values()) {
+                            if (identifiers[2].equals(parkour.getId())) {
+                                return api.getLeaderboard(parkour.getId()).get(Integer.parseInt(identifiers[3]) - 1).getName();
+                            }
+                        }
+                        break;
+                    case "time":
+                        for (Parkour parkour : api.getParkours().values()) {
+                            if (identifiers[2].equals(parkour.getId())) {
+                                long time = api.getLeaderboard(parkour.getId()).get(Integer.parseInt(identifiers[3]) - 1).getTime();
+                                if (time == 0) return "N/A";
+                                return "" + main.getTimerManager().millisToString(time);
+                            }
+                        }
+                        break;
+                }
+                break;
         }
-
         return null;
     }
 }

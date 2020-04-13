@@ -54,17 +54,6 @@ public class Command_AParkour implements CommandExecutor {
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("top")) {
-            if (main.getParkourHandler().getParkours().size() > 0) {
-                main.getRankingsGUI().open(p);
-            } else {
-                String message = main.getLanguageHandler().getMessage("Commands.NoParkours");
-                if(message.length() > 0)
-                    p.sendMessage(message);
-            }
-            return true;
-        }
-
         if (args[0].equalsIgnoreCase("reload")) {
             if (!main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
                 String message = main.getLanguageHandler().getMessage("Commands.NoPerms");
@@ -171,10 +160,10 @@ public class Command_AParkour implements CommandExecutor {
                 return true;
             }
 
-            main.getPlayerDataHandler().getData(target).setLastTime(0, id);
-            main.getPlayerDataHandler().getData(target).setBestTime(0, id);
+            main.getPlayerDataHandler().getData(target).setLastTime(0L, id);
+            main.getPlayerDataHandler().getData(target).setBestTime(0L, id);
             try {
-                main.getDatabaseHandler().setTimes(target.getUniqueId(), 0, 0, id);
+                main.getDatabaseHandler().setTimes(target.getUniqueId(), 0L, 0L, id);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -349,8 +338,6 @@ public class Command_AParkour implements CommandExecutor {
                     main.getRewardsGUI().getGuis().remove(id);
                 }
 
-                main.getRankingsGUI().reloadGUI();
-
                 p.sendMessage(ColorManager.translate(
                         main.getLanguageHandler().getPrefix() + " &aSuccesfully deleted parkour &e" + id));
             }
@@ -380,7 +367,7 @@ public class Command_AParkour implements CommandExecutor {
 
     private void sendCommandHelp(Player p) {
         p.sendMessage("");
-        p.sendMessage(ColorManager.translate("&7 - &a/aparkour [stats, top, list]"));
+        p.sendMessage(ColorManager.translate("&7 - &a/aparkour [stats, list]"));
         p.sendMessage("");
         p.sendMessage(ColorManager.translate("&7 - &a/aparkour cancel"));
         p.sendMessage(ColorManager.translate("&7 - &a/aparkour checkpoint"));

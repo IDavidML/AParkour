@@ -4,9 +4,7 @@ import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.api.events.ParkourCheckpointEvent;
 import me.davidml16.aparkour.data.Parkour;
 import me.davidml16.aparkour.data.ParkourSession;
-import me.davidml16.aparkour.data.Profile;
 import me.davidml16.aparkour.utils.Sounds;
-import me.davidml16.aparkour.utils.TitleUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,6 +13,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.util.concurrent.TimeUnit;
 
 public class Event_PlateCheckpoint implements Listener {
 
@@ -52,13 +52,11 @@ public class Event_PlateCheckpoint implements Listener {
 								loc.setYaw(p.getLocation().getYaw());
 								session.setLastCheckpointLocation(loc);
 
-								int time = (main.getTimerManager().getTimer().get(p.getUniqueId()));
-
 								String message = main.getLanguageHandler().getMessage("Messages.Checkpoint");
 								if(message.length() > 0)
 									p.sendMessage(message
 											.replaceAll("%checkpoint%", Integer.toString(session.getLastCheckpoint() + 1))
-											.replaceAll("%time%", main.getTimerManager().timeAsString(time)));
+											.replaceAll("%time%", main.getTimerManager().millisToString(session.getLiveTime())));
 
 								Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
 

@@ -20,15 +20,8 @@ public class PluginManager {
     public void removePlayersFromParkour() {
         for (Player pl : Bukkit.getOnlinePlayers()) {
             if(main.getTimerManager().hasPlayerTimer(pl)) {
-                main.getTimerManager().cancelTimer(pl);
                 ParkourSession session = main.getSessionHandler().getSession(pl);
                 pl.teleport(session.getParkour().getSpawn());
-                if (main.getConfig().getBoolean("RestartItem.Enabled")) {
-                    main.getPlayerDataHandler().restorePlayerInventory(pl);
-                }
-                if (main.getTimerManager().isActionBarEnabled()) {
-                    ActionBar.sendActionbar(pl, " ");
-                }
                 main.getParkourHandler().resetPlayer(pl);
                 main.getSoundUtil().playFall(pl);
             }
@@ -53,6 +46,7 @@ public class PluginManager {
         main.getParkourHandler().loadParkours();
         main.getParkourHandler().setParkourGamemode(GameMode.valueOf(main.getConfig().getString("ParkourGamemode")));
         main.getDatabaseHandler().loadTables();
+        main.getLeaderboardHandler().reloadLeaderboards();
         main.getPlayerDataHandler().loadAllPlayerData();
         main.getPlayerDataHandler().saveAllPlayerData();
         main.getRewardHandler().loadRewards();
@@ -60,7 +54,6 @@ public class PluginManager {
         main.getTopHologramManager().setReloadInterval(main.getConfig().getInt("Tasks.ReloadInterval"));
         main.getTopHologramManager().restartTimeLeft();
         main.getTopHologramManager().loadTopHolograms();
-        main.getRankingsGUI().reloadGUI();
         main.getHologramTask().start();
         main.getConfigGUI().loadGUI();
         main.getConfigGUI().reloadAllGUI();

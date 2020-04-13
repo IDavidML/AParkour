@@ -33,7 +33,6 @@ public class TabCompleter_AParkour implements TabCompleter {
 
 		if (args.length == 1) {
 			list.add("stats");
-			list.add("top");
 			list.add("list");
 			list.add("cancel");
 			list.add("checkpoint");

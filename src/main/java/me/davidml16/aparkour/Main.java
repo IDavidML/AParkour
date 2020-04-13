@@ -34,7 +34,6 @@ public class Main extends JavaPlugin {
     public static ConsoleCommandSender log;
 
     private PlayerStats_GUI statsGUI;
-    private ParkourRanking_GUI rankingsGUI;
     private MainConfig_GUI configGUI;
     private WalkableBlocks_GUI walkableBlocksGUI;
     private Rewards_GUI rewardsGUI;
@@ -58,6 +57,7 @@ public class Main extends JavaPlugin {
     private PlayerDataHandler playerDataHandler;
     private DatabaseHandler databaseHandler;
     private SessionHandler sessionHandler;
+    private LeaderboardHandler leaderboardHandler;
 
     private SoundUtil soundUtil;
     private LocationUtil locationUtil;
@@ -124,12 +124,12 @@ public class Main extends JavaPlugin {
         playerDataHandler = new PlayerDataHandler(this);
         sessionHandler = new SessionHandler(this);
 
+        leaderboardHandler = new LeaderboardHandler(this);
+        leaderboardHandler.reloadLeaderboards();
+
         timerManager = new TimerManager(this);
 
         statsGUI = new PlayerStats_GUI(this);
-
-        rankingsGUI = new ParkourRanking_GUI(this);
-        rankingsGUI.loadGUI();
 
         configGUI = new MainConfig_GUI(this);
         configGUI.loadGUI();
@@ -243,10 +243,6 @@ public class Main extends JavaPlugin {
         return statsGUI;
     }
 
-    public ParkourRanking_GUI getRankingsGUI() {
-        return rankingsGUI;
-    }
-
     public MainConfig_GUI getConfigGUI() {
         return configGUI;
     }
@@ -311,16 +307,14 @@ public class Main extends JavaPlugin {
         return checkpointsHandler;
     }
 
+    public LeaderboardHandler getLeaderboardHandler() { return leaderboardHandler; }
+
     public ADatabase getADatabase() {
         return database;
     }
 
     public HologramTask getHologramTask() {
         return hologramTask;
-    }
-
-    public ReturnTask getReturnTask() {
-        return returnTask;
     }
 
     public boolean isHologramsEnabled() {
@@ -351,6 +345,8 @@ public class Main extends JavaPlugin {
 
     public CommandBlocker getCommandBlocker() { return commandBlocker; }
 
+    public ParkourAPI getParkourAPI() { return parkourAPI; }
+
     private void registerCommands() {
         getCommand("aparkour").setExecutor(new Command_AParkour(this));
         getCommand("aparkour").setTabCompleter(new TabCompleter_AParkour(this));
@@ -370,4 +366,5 @@ public class Main extends JavaPlugin {
         }
 
     }
+
 }

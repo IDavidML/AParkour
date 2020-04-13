@@ -33,7 +33,7 @@ public class SessionHandler {
     }
 
     public void createSession(Player p, Parkour parkour) {
-        sessions.put(p.getUniqueId(), new ParkourSession(p, parkour));
+        sessions.put(p.getUniqueId(), new ParkourSession(main, p, parkour));
     }
 
     public void removeSession(Player p) {

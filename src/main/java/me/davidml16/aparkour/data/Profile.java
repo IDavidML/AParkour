@@ -28,8 +28,8 @@ public class Profile {
 
 	private Collection<PotionEffect> potionEffects;
 
-	private HashMap<String, Integer> lastTimes;
-	private HashMap<String, Integer> bestTimes;
+	private HashMap<String, Long> lastTimes;
+	private HashMap<String, Long> bestTimes;
 	private HashMap<String, Hologram> holograms;
 
 	public Profile(Main main, UUID uuid) {
@@ -62,23 +62,23 @@ public class Profile {
 		}
 	}
 
-	public HashMap<String, Integer> getLastTimes() {
+	public HashMap<String, Long> getLastTimes() {
 		return lastTimes;
 	}
 
-	public HashMap<String, Integer> getBestTimes() {
+	public HashMap<String, Long> getBestTimes() {
 		return bestTimes;
 	}
 
-	public void setLastTime(int total, String parkour) {
+	public void setLastTime(Long total, String parkour) {
 		lastTimes.put(parkour, total);
 	}
 
-	public void setBestTime(int total, String parkour) {
+	public void setBestTime(Long total, String parkour) {
 		bestTimes.put(parkour, total);
 	}
 
-	public boolean isBestTime(int time, String parkour) {
+	public boolean isBestTime(Long time, String parkour) {
 		return time < bestTimes.get(parkour);
 	}
 

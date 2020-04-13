@@ -4,12 +4,13 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import me.davidml16.aparkour.Main;
+import me.davidml16.aparkour.data.LeaderboardEntry;
 import me.davidml16.aparkour.data.Parkour;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 public class TopHologramManager {
@@ -79,19 +80,19 @@ public class TopHologramManager {
 
                 Hologram footer = HologramsAPI.createHologram(main,
                         parkour.getTopHologram().clone().add(0.5D, 1D, 0.5D));
-                footer.appendTextLine("&aUpdate: &6" + main.getTimerManager().timeAsString(timeLeft));
+                footer.appendTextLine("&aUpdate: &6" + main.getTimerManager().millisToString(timeLeft));
 
-                HashMap<String, Integer> times = main.getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10);
+                HashMap<String, Long> times = main.getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10);
 
                 int it = 0;
-                for (Entry<String, Integer> entry : times.entrySet()) {
+                for (Entry<String, Long> entry : times.entrySet()) {
                     try {
 
                         body.appendTextLine(main.getLanguageHandler()
                                 .getMessage("Holograms.Top.Body.Line").replaceAll("%position%", "" + Integer.toString(it + 1))
                                 .replaceAll("%player%",
                                         main.getDatabaseHandler().getPlayerName(entry.getKey().toString()))
-                                .replaceAll("%time%", main.getTimerManager().timeAsString(entry.getValue())));
+                                .replaceAll("%time%", main.getTimerManager().millisToString(entry.getValue())));
 
                         it++;
                     } catch (SQLException e) {
@@ -133,50 +134,44 @@ public class TopHologramManager {
         if (main.isHologramsEnabled()) {
             if (timeLeft <= 0) {
 
-                main.getRankingsGUI().reloadGUI();
+                Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
 
-                for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
-                    if (holoBody.containsKey(parkour.getId()) && holoFooter.containsKey(parkour.getId())) {
-                        Hologram body = holoBody.get(parkour.getId());
+                    for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
+                        holoFooter.get(parkour.getId()).setText(main.getLanguageHandler().getMessage("Holograms.Top.Footer.Updating"));
+                    }
 
-                        HashMap<String, Integer> times = main.getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10);
+                    main.getLeaderboardHandler().reloadLeaderboards();
 
-                        int it = 0;
-                        for (Entry<String, Integer> entry : times.entrySet()) {
-                            try {
-                                ((TextLine) body.getLine(it)).setText(main.getLanguageHandler()
-                                        .getMessage("Holograms.Top.Body.Line").replaceAll("%position%", Integer.toString(it + 1))
-                                        .replaceAll("%player%",
-                                                main.getDatabaseHandler()
-                                                        .getPlayerName(entry.getKey().toString()))
-                                        .replaceAll("%time%",
-                                                main.getTimerManager().timeAsString(entry.getValue())));
+                    for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
 
-                                it++;
-                            } catch (SQLException e) {
-                                e.printStackTrace();
+                        if (holoBody.containsKey(parkour.getId()) && holoFooter.containsKey(parkour.getId())) {
+                            Hologram body = holoBody.get(parkour.getId());
+
+                            Map<Integer, LeaderboardEntry> leaderboard = main.getLeaderboardHandler().getLeaderboard(parkour.getId());
+
+                            for (int i = 0; i < 10; i++) {
+                                if (leaderboard.get(i).getTime() > 0) {
+                                    ((TextLine) body.getLine(i)).setText(main.getLanguageHandler()
+                                            .getMessage("Holograms.Top.Body.Line").replaceAll("%position%", Integer.toString(i + 1))
+                                            .replaceAll("%player%", leaderboard.get(i).getName())
+                                            .replaceAll("%time%", main.getTimerManager().millisToString(leaderboard.get(i).getTime())));
+                                } else {
+                                    ((TextLine) body.getLine(i)).setText(main.getLanguageHandler()
+                                            .getMessage("Holograms.Top.Body.NoTime").replaceAll("%position%", Integer.toString(i + 1)));
+                                }
                             }
                         }
-
-                        for (int i = it; i < 10; i++) {
-                            ((TextLine) body.getLine(i)).setText(main.getLanguageHandler()
-                                    .getMessage("Holograms.Top.Body.NoTime").replaceAll("%position%", Integer.toString(i + 1)));
-                        }
-
-                        holoFooter.get(parkour.getId()).setText(
-                                main.getLanguageHandler().getMessage("Holograms.Top.Footer.Updating"));
                     }
-                }
 
-                restartTimeLeft();
-                return;
+                    restartTimeLeft();
+                });
             }
             for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
                 if (holoFooter.containsKey(parkour.getId())) {
                     holoFooter.get(parkour.getId())
                             .setText(main.getLanguageHandler()
                                     .getMessage("Holograms.Top.Footer.Line")
-                                    .replaceAll("%time%", main.getTimerManager().timeAsString(timeLeft)));
+                                    .replaceAll("%time%", main.getTimerManager().secondsToString(timeLeft * 1000)));
                 }
             }
             timeLeft--;

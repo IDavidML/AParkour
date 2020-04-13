@@ -1,12 +1,14 @@
 package me.davidml16.aparkour.api;
 
 import me.davidml16.aparkour.Main;
+import me.davidml16.aparkour.data.LeaderboardEntry;
 import me.davidml16.aparkour.data.Parkour;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class ParkourAPI {
 
@@ -17,7 +19,7 @@ public class ParkourAPI {
 
     public int getCurrentTime(Player p) {
         if(main.getTimerManager().hasPlayerTimer(p)) {
-            return main.getTimerManager().getTimer().get(p.getUniqueId());
+            return (int) TimeUnit.MILLISECONDS.toSeconds(main.getSessionHandler().getSession(p).getLiveTime());
         } else {
             return 0;
         }
@@ -25,13 +27,13 @@ public class ParkourAPI {
 
     public String getCurrentTimeFormatted(Player p) {
         if(main.getTimerManager().hasPlayerTimer(p)) {
-            return main.getTimerManager().timeAsString(main.getTimerManager().getTimer().get(p.getUniqueId()));
+            return main.getTimerManager().secondsToString(main.getSessionHandler().getSession(p).getLiveTime());
         } else {
-            return main.getTimerManager().timeAsString(0);
+            return main.getTimerManager().secondsToString(0L);
         }
     }
 
-    public int getLastTime(Player p, String parkour) {
+    public long getLastTime(Player p, String parkour) {
         if(main.getPlayerDataHandler().playerExists(p) && main.getPlayerDataHandler().getData(p).getLastTimes().containsKey(parkour)) {
             return main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour);
         }
@@ -40,12 +42,12 @@ public class ParkourAPI {
 
     public String getLastTimeFormatted(Player p, String parkour) {
         if(main.getPlayerDataHandler().playerExists(p) && main.getPlayerDataHandler().getData(p).getLastTimes().containsKey(parkour)) {
-            return main.getTimerManager().timeAsString(main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour));
+            return main.getTimerManager().millisToString(main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour));
         }
-        return main.getTimerManager().timeAsString(0);
+        return main.getTimerManager().millisToString(0);
     }
 
-    public int getBestTime(Player p, String parkour) {
+    public long getBestTime(Player p, String parkour) {
         if(main.getPlayerDataHandler().playerExists(p) && main.getPlayerDataHandler().getData(p).getLastTimes().containsKey(parkour)) {
             return main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour);
         }
@@ -54,13 +56,17 @@ public class ParkourAPI {
 
     public String getBestTimeFormatted(Player p, String parkour) {
         if(main.getPlayerDataHandler().playerExists(p) && main.getPlayerDataHandler().getData(p).getLastTimes().containsKey(parkour)) {
-            return main.getTimerManager().timeAsString(main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour));
+            return main.getTimerManager().millisToString(main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour));
         }
-        return main.getTimerManager().timeAsString(0);
+        return main.getTimerManager().millisToString(0);
     }
 
     public HashMap<String, Parkour> getParkours() {
         return main.getParkourHandler().getParkours();
+    }
+
+    public Map<Integer, LeaderboardEntry> getLeaderboard(String parkour) {
+        return main.getLeaderboardHandler().getLeaderboard(parkour);
     }
 
     public Parkour getParkourByLocation(Location loc) {

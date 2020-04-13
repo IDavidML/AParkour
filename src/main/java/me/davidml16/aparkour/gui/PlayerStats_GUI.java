@@ -6,14 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import me.davidml16.aparkour.data.WalkableBlock;
 import me.davidml16.aparkour.managers.ColorManager;
-import me.davidml16.aparkour.managers.PluginManager;
 import me.davidml16.aparkour.utils.ItemBuilder;
 import me.davidml16.aparkour.utils.Sounds;
-import me.davidml16.aparkour.utils.WalkableBlocksUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,7 +18,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.Parkour;
@@ -71,14 +66,14 @@ public class PlayerStats_GUI implements Listener {
 			lore.add(" ");
 
 			if(main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId()) > 0)
-				lore.add(ColorManager.translate("  &eLast Time: &6" + main.getTimerManager().timeAsString(main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId())) + "  "));
+				lore.add(ColorManager.translate("  &eLast Time: &6" + main.getTimerManager().millisToString(main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId())) + "  "));
 			else
 				lore.add(ColorManager.translate("  &eLast Time: &c" + main.getLanguageHandler().getMessage("Times.NoBestTime") + "  "));
 
 			lore.add(" ");
 
 			if(main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId()) > 0)
-				lore.add(ColorManager.translate("  &eBest Time: &6" + main.getTimerManager().timeAsString(main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId())) + "  "));
+				lore.add(ColorManager.translate("  &eBest Time: &6" + main.getTimerManager().millisToString(main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId())) + "  "));
 			else
 				lore.add(ColorManager.translate("  &eBest Time: &c" + main.getLanguageHandler().getMessage("Times.NoBestTime") + "  "));
 

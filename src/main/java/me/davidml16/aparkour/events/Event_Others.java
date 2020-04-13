@@ -124,7 +124,6 @@ public class Event_Others implements Listener {
         main.getStatsHologramManager().removeStatsHolograms(p);
         main.getStatsGUI().getOpened().remove(p.getUniqueId());
         main.getStatsGUI().getGuis().remove(p.getUniqueId());
-        main.getRankingsGUI().getOpened().remove(p.getUniqueId());
         main.getConfigGUI().getOpened().remove(p.getUniqueId());
         main.getWalkableBlocksGUI().getOpened().remove(p.getUniqueId());
         main.getRewardsGUI().getOpened().remove(p.getUniqueId());

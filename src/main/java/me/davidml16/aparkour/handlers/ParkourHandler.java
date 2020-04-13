@@ -101,6 +101,11 @@ public class ParkourHandler {
 	}
 
 	public void loadParkours() {
+
+		parkourConfigs.clear();
+		parkourFiles.clear();
+		parkours.clear();
+
 		File directory = new File(main.getDataFolder(), "parkours");
 		if(!directory.exists()) {
 			directory.mkdir();
@@ -486,11 +491,11 @@ public class ParkourHandler {
 		p.setFallDistance(0);
 		p.setNoDamageTicks(40);
 
-		main.getTimerManager().cancelTimer(p);
 		if (main.isParkourItemsEnabled()) {
 			main.getPlayerDataHandler().restorePlayerInventory(p);
 		}
 
+		main.getSessionHandler().getSession(p).cancelTimer();
 		main.getSessionHandler().removeSession(p);
 	}
 

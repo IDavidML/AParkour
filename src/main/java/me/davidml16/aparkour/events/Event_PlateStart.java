@@ -76,8 +76,6 @@ public class Event_PlateStart implements Listener {
 
                             main.getSessionHandler().createSession(p, parkour);
 
-                            main.getTimerManager().startTimer(p, parkour);
-
                             Bukkit.getPluginManager().callEvent(new ParkourStartEvent(p, parkour));
                         }
                     }

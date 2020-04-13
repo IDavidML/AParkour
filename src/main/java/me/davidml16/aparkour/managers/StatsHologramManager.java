@@ -33,7 +33,7 @@ public class StatsHologramManager {
 		if (main.isHologramsEnabled()) {
 			Parkour parkour = main.getParkourHandler().getParkours().get(id);
 			if(parkour.getStatsHologram() != null) {
-				int bestTime = main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
+				long bestTime = main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
 
 				List<String> lines = getLines(parkour, p, bestTime);
 
@@ -66,7 +66,7 @@ public class StatsHologramManager {
 			if(main.getPlayerDataHandler().getData(p).getHolograms().containsKey(parkour.getId())) {
 				Hologram hologram = main.getPlayerDataHandler().getData(p).getHolograms().get(parkour.getId());
 
-				int bestTime = main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
+				long bestTime = main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
 
 				List<String> lines = getLines(parkour, p, bestTime);
 
@@ -76,7 +76,7 @@ public class StatsHologramManager {
 		}
 	}
 	
-	public List<String> getLines(Parkour parkour, Player p, int bestTime) {
+	public List<String> getLines(Parkour parkour, Player p, long bestTime) {
 		List<String> lines = new ArrayList<String>();
 		String NoBestTime = main.getLanguageHandler().getMessage("Times.NoBestTime");
 		String Line1 = main.getLanguageHandler().getMessage("Holograms.Stats.Line1");
@@ -84,10 +84,10 @@ public class StatsHologramManager {
 		
 		if (bestTime != 0) {
 			Line1 = Line1.replaceAll("%player%", p.getName())
-					.replaceAll("%time%", main.getTimerManager().timeAsString(bestTime))
+					.replaceAll("%time%", main.getTimerManager().millisToString(bestTime))
 					.replaceAll("%parkour%", parkour.getName());
 			Line2 = Line2.replaceAll("%player%", p.getName())
-					.replaceAll("%time%", main.getTimerManager().timeAsString(bestTime))
+					.replaceAll("%time%", main.getTimerManager().millisToString(bestTime))
 					.replaceAll("%parkour%", parkour.getName());
 		} else if (bestTime == 0) {
 			Line1 = Line1.replaceAll("%player%", p.getName()).replaceAll("%time%", NoBestTime)

@@ -19,8 +19,6 @@ Commands:
 GUIs:
   Stats:
     title: 'Estadísticas del Parkour'
-  Top:
-    title: 'Top jugadores del Parkour'
   Config:
     title: '%parkour% | Configuración'
   WalkableBlocks:
