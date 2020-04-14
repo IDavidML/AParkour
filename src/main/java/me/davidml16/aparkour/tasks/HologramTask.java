@@ -22,8 +22,9 @@ public class HologramTask {
 	
 	public int getId() { return id; }
 
+	@SuppressWarnings("deprecation")
 	public void start() {
-		id = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(main, new Task(), 80L, 20);
+		id = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(main, new Task(), 0L, 20);
 	}
 	
 	public void stop() {

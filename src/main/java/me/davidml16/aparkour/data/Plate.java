@@ -50,4 +50,13 @@ public class Plate {
         this.hologramDistance = hologramDistance;
     }
 
+    @Override
+    public String toString() {
+        return "Plate{" +
+                "location=" + location +
+                ", hologram=" + hologram +
+                ", hologramEnabled=" + hologramEnabled +
+                ", hologramDistance=" + hologramDistance +
+                '}';
+    }
 }

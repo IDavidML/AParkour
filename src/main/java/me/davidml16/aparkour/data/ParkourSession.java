@@ -117,5 +117,14 @@ public class ParkourSession {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "ParkourSession{" +
+                "player=" + player +
+                ", parkour=" + parkour +
+                ", lastCheckpoint=" + lastCheckpoint +
+                ", lastCheckpointLocation=" + lastCheckpointLocation +
+                ", startTime=" + startTime +
+                '}';
+    }
 }

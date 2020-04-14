@@ -1,6 +1,7 @@
 package me.davidml16.aparkour.data;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
@@ -118,4 +119,17 @@ public class Profile {
 		return holograms;
 	}
 
+	@Override
+	public String toString() {
+		return "Profile{" +
+				"uuid=" + uuid +
+				", inventory=" + Arrays.toString(inventory) +
+				", armor=" + Arrays.toString(armor) +
+				", lastGamemode=" + lastGamemode +
+				", potionEffects=" + potionEffects +
+				", lastTimes=" + lastTimes +
+				", bestTimes=" + bestTimes +
+				", holograms=" + holograms +
+				'}';
+	}
 }

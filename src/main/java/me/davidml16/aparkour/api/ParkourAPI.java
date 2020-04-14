@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -65,7 +66,7 @@ public class ParkourAPI {
         return main.getParkourHandler().getParkours();
     }
 
-    public Map<Integer, LeaderboardEntry> getLeaderboard(String parkour) {
+    public List<LeaderboardEntry> getLeaderboard(String parkour) {
         return main.getLeaderboardHandler().getLeaderboard(parkour);
     }
 

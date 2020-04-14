@@ -26,4 +26,11 @@ public class LeaderboardEntry {
         this.time = time;
     }
 
+    @Override
+    public String toString() {
+        return "LeaderboardEntry{" +
+                "name='" + name + '\'' +
+                ", time=" + time +
+                '}';
+    }
 }

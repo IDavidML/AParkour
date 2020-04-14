@@ -46,7 +46,6 @@ public class PluginManager {
         main.getParkourHandler().loadParkours();
         main.getParkourHandler().setParkourGamemode(GameMode.valueOf(main.getConfig().getString("ParkourGamemode")));
         main.getDatabaseHandler().loadTables();
-        main.getLeaderboardHandler().reloadLeaderboards();
         main.getPlayerDataHandler().loadAllPlayerData();
         main.getPlayerDataHandler().saveAllPlayerData();
         main.getRewardHandler().loadRewards();
@@ -66,9 +65,7 @@ public class PluginManager {
         main.getTitlesGUI().loadGUI();
         main.getTitlesGUI().reloadAllGUI();
         main.getParkourHandler().loadHolograms();
-        Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
-            main.getTopHologramManager().loadTopHolograms();
-        }, 40L);
+        main.getTopHologramManager().loadTopHolograms();
         main.getHologramTask().start();
     }
 

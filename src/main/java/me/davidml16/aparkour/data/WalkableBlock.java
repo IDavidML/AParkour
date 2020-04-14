@@ -5,7 +5,7 @@ import java.util.List;
 
 public class WalkableBlock {
 
-    private static List<Integer> directionablesIDs = Arrays.asList(
+    private static final List<Integer> directionablesIDs = Arrays.asList(
             17, 23, 26, 29, 33, 44, 53, 54, 61, 62, 64, 65, 67, 71, 86, 91, 96, 108, 109,
             114, 123, 124, 128, 130, 134, 135, 136, 145, 146, 154, 156, 158, 162, 163, 164,
             167, 180, 182, 183, 184, 185, 186, 187, 193, 194, 195, 196, 197, 198, 203, 216,
@@ -34,6 +34,15 @@ public class WalkableBlock {
 
     public boolean isDirectional() {
         return directional;
+    }
+
+    @Override
+    public String toString() {
+        return "WalkableBlock{" +
+                "id=" + id +
+                ", data=" + data +
+                ", directional=" + directional +
+                '}';
     }
 
 }

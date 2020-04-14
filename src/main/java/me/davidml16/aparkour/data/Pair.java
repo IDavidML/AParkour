@@ -18,4 +18,11 @@ public class Pair {
         return page;
     }
 
+    @Override
+    public String toString() {
+        return "Pair{" +
+                "parkour='" + parkour + '\'' +
+                ", page=" + page +
+                '}';
+    }
 }

@@ -208,4 +208,26 @@ public class Parkour {
         main.getParkourHandler().saveConfig(id);
     }
 
+    @Override
+    public String toString() {
+        return "Parkour{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", spawn=" + spawn +
+                ", start=" + start +
+                ", end=" + end +
+                ", statsHologram=" + statsHologram +
+                ", topHologram=" + topHologram +
+                ", walkableBlocks=" + walkableBlocks +
+                ", rewards=" + rewards +
+                ", checkpoints=" + checkpoints +
+                ", checkpointLocations=" + checkpointLocations +
+                ", permissionRequired=" + permissionRequired +
+                ", permission='" + permission + '\'' +
+                ", permissionMessage='" + permissionMessage + '\'' +
+                ", startTitleEnabled=" + startTitleEnabled +
+                ", endTitleEnabled=" + endTitleEnabled +
+                ", checkpointTitleEnabled=" + checkpointTitleEnabled +
+                '}';
+    }
 }

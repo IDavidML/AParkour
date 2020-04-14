@@ -35,4 +35,15 @@ public class Reward {
     public int getChance() {
         return chance;
     }
+
+    @Override
+    public String toString() {
+        return "Reward{" +
+                "id='" + id + '\'' +
+                ", permission='" + permission + '\'' +
+                ", command='" + command + '\'' +
+                ", firstTime=" + firstTime +
+                ", chance=" + chance +
+                '}';
+    }
 }

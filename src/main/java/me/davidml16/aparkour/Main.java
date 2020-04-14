@@ -1,13 +1,13 @@
 package me.davidml16.aparkour;
 
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 import me.davidml16.aparkour.PlaceholderAPI.PlaceholderHook;
 import me.davidml16.aparkour.api.ParkourAPI;
 import me.davidml16.aparkour.data.CommandBlocker;
+import me.davidml16.aparkour.database.DatabaseHandler;
+import me.davidml16.aparkour.database.types.Database;
 import me.davidml16.aparkour.enums.CommandBlockType;
 import me.davidml16.aparkour.events.*;
 import me.davidml16.aparkour.gui.*;
@@ -26,7 +26,6 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 
 import me.davidml16.aparkour.commands.TabCompleter_AParkour;
 import me.davidml16.aparkour.commands.Command_AParkour;
-import me.davidml16.aparkour.database.ADatabase;
 import me.davidml16.aparkour.tasks.HologramTask;
 
 public class Main extends JavaPlugin {
@@ -62,8 +61,6 @@ public class Main extends JavaPlugin {
     private SoundUtil soundUtil;
     private LocationUtil locationUtil;
     private TitleUtil titleUtil;
-
-    private ADatabase database;
 
     private ParkourItems parkourItems;
 
@@ -116,10 +113,9 @@ public class Main extends JavaPlugin {
         rewardHandler = new RewardHandler(this);
         rewardHandler.loadRewards();
 
-        database = new ADatabase(this);
-        database.openConnection();
         databaseHandler = new DatabaseHandler(this);
-        databaseHandler.loadTables();
+        databaseHandler.openConnection();
+        databaseHandler.getDatabase().loadTables();
 
         playerDataHandler = new PlayerDataHandler(this);
         sessionHandler = new SessionHandler(this);
@@ -149,12 +145,8 @@ public class Main extends JavaPlugin {
         titlesGUI.loadGUI();
 
         topHologramManager = new TopHologramManager(this, getConfig().getInt("Tasks.ReloadInterval"));
-
-        leaderboardHandler.reloadLeaderboards();
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
-            topHologramManager.loadTopHolograms();
-            topHologramManager.restartTimeLeft();
-        }, 40L);
+        topHologramManager.loadTopHolograms();
+        topHologramManager.restartTimeLeft();
 
         hologramTask = new HologramTask(this);
         hologramTask.start();
@@ -181,7 +173,7 @@ public class Main extends JavaPlugin {
         for (Player p : Bukkit.getOnlinePlayers()) {
             playerDataHandler.loadPlayerData(p);
             try {
-                databaseHandler.updatePlayerName(p);
+                databaseHandler.getDatabase().updatePlayerName(p);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -298,8 +290,8 @@ public class Main extends JavaPlugin {
         return playerDataHandler;
     }
 
-    public DatabaseHandler getDatabaseHandler() {
-        return databaseHandler;
+    public Database getDatabaseHandler() {
+        return databaseHandler.getDatabase();
     }
 
     public RewardHandler getRewardHandler() {
@@ -311,10 +303,6 @@ public class Main extends JavaPlugin {
     }
 
     public LeaderboardHandler getLeaderboardHandler() { return leaderboardHandler; }
-
-    public ADatabase getADatabase() {
-        return database;
-    }
 
     public HologramTask getHologramTask() {
         return hologramTask;

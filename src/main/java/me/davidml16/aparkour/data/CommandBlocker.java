@@ -32,4 +32,12 @@ public class CommandBlocker {
         else
             this.type = CommandBlockType.BLACKLIST;
     }
+
+    @Override
+    public String toString() {
+        return "CommandBlocker{" +
+                "type=" + type +
+                ", commands=" + commands +
+                '}';
+    }
 }
