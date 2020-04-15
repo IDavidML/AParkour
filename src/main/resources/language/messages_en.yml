@@ -31,8 +31,11 @@ GUIs:
     title: '%parkour% | Holograms'
   Titles:
     title: '%parkour% | Titles'
+  Misc:
+      title: '%parkour% | Miscellaneous'
 
 Times:
+  Loading: '&cLoading...'
   NoBestTime: N/A
 
 Timer:
@@ -49,6 +52,7 @@ Holograms:
     Body:
       Line: '&e%position%. &a%player% &7- &6%time%'
       NoTime: '&e%position%. &cN/A'
+      Loading: '&e%position%. &cLoading...'
     Footer:
       Line: '&aUpdating: &6%time%'
       Updating: '&aUpdating: &cLoading...'

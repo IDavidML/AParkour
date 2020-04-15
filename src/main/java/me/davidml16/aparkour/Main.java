@@ -39,6 +39,7 @@ public class Main extends JavaPlugin {
     private Checkpoints_GUI checkpointsGUI;
     private Holograms_GUI hologramsGUI;
     private Titles_GUI titlesGUI;
+    private Miscellaneous_GUI miscellaneousGUI;
 
     private HologramTask hologramTask;
     private ReturnTask returnTask;
@@ -143,6 +144,9 @@ public class Main extends JavaPlugin {
 
         titlesGUI = new Titles_GUI(this);
         titlesGUI.loadGUI();
+
+        miscellaneousGUI = new Miscellaneous_GUI(this);
+        miscellaneousGUI.loadGUI();
 
         topHologramManager = new TopHologramManager(this, getConfig().getInt("Tasks.ReloadInterval"));
         topHologramManager.loadTopHolograms();
@@ -257,6 +261,8 @@ public class Main extends JavaPlugin {
     public Holograms_GUI getHologramsGUI() { return hologramsGUI; }
 
     public Titles_GUI getTitlesGUI() { return titlesGUI; }
+
+    public Miscellaneous_GUI getMiscellaneousGUI() { return miscellaneousGUI; }
 
     public TimerManager getTimerManager() {
         return timerManager;

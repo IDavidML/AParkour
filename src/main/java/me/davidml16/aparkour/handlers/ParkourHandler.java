@@ -10,6 +10,7 @@ import java.util.Map;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.davidml16.aparkour.data.*;
+import me.davidml16.aparkour.utils.ItemBuilder;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,6 +20,7 @@ import org.bukkit.entity.Player;
 
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.managers.ColorManager;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.Permission;
 
 public class ParkourHandler {
@@ -144,6 +146,14 @@ public class ParkourHandler {
 					if (parkours.size() < 21) {
 						Parkour parkour = new Parkour(main, id, name, spawn, start, end, statsHologram, topHologram);
 						parkours.put(id, parkour);
+
+						if (!config.contains("parkour.icon")) {
+							config.set("parkour.icon", "389:0");
+						} else {
+							int itemID = Integer.parseInt(config.getString("parkour.icon").split(":")[0]);
+							byte itemData = Byte.parseByte(config.getString("parkour.icon").split(":")[1]);
+							parkour.setIcon(new ItemBuilder(Material.getMaterial(itemID), 1).setDurability(itemData).toItemStack());
+						}
 
 						if (config.contains("parkour.walkableBlocks")) {
 							List<WalkableBlock> walkable = getWalkableBlocks(id);

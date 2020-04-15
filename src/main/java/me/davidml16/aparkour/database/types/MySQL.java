@@ -9,10 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public class MySQL implements Database {
@@ -174,27 +171,41 @@ public class MySQL implements Database {
         return false;
     }
 
-    public void updatePlayerName(Player p) throws SQLException {
-        PreparedStatement ps = null;
-        Connection connection = null;
-        try {
-            connection = hikari.getConnection();
-            if (!hasName(p)) {
-                ps = connection.prepareStatement("INSERT INTO ap_playernames (UUID,NAME) VALUES(?,?)");
-                ps.setString(1, p.getUniqueId().toString());
-                ps.setString(2, p.getName());
-            } else {
-                ps = connection.prepareStatement("REPLACE INTO ap_playernames (UUID,NAME) VALUES(?,?)");
-                ps.setString(1, p.getUniqueId().toString());
-                ps.setString(2, p.getName());
+    public void updatePlayerName(Player p) {
+        Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+            PreparedStatement ps = null;
+            Connection connection = null;
+            try {
+                connection = hikari.getConnection();
+                if (!hasName(p)) {
+                    ps = connection.prepareStatement("INSERT INTO ap_playernames (UUID,NAME) VALUES(?,?)");
+                    ps.setString(1, p.getUniqueId().toString());
+                    ps.setString(2, p.getName());
+                } else {
+                    ps = connection.prepareStatement("REPLACE INTO ap_playernames (UUID,NAME) VALUES(?,?)");
+                    ps.setString(1, p.getUniqueId().toString());
+                    ps.setString(2, p.getName());
+                }
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+                if (connection != null) {
+                    try {
+                        connection.close();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
             }
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if(ps != null) ps.close();
-            if(connection != null) connection.close();
-        }
+        });
     }
 
     public String getPlayerName(String uuid) throws SQLException {
@@ -267,57 +278,79 @@ public class MySQL implements Database {
         return 0L;
     }
 
-    public void setTimes(UUID uuid, Long lastTime, Long bestTime, String parkour) throws SQLException {
-        PreparedStatement ps = null;
-        Connection connection = null;
-        try {
-            connection = hikari.getConnection();
-            ps = connection.prepareStatement("REPLACE INTO ap_times (UUID,parkourID,lastTime,bestTime) VALUES(?,?,?,?)");
-            ps.setString(1, uuid.toString());
-            ps.setString(2, parkour);
-            ps.setLong(3, lastTime);
-            ps.setLong(4, bestTime);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if(ps != null) ps.close();
-            if(connection != null) connection.close();
-        }
-    }
-
-    public HashMap<String, Long> getPlayerLastTimes(UUID uuid) {
-        HashMap<String, Long> times = new HashMap<String, Long>();
-        for (String parkour : main.getParkourHandler().getParkours().keySet()) {
+    public void setTimes(UUID uuid, Long lastTime, Long bestTime, String parkour) {
+        Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+            PreparedStatement ps = null;
+            Connection connection = null;
             try {
-                if (hasData(uuid, parkour)) {
-                    times.put(parkour, getLastTime(uuid, parkour));
-                } else {
-                    createData(uuid, parkour);
-                    times.put(parkour, 0L);
-                }
+                connection = hikari.getConnection();
+                ps = connection.prepareStatement("REPLACE INTO ap_times (UUID,parkourID,lastTime,bestTime) VALUES(?,?,?,?)");
+                ps.setString(1, uuid.toString());
+                ps.setString(2, parkour);
+                ps.setLong(3, lastTime);
+                ps.setLong(4, bestTime);
+                ps.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+                if (connection != null) {
+                    try {
+                        connection.close();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
             }
-        }
-        return times;
+        });
     }
 
-    public HashMap<String, Long> getPlayerBestTimes(UUID uuid) {
+    public CompletableFuture<Map<String, Long>> getPlayerLastTimes(UUID uuid) {
+        CompletableFuture<Map<String, Long>> result = new CompletableFuture<>();
         HashMap<String, Long> times = new HashMap<String, Long>();
-        for (String parkour : main.getParkourHandler().getParkours().keySet()) {
-            try {
-                if (hasData(uuid, parkour)) {
-                    times.put(parkour, getBestTime(uuid, parkour));
-                } else {
-                    createData(uuid, parkour);
-                    times.put(parkour, 0L);
+        Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+            for (String parkour : main.getParkourHandler().getParkours().keySet()) {
+                try {
+                    if (hasData(uuid, parkour)) {
+                        times.put(parkour, getLastTime(uuid, parkour));
+                    } else {
+                        createData(uuid, parkour);
+                        times.put(parkour, 0L);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }
-        return times;
+            result.complete(times);
+        });
+        return result;
+    }
+
+    public CompletableFuture<Map<String, Long>> getPlayerBestTimes(UUID uuid) {
+        CompletableFuture<Map<String, Long>> result = new CompletableFuture<>();
+        HashMap<String, Long> times = new HashMap<String, Long>();
+        Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+            for (String parkour : main.getParkourHandler().getParkours().keySet()) {
+                try {
+                    if (hasData(uuid, parkour)) {
+                        times.put(parkour, getBestTime(uuid, parkour));
+                    } else {
+                        createData(uuid, parkour);
+                        times.put(parkour, 0L);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            result.complete(times);
+        });
+        return result;
     }
 
     public CompletableFuture<List<LeaderboardEntry>> getParkourBestTimes(String id, int amount) {
@@ -334,7 +367,14 @@ public class MySQL implements Database {
 
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    times.add(new LeaderboardEntry(getPlayerName(rs.getString("UUID")), rs.getLong("bestTime")));
+                    UUID uuid = UUID.fromString(rs.getString("UUID"));
+                    if(main.getLeaderboardHandler().getPlayerNames().containsKey(uuid)) {
+                        times.add(new LeaderboardEntry(main.getLeaderboardHandler().getPlayerNames().get(uuid), rs.getLong("bestTime")));
+                    } else {
+                        String playerName = getPlayerName(uuid.toString());
+                        times.add(new LeaderboardEntry(playerName, rs.getLong("bestTime")));
+                        main.getLeaderboardHandler().getPlayerNames().put(uuid, playerName);
+                    }
                 }
 
                 result.complete(times);

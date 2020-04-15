@@ -142,11 +142,14 @@ public class MainConfig_GUI implements Listener {
                             "",
                             ColorManager.translate("&eClick to config rewards! ")
                     ).toItemStack());
-            gui.setItem(25, new ItemBuilder(Material.ANVIL, 1)
-                    .setName(ColorManager.translate("&aRename parkour"))
+            gui.setItem(25, new ItemBuilder(Material.CHEST, 1)
+                    .setName(ColorManager.translate("&aMiscellaneous"))
                     .setLore(
                             "",
-                            ColorManager.translate("&eClick to rename parkour! ")
+                            ColorManager.translate(" &7- Parkour rename "),
+                            ColorManager.translate(" &7- Parkour icon "),
+                            "",
+                            ColorManager.translate("&eClick to open miscellaneous! ")
                     ).toItemStack());
         } else {
             ItemStack noSetup = new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 14).setName(ColorManager.translate("&cParkour setup not valid")).toItemStack();
@@ -274,11 +277,14 @@ public class MainConfig_GUI implements Listener {
                             "",
                             ColorManager.translate("&eClick to config rewards! ")
                     ).toItemStack());
-            gui.setItem(25, new ItemBuilder(Material.ANVIL, 1)
-                    .setName(ColorManager.translate("&aRename parkour"))
+            gui.setItem(25, new ItemBuilder(Material.CHEST, 1)
+                    .setName(ColorManager.translate("&aMiscellaneous"))
                     .setLore(
                             "",
-                            ColorManager.translate("&eClick to rename parkour! ")
+                            ColorManager.translate(" &7- Parkour rename "),
+                            ColorManager.translate(" &7- Parkour icon "),
+                            "",
+                            ColorManager.translate("&eClick to open miscellaneous! ")
                     ).toItemStack());
         }
 
@@ -323,12 +329,9 @@ public class MainConfig_GUI implements Listener {
             } else if (slot == 24 && e.getCurrentItem().getType() == Material.GOLD_NUGGET) {
                 String id = opened.get(p.getUniqueId());
                 main.getRewardsGUI().open(p, id);
-            } else if (slot == 25 && e.getCurrentItem().getType() == Material.ANVIL) {
+            } else if (slot == 25 && e.getCurrentItem().getType() == Material.CHEST) {
                 String id = opened.get(p.getUniqueId());
-                Parkour parkour = main.getParkourHandler().getParkourById(id);
-                p.closeInventory();
-                new RenameMenu(main).getConversation(p, parkour).begin();
-                Sounds.playSound(p, p.getLocation(), Sounds.MySound.ANVIL_USE, 100, 3);
+                main.getMiscellaneousGUI().open(p, id);
             } else if (slot == 40) {
                 if (e.getCurrentItem().getType() == Material.BARRIER) {
                     main.getPluginManager().reloadAll();

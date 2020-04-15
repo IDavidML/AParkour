@@ -33,12 +33,21 @@ public class StatsHologramManager {
 		if (main.isHologramsEnabled()) {
 			Parkour parkour = main.getParkourHandler().getParkours().get(id);
 			if(parkour.getStatsHologram() != null) {
-				long bestTime = main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId());
+				List<String> lines = new ArrayList<String>();
+				String Line1 = main.getLanguageHandler().getMessage("Holograms.Stats.Line1");
+				String Line2 = main.getLanguageHandler().getMessage("Holograms.Stats.Line2");
 
-				List<String> lines = getLines(parkour, p, bestTime);
+				Line1 = Line1.replaceAll("%player%", p.getName())
+						.replaceAll("%time%", ColorManager.translate(main.getLanguageHandler().getMessage("Times.Loading")))
+						.replaceAll("%parkour%", parkour.getName());
+				Line2 = Line2.replaceAll("%player%", p.getName())
+						.replaceAll("%time%", ColorManager.translate(main.getLanguageHandler().getMessage("Times.Loading")))
+						.replaceAll("%parkour%", parkour.getName());
 
-				Hologram hologram = HologramsAPI.createHologram(main,
-						parkour.getStatsHologram().clone().add(0.5D, 2.0D, 0.5D));
+				lines.add(Line1);
+				lines.add(Line2);
+
+				Hologram hologram = HologramsAPI.createHologram(main, parkour.getStatsHologram().clone().add(0.5D, 2.0D, 0.5D));
 				VisibilityManager visibilityManager = hologram.getVisibilityManager();
 
 				visibilityManager.showTo(p);
@@ -126,12 +135,6 @@ public class StatsHologramManager {
 			for (Hologram hologram : HologramsAPI.getHolograms(main)) {
 				hologram.delete();
 			}
-			
-			Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
-				for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-					loadStatsHolograms(p);
-				}
-			}, 1L);
 		}
 	}
 

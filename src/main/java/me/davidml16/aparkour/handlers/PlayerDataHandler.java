@@ -15,13 +15,13 @@ public class PlayerDataHandler {
 
 	public HashMap<UUID, Profile> data = new HashMap<UUID, Profile>();
 
-	public HashMap<UUID, Profile> getPlayersData() {
-		return data;
-	}
-
 	private Main main;
 	public PlayerDataHandler(Main main) {
 		this.main = main;
+	}
+
+	public HashMap<UUID, Profile> getPlayersData() {
+		return data;
 	}
 
 	public Profile getData(Player p) {
@@ -41,7 +41,24 @@ public class PlayerDataHandler {
 	}
 
 	public void loadPlayerData(Player p) {
-		data.put(p.getUniqueId(), new Profile(main, p.getUniqueId()));
+		Profile profile = new Profile(main, p.getUniqueId());
+		data.put(p.getUniqueId(), profile);
+
+		Bukkit.getScheduler().runTask(main , () -> {
+			main.getStatsHologramManager().loadStatsHolograms(p);
+		});
+
+		main.getDatabaseHandler().getPlayerLastTimes(p.getUniqueId()).thenAccept(lastTimes -> {
+			profile.setLastTimes((HashMap<String, Long>) lastTimes);
+		});
+
+		main.getDatabaseHandler().getPlayerBestTimes(p.getUniqueId()).thenAccept(bestTimes -> {
+			profile.setBestTimes((HashMap<String, Long>) bestTimes);
+
+			Bukkit.getScheduler().runTaskLater(main , () -> {
+				main.getStatsHologramManager().reloadStatsHolograms(p);
+			}, 20L);
+		});
 	}
 	
 	public void saveAllPlayerData() {
@@ -51,6 +68,7 @@ public class PlayerDataHandler {
 	}
 	
 	public void loadAllPlayerData() {
+		data.clear();
 		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 			loadPlayerData(p);
 		}

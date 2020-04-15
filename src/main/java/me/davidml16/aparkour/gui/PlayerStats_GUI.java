@@ -79,7 +79,7 @@ public class PlayerStats_GUI implements Listener {
 
 			lore.add(" ");
 
-			gui.addItem(new ItemBuilder(Material.ITEM_FRAME, 1).setName(ColorManager.translate("&e")).setLore(lore).toItemStack());
+			gui.addItem(new ItemBuilder(parkour.getIcon()).setName(ColorManager.translate("&e")).setLore(lore).toItemStack());
 		}
 
 		guis.put(p.getUniqueId(), gui);

@@ -2,11 +2,13 @@ package me.davidml16.aparkour.data;
 
 import java.util.*;
 
+import me.davidml16.aparkour.utils.ItemBuilder;
 import org.bukkit.Location;
 
 import me.davidml16.aparkour.Main;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
 
 public class Parkour {
 
@@ -15,6 +17,8 @@ public class Parkour {
     private String id;
     private String name;
     private Location spawn;
+
+    private ItemStack icon;
 
     private Plate start;
     private Plate end;
@@ -54,6 +58,7 @@ public class Parkour {
         this.startTitleEnabled = false;
         this.endTitleEnabled = false;
         this.checkpointTitleEnabled = false;
+        this.icon = new ItemBuilder(Material.getMaterial(389), 1).toItemStack();
     }
 
     public String getId() {
@@ -164,6 +169,14 @@ public class Parkour {
 
     public void setCheckpointTitleEnabled(boolean checkpointTitleEnabled) {
         this.checkpointTitleEnabled = checkpointTitleEnabled;
+    }
+
+    public ItemStack getIcon() {
+        return icon;
+    }
+
+    public void setIcon(ItemStack icon) {
+        this.icon = icon;
     }
 
     public void saveParkour() {

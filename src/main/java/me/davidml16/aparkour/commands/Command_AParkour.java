@@ -97,6 +97,7 @@ public class Command_AParkour implements CommandExecutor {
                 if(main.getParkourHandler().createParkour(id)) {
                     FileConfiguration config = main.getParkourHandler().getConfig(id);
                     config.set("parkour.name", args[2]);
+                    config.set("parkour.icon", "389:0");
                     config.set("parkour.plateHolograms.start.enabled", false);
                     config.set("parkour.plateHolograms.start.distanceBelowPlate", 2.5D);
                     config.set("parkour.plateHolograms.end.enabled", false);

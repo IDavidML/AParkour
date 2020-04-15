@@ -58,6 +58,9 @@ public class TopHologramManager {
     }
 
     public void loadTopHolograms() {
+        holoBody.clear();
+        holoHeader.clear();
+        holoFooter.clear();
         if (main.isHologramsEnabled()) {
             for (String parkour : main.getParkourHandler().getParkours().keySet()) {
                 loadTopHologram(parkour);
@@ -85,28 +88,43 @@ public class TopHologramManager {
                         .getMessage("Holograms.Top.Footer.Line")
                         .replaceAll("%time%", main.getTimerManager().secondsToString(timeLeft * 1000)));
 
+                for(int iterator = 0; iterator < 10; iterator++) {
+                    body.appendTextLine(main.getLanguageHandler().getMessage("Holograms.Top.Body.Loading")
+                            .replaceAll("%position%", Integer.toString(iterator + 1)));
+                }
+
                 main.getDatabaseHandler().getParkourBestTimes(parkour.getId(), 10).thenAccept(leaderboard -> {
                     main.getLeaderboardHandler().addLeaderboard(parkour.getId(), leaderboard);
 
                     Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
-                        int i = 0;
-                        for(LeaderboardEntry entry : main.getLeaderboardHandler().getLeaderboard(parkour.getId())) {
-                            body.appendTextLine(main.getLanguageHandler()
-                                    .getMessage("Holograms.Top.Body.Line")
-                                    .replaceAll("%position%", Integer.toString(i + 1))
-                                    .replaceAll("%player%", entry.getName())
-                                    .replaceAll("%time%", main.getTimerManager().millisToString(entry.getTime())));
-                            i++;
-                        }
-                        for (int j = i; j < 10; j++) {
-                            body.appendTextLine(main.getLanguageHandler()
-                                    .getMessage("Holograms.Top.Body.NoTime").replaceAll("%position%", Integer.toString(j + 1)));
+
+                        body.clearLines();
+
+                        if(leaderboard != null) {
+                            int i = 0;
+                            for (LeaderboardEntry entry : leaderboard) {
+                                body.appendTextLine(main.getLanguageHandler()
+                                        .getMessage("Holograms.Top.Body.Line")
+                                        .replaceAll("%position%", Integer.toString(i + 1))
+                                        .replaceAll("%player%", entry.getName())
+                                        .replaceAll("%time%", main.getTimerManager().millisToString(entry.getTime())));
+                                i++;
+                            }
+                            for (int j = i; j < 10; j++) {
+                                body.appendTextLine(main.getLanguageHandler()
+                                        .getMessage("Holograms.Top.Body.NoTime").replaceAll("%position%", Integer.toString(j + 1)));
+                            }
+                        } else {
+                            for (int i = 0; i < 10; i++) {
+                                body.appendTextLine(main.getLanguageHandler()
+                                        .getMessage("Holograms.Top.Body.NoTime").replaceAll("%position%", Integer.toString(i + 1)));
+                            }
                         }
 
                         holoHeader.put(id, header);
                         holoBody.put(id, body);
                         holoFooter.put(id, (TextLine) footer.getLine(0));
-                    });
+                    }, 20L);
                 });
 
             }
@@ -141,7 +159,7 @@ public class TopHologramManager {
                                                 .getMessage("Holograms.Top.Body.NoTime").replaceAll("%position%", Integer.toString(j + 1)));
                                     }
                                 }
-                            });
+                            }, 20L);
                         });
                     }
                 }

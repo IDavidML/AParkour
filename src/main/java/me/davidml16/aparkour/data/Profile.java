@@ -40,9 +40,9 @@ public class Profile {
 		this.armor = new ItemStack[4];
 		this.potionEffects = null;
 		this.lastGamemode = null;
-		this.lastTimes = this.main.getDatabaseHandler().getPlayerLastTimes(uuid);
-		this.bestTimes = this.main.getDatabaseHandler().getPlayerBestTimes(uuid);
-		this.holograms = new HashMap<String, Hologram>();
+		this.lastTimes = new HashMap<>();
+		this.bestTimes = new HashMap<>();
+		this.holograms = new HashMap<>();
 	}
 
 	public void save() {
@@ -61,6 +61,14 @@ public class Profile {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void setLastTimes(HashMap<String, Long> lastTimes) {
+		this.lastTimes = lastTimes;
+	}
+
+	public void setBestTimes(HashMap<String, Long> bestTimes) {
+		this.bestTimes = bestTimes;
 	}
 
 	public HashMap<String, Long> getLastTimes() {

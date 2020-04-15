@@ -111,9 +111,6 @@ public class Event_Others implements Listener {
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
-            Bukkit.getScheduler().runTask(main , () -> {
-                main.getStatsHologramManager().loadStatsHolograms(p);
-            });
         });
     }
 

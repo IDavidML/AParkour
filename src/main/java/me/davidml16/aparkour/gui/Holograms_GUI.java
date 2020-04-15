@@ -319,7 +319,7 @@ public class Holograms_GUI implements Listener {
                     newHeight = newHeight - 0.1;
                 newHeight = Math.round(newHeight * 10) / 10.0;
                 config.set("parkour.plateHolograms.end.distanceBelowPlate", newHeight);
-                parkour.getStart().setHologramDistance(newHeight);
+                parkour.getEnd().setHologramDistance(newHeight);
                 break;
             case 16:
                 newHeight = config.getDouble("parkour.plateHolograms.checkpoints.distanceBelowPlate");
@@ -329,7 +329,9 @@ public class Holograms_GUI implements Listener {
                     newHeight = newHeight - 0.1;
                 newHeight = Math.round(newHeight * 10) / 10.0;
                 config.set("parkour.plateHolograms.checkpoints.distanceBelowPlate", newHeight);
-                parkour.getStart().setHologramDistance(newHeight);
+                for(Plate checkpoint : parkour.getCheckpoints()) {
+                    checkpoint.setHologramDistance(newHeight);
+                }
                 break;
             default:
                 break;

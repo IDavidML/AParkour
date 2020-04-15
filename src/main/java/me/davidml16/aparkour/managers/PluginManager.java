@@ -43,13 +43,12 @@ public class PluginManager {
         main.getHologramTask().stop();
         main.getLanguageHandler().setLanguage(main.getConfig().getString("Language").toLowerCase());
         main.getLanguageHandler().pushMessages();
+        main.getStatsHologramManager().reloadStatsHolograms();
         main.getParkourHandler().loadParkours();
         main.getParkourHandler().setParkourGamemode(GameMode.valueOf(main.getConfig().getString("ParkourGamemode")));
         main.getDatabaseHandler().loadTables();
         main.getPlayerDataHandler().loadAllPlayerData();
-        main.getPlayerDataHandler().saveAllPlayerData();
         main.getRewardHandler().loadRewards();
-        main.getStatsHologramManager().reloadStatsHolograms();
         main.getTopHologramManager().setReloadInterval(main.getConfig().getInt("Tasks.ReloadInterval"));
         main.getTopHologramManager().restartTimeLeft();
         main.getConfigGUI().loadGUI();
@@ -64,6 +63,8 @@ public class PluginManager {
         main.getHologramsGUI().reloadAllGUI();
         main.getTitlesGUI().loadGUI();
         main.getTitlesGUI().reloadAllGUI();
+        main.getMiscellaneousGUI().loadGUI();
+        main.getMiscellaneousGUI().reloadAllGUI();
         main.getParkourHandler().loadHolograms();
         main.getTopHologramManager().loadTopHolograms();
         main.getHologramTask().start();
