@@ -102,16 +102,20 @@ public class PlaceholderHook extends PlaceholderExpansion {
                     case "name":
                         for (String parkour : api.getParkours().keySet()) {
                             if (identifiers[2].equals(parkour)) {
-                                return api.getLeaderboard(parkour).get(Integer.parseInt(identifiers[3]) - 1).getName();
+                                if(Integer.parseInt(identifiers[3]) > 0 && Integer.parseInt(identifiers[3]) <= 10) {
+                                    return api.getLeaderboard(parkour).get(Integer.parseInt(identifiers[3]) - 1).getName();
+                                }
                             }
                         }
                         break;
                     case "time":
                         for (String parkour : api.getParkours().keySet()) {
                             if (identifiers[2].equals(parkour)) {
-                                long time = api.getLeaderboard(parkour).get(Integer.parseInt(identifiers[3]) - 1).getTime();
-                                if (time == 0) return "N/A";
-                                return "" + main.getTimerManager().millisToString(time);
+                                if(Integer.parseInt(identifiers[3]) > 0 && Integer.parseInt(identifiers[3]) <= 10) {
+                                    long time = api.getLeaderboard(parkour).get(Integer.parseInt(identifiers[3]) - 1).getTime();
+                                    if (time == 0) return "N/A";
+                                    return "" + main.getTimerManager().millisToString(time);
+                                }
                             }
                         }
                         break;
