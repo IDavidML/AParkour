@@ -85,6 +85,26 @@ public class SQLite implements Database {
         }
     }
 
+    public void deleteParkourRows(String parkour) {
+        Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+            PreparedStatement ps = null;
+            try {
+                ps = connection.prepareStatement("DELETE FROM ap_times WHERE parkourID = '" + parkour + "'");
+                ps.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
     public boolean hasData(UUID uuid, String parkour) throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -109,7 +129,7 @@ public class SQLite implements Database {
     public void createData(UUID uuid, String parkour) throws SQLException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("INSERT INTO ap_times (UUID,parkourID,lastTime,bestTime) VALUES(?,?,0,0)");
+            ps = connection.prepareStatement("REPLACE INTO ap_times (UUID,parkourID,lastTime,bestTime) VALUES(?,?,0,0)");
             ps.setString(1, uuid.toString());
             ps.setString(2, parkour);
             ps.executeUpdate();
@@ -145,15 +165,9 @@ public class SQLite implements Database {
         Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
             PreparedStatement ps = null;
             try {
-                if (!hasName(p)) {
-                    ps = connection.prepareStatement("INSERT INTO ap_playernames (UUID,NAME) VALUES(?,?)");
-                    ps.setString(1, p.getUniqueId().toString());
-                    ps.setString(2, p.getName());
-                } else {
-                    ps = connection.prepareStatement("REPLACE INTO ap_playernames (UUID,NAME) VALUES(?,?)");
-                    ps.setString(1, p.getUniqueId().toString());
-                    ps.setString(2, p.getName());
-                }
+                ps = connection.prepareStatement("REPLACE INTO ap_playernames (UUID,NAME) VALUES(?,?)");
+                ps.setString(1, p.getUniqueId().toString());
+                ps.setString(2, p.getName());
                 ps.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -253,7 +267,8 @@ public class SQLite implements Database {
         CompletableFuture<Map<String, Long>> result = new CompletableFuture<>();
         HashMap<String, Long> times = new HashMap<String, Long>();
         Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
-            for (String parkour : main.getParkourHandler().getParkours().keySet()) {
+            for (File file : Objects.requireNonNull(new File(main.getDataFolder(), "parkours").listFiles())) {
+                String parkour = file.getName().replace(".yml", "");
                 try {
                     if (hasData(uuid, parkour)) {
                         times.put(parkour, getLastTime(uuid, parkour));
@@ -274,7 +289,8 @@ public class SQLite implements Database {
         CompletableFuture<Map<String, Long>> result = new CompletableFuture<>();
         HashMap<String, Long> times = new HashMap<String, Long>();
         Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
-            for (String parkour : main.getParkourHandler().getParkours().keySet()) {
+            for (File file : Objects.requireNonNull(new File(main.getDataFolder(), "parkours").listFiles())) {
+                String parkour = file.getName().replace(".yml", "");
                 try {
                     if (hasData(uuid, parkour)) {
                         times.put(parkour, getBestTime(uuid, parkour));

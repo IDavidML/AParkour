@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import me.davidml16.aparkour.data.LeaderboardEntry;
 import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.utils.ItemBuilder;
 import me.davidml16.aparkour.utils.Sounds;
@@ -62,24 +63,38 @@ public class PlayerStats_GUI implements Listener {
 
 		for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
 			List<String> lore = new ArrayList<String>();
-			lore.add(ColorManager.translate("  &eParkour: &a" + parkour.getName() + "  "));
 			lore.add(" ");
 
+			lore.add(ColorManager.translate("  &fYour Last Time  "));
 			if(main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId()) > 0)
-				lore.add(ColorManager.translate("  &eLast Time: &6" + main.getTimerManager().millisToString(main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId())) + "  "));
+				lore.add(ColorManager.translate("    &e" + main.getTimerManager().millisToString(main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId())) + "  "));
 			else
-				lore.add(ColorManager.translate("  &eLast Time: &c" + main.getLanguageHandler().getMessage("Times.NoBestTime") + "  "));
+				lore.add(ColorManager.translate("    &eNone  "));
 
 			lore.add(" ");
 
+			lore.add(ColorManager.translate("  &fYour Record Time  "));
 			if(main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId()) > 0)
-				lore.add(ColorManager.translate("  &eBest Time: &6" + main.getTimerManager().millisToString(main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId())) + "  "));
+				lore.add(ColorManager.translate("    &e" + main.getTimerManager().millisToString(main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId())) + "  "));
 			else
-				lore.add(ColorManager.translate("  &eBest Time: &c" + main.getLanguageHandler().getMessage("Times.NoBestTime") + "  "));
+				lore.add(ColorManager.translate("    &eNone  "));
 
-			lore.add(" ");
+			List<LeaderboardEntry> leaderboard = main.getLeaderboardHandler().getLeaderboard(parkour.getId());
 
-			gui.addItem(new ItemBuilder(parkour.getIcon()).setName(ColorManager.translate("&e")).setLore(lore).toItemStack());
+			if(leaderboard.size() > 0) {
+				lore.add("");
+				lore.add(ColorManager.translate("  &fWorld records  "));
+				int i = 0;
+				for (LeaderboardEntry entry : leaderboard) {
+					lore.add(ColorManager.translate("    &7" + entry.getName() + " &f- &c" + main.getTimerManager().millisToString(entry.getTime()) + "  "));
+					if(i == 2) break;
+					i++;
+				}
+			}
+
+			lore.add("");
+
+			gui.addItem(new ItemBuilder(parkour.getIcon()).setName(ColorManager.translate("&a&l" + parkour.getName())).setLore(lore).toItemStack());
 		}
 
 		guis.put(p.getUniqueId(), gui);

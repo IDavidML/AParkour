@@ -17,6 +17,8 @@ public interface Database {
 
     void loadTables();
 
+    void deleteParkourRows(String parkour);
+
     boolean hasData(UUID uuid, String parkour) throws SQLException;
 
     void createData(UUID uuid, String parkour) throws SQLException;

@@ -82,6 +82,7 @@ public class ParkourHandler {
 			file.delete();
 			parkourFiles.remove(id);
 			parkourConfigs.remove(id);
+			main.getDatabaseHandler().deleteParkourRows(id);
 			return true;
 		}
 		return false;
@@ -384,15 +385,17 @@ public class ParkourHandler {
 	public void removeHologram(String id) {
 		if (main.isHologramsEnabled()) {
 			Parkour parkour = parkours.get(id);
-			if (parkour.getStart().isHologramEnabled()) {
-				parkour.getStart().getHologram().delete();
-			}
-			if (parkour.getEnd().isHologramEnabled()) {
-				parkour.getEnd().getHologram().delete();
-			}
-			for (Plate checkpoint : parkour.getCheckpoints()) {
-				if (checkpoint.getHologram() != null)
-					checkpoint.getHologram().delete();
+			if(parkour != null) {
+				if (parkour.getStart().isHologramEnabled()) {
+					parkour.getStart().getHologram().delete();
+				}
+				if (parkour.getEnd().isHologramEnabled()) {
+					parkour.getEnd().getHologram().delete();
+				}
+				for (Plate checkpoint : parkour.getCheckpoints()) {
+					if (checkpoint.getHologram() != null)
+						checkpoint.getHologram().delete();
+				}
 			}
 		}
 	}

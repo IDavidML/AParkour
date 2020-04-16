@@ -198,6 +198,7 @@ public class Miscellaneous_GUI implements Listener {
                     config.set("parkour.icon", "389:0");
                     p.sendMessage(ColorManager.translate(main.getLanguageHandler().getPrefix()
                             + " &cChanged icon of parkour &e" + id + " &cto default!"));
+                    main.getParkourHandler().getParkourById(id).setIcon(new ItemBuilder(Material.getMaterial(389), 1).setDurability((short) 0).toItemStack());
                     main.getParkourHandler().saveConfig(id);
                     Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 100, 3);
                     reloadGUI(id);

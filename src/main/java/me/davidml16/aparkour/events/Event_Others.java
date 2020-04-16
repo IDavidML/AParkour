@@ -104,14 +104,12 @@ public class Event_Others implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
-            main.getPlayerDataHandler().loadPlayerData(p);
-            try {
-                main.getDatabaseHandler().updatePlayerName(p);
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-        });
+        main.getPlayerDataHandler().loadPlayerData(p);
+        try {
+            main.getDatabaseHandler().updatePlayerName(p);
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
     }
 
     @EventHandler
@@ -127,16 +125,14 @@ public class Event_Others implements Listener {
         main.getCheckpointsGUI().getOpened().remove(p.getUniqueId());
         main.getHologramsGUI().getOpened().remove(p.getUniqueId());
         main.getTitlesGUI().getOpened().remove(p.getUniqueId());
+        main.getMiscellaneousGUI().getOpened().remove(p.getUniqueId());
 
         if (main.getTimerManager().hasPlayerTimer(e.getPlayer())) {
             p.teleport(main.getSessionHandler().getSession(p).getParkour().getSpawn());
             main.getParkourHandler().resetPlayer(p);
         }
 
-        Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
-            main.getPlayerDataHandler().getData(p).save();
-            main.getPlayerDataHandler().getPlayersData().remove(p.getUniqueId());
-        });
+        main.getPlayerDataHandler().getPlayersData().remove(p.getUniqueId());
     }
 
     @EventHandler
