@@ -2,6 +2,7 @@ package me.davidml16.aparkour.database.types;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.pool.HikariPool;
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.LeaderboardEntry;
 import me.davidml16.aparkour.managers.ColorManager;
@@ -9,7 +10,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.sql.*;
+import java.net.ConnectException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
@@ -42,19 +47,24 @@ public class MySQL implements Database {
     public void open() {
         if (hikari != null)  return;
 
-        HikariConfig config = new HikariConfig();
-        config.setPoolName("    AParkour Pool");
-        config.setJdbcUrl("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database);
-        config.setUsername(this.user);
-        config.setPassword(this.password);
-        config.setMaximumPoolSize(75);
-        config.setMinimumIdle(4);
-        config.addDataSourceProperty("cachePrepStmts", "true");
-        config.addDataSourceProperty("prepStmtCacheSize", "250");
-        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        hikari = new HikariDataSource(config);
+        try {
+            HikariConfig config = new HikariConfig();
+            config.setPoolName("    AParkour Pool");
+            config.setJdbcUrl("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database);
+            config.setUsername(this.user);
+            config.setPassword(this.password);
+            config.setMaximumPoolSize(75);
+            config.setMinimumIdle(4);
+            config.addDataSourceProperty("cachePrepStmts", "true");
+            config.addDataSourceProperty("prepStmtCacheSize", "250");
+            config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+            hikari = new HikariDataSource(config);
 
-        Main.log.sendMessage(ColorManager.translate("    &aMySQL has been enabled!"));
+            Main.log.sendMessage(ColorManager.translate("    &aMySQL has been enabled!"));
+        } catch (HikariPool.PoolInitializationException e) {
+            Main.log.sendMessage(ColorManager.translate("    &cMySQL has an error on the conection! Now trying with SQLite..."));
+            main.getDatabase().changeToSQLite();
+        }
     }
 
     public void loadTables() {

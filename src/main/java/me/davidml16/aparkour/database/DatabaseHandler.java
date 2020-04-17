@@ -9,9 +9,12 @@ import me.davidml16.aparkour.managers.ColorManager;
 
 public class DatabaseHandler {
 
-	private final Database database;
+	private Database database;
+
+	private Main main;
 
 	public DatabaseHandler(Main main) {
+		this.main = main;
 		if(main.getConfig().getBoolean("MySQL.Enabled")) {
 			database = new MySQL(main);
 		} else {
@@ -21,6 +24,11 @@ public class DatabaseHandler {
 
 	public void openConnection() {
 		Main.log.sendMessage(ColorManager.translate("  &eLoading database:"));
+		database.open();
+	}
+
+	public void changeToSQLite() {
+		database = new SQLite(main);
 		database.open();
 	}
 

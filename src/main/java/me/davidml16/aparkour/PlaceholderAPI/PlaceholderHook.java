@@ -103,6 +103,7 @@ public class PlaceholderHook extends PlaceholderExpansion {
                         for (String parkour : api.getParkours().keySet()) {
                             if (identifiers[2].equals(parkour)) {
                                 if(Integer.parseInt(identifiers[3]) > 0 && Integer.parseInt(identifiers[3]) <= 10) {
+                                    if(Integer.parseInt(identifiers[3]) > api.getLeaderboard(parkour).size()) return "NONE";
                                     return api.getLeaderboard(parkour).get(Integer.parseInt(identifiers[3]) - 1).getName();
                                 }
                             }
@@ -112,8 +113,8 @@ public class PlaceholderHook extends PlaceholderExpansion {
                         for (String parkour : api.getParkours().keySet()) {
                             if (identifiers[2].equals(parkour)) {
                                 if(Integer.parseInt(identifiers[3]) > 0 && Integer.parseInt(identifiers[3]) <= 10) {
+                                    if(Integer.parseInt(identifiers[3]) > api.getLeaderboard(parkour).size()) return "N/A";
                                     long time = api.getLeaderboard(parkour).get(Integer.parseInt(identifiers[3]) - 1).getTime();
-                                    if (time == 0) return "N/A";
                                     return "" + main.getTimerManager().millisToString(time);
                                 }
                             }

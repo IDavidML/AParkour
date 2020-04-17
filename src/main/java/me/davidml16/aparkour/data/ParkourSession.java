@@ -68,18 +68,24 @@ public class ParkourSession {
 
     public void startTimer() {
         this.startTime = System.currentTimeMillis();
-        long best = main.getPlayerDataHandler().getData(player).getBestTimes().get(parkour.getId());
+        long best = 0;
+        try {
+            best = main.getPlayerDataHandler().getData(player).getBestTimes().get(parkour.getId());
+        } catch (NullPointerException e) {
+            best = 0;
+        }
 
         if (main.getTimerManager().isActionBarEnabled()) {
             sendTimer(best);
         }
 
+        long finalBest = best;
         BukkitTask task = new BukkitRunnable() {
             @Override
             public void run() {
                 MillisecondConverter time = new MillisecondConverter(getLiveTime());
                 if ((int) TimeUnit.MILLISECONDS.toHours(getLiveTime()) < 1) {
-                    sendTimer(best);
+                    sendTimer(finalBest);
                 } else if ((int) TimeUnit.MILLISECONDS.toHours(getLiveTime()) >= 1) {
                     cancelTimer();
 
@@ -106,14 +112,9 @@ public class ParkourSession {
     public void sendTimer(long best) {
         String message = main.getLanguageHandler().getMessage("Timer.ActionBar");
         if(message.length() > 0) {
-            String NoBestTime = main.getLanguageHandler().getMessage("Times.NoBestTime");
-            if (best != 0) {
-                ActionBar.sendActionbar(player,
-                        message.replaceAll("%currentTime%", main.getTimerManager().millisToString(getLiveTime())).replaceAll("%bestTime%", main.getTimerManager().millisToString(best)));
-            } else {
-                ActionBar.sendActionbar(player,
-                        message.replaceAll("%currentTime%", main.getTimerManager().millisToString(getLiveTime())).replaceAll("%bestTime%", NoBestTime));
-            }
+            ActionBar.sendActionbar(player, message
+                    .replaceAll("%currentTime%", main.getTimerManager().millisToString(getLiveTime()))
+                    .replaceAll("%bestTime%", best > 0 ? main.getTimerManager().millisToString(best) : main.getLanguageHandler().getMessage("Times.NoBestTime")));
         }
     }
 

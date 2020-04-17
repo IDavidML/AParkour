@@ -231,11 +231,8 @@ public class Main extends JavaPlugin {
             }
         }
 
-        for (UUID d : playerDataHandler.getPlayersData().keySet()) {
-            playerDataHandler.getData(d).save();
-        }
-
         hologramTask.stop();
+        databaseHandler.getDatabase().close();
     }
 
     public PlayerStats_GUI getStatsGUI() {
@@ -299,6 +296,8 @@ public class Main extends JavaPlugin {
     public Database getDatabaseHandler() {
         return databaseHandler.getDatabase();
     }
+
+    public DatabaseHandler getDatabase() { return databaseHandler; }
 
     public RewardHandler getRewardHandler() {
         return rewardHandler;
