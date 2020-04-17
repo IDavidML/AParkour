@@ -290,6 +290,7 @@ public class Holograms_GUI implements Listener {
             default:
                 break;
         }
+        main.getParkourHandler().saveConfig(id);
         Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 100, 3);
         reloadGUI(id);
     }

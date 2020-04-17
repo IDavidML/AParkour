@@ -1,9 +1,8 @@
 package me.davidml16.aparkour;
 
 import java.sql.SQLException;
-import java.util.UUID;
 
-import me.davidml16.aparkour.PlaceholderAPI.PlaceholderHook;
+import me.davidml16.aparkour.placeholders.PlaceholderHook;
 import me.davidml16.aparkour.api.ParkourAPI;
 import me.davidml16.aparkour.data.CommandBlocker;
 import me.davidml16.aparkour.database.DatabaseHandler;
