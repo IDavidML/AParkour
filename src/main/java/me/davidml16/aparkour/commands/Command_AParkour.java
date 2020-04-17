@@ -86,7 +86,7 @@ public class Command_AParkour implements CommandExecutor {
                 return false;
             }
 
-            String id = args[1];
+            String id = args[1].toLowerCase();
             if(!Character.isDigit(id.charAt(0))) {
                 if (main.getParkourHandler().parkourExists(id)) {
                     p.sendMessage(ColorManager.translate(
@@ -154,7 +154,7 @@ public class Command_AParkour implements CommandExecutor {
                 return false;
             }
 
-            String id = args[2];
+            String id = args[2].toLowerCase();
             if (!main.getParkourHandler().getParkourConfigs().containsKey(id)) {
                 p.sendMessage(ColorManager.translate(
                         main.getLanguageHandler().getPrefix() + " &cThis parkour doesn't exists!"));
@@ -190,7 +190,7 @@ public class Command_AParkour implements CommandExecutor {
                 return true;
             }
 
-            String id = args[1];
+            String id = args[1].toLowerCase();
             if (!main.getParkourHandler().getParkourConfigs().containsKey(id)) {
                 p.sendMessage(ColorManager.translate(
                         main.getLanguageHandler().getPrefix() + " &cThis parkour doesn't exists!"));
@@ -270,7 +270,7 @@ public class Command_AParkour implements CommandExecutor {
                         main.getLanguageHandler().getPrefix() + " &cUsage: /aparkour remove [id]"));
                 return true;
             }
-            String id = args[1];
+            String id = args[1].toLowerCase();
             if (!main.getParkourHandler().getParkourConfigs().containsKey(id)) {
                 p.sendMessage(ColorManager.translate(
                         main.getLanguageHandler().getPrefix() + " &cThis parkour doesn't exists!"));
