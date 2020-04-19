@@ -12,7 +12,7 @@ public class PlaceholderHook extends PlaceholderExpansion {
     private ParkourAPI api;
     public PlaceholderHook(Main main) {
         this.main = main;
-        this.api = new ParkourAPI(main);
+        this.api = main.getParkourAPI();
     }
 
     @Override
@@ -59,28 +59,28 @@ public class PlaceholderHook extends PlaceholderExpansion {
         String[] identifiers = identifier.split("_");
         switch (identifiers[0]) {
             case "lt":
-                if (api.getParkours().containsKey(identifiers[1])) {
+                if (api.getParkoursIDs().contains(identifiers[1])) {
                     long time = api.getLastTime(player.getPlayer(), identifiers[1]);
                     if (time == 0) return "N/A";
                     return "" + time;
                 }
                 break;
             case "ltf":
-                if (api.getParkours().containsKey(identifiers[1])) {
+                if (api.getParkoursIDs().contains(identifiers[1])) {
                     long time = api.getLastTime(player.getPlayer(), identifiers[1]);
                     if (time == 0) return "N/A";
                     return "" + api.getLastTimeFormatted(player.getPlayer(), identifiers[1]);
                 }
                 break;
             case "bt":
-                if (api.getParkours().containsKey(identifiers[1])) {
+                if (api.getParkoursIDs().contains(identifiers[1])) {
                     long time = api.getBestTime(player.getPlayer(), identifiers[1]);
                     if (time == 0) return "N/A";
                     return "" + time;
                 }
                 break;
             case "btf":
-                if (api.getParkours().containsKey(identifiers[1])) {
+                if (api.getParkoursIDs().contains(identifiers[1])) {
                     long time = api.getBestTime(player.getPlayer(), identifiers[1]);
                     if (time == 0) return "N/A";
                     return "" + api.getBestTimeFormatted(player.getPlayer(), identifiers[1]);
@@ -89,7 +89,7 @@ public class PlaceholderHook extends PlaceholderExpansion {
             case "top":
                 switch (identifiers[1]) {
                     case "name":
-                        if (api.getParkours().containsKey(identifiers[2])) {
+                        if (api.getParkoursIDs().contains(identifiers[2])) {
                             if(Integer.parseInt(identifiers[3]) > 0 && Integer.parseInt(identifiers[3]) <= 10) {
                                 if(Integer.parseInt(identifiers[3]) > api.getLeaderboard(identifiers[2]).size()) return "NONE";
                                 return api.getLeaderboard(identifiers[2]).get(Integer.parseInt(identifiers[3]) - 1).getName();
@@ -97,7 +97,7 @@ public class PlaceholderHook extends PlaceholderExpansion {
                         }
                         break;
                     case "time":
-                        if (api.getParkours().containsKey(identifiers[2])) {
+                        if (api.getParkoursIDs().contains(identifiers[2])) {
                             if(Integer.parseInt(identifiers[3]) > 0 && Integer.parseInt(identifiers[3]) <= 10) {
                                 if(Integer.parseInt(identifiers[3]) > api.getLeaderboard(identifiers[2]).size()) return "N/A";
                                 long time = api.getLeaderboard(identifiers[2]).get(Integer.parseInt(identifiers[3]) - 1).getTime();

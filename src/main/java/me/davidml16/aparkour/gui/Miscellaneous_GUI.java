@@ -139,9 +139,19 @@ public class Miscellaneous_GUI implements Listener {
                 )
                 .toItemStack());
 
-        int itemID = Integer.parseInt(config.getString("parkour.icon").split(":")[0]);
-        byte itemData = Byte.parseByte(config.getString("parkour.icon").split(":")[1]);
-        String name = Material.getMaterial(itemID).name().replaceAll("_", " ");
+        int itemID;
+        byte itemData;
+        String name;
+
+        if(config.contains("parkour.icon")) {
+            itemID = Integer.parseInt(config.getString("parkour.icon").split(":")[0]);
+            itemData = Byte.parseByte(config.getString("parkour.icon").split(":")[1]);
+            name = Material.getMaterial(itemID).name().replaceAll("_", " ");
+        } else {
+            itemID = 389;
+            itemData = 0;
+            name = Material.getMaterial(itemID).name().replaceAll("_", " ");
+        }
 
         if(itemID != 389) {
             gui.setItem(20, new ItemBuilder(Material.getMaterial(itemID), 1, itemData).setName(ColorManager.translate("&a" + name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase())).setLore("", ColorManager.translate("&eClick to remove!")).toItemStack());

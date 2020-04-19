@@ -6,6 +6,7 @@ import me.davidml16.aparkour.data.Parkour;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +14,18 @@ import java.util.concurrent.TimeUnit;
 
 public class ParkourAPI {
 
-    private Main main;
-    public ParkourAPI(Main main) {
-        this.main = main;
+    private final Main main;
+    public ParkourAPI() {
+        this.main = Main.getInstance();
     }
+
+    public boolean isInParkour(Player p) {
+        return main.getTimerManager().hasPlayerTimer(p);
+    }
+
+    public void saveInventory(Player p) { main.getPlayerDataHandler().savePlayerInventory(p); }
+
+    public void restoreInventory(Player p) { main.getPlayerDataHandler().restorePlayerInventory(p); }
 
     public int getCurrentTime(Player p) {
         if(main.getTimerManager().hasPlayerTimer(p)) {
@@ -62,8 +71,12 @@ public class ParkourAPI {
         return main.getTimerManager().millisToString(0);
     }
 
-    public HashMap<String, Parkour> getParkours() {
-        return main.getParkourHandler().getParkours();
+    public List<String> getParkoursIDs() {
+        return new ArrayList<>(main.getParkourHandler().getParkours().keySet());
+    }
+
+    public List<Parkour> getParkours() {
+        return new ArrayList<>(main.getParkourHandler().getParkours().values());
     }
 
     public List<LeaderboardEntry> getLeaderboard(String parkour) {

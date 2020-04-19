@@ -30,6 +30,7 @@ import me.davidml16.aparkour.tasks.HologramTask;
 public class Main extends JavaPlugin {
 
     public static ConsoleCommandSender log;
+    private static Main instance;
 
     private PlayerStats_GUI statsGUI;
     private MainConfig_GUI configGUI;
@@ -74,6 +75,7 @@ public class Main extends JavaPlugin {
     private boolean parkourItemsEnabled;
 
     public void onEnable() {
+        instance = this;
         metrics = new MetricsLite(this, 6728);
         log = Bukkit.getConsoleSender();
 
@@ -124,6 +126,8 @@ public class Main extends JavaPlugin {
 
         timerManager = new TimerManager(this);
 
+        pluginManager = new PluginManager(this);
+
         statsGUI = new PlayerStats_GUI(this);
 
         configGUI = new MainConfig_GUI(this);
@@ -157,10 +161,6 @@ public class Main extends JavaPlugin {
         returnTask = new ReturnTask(this);
         returnTask.start();
 
-        pluginManager = new PluginManager(this);
-
-        parkourAPI = new ParkourAPI(this);
-
         soundUtil = new SoundUtil(this);
         locationUtil = new LocationUtil(this);
         titleUtil = new TitleUtil(this);
@@ -168,6 +168,8 @@ public class Main extends JavaPlugin {
         commandBlocker = new CommandBlocker();
         commandBlocker.setCommands(getConfig().getStringList("CommandBlocker.Commands"));
         commandBlocker.setType(CommandBlockType.valueOf(getConfig().getString("CommandBlocker.Type").toUpperCase()));
+
+        parkourAPI = new ParkourAPI();
 
         registerEvents();
         registerCommands();
@@ -233,6 +235,8 @@ public class Main extends JavaPlugin {
         hologramTask.stop();
         databaseHandler.getDatabase().close();
     }
+
+    public static Main getInstance() { return instance; }
 
     public PlayerStats_GUI getStatsGUI() {
         return statsGUI;
