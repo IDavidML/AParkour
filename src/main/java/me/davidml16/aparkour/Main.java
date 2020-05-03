@@ -73,6 +73,7 @@ public class Main extends JavaPlugin {
 
     private boolean hologramsEnabled;
     private boolean parkourItemsEnabled;
+    private boolean kickParkourOnFail;
 
     public void onEnable() {
         instance = this;
@@ -98,6 +99,8 @@ public class Main extends JavaPlugin {
             parkourItems.loadReturnItem();
             parkourItems.loadCheckpointItem();
         }
+
+        kickParkourOnFail = getConfig().getBoolean("KickParkourOnFail.Enabled");
 
         languageHandler = new LanguageHandler(this, getConfig().getString("Language").toLowerCase());
         languageHandler.pushMessages();
@@ -151,7 +154,7 @@ public class Main extends JavaPlugin {
         miscellaneousGUI = new Miscellaneous_GUI(this);
         miscellaneousGUI.loadGUI();
 
-        topHologramManager = new TopHologramManager(this, getConfig().getInt("Tasks.ReloadInterval"));
+        topHologramManager = new TopHologramManager(this, getConfig().getInt("Hologram.ReloadInterval"));
         topHologramManager.loadTopHolograms();
         topHologramManager.restartTimeLeft();
 
@@ -331,6 +334,10 @@ public class Main extends JavaPlugin {
     public void setParkourItemsEnabled(boolean parkourItemsEnabled) {
         this.parkourItemsEnabled = parkourItemsEnabled;
     }
+
+    public boolean isKickParkourOnFail() { return kickParkourOnFail; }
+
+    public void setKickParkourOnFail(boolean kickParkourOnFail) { this.kickParkourOnFail = kickParkourOnFail; }
 
     public ParkourItems getParkourItems() {
         return parkourItems;

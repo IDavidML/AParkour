@@ -39,18 +39,20 @@ CommandBlocker:
 
 
 # ENABLE HOLOGRAMS, YOU NEED DEPENDENCIES
+# RELOAD INTERVAL OF TOP HOLOGRAM AND TOP GUI
 Hologram:
     Enabled: true
-
-
-# RELOAD INTERVAL OF TOP HOLOGRAM AND TOP GUI
-Tasks:
     ReloadInterval: 120
 
 
 # RETURN TO SPAWN ON PARKOUR END
 TpToParkourSpawn:
     Enabled: false
+
+
+# KICK FROM PARKOUR ON FAIL
+KickParkourOnFail:
+    Enabled: true
 
 
 # LAUNCH FIREWORK ON PARKOUR END

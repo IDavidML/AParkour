@@ -12,8 +12,23 @@
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/api/ParkourAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/api/ParkourAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/Miscellaneous_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/Miscellaneous_GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/Command_AParkour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/Command_AParkour.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/data/ParkourSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/data/ParkourSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_Click.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_Click.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_Fall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_Fall.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_PlateCheckpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_PlateCheckpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_PlateEnd.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_PlateEnd.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_Void.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_Void.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/PlayerStats_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/PlayerStats_GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/PluginManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/PluginManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/StatsHologramManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/StatsHologramManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TimerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TimerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TopHologramManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TopHologramManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/placeholders/PlaceholderHook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/placeholders/PlaceholderHook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/tasks/ReturnTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/tasks/ReturnTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/language/messages_en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language/messages_en.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/language/messages_es.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language/messages_es.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/version.txt" beforeDir="false" afterPath="$PROJECT_DIR$/version.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -156,14 +171,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="440" y="94" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1586824520877" />
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586737241986">
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587346505792">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586737241986" />
-    <state x="765" y="196" key="#com.intellij.ide.util.MemberChooser" timestamp="1587303361811">
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587346505792" />
+    <state x="765" y="196" key="#com.intellij.ide.util.MemberChooser" timestamp="1588467236751">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="196" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1587303361811" />
+    <state x="765" y="196" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1588467236751" />
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1586995600652">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -172,22 +187,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586816057779" />
-    <state width="1879" height="175" key="GridCell.Tab.0.bottom" timestamp="1587304727323">
+    <state width="1879" height="175" key="GridCell.Tab.0.bottom" timestamp="1588468940717">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1879" height="175" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587304727323" />
-    <state width="1879" height="175" key="GridCell.Tab.0.center" timestamp="1587304727322">
+    <state width="1879" height="175" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588468940717" />
+    <state width="1879" height="175" key="GridCell.Tab.0.center" timestamp="1588468940716">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1879" height="175" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587304727322" />
-    <state width="1879" height="175" key="GridCell.Tab.0.left" timestamp="1587304727322">
+    <state width="1879" height="175" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588468940716" />
+    <state width="1879" height="175" key="GridCell.Tab.0.left" timestamp="1588468940716">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1879" height="175" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587304727322" />
-    <state width="1879" height="175" key="GridCell.Tab.0.right" timestamp="1587304727323">
+    <state width="1879" height="175" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588468940716" />
+    <state width="1879" height="175" key="GridCell.Tab.0.right" timestamp="1588468940716">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1879" height="175" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587304727323" />
+    <state width="1879" height="175" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588468940716" />
     <state x="730" y="122" key="SettingsEditor" timestamp="1586704435527">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

@@ -91,7 +91,7 @@ public class TopHologramManager {
                                 parkour.getTopHologram().clone().add(0.5D, 1D, 0.5D));
                         footer.appendTextLine(main.getLanguageHandler()
                                 .getMessage("Holograms.Top.Footer.Line")
-                                .replaceAll("%time%", main.getTimerManager().secondsToString(timeLeft * 1000)));
+                                .replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.HologramUpdate"), timeLeft * 1000)));
 
                         if(leaderboard != null) {
                             int i = 0;
@@ -100,7 +100,7 @@ public class TopHologramManager {
                                         .getMessage("Holograms.Top.Body.Line")
                                         .replaceAll("%position%", Integer.toString(i + 1))
                                         .replaceAll("%player%", entry.getName())
-                                        .replaceAll("%time%", main.getTimerManager().millisToString(entry.getTime())));
+                                        .replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), entry.getTime())));
                                 i++;
                             }
                             for (int j = i; j < 10; j++) {
@@ -146,7 +146,7 @@ public class TopHologramManager {
                                         ((TextLine) body.getLine(i)).setText(main.getLanguageHandler()
                                                 .getMessage("Holograms.Top.Body.Line").replaceAll("%position%", Integer.toString(i + 1))
                                                 .replaceAll("%player%", leaderboard.get(i).getName())
-                                                .replaceAll("%time%", main.getTimerManager().millisToString(leaderboard.get(i).getTime())));
+                                                .replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), leaderboard.get(i).getTime())));
                                     }
                                     for (int j = i; j < 10; j++) {
                                         ((TextLine) body.getLine(j)).setText(main.getLanguageHandler()
@@ -165,7 +165,7 @@ public class TopHologramManager {
                     holoFooter.get(parkour)
                             .setText(main.getLanguageHandler()
                                     .getMessage("Holograms.Top.Footer.Line")
-                                    .replaceAll("%time%", main.getTimerManager().secondsToString(timeLeft * 1000)));
+                                    .replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.HologramUpdate"), timeLeft * 1000)));
                 }
             }
             timeLeft--;

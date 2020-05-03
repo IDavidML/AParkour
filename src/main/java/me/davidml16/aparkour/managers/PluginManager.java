@@ -37,6 +37,7 @@ public class PluginManager {
 
         removePlayersFromParkour();
 
+        main.setKickParkourOnFail(main.getConfig().getBoolean("KickParkourOnFail.Enabled"));
         main.getCommandBlocker().setCommands(main.getConfig().getStringList("CommandBlocker.Commands"));
         main.getCommandBlocker().setType(CommandBlockType.valueOf(main.getConfig().getString("CommandBlocker.Type").toUpperCase()));
         main.setHologramsEnabled(main.getConfig().getBoolean("Hologram.Enabled"));
@@ -49,7 +50,7 @@ public class PluginManager {
         main.getDatabaseHandler().loadTables();
         main.getPlayerDataHandler().loadAllPlayerData();
         main.getRewardHandler().loadRewards();
-        main.getTopHologramManager().setReloadInterval(main.getConfig().getInt("Tasks.ReloadInterval"));
+        main.getTopHologramManager().setReloadInterval(main.getConfig().getInt("Hologram.ReloadInterval"));
         main.getTopHologramManager().restartTimeLeft();
         main.getConfigGUI().loadGUI();
         main.getConfigGUI().reloadAllGUI();

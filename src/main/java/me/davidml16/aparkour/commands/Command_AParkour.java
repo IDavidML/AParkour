@@ -8,6 +8,7 @@ import me.davidml16.aparkour.data.ParkourSession;
 import me.davidml16.aparkour.managers.ColorManager;
 import me.davidml16.aparkour.utils.ActionBar;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -229,13 +230,21 @@ public class Command_AParkour implements CommandExecutor {
                 ParkourSession session = main.getSessionHandler().getSession(p);
 
                 if (session.getLastCheckpoint() < 0) {
-                    p.teleport(session.getParkour().getSpawn());
-
                     String message = main.getLanguageHandler().getMessage("Messages.Return");
                     if(message.length() > 0)
                         p.sendMessage(message);
 
-                    main.getParkourHandler().resetPlayer(p);
+                    if(main.isKickParkourOnFail()) {
+                        main.getParkourHandler().resetPlayer(p);
+                        p.teleport(session.getParkour().getSpawn());
+                    } else {
+                        Location loc = session.getParkour().getStart().getLocation().clone();
+                        loc.add(0.5, 0, 0.5);
+                        loc.setPitch(p.getLocation().getPitch());
+                        loc.setYaw(p.getLocation().getYaw());
+                        p.teleport(loc);
+                    }
+
                     Bukkit.getPluginManager().callEvent(new ParkourReturnEvent(p, session.getParkour()));
                 } else if (session.getLastCheckpoint() >= 0) {
                     p.teleport(session.getLastCheckpointLocation());

@@ -93,10 +93,10 @@ public class StatsHologramManager {
 		
 		if (bestTime != 0) {
 			Line1 = Line1.replaceAll("%player%", p.getName())
-					.replaceAll("%time%", main.getTimerManager().millisToString(bestTime))
+					.replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"),bestTime))
 					.replaceAll("%parkour%", parkour.getName());
 			Line2 = Line2.replaceAll("%player%", p.getName())
-					.replaceAll("%time%", main.getTimerManager().millisToString(bestTime))
+					.replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"),bestTime))
 					.replaceAll("%parkour%", parkour.getName());
 		} else if (bestTime == 0) {
 			Line1 = Line1.replaceAll("%player%", p.getName()).replaceAll("%time%", NoBestTime)

@@ -9,6 +9,7 @@ import me.davidml16.aparkour.data.Profile;
 import me.davidml16.aparkour.utils.ParkourItems;
 import me.davidml16.aparkour.utils.SoundUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -59,13 +60,20 @@ public class Event_Click implements Listener {
                         e.setCancelled(true);
 
                         if (session.getLastCheckpoint() < 0) {
-                            p.teleport(session.getParkour().getSpawn());
-
                             String message = main.getLanguageHandler().getMessage("Messages.Return");
                             if(message.length() > 0)
                                 p.sendMessage(message);
 
-                            main.getParkourHandler().resetPlayer(p);
+                            if(main.isKickParkourOnFail()) {
+                                main.getParkourHandler().resetPlayer(p);
+                                p.teleport(session.getParkour().getSpawn());
+                            } else {
+                                Location loc = session.getParkour().getStart().getLocation().clone();
+                                loc.add(0.5, 0, 0.5);
+                                loc.setPitch(p.getLocation().getPitch());
+                                loc.setYaw(p.getLocation().getYaw());
+                                p.teleport(loc);
+                            }
                         } else if (session.getLastCheckpoint() >= 0) {
                             p.teleport(session.getLastCheckpointLocation());
 

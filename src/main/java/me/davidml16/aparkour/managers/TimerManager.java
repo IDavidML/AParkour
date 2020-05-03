@@ -28,21 +28,20 @@ public class TimerManager {
 		return main.getSessionHandler().getSession(p) != null;
 	}
 
-	public String millisToString(long millis) {
+	public String millisToString(String format, long millis) {
 		MillisecondConverter converter = new MillisecondConverter(millis);
-		return String.format("%01dm %01ds %03dms", converter.getMinutes(), converter.getSeconds(), converter.getMilliseconds());
-	}
-
-	public String secondsToString(long millis) {
-		MillisecondConverter converter = new MillisecondConverter(millis);
-		return String.format("%01dm %01ds", converter.getMinutes(), converter.getSeconds());
+		return format
+				.replaceAll("%hours%", String.valueOf(converter.getHours()))
+				.replaceAll("%minutes%", String.valueOf(converter.getMinutes()))
+				.replaceAll("%seconds%", String.valueOf(converter.getSeconds()))
+				.replaceAll("%milliseconds%", String.valueOf(converter.getMilliseconds()));
 	}
 
 	public HashMap<String, String> getLastTimes(Player p) {
 		HashMap<String, String> times = new HashMap<String, String>();
 		for (String parkour : main.getParkourHandler().getParkours().keySet()) {
 			long total = main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour);
-			times.put(parkour, millisToString(total));
+			times.put(parkour, millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), total));
 		}
 
 		return times;
@@ -52,7 +51,7 @@ public class TimerManager {
 		HashMap<String, String> times = new HashMap<String, String>();
 		for (String parkour : main.getParkourHandler().getParkours().keySet()) {
 			long total = main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour);
-			times.put(parkour, millisToString(total));
+			times.put(parkour, millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), total));
 		}
 
 		return times;

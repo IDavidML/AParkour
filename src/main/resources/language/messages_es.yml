@@ -40,6 +40,9 @@ Times:
 
 Timer:
   ActionBar: '&e&lTiempo actual: &6%currentTime% &7- &e&lMejor tiempo: &6%bestTime%'
+  Formats:
+    PlayerTime: '%minutes%m %seconds%s %milliseconds%ms'
+    HologramUpdate: '%minutes%m %seconds%s'
 
 Holograms:
   Stats:

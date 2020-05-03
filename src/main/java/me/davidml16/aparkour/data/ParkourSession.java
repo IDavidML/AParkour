@@ -113,8 +113,8 @@ public class ParkourSession {
         String message = main.getLanguageHandler().getMessage("Timer.ActionBar");
         if(message.length() > 0) {
             ActionBar.sendActionbar(player, message
-                    .replaceAll("%currentTime%", main.getTimerManager().millisToString(getLiveTime()))
-                    .replaceAll("%bestTime%", best > 0 ? main.getTimerManager().millisToString(best) : main.getLanguageHandler().getMessage("Times.NoBestTime")));
+                    .replaceAll("%currentTime%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), getLiveTime()))
+                    .replaceAll("%bestTime%", best > 0 ? main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), best) : main.getLanguageHandler().getMessage("Times.NoBestTime")));
         }
     }
 
