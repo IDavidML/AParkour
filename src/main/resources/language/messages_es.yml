@@ -19,6 +19,8 @@ Commands:
 GUIs:
   Stats:
     title: 'Estadísticas del Parkour'
+  Play:
+    title: 'Entrar al parkour'
   Config:
     title: '%parkour% | Configuración'
   WalkableBlocks:
@@ -46,7 +48,7 @@ Timer:
 
 Holograms:
   Stats:
-    Line1: '&aEstadísticas de %player% en %parkour%'
+    Line1: '&aEstadísticas de %player% &aen %parkour%'
     Line2: '&aMejor tiempo&7: &6%time%'
   Top:
     Header:

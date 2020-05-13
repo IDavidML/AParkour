@@ -32,6 +32,10 @@ public class TabCompleter_AParkour implements TabCompleter {
 		List<String> auto = new ArrayList<String>();
 
 		if (args.length == 1) {
+
+			if(main.isJoinByGUI())
+				list.add("play");
+
 			list.add("stats");
 			list.add("list");
 			list.add("cancel");
@@ -64,9 +68,7 @@ public class TabCompleter_AParkour implements TabCompleter {
 				}
 			} else {
 				if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
-					for (String parkour : main.getParkourHandler().getParkours().keySet()) {
-						list.add(parkour);
-					}
+					list.addAll(main.getParkourHandler().getParkours().keySet());
 				}
 			}
 		}

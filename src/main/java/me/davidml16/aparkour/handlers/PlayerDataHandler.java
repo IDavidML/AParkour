@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import me.davidml16.aparkour.Main;
+import me.davidml16.aparkour.managers.ColorManager;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -85,6 +87,7 @@ public class PlayerDataHandler {
 		data.setArmor(p.getInventory().getArmorContents());
 		data.setPotionEffects(p.getActivePotionEffects());
 		data.setLastGamemode(p.getGameMode());
+		data.setLastFlyMode(p.isFlying() || p.getAllowFlight());
 
 		for(PotionEffect effect : p.getActivePotionEffects()) {
 			p.removePotionEffect(effect.getType());
@@ -113,6 +116,7 @@ public class PlayerDataHandler {
 
 		p.addPotionEffects(data.getPotionEffects());
 		p.setGameMode(data.getLastGamemode());
+		p.setAllowFlight(data.isLastFlyMode());
 
 		p.updateInventory();
 
@@ -124,6 +128,13 @@ public class PlayerDataHandler {
 	
 	public boolean playerHasPermission(Player p, String permission) {
 		return p.hasPermission(permission) || p.isOp();
+	}
+
+	public String getPlayerName(World world, String name) {
+		if(main.vaultEnabled())
+			return ColorManager.translate(main.getChat().getPlayerPrefix(world, name) + name);
+		else
+			return ColorManager.translate(name);
 	}
 
 }

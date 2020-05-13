@@ -59,7 +59,7 @@ public class Event_PlateStart implements Listener {
                             String message = main.getLanguageHandler().getMessage("Messages.Started");
                             if(message.length() > 0)
                                 p.sendMessage(message);
-                            p.setFlying(false);
+
                             main.getSoundUtil().playStart(p);
 
                             if (main.isParkourItemsEnabled()) {
@@ -71,6 +71,8 @@ public class Event_PlateStart implements Listener {
                                     p.getInventory().setItem(4, main.getParkourItems().getRestartItem());
                                 }
                             }
+
+                            p.setFlying(false);
 
                             main.getTitleUtil().sendStartTitle(p, parkour);
 

@@ -14,10 +14,12 @@ import me.davidml16.aparkour.handlers.*;
 import me.davidml16.aparkour.managers.*;
 import me.davidml16.aparkour.tasks.ReturnTask;
 import me.davidml16.aparkour.utils.*;
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -40,6 +42,7 @@ public class Main extends JavaPlugin {
     private Holograms_GUI hologramsGUI;
     private Titles_GUI titlesGUI;
     private Miscellaneous_GUI miscellaneousGUI;
+    private PlayParkour_GUI playParkourGUI;
 
     private HologramTask hologramTask;
     private ReturnTask returnTask;
@@ -74,6 +77,9 @@ public class Main extends JavaPlugin {
     private boolean hologramsEnabled;
     private boolean parkourItemsEnabled;
     private boolean kickParkourOnFail;
+    private boolean joinByGUI;
+
+    private Chat chat;
 
     public void onEnable() {
         instance = this;
@@ -101,6 +107,8 @@ public class Main extends JavaPlugin {
         }
 
         kickParkourOnFail = getConfig().getBoolean("KickParkourOnFail.Enabled");
+
+        joinByGUI = getConfig().getBoolean("JoinParkourByGUI");
 
         languageHandler = new LanguageHandler(this, getConfig().getString("Language").toLowerCase());
         languageHandler.pushMessages();
@@ -132,6 +140,8 @@ public class Main extends JavaPlugin {
         pluginManager = new PluginManager(this);
 
         statsGUI = new PlayerStats_GUI(this);
+
+        playParkourGUI = new PlayParkour_GUI(this);
 
         configGUI = new MainConfig_GUI(this);
         configGUI.loadGUI();
@@ -192,6 +202,10 @@ public class Main extends JavaPlugin {
             new PlaceholderHook(this).register();
         }
 
+        if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+            setupChat();
+        }
+
         PluginDescriptionFile pdf = getDescription();
         log.sendMessage("");
         log.sendMessage(ColorManager.translate("  &eAParkour Enabled!"));
@@ -239,11 +253,22 @@ public class Main extends JavaPlugin {
         databaseHandler.getDatabase().close();
     }
 
+    private void setupChat() {
+        RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+        chat = rsp.getProvider();
+    }
+
+    public Chat getChat() { return chat; }
+
+    public boolean vaultEnabled() { return chat != null && getConfig().getBoolean("UseVaultInHolograms"); }
+
     public static Main getInstance() { return instance; }
 
     public PlayerStats_GUI getStatsGUI() {
         return statsGUI;
     }
+
+    public PlayParkour_GUI getPlayParkourGUI() { return playParkourGUI; }
 
     public MainConfig_GUI getConfigGUI() {
         return configGUI;
@@ -338,6 +363,10 @@ public class Main extends JavaPlugin {
     public boolean isKickParkourOnFail() { return kickParkourOnFail; }
 
     public void setKickParkourOnFail(boolean kickParkourOnFail) { this.kickParkourOnFail = kickParkourOnFail; }
+
+    public boolean isJoinByGUI() { return joinByGUI; }
+
+    public void setJoinByGUI(boolean joinByGUI) { this.joinByGUI = joinByGUI; }
 
     public ParkourItems getParkourItems() {
         return parkourItems;

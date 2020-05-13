@@ -7,6 +7,7 @@ import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.data.LeaderboardEntry;
 import me.davidml16.aparkour.data.Parkour;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -96,11 +97,13 @@ public class TopHologramManager {
                         if(leaderboard != null) {
                             int i = 0;
                             for (LeaderboardEntry entry : leaderboard) {
-                                body.appendTextLine(main.getLanguageHandler()
+                                String line = main.getLanguageHandler()
                                         .getMessage("Holograms.Top.Body.Line")
+                                        .replaceAll("%player%", main.getPlayerDataHandler().getPlayerName(body.getWorld(), entry.getName()))
                                         .replaceAll("%position%", Integer.toString(i + 1))
-                                        .replaceAll("%player%", entry.getName())
-                                        .replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), entry.getTime())));
+                                        .replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), entry.getTime()));
+
+                                body.appendTextLine(line);
                                 i++;
                             }
                             for (int j = i; j < 10; j++) {
@@ -145,7 +148,7 @@ public class TopHologramManager {
                                     for (; i < leaderboard.size(); i++) {
                                         ((TextLine) body.getLine(i)).setText(main.getLanguageHandler()
                                                 .getMessage("Holograms.Top.Body.Line").replaceAll("%position%", Integer.toString(i + 1))
-                                                .replaceAll("%player%", leaderboard.get(i).getName())
+                                                .replaceAll("%player%", main.getPlayerDataHandler().getPlayerName(body.getWorld(), leaderboard.get(i).getName()))
                                                 .replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), leaderboard.get(i).getTime())));
                                     }
                                     for (int j = i; j < 10; j++) {

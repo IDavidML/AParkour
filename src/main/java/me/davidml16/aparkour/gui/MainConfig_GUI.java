@@ -313,33 +313,31 @@ public class MainConfig_GUI implements Listener {
             int slot = e.getRawSlot();
             if ((slot >= 19 && slot <= 21)) {
                 changeParkourConfig(p, slot);
-            } else if (slot == 14 && e.getCurrentItem().getType() == Material.PISTON_BASE) {
+            } else if (slot == 14) {
                 String id = opened.get(p.getUniqueId());
                 opened.remove(p.getUniqueId());
                 main.getWalkableBlocksGUI().open(p, id);
-            } else if (slot == 15 && e.getCurrentItem().getType() == Material.ARMOR_STAND) {
+            } else if (slot == 15) {
                 String id = opened.get(p.getUniqueId());
                 main.getHologramsGUI().open(p, id);
-            } else if (slot == 16 && e.getCurrentItem().getType() == Material.SIGN) {
+            } else if (slot == 16) {
                 String id = opened.get(p.getUniqueId());
                 main.getTitlesGUI().open(p, id);
-            } else if (slot == 23 && e.getCurrentItem().getType() == Material.BEACON) {
+            } else if (slot == 23) {
                 String id = opened.get(p.getUniqueId());
                 main.getCheckpointsGUI().open(p, id);
-            } else if (slot == 24 && e.getCurrentItem().getType() == Material.GOLD_NUGGET) {
+            } else if (slot == 24) {
                 String id = opened.get(p.getUniqueId());
                 main.getRewardsGUI().open(p, id);
-            } else if (slot == 25 && e.getCurrentItem().getType() == Material.CHEST) {
+            } else if (slot == 25) {
                 String id = opened.get(p.getUniqueId());
                 main.getMiscellaneousGUI().open(p, id);
             } else if (slot == 40) {
-                if (e.getCurrentItem().getType() == Material.BARRIER) {
-                    main.getPluginManager().reloadAll();
-                    Sounds.playSound(p, p.getLocation(), Sounds.MySound.ANVIL_USE, 100, 3);
-                    String message = main.getLanguageHandler().getMessage("Commands.Reload");
-                    if(message.length() > 0)
-                        p.sendMessage(message);
-                }
+                main.getPluginManager().reloadAll();
+                Sounds.playSound(p, p.getLocation(), Sounds.MySound.ANVIL_USE, 100, 3);
+                String message = main.getLanguageHandler().getMessage("Commands.Reload");
+                if(message.length() > 0)
+                    p.sendMessage(message);
             }
         }
     }

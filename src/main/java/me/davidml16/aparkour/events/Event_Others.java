@@ -133,6 +133,12 @@ public class Event_Others implements Listener {
         }
 
         main.getPlayerDataHandler().getPlayersData().remove(p.getUniqueId());
+
+        try {
+            main.getDatabaseHandler().updatePlayerName(p);
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
     }
 
     @EventHandler

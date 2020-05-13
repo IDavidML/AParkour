@@ -34,7 +34,7 @@ public class TimerManager {
 				.replaceAll("%hours%", String.valueOf(converter.getHours()))
 				.replaceAll("%minutes%", String.valueOf(converter.getMinutes()))
 				.replaceAll("%seconds%", String.valueOf(converter.getSeconds()))
-				.replaceAll("%milliseconds%", String.valueOf(converter.getMilliseconds()));
+				.replaceAll("%milliseconds%", String.format("%03d", converter.getMilliseconds()));
 	}
 
 	public HashMap<String, String> getLastTimes(Player p) {

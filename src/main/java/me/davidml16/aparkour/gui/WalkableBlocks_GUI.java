@@ -162,10 +162,10 @@ public class WalkableBlocks_GUI implements Listener {
             int slot = e.getRawSlot();
             String id = opened.get(p.getUniqueId()).getParkour();
             Parkour parkour = main.getParkourHandler().getParkourById(id);
-            if (slot == 18 && e.getCurrentItem().getType() == Material.ENDER_PEARL) {
+            if (slot == 18) {
                 Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
                 openPage(p, id, opened.get(p.getUniqueId()).getPage() - 1);
-            } else if (slot == 26 && e.getCurrentItem().getType() == Material.ENDER_PEARL) {
+            } else if (slot == 26) {
                 Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
                 openPage(p, id, opened.get(p.getUniqueId()).getPage() + 1);
             } else if (slot == 40) {

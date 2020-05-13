@@ -34,18 +34,14 @@ public class StatsHologramManager {
 			Parkour parkour = main.getParkourHandler().getParkours().get(id);
 			if(parkour.getStatsHologram() != null) {
 				List<String> lines = new ArrayList<String>();
-				String Line1 = main.getLanguageHandler().getMessage("Holograms.Stats.Line1");
-				String Line2 = main.getLanguageHandler().getMessage("Holograms.Stats.Line2");
+				lines.add(main.getLanguageHandler().getMessage("Holograms.Stats.Line1"));
+				lines.add(main.getLanguageHandler().getMessage("Holograms.Stats.Line2"));
 
-				Line1 = Line1.replaceAll("%player%", p.getName())
-						.replaceAll("%time%", ColorManager.translate(main.getLanguageHandler().getMessage("Times.Loading")))
-						.replaceAll("%parkour%", parkour.getName());
-				Line2 = Line2.replaceAll("%player%", p.getName())
-						.replaceAll("%time%", ColorManager.translate(main.getLanguageHandler().getMessage("Times.Loading")))
-						.replaceAll("%parkour%", parkour.getName());
-
-				lines.add(Line1);
-				lines.add(Line2);
+				for(int i = 0; i < lines.size(); i++) {
+					lines.set(i, lines.get(i).replaceAll("%player%", main.getPlayerDataHandler().getPlayerName(p.getWorld(), p.getName()))
+							.replaceAll("%time%", ColorManager.translate(main.getLanguageHandler().getMessage("Times.Loading")))
+							.replaceAll("%parkour%", parkour.getName()));
+				}
 
 				Hologram hologram = HologramsAPI.createHologram(main, parkour.getStatsHologram().clone().add(0.5D, 2.0D, 0.5D));
 				VisibilityManager visibilityManager = hologram.getVisibilityManager();
@@ -88,25 +84,23 @@ public class StatsHologramManager {
 	public List<String> getLines(Parkour parkour, Player p, long bestTime) {
 		List<String> lines = new ArrayList<String>();
 		String NoBestTime = main.getLanguageHandler().getMessage("Times.NoBestTime");
-		String Line1 = main.getLanguageHandler().getMessage("Holograms.Stats.Line1");
-		String Line2 = main.getLanguageHandler().getMessage("Holograms.Stats.Line2");
+		lines.add(main.getLanguageHandler().getMessage("Holograms.Stats.Line1"));
+		lines.add(main.getLanguageHandler().getMessage("Holograms.Stats.Line2"));
 		
 		if (bestTime != 0) {
-			Line1 = Line1.replaceAll("%player%", p.getName())
-					.replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"),bestTime))
-					.replaceAll("%parkour%", parkour.getName());
-			Line2 = Line2.replaceAll("%player%", p.getName())
-					.replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"),bestTime))
-					.replaceAll("%parkour%", parkour.getName());
-		} else if (bestTime == 0) {
-			Line1 = Line1.replaceAll("%player%", p.getName()).replaceAll("%time%", NoBestTime)
-					.replaceAll("%parkour%", parkour.getName());
-			Line2 = Line2.replaceAll("%player%", p.getName()).replaceAll("%time%", NoBestTime)
-					.replaceAll("%parkour%", parkour.getName());
+			for(int i = 0; i < lines.size(); i++) {
+				lines.set(i, lines.get(i).replaceAll("%player%", main.getPlayerDataHandler().getPlayerName(p.getWorld(), p.getName()))
+						.replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"),bestTime))
+						.replaceAll("%parkour%", parkour.getName()));
+			}
+		} else {
+			for(int i = 0; i < lines.size(); i++) {
+				lines.set(i, lines.get(i).replaceAll("%player%", main.getPlayerDataHandler().getPlayerName(p.getWorld(), p.getName()))
+						.replaceAll("%time%", NoBestTime)
+						.replaceAll("%parkour%", parkour.getName()));
+			}
 		}
-		
-		lines.add(Line1);
-		lines.add(Line2);
+
 		return lines;
 	}
 	

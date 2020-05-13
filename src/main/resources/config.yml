@@ -25,6 +25,14 @@ MySQL:
 ParkourGamemode: 'ADVENTURE'
 
 
+# ENABLE JOIN PARKOUR BY GUI, AND COMMAND /PARKOUR PLAY
+JoinParkourByGUI: true
+
+
+# ENABLE PLAYER RANK IN HOLOGRAMS
+UseVaultInHolograms: false
+
+
 #-----------------------------------------------------------#
 #   COMMAND BLOCKER TYPES:                                  #
 #       - "blacklist": block all commands in the list       #

@@ -217,7 +217,7 @@ public class Miscellaneous_GUI implements Listener {
                             + " &cItem frame is the default icon of parkours!"));
                     Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
                 }
-            } else if (slot == 24 && e.getCurrentItem().getType() == Material.ANVIL) {
+            } else if (slot == 24) {
                 Parkour parkour = main.getParkourHandler().getParkourById(id);
                 p.closeInventory();
                 new RenameMenu(main).getConversation(p, parkour).begin();
@@ -239,6 +239,8 @@ public class Miscellaneous_GUI implements Listener {
                         + " &aChanged icon of parkour &e" + id + " &ato &e" + e.getCurrentItem().getType().name()));
                 Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 100, 3);
                 reloadGUI(id);
+
+                main.getParkourHandler().saveConfig(id);
             }
         }
     }

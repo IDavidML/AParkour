@@ -75,7 +75,10 @@ public class Event_Click implements Listener {
                                 p.teleport(loc);
                             }
                         } else if (session.getLastCheckpoint() >= 0) {
-                            p.teleport(session.getLastCheckpointLocation());
+                            Location loc = session.getLastCheckpointLocation().clone();
+                            loc.setPitch(p.getLocation().getPitch());
+                            loc.setYaw(p.getLocation().getYaw());
+                            p.teleport(loc);
 
                             String message = main.getLanguageHandler().getMessage("Messages.ReturnCheckpoint");
                             if(message.length() > 0)

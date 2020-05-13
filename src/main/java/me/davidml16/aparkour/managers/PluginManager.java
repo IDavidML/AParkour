@@ -38,6 +38,7 @@ public class PluginManager {
         removePlayersFromParkour();
 
         main.setKickParkourOnFail(main.getConfig().getBoolean("KickParkourOnFail.Enabled"));
+        main.setJoinByGUI(main.getConfig().getBoolean("JoinParkourByGUI"));
         main.getCommandBlocker().setCommands(main.getConfig().getStringList("CommandBlocker.Commands"));
         main.getCommandBlocker().setType(CommandBlockType.valueOf(main.getConfig().getString("CommandBlocker.Type").toUpperCase()));
         main.setHologramsEnabled(main.getConfig().getBoolean("Hologram.Enabled"));

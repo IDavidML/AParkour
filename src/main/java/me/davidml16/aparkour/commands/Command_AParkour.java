@@ -50,6 +50,12 @@ public class Command_AParkour implements CommandExecutor {
             return true;
         }
 
+        if (args[0].equalsIgnoreCase("play")) {
+            if(main.isJoinByGUI())
+                main.getPlayParkourGUI().open(p);
+            return true;
+        }
+
         if (args[0].equalsIgnoreCase("list")) {
             sendParkourList(p);
             return true;
@@ -379,6 +385,8 @@ public class Command_AParkour implements CommandExecutor {
         p.sendMessage("");
         p.sendMessage(ColorManager.translate("&7 - &a/aparkour [stats, list]"));
         p.sendMessage("");
+        if(main.isJoinByGUI())
+            p.sendMessage(ColorManager.translate("&7 - &a/aparkour play"));
         p.sendMessage(ColorManager.translate("&7 - &a/aparkour cancel"));
         p.sendMessage(ColorManager.translate("&7 - &a/aparkour checkpoint"));
         p.sendMessage("");

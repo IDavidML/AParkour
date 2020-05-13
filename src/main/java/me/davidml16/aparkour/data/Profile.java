@@ -26,6 +26,7 @@ public class Profile {
 	private ItemStack[] armor;
 
 	private GameMode lastGamemode;
+	private boolean lastFlyMode;
 
 	private Collection<PotionEffect> potionEffects;
 
@@ -40,6 +41,7 @@ public class Profile {
 		this.armor = new ItemStack[4];
 		this.potionEffects = null;
 		this.lastGamemode = null;
+		this.lastFlyMode = false;
 		this.lastTimes = new HashMap<>();
 		this.bestTimes = new HashMap<>();
 		this.holograms = new HashMap<>();
@@ -123,6 +125,10 @@ public class Profile {
 		this.lastGamemode = lastGamemode;
 	}
 
+	public boolean isLastFlyMode() { return lastFlyMode; }
+
+	public void setLastFlyMode(boolean lastFlyMode) { this.lastFlyMode = lastFlyMode; }
+
 	public HashMap<String, Hologram> getHolograms() {
 		return holograms;
 	}
@@ -130,10 +136,12 @@ public class Profile {
 	@Override
 	public String toString() {
 		return "Profile{" +
-				"uuid=" + uuid +
+				"main=" + main +
+				", uuid=" + uuid +
 				", inventory=" + Arrays.toString(inventory) +
 				", armor=" + Arrays.toString(armor) +
 				", lastGamemode=" + lastGamemode +
+				", lastFlyMode=" + lastFlyMode +
 				", potionEffects=" + potionEffects +
 				", lastTimes=" + lastTimes +
 				", bestTimes=" + bestTimes +

@@ -3,7 +3,7 @@ version: ${project.version}
 author: DavidML16
 main: me.davidml16.aparkour.Main
 load: POSTWORLD
-softdepend: [HolographicDisplays, ProtocolLib, PlaceholderAPI]
+softdepend: [HolographicDisplays, ProtocolLib, PlaceholderAPI, Vault]
 commands:
     aparkour:
         description: Use this to see all commands.
