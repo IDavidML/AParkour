@@ -6,7 +6,7 @@
 
     <groupId>me.davidml16</groupId>
     <artifactId>aparkour</artifactId>
-    <version>3.4.6</version>
+    <version>3.4.7</version>
     <packaging>jar</packaging>
 
     <name>AParkour</name>
@@ -73,7 +73,7 @@
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
+            <artifactId>spigot</artifactId>
             <version>1.12.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>

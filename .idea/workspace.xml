@@ -8,36 +8,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4467d438-d629-4a77-aced-9b0c874b398a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_MilkBowl_VaultAPI_1_7.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bukkit_bukkit_1_13_1_R0_1_SNAPSHOT.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/PlayParkour_GUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/utils/NBTEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_api_1_12_2_R0_1_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_api_1_12_2_R0_1_SNAPSHOT.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_1_12_2_R0_1_SNAPSHOT.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_21.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/utils/ReflectionUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_MilkBowl_VaultAPI_1_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_MilkBowl_VaultAPI_1_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_gmail_filoghost_holographicdisplays_holographicdisplays_api_2_4_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_gmail_filoghost_holographicdisplays_holographicdisplays_api_2_4_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_8_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_8_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_21_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_21_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_googlecode_json_simple_json_simple_1_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_googlecode_json_simple_json_simple_1_1_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_zaxxer_HikariCP_3_4_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_zaxxer_HikariCP_3_4_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_10.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__me_clip_placeholderapi_2_10_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__me_clip_placeholderapi_2_10_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_chat_1_12_SNAPSHOT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_bukkit_bukkit_1_13_1_R0_1_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bukkit_bukkit_1_13_1_R0_1_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_25.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_25.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_api_1_12_2_R0_1_SNAPSHOT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_19.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AParkour.iml" beforeDir="false" afterPath="$PROJECT_DIR$/AParkour.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/Command_AParkour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/Command_AParkour.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/TabCompleter_AParkour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/commands/TabCompleter_AParkour.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/data/Profile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/data/Profile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_Click.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_Click.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_Others.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_Others.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_PlateStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/events/Event_PlateStart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/Checkpoints_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/Checkpoints_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/MainConfig_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/MainConfig_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/Miscellaneous_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/Miscellaneous_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/Rewards_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/Rewards_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/WalkableBlocks_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/WalkableBlocks_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/PlayerDataHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/handlers/PlayerDataHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/PluginManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/PluginManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/StatsHologramManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/StatsHologramManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TimerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TimerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TopHologramManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/managers/TopHologramManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/language/messages_en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language/messages_en.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/language/messages_es.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language/messages_es.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/data/ParkourSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/data/ParkourSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/PlayParkour_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/gui/PlayParkour_GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/utils/ActionBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/utils/ActionBar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/utils/NBTEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/utils/NBTEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/utils/TitleUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/davidml16/aparkour/utils/TitleUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/version.txt" beforeDir="false" afterPath="$PROJECT_DIR$/version.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,10 +56,17 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\Maven\repository" />
+        <option name="userSettingsFile" value="D:\Maven\apache-maven-3.6.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
     <option name="importingSettings">
       <MavenImportingSettings>
         <option name="downloadDocsAutomatically" value="true" />
         <option name="downloadSourcesAutomatically" value="true" />
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
       </MavenImportingSettings>
     </option>
   </component>
@@ -80,7 +85,7 @@
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.39885056" />
-    <property name="settings.editor.selected.configurable" value="preferences.DiscordConfigurable" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -196,26 +201,34 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586816057779" />
-    <state width="1879" height="175" key="GridCell.Tab.0.bottom" timestamp="1589206586406">
+    <state x="770" y="249" key="FileChooserDialogImpl" timestamp="1594077299332">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1879" height="175" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589206586406" />
-    <state width="1879" height="175" key="GridCell.Tab.0.center" timestamp="1589206586406">
+    <state x="770" y="249" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1594077299332" />
+    <state width="1879" height="175" key="GridCell.Tab.0.bottom" timestamp="1594077984116">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1879" height="175" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589206586406" />
-    <state width="1879" height="175" key="GridCell.Tab.0.left" timestamp="1589206586406">
+    <state width="1879" height="175" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1594077984116" />
+    <state width="1879" height="175" key="GridCell.Tab.0.center" timestamp="1594077984116">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1879" height="175" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589206586406" />
-    <state width="1879" height="175" key="GridCell.Tab.0.right" timestamp="1589206586406">
+    <state width="1879" height="175" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1594077984116" />
+    <state width="1879" height="175" key="GridCell.Tab.0.left" timestamp="1594077984116">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1879" height="175" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589206586406" />
-    <state x="730" y="122" key="SettingsEditor" timestamp="1586704435527">
+    <state width="1879" height="175" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1594077984116" />
+    <state width="1879" height="175" key="GridCell.Tab.0.right" timestamp="1594077984116">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="730" y="122" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1586704435527" />
+    <state width="1879" height="175" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1594077984116" />
+    <state x="490" y="175" key="Maven.ArtifactSearchDialog" timestamp="1594077176466">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="490" y="175" key="Maven.ArtifactSearchDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1594077176466" />
+    <state x="730" y="122" key="SettingsEditor" timestamp="1594077306384">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="730" y="122" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1594077306384" />
     <state x="92" y="92" width="1736" height="856" key="dock-window-1" timestamp="1586824691996">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

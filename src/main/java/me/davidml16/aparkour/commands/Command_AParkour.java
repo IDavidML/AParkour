@@ -300,7 +300,7 @@ public class Command_AParkour implements CommandExecutor {
                         pl.teleport(session.getParkour().getSpawn());
 
                         if (main.getTimerManager().isActionBarEnabled()) {
-                            ActionBar.sendActionbar(pl, " ");
+                            ActionBar.sendActionBar(pl, " ");
                         }
 
                         main.getParkourHandler().resetPlayer(pl);

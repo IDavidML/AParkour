@@ -89,7 +89,7 @@ public class PlayParkour_GUI implements Listener {
 			lore.add(ColorManager.translate("&6Click to play the parkour!"));
 
 			ItemStack item = new ItemBuilder(parkour.getIcon()).setName(ColorManager.translate("&a&l" + parkour.getName())).setLore(lore).toItemStack();
-			item = NBTEditor.setItemTag(item, parkour.getId(), "parkourID");
+			item = NBTEditor.set(item, parkour.getId(), "parkourID");
 			gui.addItem(item);
 		}
 

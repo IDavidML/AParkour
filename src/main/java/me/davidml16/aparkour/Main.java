@@ -254,8 +254,12 @@ public class Main extends JavaPlugin {
     }
 
     private void setupChat() {
-        RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
-        chat = rsp.getProvider();
+        try {
+            RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+            chat = rsp.getProvider();
+        } catch (NullPointerException e) {
+            chat = null;
+        }
     }
 
     public Chat getChat() { return chat; }
