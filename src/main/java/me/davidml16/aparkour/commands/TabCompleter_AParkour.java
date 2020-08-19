@@ -37,6 +37,7 @@ public class TabCompleter_AParkour implements TabCompleter {
 				list.add("play");
 
 			list.add("stats");
+			list.add("top");
 			list.add("list");
 			list.add("cancel");
 			list.add("checkpoint");
@@ -58,6 +59,14 @@ public class TabCompleter_AParkour implements TabCompleter {
 				for (File file : Objects.requireNonNull(new File(main.getDataFolder(), "parkours").listFiles())) {
 					list.add(file.getName().replace(".yml", ""));
 				}
+			}
+		} else if (args[0].equalsIgnoreCase("play")) {
+			if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
+				list.addAll(main.getParkourHandler().getParkours().keySet());
+			}
+		} else if (args[0].equalsIgnoreCase("top")) {
+			if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
+				list.addAll(main.getParkourHandler().getParkours().keySet());
 			}
 		} else if (args[0].equalsIgnoreCase("reset")) {
 			if (args.length == 2) {

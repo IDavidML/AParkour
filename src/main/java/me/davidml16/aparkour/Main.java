@@ -1,6 +1,9 @@
 package me.davidml16.aparkour;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Collections;
 
 import me.davidml16.aparkour.placeholders.PlaceholderHook;
 import me.davidml16.aparkour.api.ParkourAPI;
@@ -87,6 +90,11 @@ public class Main extends JavaPlugin {
         log = Bukkit.getConsoleSender();
 
         saveDefaultConfig();
+        try {
+            ConfigUpdater.update(this, "config.yml", new File(getDataFolder(), "config.yml"), Collections.emptyList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         reloadConfig();
 
         hologramsEnabled = getConfig().getBoolean("Hologram.Enabled");
@@ -213,24 +221,26 @@ public class Main extends JavaPlugin {
         log.sendMessage(ColorManager.translate("    &aAuthor: &b" + pdf.getAuthors().get(0)));
         log.sendMessage("");
 
-        Bukkit.getScheduler().runTaskLaterAsynchronously(this, () -> {
-            try {
-                Main.log.sendMessage(ColorManager.translate(""));
-                Main.log.sendMessage(ColorManager.translate("  &eAParkour checking updates:"));
-                new UpdateChecker(this).getVersion(version -> {
-                    if (getDescription().getVersion().equalsIgnoreCase(version)) {
-                        Main.log.sendMessage(ColorManager.translate("    &cNo update found!"));
+        if(getConfig().getBoolean("CheckUpdates")) {
+            Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+                try {
+                    new UpdateChecker(this).getVersion(version -> {
                         Main.log.sendMessage(ColorManager.translate(""));
-                    } else {
-                        Main.log.sendMessage(ColorManager.translate("    &aNew update found! [" + version + "]"));
-                        Main.log.sendMessage(ColorManager.translate(""));
-                    }
-                });
-            }catch(Exception e) {
-                Main.log.sendMessage(ColorManager.translate("    &cCould not proceed update-checking"));
-                Main.log.sendMessage(ColorManager.translate(""));
-            }
-        }, 20);
+                        Main.log.sendMessage(ColorManager.translate("  &eAParkour checking updates:"));
+                        if (getDescription().getVersion().equalsIgnoreCase(version)) {
+                            Main.log.sendMessage(ColorManager.translate("    &cNo update found!"));
+                            Main.log.sendMessage(ColorManager.translate(""));
+                        } else {
+                            Main.log.sendMessage(ColorManager.translate("    &aNew update found! [" + version + "]"));
+                            Main.log.sendMessage(ColorManager.translate(""));
+                        }
+                    });
+                } catch (Exception e) {
+                    Main.log.sendMessage(ColorManager.translate("    &cCould not proceed update-checking"));
+                    Main.log.sendMessage(ColorManager.translate(""));
+                }
+            });
+        }
     }
 
     public void onDisable() {

@@ -197,6 +197,26 @@ public class SQLite implements Database {
         return "";
     }
 
+    public String getPlayerUUID(String name) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = connection.prepareStatement("SELECT * FROM ap_playernames WHERE NAME = '" + name + "';");
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("UUID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(ps != null) ps.close();
+            if(rs != null) rs.close();
+        }
+
+        return "";
+    }
+
     public Long getLastTime(UUID uuid, String parkour) throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -329,7 +349,7 @@ public class SQLite implements Database {
                     }
                 }
 
-                result.complete(times);
+                Bukkit.getScheduler().runTask(main, () -> result.complete(times));
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {

@@ -29,6 +29,8 @@ public interface Database {
 
     String getPlayerName(String uuid) throws SQLException;
 
+    String getPlayerUUID(String name) throws SQLException;
+
     Long getLastTime(UUID uuid, String parkour) throws SQLException;
 
     Long getBestTime(UUID uuid, String parkour) throws SQLException;

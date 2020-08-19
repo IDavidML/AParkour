@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import me.davidml16.aparkour.Main;
 import me.davidml16.aparkour.managers.ColorManager;
+import me.davidml16.aparkour.utils.RepeatingTask;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -12,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.davidml16.aparkour.data.Profile;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.scheduler.BukkitTask;
 
 public class PlayerDataHandler {
 
@@ -46,9 +48,7 @@ public class PlayerDataHandler {
 		Profile profile = new Profile(main, p.getUniqueId());
 		data.put(p.getUniqueId(), profile);
 
-		Bukkit.getScheduler().runTask(main , () -> {
-			main.getStatsHologramManager().loadStatsHolograms(p);
-		});
+		main.getStatsHologramManager().loadStatsHolograms(p);
 
 		main.getDatabaseHandler().getPlayerLastTimes(p.getUniqueId()).thenAccept(lastTimes -> {
 			profile.setLastTimes((HashMap<String, Long>) lastTimes);
@@ -56,11 +56,20 @@ public class PlayerDataHandler {
 
 		main.getDatabaseHandler().getPlayerBestTimes(p.getUniqueId()).thenAccept(bestTimes -> {
 			profile.setBestTimes((HashMap<String, Long>) bestTimes);
-
-			Bukkit.getScheduler().runTaskLater(main , () -> {
-				main.getStatsHologramManager().reloadStatsHolograms(p);
-			}, 20L);
 		});
+
+		for(String parkour : main.getParkourHandler().getParkours().keySet()) {
+			RepeatingTask task = new RepeatingTask(main, 0, 10) {
+				@Override
+				public void run() {
+					if(main.getStatsHologramManager().haveParkourData(p, parkour)) {
+						main.getStatsHologramManager().reloadStatsHologram(p, parkour);
+						cancel();
+					}
+				}
+			};
+		}
+
 	}
 	
 	public void saveAllPlayerData() {

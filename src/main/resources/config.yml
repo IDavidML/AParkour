@@ -6,6 +6,10 @@
 #-------------------------#
 
 
+# CHECK UPDATES
+CheckUpdates: true
+
+
 # LANGUAGE OF THE PLUGIN
 # AVAILABLES BY DEFAULT: EN, ES
 Language: EN

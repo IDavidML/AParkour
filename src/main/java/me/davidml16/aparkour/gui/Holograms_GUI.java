@@ -265,6 +265,7 @@ public class Holograms_GUI implements Listener {
                     main.getParkourHandler().getParkourById(id).setStatsHologram((Location) config.get("parkour.holograms.stats"));
                     for(Player pl : Bukkit.getServer().getOnlinePlayers()) {
                         main.getStatsHologramManager().loadStatsHologram(pl, id);
+                        main.getStatsHologramManager().reloadStatsHologram(pl, id);
                     }
                 } else {
                     config.set("parkour.holograms.stats", null);

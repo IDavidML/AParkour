@@ -144,114 +144,109 @@ public class ParkourHandler {
 						}
 					}
 
-					if (parkours.size() < 21) {
-						Parkour parkour = new Parkour(main, id, name, spawn, start, end, statsHologram, topHologram);
-						parkours.put(id, parkour);
+					Parkour parkour = new Parkour(main, id, name, spawn, start, end, statsHologram, topHologram);
+					parkours.put(id, parkour);
 
-						if (!config.contains("parkour.icon")) {
-							config.set("parkour.icon", "389:0");
-						} else {
-							int itemID = Integer.parseInt(config.getString("parkour.icon").split(":")[0]);
-							byte itemData = Byte.parseByte(config.getString("parkour.icon").split(":")[1]);
-							parkour.setIcon(new ItemBuilder(Material.getMaterial(itemID), 1).setDurability(itemData).toItemStack());
-						}
-
-						if (config.contains("parkour.walkableBlocks")) {
-							List<WalkableBlock> walkable = getWalkableBlocks(id);
-							parkour.setWalkableBlocks(walkable);
-							saveWalkableBlocksString(id, walkable);
-						}
-
-						if (!config.contains("parkour.rewards")) {
-							config.set("parkour.rewards", new ArrayList<>());
-						}
-
-						if (!config.contains("parkour.checkpoints")) {
-							config.set("parkour.checkpoints", new ArrayList<>());
-						}
-
-						if (!config.contains("parkour.permissionRequired")) {
-							config.set("parkour.permissionRequired.enabled", false);
-							config.set("parkour.permissionRequired.permission", "aparkour.permission." + id);
-							config.set("parkour.permissionRequired.message", "&cYou dont have permission to start this parkour!");
-						}
-
-						if (config.contains("parkour.permissionRequired")) {
-							parkour.setPermissionRequired(config.getBoolean("parkour.permissionRequired.enabled"));
-							parkour.setPermission(config.getString("parkour.permissionRequired.permission"));
-							parkour.setPermissionMessage(config.getString("parkour.permissionRequired.message"));
-
-							if (main.getServer().getPluginManager().getPermission(parkour.getPermission()) == null) {
-								main.getServer().getPluginManager().addPermission(new Permission(parkour.getPermission()));
-							}
-						}
-
-						if (!config.contains("parkour.plateHolograms.start")) {
-							config.set("parkour.plateHolograms.start.enabled", false);
-							config.set("parkour.plateHolograms.start.distanceBelowPlate", 2.5D);
-						}
-
-						if (!config.contains("parkour.plateHolograms.end")) {
-							config.set("parkour.plateHolograms.end.enabled", false);
-							config.set("parkour.plateHolograms.end.distanceBelowPlate", 2.5D);
-						}
-
-						if (!config.contains("parkour.plateHolograms.checkpoints")) {
-							config.set("parkour.plateHolograms.checkpoints.enabled", false);
-							config.set("parkour.plateHolograms.checkpoints.distanceBelowPlate", 2.5D);
-						}
-
-						if (!config.contains("parkour.titles.start")) {
-							config.set("parkour.titles.start.enabled", false);
-						}
-
-						if (!config.contains("parkour.titles.end")) {
-							config.set("parkour.titles.end.enabled", false);
-						}
-
-						if (!config.contains("parkour.titles.checkpoint")) {
-							config.set("parkour.titles.checkpoint.enabled", false);
-						}
-
-						saveConfig(id);
-
-						main.getCheckpointsHandler().loadCheckpoints(parkour, config);
-
-						if (config.contains("parkour.plateHolograms")) {
-							parkour.getStart().setHologramEnabled(config.getBoolean("parkour.plateHolograms.start.enabled"));
-							parkour.getStart().setHologramDistance(config.getDouble("parkour.plateHolograms.start.distanceBelowPlate"));
-							parkour.getEnd().setHologramEnabled(config.getBoolean("parkour.plateHolograms.end.enabled"));
-							parkour.getEnd().setHologramDistance(config.getDouble("parkour.plateHolograms.end.distanceBelowPlate"));
-
-							if(!parkour.getCheckpoints().isEmpty()) {
-								boolean enabled = config.getBoolean("parkour.plateHolograms.checkpoints.enabled");
-								double distance = config.getDouble("parkour.plateHolograms.checkpoints.distanceBelowPlate");
-								for(Plate checkpoint : parkour.getCheckpoints()) {
-									checkpoint.setHologramEnabled(enabled);
-									checkpoint.setHologramDistance(distance);
-								}
-							}
-						}
-
-						if (config.contains("parkour.titles.start")) {
-							parkour.setStartTitleEnabled(config.getBoolean("parkour.titles.start.enabled"));
-						}
-
-						if (config.contains("parkour.titles.end")) {
-							parkour.setEndTitleEnabled(config.getBoolean("parkour.titles.end.enabled"));
-						}
-
-						if (config.contains("parkour.titles.checkpoint")) {
-							parkour.setCheckpointTitleEnabled(config.getBoolean("parkour.titles.checkpoint.enabled"));
-						}
-
-						main.getPlateManager().loadPlates(parkour);
-
-						Main.log.sendMessage(ColorManager.translate("    &a'" + name + "' &7- " + (parkour.getCheckpoints().size() > 0 ? "&a" : "&c") + parkour.getCheckpoints().size() + " checkpoints"));
+					if (!config.contains("parkour.icon")) {
+						config.set("parkour.icon", "389:0");
 					} else {
-						Main.log.sendMessage(ColorManager
-								.translate("    &c'" + name + "' not loaded because maximum parkours limit reached!"));
+						int itemID = Integer.parseInt(config.getString("parkour.icon").split(":")[0]);
+						byte itemData = Byte.parseByte(config.getString("parkour.icon").split(":")[1]);
+						parkour.setIcon(new ItemBuilder(Material.getMaterial(itemID), 1).setDurability(itemData).toItemStack());
 					}
+
+					if (config.contains("parkour.walkableBlocks")) {
+						List<WalkableBlock> walkable = getWalkableBlocks(id);
+						parkour.setWalkableBlocks(walkable);
+						saveWalkableBlocksString(id, walkable);
+					}
+
+					if (!config.contains("parkour.rewards")) {
+						config.set("parkour.rewards", new ArrayList<>());
+					}
+
+					if (!config.contains("parkour.checkpoints")) {
+						config.set("parkour.checkpoints", new ArrayList<>());
+					}
+
+					if (!config.contains("parkour.permissionRequired")) {
+						config.set("parkour.permissionRequired.enabled", false);
+						config.set("parkour.permissionRequired.permission", "aparkour.permission." + id);
+						config.set("parkour.permissionRequired.message", "&cYou dont have permission to start this parkour!");
+					}
+
+					if (config.contains("parkour.permissionRequired")) {
+						parkour.setPermissionRequired(config.getBoolean("parkour.permissionRequired.enabled"));
+						parkour.setPermission(config.getString("parkour.permissionRequired.permission"));
+						parkour.setPermissionMessage(config.getString("parkour.permissionRequired.message"));
+
+						if (main.getServer().getPluginManager().getPermission(parkour.getPermission()) == null) {
+							main.getServer().getPluginManager().addPermission(new Permission(parkour.getPermission()));
+						}
+					}
+
+					if (!config.contains("parkour.plateHolograms.start")) {
+						config.set("parkour.plateHolograms.start.enabled", false);
+						config.set("parkour.plateHolograms.start.distanceBelowPlate", 2.5D);
+					}
+
+					if (!config.contains("parkour.plateHolograms.end")) {
+						config.set("parkour.plateHolograms.end.enabled", false);
+						config.set("parkour.plateHolograms.end.distanceBelowPlate", 2.5D);
+					}
+
+					if (!config.contains("parkour.plateHolograms.checkpoints")) {
+						config.set("parkour.plateHolograms.checkpoints.enabled", false);
+						config.set("parkour.plateHolograms.checkpoints.distanceBelowPlate", 2.5D);
+					}
+
+					if (!config.contains("parkour.titles.start")) {
+						config.set("parkour.titles.start.enabled", false);
+					}
+
+					if (!config.contains("parkour.titles.end")) {
+						config.set("parkour.titles.end.enabled", false);
+					}
+
+					if (!config.contains("parkour.titles.checkpoint")) {
+						config.set("parkour.titles.checkpoint.enabled", false);
+					}
+
+					saveConfig(id);
+
+					main.getCheckpointsHandler().loadCheckpoints(parkour, config);
+
+					if (config.contains("parkour.plateHolograms")) {
+						parkour.getStart().setHologramEnabled(config.getBoolean("parkour.plateHolograms.start.enabled"));
+						parkour.getStart().setHologramDistance(config.getDouble("parkour.plateHolograms.start.distanceBelowPlate"));
+						parkour.getEnd().setHologramEnabled(config.getBoolean("parkour.plateHolograms.end.enabled"));
+						parkour.getEnd().setHologramDistance(config.getDouble("parkour.plateHolograms.end.distanceBelowPlate"));
+
+						if(!parkour.getCheckpoints().isEmpty()) {
+							boolean enabled = config.getBoolean("parkour.plateHolograms.checkpoints.enabled");
+							double distance = config.getDouble("parkour.plateHolograms.checkpoints.distanceBelowPlate");
+							for(Plate checkpoint : parkour.getCheckpoints()) {
+								checkpoint.setHologramEnabled(enabled);
+								checkpoint.setHologramDistance(distance);
+							}
+						}
+					}
+
+					if (config.contains("parkour.titles.start")) {
+						parkour.setStartTitleEnabled(config.getBoolean("parkour.titles.start.enabled"));
+					}
+
+					if (config.contains("parkour.titles.end")) {
+						parkour.setEndTitleEnabled(config.getBoolean("parkour.titles.end.enabled"));
+					}
+
+					if (config.contains("parkour.titles.checkpoint")) {
+						parkour.setCheckpointTitleEnabled(config.getBoolean("parkour.titles.checkpoint.enabled"));
+					}
+
+					main.getPlateManager().loadPlates(parkour);
+
+					Main.log.sendMessage(ColorManager.translate("    &a'" + name + "' &7- " + (parkour.getCheckpoints().size() > 0 ? "&a" : "&c") + parkour.getCheckpoints().size() + " checkpoints"));
 				} else {
 					Main.log.sendMessage(ColorManager.translate("    &c'" + name + "' not loaded because parkour data is not correct!"));
 				}

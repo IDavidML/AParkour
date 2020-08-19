@@ -46,6 +46,14 @@ Timer:
     PlayerTime: '%minutes%m %seconds%s %milliseconds%ms'
     HologramUpdate: '%minutes%m %seconds%s'
 
+TopChat:
+  Header:
+    Line1: '&a&lTOP PARKOUR TIMES'
+    Line2: '&6- %parkour% -'
+  Entry:
+    Time: '&e%position%. &a%player% &7- &6%time%'
+    NoTime: '&e%position%. &cN/A'
+
 Holograms:
   Stats:
     Line1: '&a%player%''s &a%parkour% parkour stats'

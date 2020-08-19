@@ -3,11 +3,13 @@ package me.davidml16.aparkour.handlers;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import me.davidml16.aparkour.managers.ColorManager;
+import me.davidml16.aparkour.utils.ConfigUpdater;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -111,6 +113,12 @@ public class LanguageHandler {
 
 		try {
 			cfg.save(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			ConfigUpdater.update(main, "language/messages_" + lang + ".yml", new File(main.getDataFolder() + "/language/messages_" + lang + ".yml"), Collections.emptyList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

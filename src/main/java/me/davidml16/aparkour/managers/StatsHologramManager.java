@@ -68,6 +68,9 @@ public class StatsHologramManager {
 	public void reloadStatsHologram(Player p, String id) {
 		if (main.isHologramsEnabled()) {
 			Parkour parkour = main.getParkourHandler().getParkours().get(id);
+
+			if(!haveParkourData(p, id)) return;
+
 			if(main.getPlayerDataHandler().getData(p).getHolograms().containsKey(parkour.getId())) {
 				Hologram hologram = main.getPlayerDataHandler().getData(p).getHolograms().get(parkour.getId());
 
@@ -79,6 +82,16 @@ public class StatsHologramManager {
 				((TextLine) hologram.getLine(1)).setText(lines.get(1));
 			}
 		}
+	}
+
+	public boolean haveParkourData(Player p, String id) {
+		Parkour parkour = main.getParkourHandler().getParkours().get(id);
+
+		if(p == null || !p.isOnline()) return false;
+		if(parkour == null) return false;
+		if(!main.getPlayerDataHandler().getData(p).getBestTimes().containsKey(parkour.getId())) return false;
+
+		return true;
 	}
 	
 	public List<String> getLines(Parkour parkour, Player p, long bestTime) {
