@@ -150,7 +150,7 @@ public class Checkpoints_GUI implements Listener {
             p.getOpenInventory().getTopInventory().setContents(gui.getContents());
         }
 
-        Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), new Pair(id, page)), 1L);
+        Bukkit.getScheduler().runTaskLater(main, () -> opened.put(p.getUniqueId(), new Pair(id, page)), 1L);
     }
 
     public void open(Player p, String id) {
@@ -158,7 +158,6 @@ public class Checkpoints_GUI implements Listener {
         openPage(p, id, 0);
 
         Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 10, 2);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), new Pair(id, 0)), 1L);
     }
 
     @SuppressWarnings("deprecation")

@@ -69,7 +69,7 @@ public class PlayParkour_GUI implements Listener {
 		if (parkours.size() > 21) parkours = parkours.subList(page * 21, ((page * 21) + 21) > parkours.size() ? parkours.size() : (page * 21) + 21);
 
 		if(parkours.size() > 0) {
-			for (Parkour parkour : main.getParkourHandler().getParkours().values()) {
+			for (Parkour parkour : parkours) {
 				List<String> lore = new ArrayList<String>();
 				lore.add(" ");
 
@@ -111,7 +111,7 @@ public class PlayParkour_GUI implements Listener {
 			gui.setItem(22, new ItemBuilder(Material.STAINED_GLASS_PANE, 1).setDurability((short) 14).setName(ColorManager.translate("&c")).toItemStack());
 		}
 
-		Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> opened.put(p.getUniqueId(), page), 1L);
+		Bukkit.getScheduler().runTaskLater(main, () -> opened.put(p.getUniqueId(), page), 1L);
 
 		p.openInventory(gui);
 

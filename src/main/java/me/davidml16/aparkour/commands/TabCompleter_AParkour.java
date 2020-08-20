@@ -60,14 +60,8 @@ public class TabCompleter_AParkour implements TabCompleter {
 					list.add(file.getName().replace(".yml", ""));
 				}
 			}
-		} else if (args[0].equalsIgnoreCase("play")) {
-			if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
+		} else if (args[0].equalsIgnoreCase("play") || args[0].equalsIgnoreCase("top")) {
 				list.addAll(main.getParkourHandler().getParkours().keySet());
-			}
-		} else if (args[0].equalsIgnoreCase("top")) {
-			if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
-				list.addAll(main.getParkourHandler().getParkours().keySet());
-			}
 		} else if (args[0].equalsIgnoreCase("reset")) {
 			if (args.length == 2) {
 				if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
