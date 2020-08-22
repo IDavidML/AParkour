@@ -37,9 +37,9 @@ public class ParkourAPI {
 
     public String getCurrentTimeFormatted(Player p) {
         if(main.getTimerManager().hasPlayerTimer(p)) {
-            return main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), main.getSessionHandler().getSession(p).getLiveTime());
+            return main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"), main.getSessionHandler().getSession(p).getLiveTime());
         } else {
-            return main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"),0L);
+            return main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"),0L);
         }
     }
 
@@ -52,9 +52,9 @@ public class ParkourAPI {
 
     public String getLastTimeFormatted(Player p, String parkour) {
         if(main.getPlayerDataHandler().playerExists(p) && main.getPlayerDataHandler().getData(p).getLastTimes().containsKey(parkour)) {
-            return main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"),main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour));
+            return main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"),main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour));
         }
-        return main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"),0);
+        return main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"),0);
     }
 
     public long getBestTime(Player p, String parkour) {
@@ -66,9 +66,9 @@ public class ParkourAPI {
 
     public String getBestTimeFormatted(Player p, String parkour) {
         if(main.getPlayerDataHandler().playerExists(p) && main.getPlayerDataHandler().getData(p).getLastTimes().containsKey(parkour)) {
-            return main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"),main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour));
+            return main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"),main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour));
         }
-        return main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"),0);
+        return main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"),0);
     }
 
     public List<String> getParkoursIDs() {

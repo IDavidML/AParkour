@@ -11,6 +11,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.davidml16.aparkour.data.*;
 import me.davidml16.aparkour.utils.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -507,16 +508,18 @@ public class ParkourHandler {
 	}
 
 	public void resetPlayer(Player p) {
-		p.setFlying(false);
-		p.setFallDistance(0);
-		p.setNoDamageTicks(40);
+		Bukkit.getScheduler().runTask(main, () -> {
+			p.setFlying(false);
+			p.setFallDistance(0);
+			p.setNoDamageTicks(40);
 
-		if (main.isParkourItemsEnabled()) {
-			main.getPlayerDataHandler().restorePlayerInventory(p);
-		}
+			if (main.isParkourItemsEnabled()) {
+				main.getPlayerDataHandler().restorePlayerInventory(p);
+			}
 
-		main.getSessionHandler().getSession(p).cancelTimer();
-		main.getSessionHandler().removeSession(p);
+			main.getSessionHandler().getSession(p).cancelTimer();
+			main.getSessionHandler().removeSession(p);
+		});
 	}
 
 }

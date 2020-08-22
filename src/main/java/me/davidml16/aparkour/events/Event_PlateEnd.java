@@ -63,7 +63,7 @@ public class Event_PlateEnd implements Listener {
 							String end = main.getLanguageHandler().getMessage("EndMessage.Normal");
 							if(end.length() > 0)
 								p.sendMessage(ChatColor.translateAlternateColorCodes('&', end)
-										.replaceAll("%endTime%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"),total)));
+										.replaceAll("%endTime%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"),total)));
 
 							if (profile.getBestTimes().get(parkour.getId()) == 0 && profile.getLastTimes().get(parkour.getId()) == 0) {
 								String message = main.getLanguageHandler().getMessage("EndMessage.FirstTime");
@@ -99,7 +99,7 @@ public class Event_PlateEnd implements Listener {
 
 								if(record.length() > 0)
 									eplayer.sendMessage(ChatColor.translateAlternateColorCodes('&', record)
-											.replaceAll("%recordTime%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"),bestTotal)));
+											.replaceAll("%recordTime%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"),bestTotal)));
 							}
 
 							profile.save(parkour.getId());

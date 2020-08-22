@@ -41,7 +41,7 @@ public class TimerManager {
 		HashMap<String, String> times = new HashMap<String, String>();
 		for (String parkour : main.getParkourHandler().getParkours().keySet()) {
 			long total = main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour);
-			times.put(parkour, millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), total));
+			times.put(parkour, millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"), total));
 		}
 
 		return times;
@@ -51,7 +51,7 @@ public class TimerManager {
 		HashMap<String, String> times = new HashMap<String, String>();
 		for (String parkour : main.getParkourHandler().getParkours().keySet()) {
 			long total = main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour);
-			times.put(parkour, millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), total));
+			times.put(parkour, millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"), total));
 		}
 
 		return times;

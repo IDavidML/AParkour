@@ -83,18 +83,19 @@ public class ParkourSession {
         BukkitTask task = new BukkitRunnable() {
             @Override
             public void run() {
-                MillisecondConverter time = new MillisecondConverter(getLiveTime());
                 if ((int) TimeUnit.MILLISECONDS.toHours(getLiveTime()) < 1) {
                     sendTimer(finalBest);
-                } else if ((int) TimeUnit.MILLISECONDS.toHours(getLiveTime()) >= 1) {
-                    cancelTimer();
+                } else if ((int) TimeUnit.MILLISECONDS.toHours(getLiveTime()) >= 24) {
+                    Bukkit.getScheduler().runTask(main, () -> {
+                        cancelTimer();
 
-                    player.setFlying(false);
-                    player.teleport(parkour.getSpawn());
+                        player.setFlying(false);
+                        player.teleport(parkour.getSpawn());
 
-                    main.getParkourHandler().resetPlayer(player);
+                        main.getParkourHandler().resetPlayer(player);
 
-                    main.getSoundUtil().playReturn(player);
+                        main.getSoundUtil().playReturn(player);
+                    });
                 }
             }
         }.runTaskTimerAsynchronously(main, 0, 1);
@@ -113,8 +114,8 @@ public class ParkourSession {
         String message = main.getLanguageHandler().getMessage("Timer.ActionBar");
         if(message.length() > 0) {
             ActionBar.sendActionBar(player, message
-                    .replaceAll("%currentTime%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), getLiveTime()))
-                    .replaceAll("%bestTime%", best > 0 ? main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), best) : main.getLanguageHandler().getMessage("Times.NoBestTime")));
+                    .replaceAll("%currentTime%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"), getLiveTime()))
+                    .replaceAll("%bestTime%", best > 0 ? main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"), best) : main.getLanguageHandler().getMessage("Times.NoBestTime")));
         }
     }
 

@@ -84,7 +84,7 @@ public class PlayerStats_GUI implements Listener {
 
 				lore.add(ColorManager.translate("  &fYour Last Time  "));
 				if (main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId()) > 0)
-					lore.add(ColorManager.translate("    &e" + main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId())) + "  "));
+					lore.add(ColorManager.translate("    &e" + main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"), main.getPlayerDataHandler().getData(p).getLastTimes().get(parkour.getId())) + "  "));
 				else
 					lore.add(ColorManager.translate("    &eNone  "));
 
@@ -92,7 +92,7 @@ public class PlayerStats_GUI implements Listener {
 
 				lore.add(ColorManager.translate("  &fYour Record Time  "));
 				if (main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId()) > 0)
-					lore.add(ColorManager.translate("    &e" + main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId())) + "  "));
+					lore.add(ColorManager.translate("    &e" + main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"), main.getPlayerDataHandler().getData(p).getBestTimes().get(parkour.getId())) + "  "));
 				else
 					lore.add(ColorManager.translate("    &eNone  "));
 
@@ -103,7 +103,7 @@ public class PlayerStats_GUI implements Listener {
 					lore.add(ColorManager.translate("  &fWorld records  "));
 					int i = 0;
 					for (LeaderboardEntry entry : leaderboard) {
-						lore.add(ColorManager.translate("    &7" + entry.getName() + " &f- &c" + main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), entry.getTime()) + "  "));
+						lore.add(ColorManager.translate("    &7" + entry.getName() + " &f- &c" + main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"), entry.getTime()) + "  "));
 						if (i == 2) break;
 						i++;
 					}

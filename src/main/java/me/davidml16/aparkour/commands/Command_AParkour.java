@@ -121,7 +121,7 @@ public class Command_AParkour implements CommandExecutor {
                             .getMessage("TopChat.Entry.Time")
                             .replaceAll("%player%", main.getPlayerDataHandler().getPlayerName(parkour.getSpawn().getWorld(), entry.getName()))
                             .replaceAll("%position%", Integer.toString(i + 1))
-                            .replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), entry.getTime()));
+                            .replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"), entry.getTime()));
 
                     sender.sendMessage(MessageUtils.centeredMessage(line));
                     i++;

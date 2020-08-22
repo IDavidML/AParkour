@@ -101,7 +101,7 @@ public class PlaceholderHook extends PlaceholderExpansion {
                             if(Integer.parseInt(identifiers[3]) > 0 && Integer.parseInt(identifiers[3]) <= 10) {
                                 if(Integer.parseInt(identifiers[3]) > api.getLeaderboard(identifiers[2]).size()) return "N/A";
                                 long time = api.getLeaderboard(identifiers[2]).get(Integer.parseInt(identifiers[3]) - 1).getTime();
-                                return "" + main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"),time);
+                                return "" + main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"),time);
                             }
                         }
                         break;

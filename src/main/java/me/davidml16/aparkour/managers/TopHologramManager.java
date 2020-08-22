@@ -101,7 +101,7 @@ public class TopHologramManager {
                                         .getMessage("Holograms.Top.Body.Line")
                                         .replaceAll("%player%", main.getPlayerDataHandler().getPlayerName(body.getWorld(), entry.getName()))
                                         .replaceAll("%position%", Integer.toString(i + 1))
-                                        .replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), entry.getTime()));
+                                        .replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"), entry.getTime()));
 
                                 body.appendTextLine(line);
                                 i++;
@@ -149,7 +149,7 @@ public class TopHologramManager {
                                         ((TextLine) body.getLine(i)).setText(main.getLanguageHandler()
                                                 .getMessage("Holograms.Top.Body.Line").replaceAll("%position%", Integer.toString(i + 1))
                                                 .replaceAll("%player%", main.getPlayerDataHandler().getPlayerName(body.getWorld(), leaderboard.get(i).getName()))
-                                                .replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"), leaderboard.get(i).getTime())));
+                                                .replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"), leaderboard.get(i).getTime())));
                                     }
                                     for (int j = i; j < 10; j++) {
                                         ((TextLine) body.getLine(j)).setText(main.getLanguageHandler()

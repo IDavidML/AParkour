@@ -9,20 +9,26 @@ public class PlateManager {
 
     public void loadPlates(Parkour parkour) {
         Block start = parkour.getStart().getLocation().getWorld().getBlockAt(parkour.getStart().getLocation());
-        if(start.getType() != Material.IRON_PLATE) {
-            start.setType(Material.IRON_PLATE);
-        }
+        try {
+            if (start.getType() != Material.IRON_PLATE) {
+                start.setType(Material.IRON_PLATE);
+            }
+        } catch (NullPointerException ignored) {}
 
-        Block end = parkour.getEnd().getLocation().getWorld().getBlockAt(parkour.getEnd().getLocation());
-        if(end.getType() != Material.GOLD_PLATE) {
-            end.setType(Material.GOLD_PLATE);
-        }
+        try {
+            Block end = parkour.getEnd().getLocation().getWorld().getBlockAt(parkour.getEnd().getLocation());
+            if(end.getType() != Material.GOLD_PLATE) {
+                end.setType(Material.GOLD_PLATE);
+            }
+        } catch (NullPointerException ignored) {}
 
         for(Location checkpoint : parkour.getCheckpointLocations()) {
             Block cp = checkpoint.getWorld().getBlockAt(checkpoint);
-            if(cp.getType() != Material.IRON_PLATE) {
-                cp.setType(Material.IRON_PLATE);
-            }
+            try {
+                if(cp.getType() != Material.IRON_PLATE) {
+                    cp.setType(Material.IRON_PLATE);
+                }
+            } catch (NullPointerException ignored) {}
         }
     }
 

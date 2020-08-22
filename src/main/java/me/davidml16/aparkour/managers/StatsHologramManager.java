@@ -103,7 +103,7 @@ public class StatsHologramManager {
 		if (bestTime != 0) {
 			for(int i = 0; i < lines.size(); i++) {
 				lines.set(i, lines.get(i).replaceAll("%player%", main.getPlayerDataHandler().getPlayerName(p.getWorld(), p.getName()))
-						.replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.PlayerTime"),bestTime))
+						.replaceAll("%time%", main.getTimerManager().millisToString(main.getLanguageHandler().getMessage("Timer.Formats.ParkourTimer"),bestTime))
 						.replaceAll("%parkour%", parkour.getName()));
 			}
 		} else {
