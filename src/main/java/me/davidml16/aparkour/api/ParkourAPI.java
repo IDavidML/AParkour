@@ -94,7 +94,10 @@ public class ParkourAPI {
     }
 
     public Parkour getParkourByPlayer(Player p) {
-        return main.getSessionHandler().getSession(p).getParkour();
+        return main.getSessionHandler().getSession(p) != null ? main.getSessionHandler().getSession(p).getParkour() : null;
     }
+
+
+    public Parkour getParkourByID(String id) { return main.getParkourHandler().getParkourById(id); }
 
 }

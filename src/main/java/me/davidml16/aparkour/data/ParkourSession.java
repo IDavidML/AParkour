@@ -26,15 +26,13 @@ public class ParkourSession {
 
     private int taskId = 0;
 
-    private SimpleDateFormat format;
-
     public ParkourSession(Main main, Player player, Parkour parkour) {
         this.main = main;
         this.player = player;
         this.parkour = parkour;
         this.lastCheckpoint = -1;
         this.lastCheckpointLocation = null;
-        this.format = new SimpleDateFormat("mm:ss.SSS");
+        this.parkour.getPlaying().add(player.getUniqueId());
         startTimer();
     }
 

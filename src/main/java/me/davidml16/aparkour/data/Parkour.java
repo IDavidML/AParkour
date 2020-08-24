@@ -31,6 +31,8 @@ public class Parkour {
     private List<Plate> checkpoints;
     private List<Location> checkpointLocations;
 
+    private Collection<UUID> playing;
+
     private boolean permissionRequired;
     private String permission;
     private String permissionMessage;
@@ -59,6 +61,7 @@ public class Parkour {
         this.endTitleEnabled = false;
         this.checkpointTitleEnabled = false;
         this.icon = new ItemBuilder(Material.getMaterial(389), 1).toItemStack();
+        this.playing = new HashSet<>();
     }
 
     public String getId() {
@@ -178,6 +181,10 @@ public class Parkour {
     public void setIcon(ItemStack icon) {
         this.icon = icon;
     }
+
+    public Collection<UUID> getPlaying() { return playing; }
+
+    public void setPlaying(Collection<UUID> playing) { this.playing = playing; }
 
     public void saveParkour() {
         FileConfiguration config = main.getParkourHandler().getConfig(id);

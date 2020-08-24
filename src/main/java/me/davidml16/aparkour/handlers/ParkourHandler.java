@@ -517,6 +517,7 @@ public class ParkourHandler {
 				main.getPlayerDataHandler().restorePlayerInventory(p);
 			}
 
+			main.getSessionHandler().getSession(p).getParkour().getPlaying().remove(p.getUniqueId());
 			main.getSessionHandler().getSession(p).cancelTimer();
 			main.getSessionHandler().removeSession(p);
 		});
