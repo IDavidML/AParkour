@@ -508,7 +508,7 @@ public class ParkourHandler {
 	}
 
 	public void resetPlayer(Player p) {
-		Bukkit.getScheduler().runTask(main, () -> {
+		if(main.getSessionHandler().getSession(p) != null) {
 			p.setFlying(false);
 			p.setFallDistance(0);
 			p.setNoDamageTicks(40);
@@ -520,7 +520,7 @@ public class ParkourHandler {
 			main.getSessionHandler().getSession(p).getParkour().getPlaying().remove(p.getUniqueId());
 			main.getSessionHandler().getSession(p).cancelTimer();
 			main.getSessionHandler().removeSession(p);
-		});
+		}
 	}
 
 }

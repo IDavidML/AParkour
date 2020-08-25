@@ -39,7 +39,7 @@ public class TabCompleter_AParkour implements TabCompleter {
 			list.add("stats");
 			list.add("top");
 			list.add("list");
-			list.add("cancel");
+			list.add("leave");
 			list.add("checkpoint");
 			if (main.getPlayerDataHandler().playerHasPermission(p, "aparkour.admin")) {
 				list.add("create");

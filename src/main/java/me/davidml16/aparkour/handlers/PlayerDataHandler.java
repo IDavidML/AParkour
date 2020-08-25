@@ -1,5 +1,6 @@
 package me.davidml16.aparkour.handlers;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -124,7 +125,7 @@ public class PlayerDataHandler {
 		p.getInventory().setBoots(data.getArmor()[0]);
 
 		p.addPotionEffects(data.getPotionEffects());
-		p.setGameMode(data.getLastGamemode());
+		if(data.getLastGamemode() != null) p.setGameMode(data.getLastGamemode());
 		p.setAllowFlight(data.isLastFlyMode());
 
 		p.updateInventory();
@@ -132,7 +133,7 @@ public class PlayerDataHandler {
 		data.setLastGamemode(null);
 		data.setArmor(new ItemStack[4]);
 		data.setInventory(new ItemStack[p.getInventory().getContents().length]);
-		data.setPotionEffects(null);
+		data.setPotionEffects(Collections.emptyList());
 	}
 	
 	public boolean playerHasPermission(Player p, String permission) {

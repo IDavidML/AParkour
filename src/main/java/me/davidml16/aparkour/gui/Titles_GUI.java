@@ -149,6 +149,7 @@ public class Titles_GUI implements Listener {
         Player p = (Player) e.getWhoClicked();
 
         if (e.getCurrentItem() == null) return;
+        if (e.getCurrentItem().getType() == Material.AIR) return;
 
         if (opened.containsKey(p.getUniqueId())) {
             e.setCancelled(true);

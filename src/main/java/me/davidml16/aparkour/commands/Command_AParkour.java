@@ -413,7 +413,7 @@ public class Command_AParkour implements CommandExecutor {
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("cancel")) {
+        if (args[0].equalsIgnoreCase("leave")) {
             if (!(sender instanceof Player)) {
                 sender.sendMessage(ColorManager.translate("&cThis command only can be use by player!"));
                 return true;
@@ -614,7 +614,7 @@ public class Command_AParkour implements CommandExecutor {
         if(main.isJoinByGUI())
             p.sendMessage(ColorManager.translate("&7 - &a/aparkour play [id]"));
         p.sendMessage(ColorManager.translate("&7 - &a/aparkour top [id]"));
-        p.sendMessage(ColorManager.translate("&7 - &a/aparkour cancel"));
+        p.sendMessage(ColorManager.translate("&7 - &a/aparkour leave"));
         p.sendMessage(ColorManager.translate("&7 - &a/aparkour checkpoint"));
         p.sendMessage("");
 
@@ -638,7 +638,7 @@ public class Command_AParkour implements CommandExecutor {
         if(main.isJoinByGUI())
             p.sendMessage(ColorManager.translate("&7 - &a/aparkour play [id]"));
         p.sendMessage(ColorManager.translate("&7 - &a/aparkour top [id]"));
-        p.sendMessage(ColorManager.translate("&7 - &a/aparkour cancel"));
+        p.sendMessage(ColorManager.translate("&7 - &a/aparkour leave"));
         p.sendMessage(ColorManager.translate("&7 - &a/aparkour checkpoint"));
         p.sendMessage("");
 
