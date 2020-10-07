@@ -30,6 +30,11 @@ public class PlaceholderHook extends PlaceholderExpansion {
     }
 
     @Override
+    public boolean persist(){
+        return true;
+    }
+
+    @Override
     public String getIdentifier() {
         return "aparkour";
     }
