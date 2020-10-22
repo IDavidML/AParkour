@@ -41,6 +41,8 @@ public class Parkour {
     private boolean endTitleEnabled;
     private boolean checkpointTitleEnabled;
 
+    private boolean requireCheckpoints;
+
     public Parkour(Main main, String id, String name, Location spawn, Location start, Location end, Location statsHologram, Location topHologram) {
         this.main = main;
         this.id = id;
@@ -62,6 +64,7 @@ public class Parkour {
         this.checkpointTitleEnabled = false;
         this.icon = new ItemBuilder(Material.getMaterial(389), 1).toItemStack();
         this.playing = new HashSet<>();
+        this.requireCheckpoints = true;
     }
 
     public String getId() {
@@ -170,9 +173,7 @@ public class Parkour {
         return checkpointTitleEnabled;
     }
 
-    public void setCheckpointTitleEnabled(boolean checkpointTitleEnabled) {
-        this.checkpointTitleEnabled = checkpointTitleEnabled;
-    }
+    public void setCheckpointTitleEnabled(boolean checkpointTitleEnabled) { this.checkpointTitleEnabled = checkpointTitleEnabled; }
 
     public ItemStack getIcon() {
         return icon;
@@ -185,6 +186,10 @@ public class Parkour {
     public Collection<UUID> getPlaying() { return playing; }
 
     public void setPlaying(Collection<UUID> playing) { this.playing = playing; }
+
+    public boolean isRequireCheckpoints() { return requireCheckpoints; }
+
+    public void setRequireCheckpoints(boolean requireCheckpoints) { this.requireCheckpoints = requireCheckpoints; }
 
     public void saveParkour() {
         FileConfiguration config = main.getParkourHandler().getConfig(id);
@@ -213,6 +218,10 @@ public class Parkour {
             config.set("parkour.permissionRequired.enabled", false);
             config.set("parkour.permissionRequired.permission", "aparkour.permission." + id);
             config.set("parkour.permissionRequired.enabled", "&cYou dont have permission to start this parkour!");
+        }
+
+        if (!config.contains("parkour.checkpointsRequired")) {
+            config.set("parkour.checkpointsRequired.enabled", true);
         }
 
         if (!config.contains("parkour.titles.start")) {

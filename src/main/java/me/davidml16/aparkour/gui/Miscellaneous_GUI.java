@@ -86,6 +86,22 @@ public class Miscellaneous_GUI implements Listener {
             gui.setItem(20, new ItemBuilder(Material.getMaterial(itemID), 1, itemData).setName(ColorManager.translate("&c" + name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase())).setLore("", ColorManager.translate("&eDefault parkour icon!")).toItemStack());
         }
 
+        gui.setItem(13, new ItemBuilder(Material.NAME_TAG, 1).setName(ColorManager.translate("&aRequire checkpoints"))
+                .setLore(
+                        "",
+                        ColorManager.translate(" &7You can toggle if "),
+                        ColorManager.translate(" &7need to reach all "),
+                        ColorManager.translate(" &7checkpoints to finish. "),
+                        ColorManager.translate(" &7the parkour. "),
+                        ""
+                )
+                .toItemStack());
+        if(config.getBoolean("parkour.checkpointsRequired.enabled")) {
+            gui.setItem(22, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&cClick to disable")).toItemStack());
+        } else {
+            gui.setItem(22, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 8).setName(ColorManager.translate("&aClick to enable")).toItemStack());
+        }
+
         gui.setItem(15, new ItemBuilder(Material.NAME_TAG, 1).setName(ColorManager.translate("&aParkour name"))
                 .setLore(
                         "",
@@ -159,6 +175,22 @@ public class Miscellaneous_GUI implements Listener {
             gui.setItem(20, new ItemBuilder(Material.getMaterial(itemID), 1, itemData).setName(ColorManager.translate("&c" + name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase())).setLore("", ColorManager.translate("&eDefault parkour icon!")).toItemStack());
         }
 
+        gui.setItem(13, new ItemBuilder(Material.NAME_TAG, 1).setName(ColorManager.translate("&aRequire checkpoints"))
+                .setLore(
+                        "",
+                        ColorManager.translate(" &7You can toggle if "),
+                        ColorManager.translate(" &7need to reach all "),
+                        ColorManager.translate(" &7checkpoints to finish. "),
+                        ColorManager.translate(" &7the parkour. "),
+                        ""
+                )
+                .toItemStack());
+        if(config.getBoolean("parkour.checkpointsRequired.enabled")) {
+            gui.setItem(22, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 10).setName(ColorManager.translate("&cClick to disable")).toItemStack());
+        } else {
+            gui.setItem(22, new ItemBuilder(Material.INK_SACK, 1).setDurability((short) 8).setName(ColorManager.translate("&aClick to enable")).toItemStack());
+        }
+
         gui.setItem(15, new ItemBuilder(Material.NAME_TAG, 1).setName(ColorManager.translate("&aParkour name"))
                 .setLore(
                         "",
@@ -218,6 +250,16 @@ public class Miscellaneous_GUI implements Listener {
                             + " &cItem frame is the default icon of parkours!"));
                     Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
                 }
+            } else if (slot == 22) {
+                FileConfiguration config = main.getParkourHandler().getConfig(id);
+                config.set("parkour.checkpointsRequired.enabled", !config.getBoolean("parkour.checkpointsRequired.enabled"));
+                main.getParkourHandler().saveConfig(id);
+
+                Parkour parkour = main.getParkourHandler().getParkourById(id);
+                parkour.setRequireCheckpoints(config.getBoolean("parkour.checkpointsRequired.enabled"));
+
+                Sounds.playSound(p, p.getLocation(), Sounds.MySound.CLICK, 100, 3);
+                reloadGUI(id);
             } else if (slot == 24) {
                 Parkour parkour = main.getParkourHandler().getParkourById(id);
                 p.closeInventory();

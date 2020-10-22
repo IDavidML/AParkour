@@ -176,6 +176,7 @@ public class ParkourHandler {
 						config.set("parkour.permissionRequired.message", "&cYou dont have permission to start this parkour!");
 					}
 
+
 					if (config.contains("parkour.permissionRequired")) {
 						parkour.setPermissionRequired(config.getBoolean("parkour.permissionRequired.enabled"));
 						parkour.setPermission(config.getString("parkour.permissionRequired.permission"));
@@ -184,6 +185,14 @@ public class ParkourHandler {
 						if (main.getServer().getPluginManager().getPermission(parkour.getPermission()) == null) {
 							main.getServer().getPluginManager().addPermission(new Permission(parkour.getPermission()));
 						}
+					}
+
+					if (!config.contains("parkour.checkpointsRequired")) {
+						config.set("parkour.checkpointsRequired.enabled", true);
+					}
+
+					if (config.contains("parkour.checkpointsRequired")) {
+						parkour.setRequireCheckpoints(config.getBoolean("parkour.checkpointsRequired.enabled", true));
 					}
 
 					if (!config.contains("parkour.plateHolograms.start")) {

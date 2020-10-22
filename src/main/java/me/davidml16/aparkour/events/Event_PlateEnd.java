@@ -50,7 +50,19 @@ public class Event_PlateEnd implements Listener {
 
 					if (main.getTimerManager().hasPlayerTimer(p)) {
 
-						if(parkour.getCheckpoints().size() == 0 || session.getLastCheckpoint() == (parkour.getCheckpoints().size() - 1)) {
+							if(parkour.isRequireCheckpoints()) {
+								if (session.getLastCheckpoint() != (parkour.getCheckpoints().size() - 1)) {
+									if (!cooldown.contains(p)) {
+										cooldown.add(p);
+										String message = main.getLanguageHandler().getMessage("Messages.NeedCheckpoint");
+										if (message.length() > 0)
+											p.sendMessage(message);
+										Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
+										Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> cooldown.remove(p), 40);
+									}
+									return;
+								}
+							}
 
 							Profile profile = main.getPlayerDataHandler().getData(p);
 
@@ -107,17 +119,6 @@ public class Event_PlateEnd implements Listener {
 							main.getStatsHologramManager().reloadStatsHologram(p, parkour.getId());
 
 							Bukkit.getPluginManager().callEvent(new ParkourEndEvent(p, parkour));
-
-						} else {
-							if (!cooldown.contains(p)) {
-								cooldown.add(p);
-								String message = main.getLanguageHandler().getMessage("Messages.NeedCheckpoint");
-								if(message.length() > 0)
-									p.sendMessage(message);
-								Sounds.playSound(p, p.getLocation(), Sounds.MySound.NOTE_PLING, 10, 0);
-								Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> cooldown.remove(p), 40);
-							}
-						}
 
 					}
 				}
