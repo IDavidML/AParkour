@@ -1,0 +1,108 @@
+#
+#
+# 這裡是語言文件.
+# 您可以更改任何此文件中的消息
+#
+# 如果您想要重設任何一條消息,
+# 刪除該消息所在的那一行並重啟伺服器.
+#
+#
+
+Prefix: '&9&lAParkour &l&o&f>>&r'
+
+Commands:
+  NoPerms: '%prefix% &c您沒有權限使用此命令!'
+  NoStats: '%prefix% &c您還沒有統計數據!'
+  NoParkours: '%prefix% &c暫無可玩的跑酷!'
+  Reload: '%prefix% &a插件已成功重載!'
+
+GUIs:
+  Stats:
+    title: '跑酷數據統計'
+  Play:
+    title: '遊玩跑酷'
+  Config:
+    title: '%parkour% | 配置'
+  WalkableBlocks:
+    title: '%parkour% | 方塊'
+  Rewards:
+    title: '%parkour% | 獎勵'
+  Checkpoints:
+    title: '%parkour% | 存檔點'
+  Holograms:
+    title: '%parkour% | 全像'
+  Titles:
+    title: '%parkour% | 標題'
+  Misc:
+    title: '%parkour% | 其它'
+
+Times:
+  Loading: '&c載入中......'
+  NoBestTime: 無
+
+Timer:
+  ActionBar: '&e&l當前時間: &6%currentTime% &7- &e&l最快時間: &6%bestTime%'
+  Formats:
+    # 變數: %hours%, %minutes%, %seconds%, %milliseconds%
+    ParkourTimer: '%hours%h %minutes%m %seconds%s %milliseconds%ms'
+    HologramUpdate: '%minutes%m %seconds%s'
+
+TopChat:
+  Header:
+    Line1: '&a&l跑酷時間排行'
+    Line2: '&6- %parkour% -'
+  Entry:
+    Time: '&e%position%. &a%player% &7- &6%time%'
+    NoTime: '&e%position%. &c無'
+
+Holograms:
+  Stats:
+    Line1: '&a%player%''s &a%parkour% parkour stats'
+    Line2: '&a最快時間&7: &6%time%'
+  Top:
+    Header:
+      Line1: '&a&l跑酷時間排行'
+      Line2: '&7- %parkour% -'
+    Body:
+      Line: '&e%position%. &a%player% &7- &6%time%'
+      NoTime: '&e%position%. &c無'
+      Loading: '&e%position%. &c載入中...'
+    Footer:
+      Line: '&a創建於: &6%time%'
+      Updating: '&a創建於: &c載入中...'
+  Plates:
+    Start:
+      Line1: '&e&l跑酷挑戰'
+      Line2: '&f從這裡開始!'
+    End:
+      Line1: '&e&l跑酷挑戰'
+      Line2: '&f在這裡結束!'
+    Checkpoint:
+      Line1: '&e&l存檔點'
+      Line2: '&f#%checkpoint%'
+
+Messages:
+  NotInParkour: '&c您不在任何跑酷中...W...'
+  BlockedCommand: '&c您不能在跑酷中執行此命令.'
+  Started: '&a跑酷開始! 以最快速度到達終點.'
+  Fly: '&c您不能在跑酷中飛行.'
+  Return: '&6重新開始跑酷......'
+  Checkpoint: '&a您在 &e%time% &a內到達了存檔點 &e#%checkpoint% &a.'
+  ReturnCheckpoint: '&6返回存檔點 &e#%checkpoint%'
+  NeedCheckpoint: '&c您需要到達所有的存檔點才能完成跑酷.'
+
+EndMessage:
+  FirstTime: '&6您首次完成了這個跑酷!'
+  Normal: '&6您在 &d%endTime% &6內完成了跑酷'
+  Record: '&6您超越了您以前的紀錄: &d%recordTime%'
+
+Titles:
+  Start:
+    Title: '&e&l跑酷挑戰'
+    Subtitle: '&f&l開始'
+  Checkpoint:
+    Title: '&e&l存檔點'
+    Subtitle: '&f&l#%checkpoint%'
+  End:
+    Title: '&e&l跑酷挑戰'
+    Subtitle: '&f&l結束'
